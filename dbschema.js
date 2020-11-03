@@ -1,15 +1,16 @@
-const { stringify } = require("querystring");
+const { stringify } = require('querystring');
 
 let db = {
   users: [
     {
       userId: 'string',
+      name: 'string',
       email: 'string',
       imageUrl: 'string',
       role: 'string',
       createdAt: 'date',
       updatedAt: 'date',
-    }
+    },
   ],
   vendors: [
     {
@@ -19,7 +20,7 @@ let db = {
       nomorKontak: 'string',
       createdAt: 'date',
       updatedAt: 'date',
-    }
+    },
   ],
   persekots: [
     {
@@ -29,7 +30,6 @@ let db = {
       nominalBiaya: 'string',
       createdAt: 'date',
       updatedAt: 'date',
-    }
+    },
   ],
-  
-}
+};
