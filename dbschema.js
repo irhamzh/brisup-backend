@@ -6,6 +6,7 @@ let db = {
       userId: 'string',
       name: 'string',
       email: 'string',
+      password: 'string',
       imageUrl: 'string',
       role: 'string',
       createdAt: 'date',
