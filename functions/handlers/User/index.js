@@ -1,11 +1,11 @@
-const firebase = require("firebase");
-const { admin, db } = require("../../utils/admin");
-const config = require("../../utils/config");
-const formatISO = require("date-fns/formatISO");
+const firebase = require('firebase');
+const { admin, db } = require('../../utils/admin');
+const config = require('../../utils/config');
+const formatISO = require('date-fns/formatISO');
 
 exports.signup = (req, res) => {
   const { email, password } = req.body;
-  const defaultImg = "no-user-pic.png";
+  const defaultImg = 'no-user-pic.png';
   // TODO Validate Data
   // If email not email and if password is not valid
 
@@ -23,7 +23,7 @@ exports.signup = (req, res) => {
         userId,
         email,
         imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultImg}?alt=media`,
-        createdAt: formatISO(new Date(), { locale: "id" }),
+        createdAt: formatISO(new Date(), { locale: 'id' }),
       };
 
       return db.doc(`users/${userId}`).set(newUser);
@@ -73,14 +73,14 @@ exports.getUserData = (req, res) => {
       if (doc.exists) {
         userData = doc.data();
         return db
-          .collection("roles")
-          .where("roleId", "==", userData.roleId)
+          .collection('roles')
+          .where('roleId', '==', userData.roleId)
           .limit(1)
           .get();
       } else {
         return res
           .status(404)
-          .json({ success: false, message: "Data tidak ditemukan" });
+          .json({ success: false, message: 'Data tidak ditemukan' });
       }
     })
     .then((data) => {
@@ -98,8 +98,8 @@ exports.getUserData = (req, res) => {
 // Get All Users
 exports.getAllUser = (req, res) => {
   let userData = [];
-  db.collection("users")
-    .orderBy("createdAt", "desc")
+  db.collection('users')
+    .orderBy('createdAt', 'desc')
     .get()
     .then((data) => {
       data.forEach((doc) => {
@@ -118,13 +118,13 @@ exports.updateUser = (req, res) => {
 
   const userDetails = {
     nama,
-    updatedAt: formatISO(new Date(), { locale: "id" }),
+    updatedAt: formatISO(new Date(), { locale: 'id' }),
   };
 
   db.doc(`/users/${req.user.uid}`)
     .update(userDetails)
     .then(() => {
-      return res.json({ success: true, message: "Data berhasil diupdate!" });
+      return res.json({ success: true, message: 'Data berhasil diupdate!' });
     })
     .catch((err) => {
       console.error(err);
@@ -133,31 +133,31 @@ exports.updateUser = (req, res) => {
 };
 
 exports.uploadImage = (req, res) => {
-  const BusBoy = require("busboy");
-  const path = require("path");
-  const os = require("os");
-  const fs = require("fs");
-  const { v4: uuidv4 } = require("uuid");
+  const BusBoy = require('busboy');
+  const path = require('path');
+  const os = require('os');
+  const fs = require('fs');
+  const { v4: uuidv4 } = require('uuid');
 
   const busboy = new BusBoy({ headers: req.headers });
   let imageFileName;
   let imageToBeUploaded = {};
 
-  busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
-    if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
+  busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
       return res
         .status(400)
-        .json({ success: false, message: "Tipe file upload salah!" });
+        .json({ success: false, message: 'Tipe file upload salah!' });
     }
 
-    const imageExtension = filename.split(".")[filename.split(".").length - 1];
+    const imageExtension = filename.split('.')[filename.split('.').length - 1];
     imageFileName = filename;
     const filepath = path.join(os.tmpdir(), imageFileName);
     imageToBeUploaded = { filepath, mimetype };
     file.pipe(fs.createWriteStream(filepath));
   });
 
-  busboy.on("finish", () => {
+  busboy.on('finish', () => {
     admin
       .storage()
       .bucket(config.storageBucket)
@@ -178,7 +178,7 @@ exports.uploadImage = (req, res) => {
       .then(() => {
         return res.json({
           success: true,
-          message: "Gambar berhasil diupload!",
+          message: 'Gambar berhasil diupload!',
         });
       })
       .catch((err) => {

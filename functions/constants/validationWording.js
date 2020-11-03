@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   invalid: (name) => `${name} tidak valid`,
   minLength: (min) => `Password minimal ${min} angka`,
   minLength: (min) => `Password maksimal ${min} angka`,
@@ -7,5 +7,5 @@ export default {
   incorrect: (name) => `${name} salah`,
   duplicate: (name, value) => `${name} ${value} telah dipakai`,
   oneOf: (name, ...args) =>
-    `${name} harus salah satu diantara ${args.map((v) => `'${v}'`).join(", ")}`,
+    `${name} harus salah satu diantara ${args.map((v) => `'${v}'`).join(', ')}`,
 };
