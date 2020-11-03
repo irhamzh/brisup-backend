@@ -21,7 +21,8 @@
     "firebase": "^7.24.0",
     "firebase-admin": "^8.10.0",
     "firebase-functions": "^3.6.1",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
