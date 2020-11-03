@@ -2,10 +2,10 @@ class InvalidRequestError extends Error {
   constructor(message, field) {
     super(message);
     this.field = field;
-    this.name = "InvalidRequestError";
+    this.name = 'InvalidRequestError';
 
     Object.setPrototypeOf(this, InvalidRequestError.prototype);
   }
 }
 
-export default InvalidRequestError;
+module.exports = InvalidRequestError;

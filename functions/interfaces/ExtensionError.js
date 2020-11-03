@@ -4,11 +4,11 @@ class ExtensionError extends Error {
       invalidAccess
     )}`;
     super(message);
-    this.name = "ExtensionError";
+    this.name = 'ExtensionError';
     Object.setPrototypeOf(this, ExtensionError.prototype);
   }
 }
 
 ExtensionError.prototype.constructor = ExtensionError;
 
-export default ExtensionError;
+module.exports = ExtensionError;

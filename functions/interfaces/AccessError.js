@@ -4,11 +4,11 @@ class AccessError extends Error {
       invalidAccess
     )} permissions!`;
     super(message);
-    this.name = "AccessError";
+    this.name = 'AccessError';
     Object.setPrototypeOf(this, AccessError.prototype);
   }
 }
 
 AccessError.prototype.constructor = AccessError;
 
-export default AccessError;
+module.exports = AccessError;
