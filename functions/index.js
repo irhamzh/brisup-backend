@@ -11,6 +11,7 @@ const { getAllVendor, getVendor, createVendor } = require('./handlers/Vendor');
 const { getAllRoles, getRole, createRole, updateRole } = require('./handlers/Roles');
 const { getAllMasterKondisi, getMasterKondisi, createMasterKondisi, updateMasterKondisi } = require('./handlers/MasterKondisi');
 const { getAllJenisBarang, getJenisBarang, createJenisBarang, updateJenisBarang } = require('./handlers/JenisBarang');
+const { getAllAsset, getAsset, createAsset, updateAsset } = require('./handlers/Asset');
 
 firebase.initializeApp(config)
 
@@ -47,13 +48,16 @@ app.post('/master-kondisi', FBAuth, createMasterKondisi)
 app.put('/master-kondisi/:id', FBAuth, updateMasterKondisi)
 
 // JenisBarang Route
-app.get('/master-kondisi', getAllJenisBarang)
-app.get('/master-kondisi/:id', getJenisBarang)
-app.post('/master-kondisi', FBAuth, createJenisBarang)
-app.put('/master-kondisi/:id', FBAuth, updateJenisBarang)
+app.get('/jenis-barang', getAllJenisBarang)
+app.get('/jenis-barang/:id', getJenisBarang)
+app.post('/jenis-barang', FBAuth, createJenisBarang)
+app.put('/jenis-barang/:id', FBAuth, updateJenisBarang)
 
-// Master Jenis Barang Route
-// app.get('/master-jenis-barang', getAllMasterJenisBarang)
+// Asset Route
+app.get('/assets', getAllAsset)
+app.get('/assets/:id', getAsset)
+app.post('/assets', FBAuth, createAsset)
+app.put('/assets/:id', FBAuth, updateAsset)
 
 
 exports.api = functions.region('asia-southeast2').https.onRequest(app)
