@@ -13,7 +13,12 @@
   "include": ["src"],
   "baseUrl": "./src",
   "paths": {
-    // "@modules/*": ["rest/modules/*"],
-    // "@services/*": ["services/*"]
+    "#constants/*": ["constants/*"],
+    "#interfaces/*": ["interfaces/*"],
+    "#middlewares/*": ["middlewares/*"],
+    "#modules/*": ["modules/*"],
+    "#repositories/*": ["repositories/*"],
+    "#routers/*": ["routers/*"],
+    "#utils/*": ["utils/*"]
   }
 }
