@@ -1,5 +1,7 @@
 class NotFoundError extends Error {
-  constructor(message, field) {
+  field: string;
+
+  constructor(message: string, field: string) {
     super(message);
     this.field = field;
     this.name = 'NotFoundError';
@@ -8,4 +10,5 @@ class NotFoundError extends Error {
 }
 
 NotFoundError.prototype.constructor = NotFoundError;
-module.exports = NotFoundError;
+
+export default NotFoundError;

@@ -1,5 +1,7 @@
 class InvalidRequestError extends Error {
-  constructor(message, field) {
+  field: string;
+
+  constructor(message: string, field: string) {
     super(message);
     this.field = field;
     this.name = 'InvalidRequestError';
@@ -8,4 +10,4 @@ class InvalidRequestError extends Error {
   }
 }
 
-module.exports = InvalidRequestError;
+export default InvalidRequestError;

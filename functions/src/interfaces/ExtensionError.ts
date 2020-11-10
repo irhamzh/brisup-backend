@@ -1,5 +1,5 @@
 class ExtensionError extends Error {
-  constructor(invalidAccess) {
+  constructor(invalidAccess: string | string[]) {
     const message = `File should be one of type ${JSON.stringify(
       invalidAccess
     )}`;
@@ -11,4 +11,4 @@ class ExtensionError extends Error {
 
 ExtensionError.prototype.constructor = ExtensionError;
 
-module.exports = ExtensionError;
+export default ExtensionError;

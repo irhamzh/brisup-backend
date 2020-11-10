@@ -1,5 +1,5 @@
 class AccessError extends Error {
-  constructor(invalidAccess) {
+  constructor(invalidAccess: string | string[]) {
     const message = `You dont have ${JSON.stringify(
       invalidAccess
     )} permissions!`;
@@ -11,4 +11,4 @@ class AccessError extends Error {
 
 AccessError.prototype.constructor = AccessError;
 
-module.exports = AccessError;
+export default AccessError;
