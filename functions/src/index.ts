@@ -1,3 +1,4 @@
+import 'module-alias/register';
 const functions = require('firebase-functions');
 const app = require('express')();
 const firebase = require('firebase');

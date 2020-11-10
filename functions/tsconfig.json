@@ -10,5 +10,10 @@
     "allowJs": true
   },
   "compileOnSave": true,
-  "include": ["src"]
+  "include": ["src"],
+  "baseUrl": "./src",
+  "paths": {
+    // "@modules/*": ["rest/modules/*"],
+    // "@services/*": ["services/*"]
+  }
 }
