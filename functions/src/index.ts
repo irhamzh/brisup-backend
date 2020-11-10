@@ -1,16 +1,17 @@
+import 'module-alias/register';
 import * as express from 'express';
-// import * as firebase from 'firebase';
+import * as firebase from 'firebase';
 import * as functions from 'firebase-functions';
 
-// import useApiRouter from './routes';
+import config from './utils/config';
 // import { admin, db } from '#utils/admin';
-import 'module-alias/register';
+// import useApiRouter from './routes';
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// firebase.initializeApp(config);
+firebase.initializeApp(config);
 // useApiRouter(app);
 const api = functions.region('asia-southeast2').https.onRequest(app);
 export default api;
@@ -29,7 +30,6 @@ export default api;
 //   updatePersekot,
 //   getPersekot,
 // } = require('./handlers/Persekot');
-// const config = require('./utils/config');
 // const { getAllVendor, getVendor, createVendor } = require('./handlers/Vendor');
 
 // const {

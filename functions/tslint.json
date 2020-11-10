@@ -6,16 +6,27 @@
     "no-submodule-imports": [
       true,
       "source-map-support",
-      "module-alias"
-      // "@global",
-      // "@milestone",
-      // "@config",
-      // "@services"
+      "module-alias",
+      "#constants",
+      "#interfaces",
+      "#middlewares",
+      "#modules",
+      "#repositories",
+      "#routers",
+      "#utils"
     ],
     "no-implicit-dependencies": [
       true,
-      "dev"
-      // ["@global", "@milestone", "@config", "@services"]
+      "dev",
+      [
+        "#constants",
+        "#interfaces",
+        "#middlewares",
+        "#modules",
+        "#repositories",
+        "#routers",
+        "#utils"
+      ]
     ],
     "no-boolean-literal-compare": false
   }
