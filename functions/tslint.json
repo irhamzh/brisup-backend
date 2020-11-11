@@ -7,25 +7,25 @@
       true,
       "source-map-support",
       "module-alias",
-      "#constants",
-      "#interfaces",
-      "#middlewares",
-      "#modules",
-      "#repositories",
-      "#routers",
-      "#utils"
+      "@constants",
+      "@interfaces",
+      "@middlewares",
+      "@modules",
+      "@repositories",
+      "@routers",
+      "@utils"
     ],
     "no-implicit-dependencies": [
       true,
       "dev",
       [
-        "#constants",
-        "#interfaces",
-        "#middlewares",
-        "#modules",
-        "#repositories",
-        "#routers",
-        "#utils"
+        "@constants",
+        "@interfaces",
+        "@middlewares",
+        "@modules",
+        "@repositories",
+        "@routers",
+        "@utils"
       ]
     ],
     "no-boolean-literal-compare": false

@@ -4,7 +4,7 @@ import * as firebase from 'firebase';
 import * as functions from 'firebase-functions';
 
 import config from './utils/config';
-// import { admin, db } from '#utils/admin';
+// import { admin, db } from "@utils/admin';
 // import useApiRouter from './routes';
 
 const app = express();

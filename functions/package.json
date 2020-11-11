@@ -42,13 +42,13 @@
     "typescript": "^4.0.5"
   },
   "_moduleAliases": {
-    "#constants/*": "lib/constants/*",
-    "#interfaces/*": "lib/interfaces/*",
-    "#middlewares/*": "lib/middlewares/*",
-    "#modules/*": "lib/modules/*",
-    "#repositories/*": "lib/repositories/*",
-    "#routers/*": "lib/routers/*",
-    "#utils/*": "lib/utils/*"
+    "@constants/*": "lib/constants/*",
+    "@interfaces/*": "lib/interfaces/*",
+    "@middlewares/*": "lib/middlewares/*",
+    "@modules/*": "lib/modules/*",
+    "@repositories/*": "lib/repositories/*",
+    "@routers/*": "lib/routers/*",
+    "@utils/*": "lib/utils/*"
   },
   "private": true
 }
