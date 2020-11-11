@@ -11,7 +11,7 @@ const {
   FIREBASE_MEASUREMENT_ID,
 } = process.env;
 
-export default {
+const config = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
   databaseURL: FIREBASE_DATABASE_URL,
@@ -21,3 +21,5 @@ export default {
   appId: FIREBASE_APP_ID,
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
+
+export default config;
