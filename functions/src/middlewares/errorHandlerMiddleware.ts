@@ -1,11 +1,16 @@
-const { ValidationError } = require('yup');
-const { NextFunction, Request, Response } = require('express');
-const AccessError = require('../interfaces/AccessError');
-const NotFoundError = require('../interfaces/NotFoundError');
-const ExtensionError = require('../interfaces/ExtensionError');
-const InvalidRequestError = require('../interfaces/InvalidRequestError');
+import { NextFunction, Request, Response } from 'express';
+import { ValidationError } from 'yup';
+import InvalidRequestError from '@interfaces/InvalidRequestError';
+import NotFoundError from '@interfaces/NotFoundError';
+import AccessError from '@interfaces/AccessError';
+import ExtensionError from '@interfaces/ExtensionError';
 
-exports.errorHandlerMiddleware = (err, req, res, next) => {
+export default function errorHandlerMiddleware(
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   if (!err) {
     next();
     return;
@@ -53,4 +58,4 @@ exports.errorHandlerMiddleware = (err, req, res, next) => {
     stack: err.stack,
     error: true,
   });
-};
+}
