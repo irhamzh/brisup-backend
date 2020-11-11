@@ -5,6 +5,11 @@ import NotFoundError from '@interfaces/NotFoundError';
 import AccessError from '@interfaces/AccessError';
 import ExtensionError from '@interfaces/ExtensionError';
 
+function isFirebaseError(err: any) {
+  if (err.code) return err.code.startsWith('auth/');
+  return false;
+}
+
 export default function errorHandlerMiddleware(
   err: any,
   req: Request,
@@ -15,6 +20,14 @@ export default function errorHandlerMiddleware(
     next();
     return;
   }
+  if (isFirebaseError(err)) {
+    res.status(400).json({
+      message: err.message,
+      error: true,
+    });
+    return;
+  }
+
   if (err instanceof NotFoundError) {
     res.status(404).json({
       message: err.message,
