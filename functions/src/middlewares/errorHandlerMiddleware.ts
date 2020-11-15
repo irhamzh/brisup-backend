@@ -5,8 +5,11 @@ import NotFoundError from '@interfaces/NotFoundError';
 import AccessError from '@interfaces/AccessError';
 import ExtensionError from '@interfaces/ExtensionError';
 
+//improve meneh Bruh!!!
 function isFirebaseError(err: any) {
-  if (err.code) return err.code.startsWith('auth/');
+  if (err.code && err?.code?.length > 4) {
+    return err.code.startsWith('auth/');
+  }
   return false;
 }
 

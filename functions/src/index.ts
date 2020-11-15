@@ -1,29 +1,22 @@
 import 'module-alias/register';
+import './fixPaths';
+
 import * as express from 'express';
 import * as firebase from 'firebase';
 import * as functions from 'firebase-functions';
 
-import config from './utils/config';
-// import { admin, db } from "@utils/admin';
-// import useApiRouter from './routes';
+import config from '@utils/config';
+import useApiRouter from './routes';
+firebase.initializeApp(config);
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+useApiRouter(app);
 
-firebase.initializeApp(config);
-// useApiRouter(app);
 const api = functions.region('asia-southeast2').https.onRequest(app);
-export default api;
-// const {
-//   signup,
-//   login,
-//   uploadImage,
-//   updateUser,
-//   getUserData,
-//   getAllUser,
-// } = require('./handlers/User');
-// const { FBAuth } = require('./middlewares');
+export { api };
+
 // const {
 //   getAllPersekot,
 //   createPersekot,
@@ -32,12 +25,6 @@ export default api;
 // } = require('./handlers/Persekot');
 // const { getAllVendor, getVendor, createVendor } = require('./handlers/Vendor');
 
-// const {
-//   getAllRoles,
-//   getRole,
-//   createRole,
-//   updateRole,
-// } = require('./handlers/Roles');
 // const {
 //   getAllMasterKondisi,
 //   getMasterKondisi,
@@ -51,16 +38,6 @@ export default api;
 //   updateJenisBarang,
 // } = require('./handlers/JenisBarang');
 
-// firebase.initializeApp(config);
-// useApiRouter(app);
-// // // User Route
-// app.post('/signup', signup);
-// // app.post("/login", login);
-// // app.post("/user/image", FBAuth, uploadImage);
-// // app.post("/user/update", FBAuth, updateUser);
-// // app.get("/user/:uid", getUserData);
-// // app.get('/user', getAllUser);
-
 // // // Persekot Route
 // // app.get("/persekot", getAllPersekot);
 // // app.get("/persekot/:id", getPersekot);
@@ -72,12 +49,6 @@ export default api;
 // // app.get("/vendor/:id", getVendor);
 // // app.post("/vendor", FBAuth, createVendor);
 // // app.put("/vendor/:id", FBAuth, updatePersekot);
-
-// // // Roles Route
-// // app.get("/roles", getAllRoles);
-// // app.get("/roles/:id", getRole);
-// // app.post("/roles", FBAuth, createRole);
-// // app.put("/roles/:id", FBAuth, updateRole);
 
 // // // masterKondisi Route
 // // app.get("/master-kondisi", getAllMasterKondisi);
