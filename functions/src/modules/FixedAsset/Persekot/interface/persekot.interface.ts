@@ -1,7 +1,7 @@
 export interface IPersekotBase {
   date: Date;
   name: string;
-  constNominal: string;
+  costNominal: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
