@@ -4,12 +4,7 @@ import * as admin from 'firebase-admin';
 
 import schema from './peralatan.schema';
 import PeralatanRepository from './peralatan.repository';
-import {
-  // IPeralatanPC,
-  // IPeralatanBase,
-  // IPeralatanInfocus,
-  JenisPeralatan,
-} from './interface/peralatan.interface';
+import { JenisPeralatan } from './interface/peralatan.interface';
 import JenisPcRepostiory from '@modules/JenisPC/jenis_pc.repository';
 import RuanganRepository from '@modules/Ruangan/ruangan.repository';
 export const createPeralatan = async (req: Request, res: Response) => {
