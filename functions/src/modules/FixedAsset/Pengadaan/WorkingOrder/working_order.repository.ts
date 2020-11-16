@@ -1,8 +1,10 @@
 import BaseRepository from '@repositories/baseRepository';
-import { IRoleBase } from '@modules/Role/interface/role.interface';
+import { IWorkingOrderBase } from './interface/working_order.interface';
 
-export default class RoleRepository extends BaseRepository<IRoleBase> {
+export default class WorkingOrderRepository extends BaseRepository<
+  IWorkingOrderBase
+> {
   constructor() {
-    super('roles', 'role');
+    super('working_orders', 'working_order');
   }
 }

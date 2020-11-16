@@ -1,58 +1,64 @@
 import { Request, Response } from 'express';
-import schema from '@modules/Role/role.schema';
+import schema from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.schema';
 
-import RoleRepository from '@modules/Role/role.repository';
+import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
 import paramValidation from '@utils/paramValidation';
 
-export const createRole = async (req: Request, res: Response) => {
+export const createWorkingOrder = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = schema.create.validateSync(body);
-  const roleRepository = new RoleRepository();
-  const data = await roleRepository.create(validatedBody);
+  const workingOrderRepository = new WorkingOrderRepository();
+  const data = await workingOrderRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create Role',
+    message: 'Successfully Create WorkingOrder',
     data,
   });
 };
 
-export const updateRole = async (req: Request, res: Response) => {
+export const updateWorkingOrder = async (req: Request, res: Response) => {
   const { body, params } = req;
-  const validateParam = paramValidation(params, 'roleId');
+  const validateParam = paramValidation(params, 'workingOrderId');
   const validatedBody = schema.create.validateSync(body);
-  const roleRepository = new RoleRepository();
-  const data = await roleRepository.update(validateParam.uid, validatedBody);
+  const workingOrderRepository = new WorkingOrderRepository();
+  const data = await workingOrderRepository.update(
+    validateParam.uid,
+    validatedBody
+  );
   res.json({
-    message: 'Successfully Update Role',
+    message: 'Successfully Update WorkingOrder',
     data,
   });
 };
 
-export const getRoleById = async (req: Request, res: Response) => {
+export const getWorkingOrderById = async (req: Request, res: Response) => {
   const { params } = req;
-  const validateParam = paramValidation(params, 'roleId');
-  const roleRepository = new RoleRepository();
-  const data = await roleRepository.findById(validateParam.uid);
+  const validateParam = paramValidation(params, 'workingOrderId');
+  const workingOrderRepository = new WorkingOrderRepository();
+  const data = await workingOrderRepository.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get Role By Id',
+    message: 'Successfully Get WorkingOrder By Id',
     data,
   });
 };
 
-export const getAllRole = async (req: Request, res: Response) => {
+export const getAllWorkingOrder = async (req: Request, res: Response) => {
   let { page, limit } = req.query;
-  const roleRepository = new RoleRepository();
-  const data = await roleRepository.findAll(page as string, limit as string);
+  const workingOrderRepository = new WorkingOrderRepository();
+  const data = await workingOrderRepository.findAll(
+    page as string,
+    limit as string
+  );
   res.json({
-    message: 'Successfully Get Role',
+    message: 'Successfully Get WorkingOrder',
     data,
   });
 };
 
-export const deleteRoleById = async (req: Request, res: Response) => {
+export const deleteWorkingOrderById = async (req: Request, res: Response) => {
   const { params } = req;
-  const validateParam = paramValidation(params, 'roleId');
-  const roleRepository = new RoleRepository();
-  const data = await roleRepository.delete(validateParam.uid);
+  const validateParam = paramValidation(params, 'workingOrderId');
+  const workingOrderRepository = new WorkingOrderRepository();
+  const data = await workingOrderRepository.delete(validateParam.uid);
   res.json({
     message: 'SuccessfullyDeleteBy Id',
     data,
