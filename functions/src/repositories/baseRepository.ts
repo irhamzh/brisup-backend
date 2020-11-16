@@ -24,7 +24,7 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
   //cadangan
   async countDocument() {
     const snap = await this._collection.get();
-    return snap.size;
+    return snap.size || 0;
   }
 
   async create(object: CreateParam) {
