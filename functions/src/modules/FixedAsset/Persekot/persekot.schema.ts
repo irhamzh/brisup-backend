@@ -6,9 +6,9 @@ const create = yup
   .shape({
     date: yup.date().required(validationWording.required('date')),
     name: yup.string().required(validationWording.required('name')),
-    constNominal: yup
+    costNominal: yup
       .string()
-      .required(validationWording.required('constNominal')),
+      .required(validationWording.required('costNominal')),
   })
   .required();
 
@@ -17,7 +17,7 @@ const update = yup
   .shape({
     date: yup.date(),
     name: yup.string(),
-    constNominal: yup.string(),
+    costNominal: yup.string(),
   })
   .required();
 

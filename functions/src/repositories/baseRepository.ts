@@ -21,6 +21,12 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     // this._defaultPopulate = defaultPopulate;
   }
 
+  //cadangan
+  async countDocument() {
+    const snap = await this._collection.get();
+    return snap.size;
+  }
+
   async create(object: CreateParam) {
     const createParam = {
       ...object,
