@@ -1,6 +1,7 @@
 import 'module-alias/register';
 import './fixPaths';
 
+import * as cors from 'cors';
 import * as express from 'express';
 import * as firebase from 'firebase';
 import * as functions from 'firebase-functions';
@@ -10,6 +11,7 @@ import useApiRouter from './routes';
 firebase.initializeApp(config);
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 useApiRouter(app);

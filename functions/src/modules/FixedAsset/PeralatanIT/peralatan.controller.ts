@@ -40,7 +40,11 @@ export const createPeralatan = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await peralatanRepository.create(
     createParam
   );
-  const formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
+  let formatedData = data;
+  if (formatedData.tanggal) {
+    formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
+  }
+
   res.json({
     message: 'Successfully Create Peralatan',
     data: formatedData,
@@ -86,10 +90,11 @@ export const updatePeralatan = async (req: Request, res: Response) => {
     validateParam.uid,
     createParam
   );
-  const formatedData = {
-    ...data,
-    tanggal: formatDate(data.tanggal.toDate()),
-  };
+  let formatedData = data;
+  if (formatedData.tanggal) {
+    formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
+  }
+
   res.json({
     message: 'Successfully Update Peralatan',
     data: formatedData,
@@ -103,10 +108,11 @@ export const getPeralatanById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await peralatanRepository.findById(
     validateParam.uid
   );
-  const formatedData = {
-    ...data,
-    tanggal: formatDate(data.tanggal.toDate()),
-  };
+  let formatedData = data;
+  if (formatedData.tanggal) {
+    formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
+  }
+
   res.json({
     message: 'Successfully Get Peralatan By Id',
     data: formatedData,
@@ -120,10 +126,15 @@ export const getAllPeralatan = async (req: Request, res: Response) => {
     page as string,
     limit as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: formatDate(item.tanggal.toDate()),
-  }));
+  const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    if (item.tanggal) {
+      return {
+        ...item,
+        tanggal: formatDate(item.tanggal.toDate()),
+      };
+    }
+    return item;
+  });
   const totalCount = await peralatanRepository.countDocument();
   res.json({
     message: 'Successfully Get Peralatan',
