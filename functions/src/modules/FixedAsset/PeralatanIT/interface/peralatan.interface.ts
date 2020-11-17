@@ -11,11 +11,6 @@ interface IPeralatan {
   updatedAt?: Date;
 }
 
-export enum YesNo {
-  yes = 'Ya',
-  no = 'Tidak',
-}
-
 export enum JenisPeralatan {
   'Sound' = 'Sound',
   'Printer dan Scanner' = 'Printer dan Scanner',
