@@ -69,7 +69,7 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     };
   }
 
-  async findAll(page: number | string = 1, limit: number | string = 5) {
+  async findAll(page: number | string = 1, limit: number | string = 10) {
     // .where('name', '==', '\uf8ff' + '' + '\uf8ff')
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
