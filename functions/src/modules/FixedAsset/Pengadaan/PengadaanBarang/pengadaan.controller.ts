@@ -3,10 +3,12 @@ import schema from '@modules/Role/role.schema';
 
 import RoleRepository from '@modules/Role/role.repository';
 import paramValidation from '@utils/paramValidation';
+import yupValidate from '@utils/yupValidate';
 
 export const createRole = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
+
   const roleRepository = new RoleRepository();
   const data = await roleRepository.create(validatedBody);
   res.json({
@@ -18,7 +20,7 @@ export const createRole = async (req: Request, res: Response) => {
 export const updateRole = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'roleId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
   const roleRepository = new RoleRepository();
   const data = await roleRepository.update(validateParam.uid, validatedBody);
   res.json({
@@ -42,9 +44,11 @@ export const getAllRole = async (req: Request, res: Response) => {
   let { page, limit } = req.query;
   const roleRepository = new RoleRepository();
   const data = await roleRepository.findAll(page as string, limit as string);
+  const totalCount = await roleRepository.countDocument();
   res.json({
     message: 'Successfully Get Role',
     data,
+    totalCount,
   });
 };
 

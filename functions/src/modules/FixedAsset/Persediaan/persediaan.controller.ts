@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import schema from './persediaan.schema';
-
+import { formatDate } from '@utils/Date';
+import * as admin from 'firebase-admin';
 import PersediaanRepository from './persediaan.repository';
 import JenisBarangRepository from '@modules/JenisBarang/jenis_barang.repository';
 import paramValidation from '@utils/paramValidation';
+import yupValidate from '@utils/yupValidate';
 
 export const createPersediaan = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
+
   const persediaanRepository = new PersediaanRepository();
   const jenisBarangRepository = new JenisBarangRepository();
   const jenisBarang: any = await jenisBarangRepository.findById(
@@ -17,17 +20,21 @@ export const createPersediaan = async (req: Request, res: Response) => {
     ...validatedBody,
     jenisBarang,
   };
-  const data = await persediaanRepository.create(createParam);
+  const data: admin.firestore.DocumentData = await persediaanRepository.create(
+    createParam
+  );
+  const formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
   res.json({
     message: 'Successfully Create Persediaan',
-    data,
+    data: formatedData,
   });
 };
 
 export const updatePersediaan = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'persediaanId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.update, body);
+
   let createParam: any = validatedBody;
 
   if (validatedBody.jenisBarang) {
@@ -39,13 +46,17 @@ export const updatePersediaan = async (req: Request, res: Response) => {
   }
 
   const persediaanRepository = new PersediaanRepository();
-  const data = await persediaanRepository.update(
+  const data: admin.firestore.DocumentData = await persediaanRepository.update(
     validateParam.uid,
     createParam
   );
+  const formatedData = {
+    ...data,
+    tanggal: formatDate(data.tanggal.toDate()),
+  };
   res.json({
     message: 'Successfully Update Persediaan',
-    data,
+    data: formatedData,
   });
 };
 
@@ -53,10 +64,16 @@ export const getPersediaanById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'persediaanId');
   const persediaanRepository = new PersediaanRepository();
-  const data = await persediaanRepository.findById(validateParam.uid);
+  const data: admin.firestore.DocumentData = await persediaanRepository.findById(
+    validateParam.uid
+  );
+  const formatedData = {
+    ...data,
+    tanggal: formatDate(data.tanggal.toDate()),
+  };
   res.json({
     message: 'Successfully Get Persediaan By Id',
-    data,
+    data: formatedData,
   });
 };
 
@@ -67,9 +84,15 @@ export const getAllPersediaan = async (req: Request, res: Response) => {
     page as string,
     limit as string
   );
+  const totalCount = await persediaanRepository.countDocument();
+  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
+    ...item,
+    tanggal: formatDate(item.tanggal.toDate()),
+  }));
   res.json({
     message: 'Successfully Get Persediaan',
-    data,
+    data: formatedData,
+    totalCount,
   });
 };
 

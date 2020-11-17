@@ -24,7 +24,7 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
   //cadangan
   async countDocument() {
     const snap = await this._collection.get();
-    return snap.size;
+    return snap.size || 0;
   }
 
   async create(object: CreateParam) {
@@ -69,7 +69,7 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     };
   }
 
-  async findAll(page: number | string = 1, limit: number | string = 5) {
+  async findAll(page: number | string = 1, limit: number | string = 10) {
     // .where('name', '==', '\uf8ff' + '' + '\uf8ff')
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
@@ -88,7 +88,7 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     //getData
     const ref = await this._collection
       .orderBy('createdAt', 'asc')
-      .startAt(last)
+      .startAfter(last)
       .limit(parsedLimit)
       .get();
     const data: admin.firestore.DocumentData = [];

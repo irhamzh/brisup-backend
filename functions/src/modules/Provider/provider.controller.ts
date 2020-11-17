@@ -3,10 +3,12 @@ import schema from '@modules/Provider/provider.schema';
 
 import ProviderRepository from '@modules/Provider/provider.repository';
 import paramValidation from '@utils/paramValidation';
+import yupValidate from '@utils/yupValidate';
 
 export const createProvider = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
+
   const providerRepository = new ProviderRepository();
   const data = await providerRepository.create(validatedBody);
   res.json({
@@ -18,7 +20,7 @@ export const createProvider = async (req: Request, res: Response) => {
 export const updateProvider = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'providerId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.update, body);
   const providerRepository = new ProviderRepository();
   const data = await providerRepository.update(
     validateParam.uid,
@@ -48,9 +50,12 @@ export const getAllProvider = async (req: Request, res: Response) => {
     page as string,
     limit as string
   );
+  const totalCount = await providerRepository.countDocument();
+
   res.json({
     message: 'Successfully Get Provider',
     data,
+    totalCount,
   });
 };
 

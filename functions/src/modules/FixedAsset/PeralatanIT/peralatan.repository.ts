@@ -1,8 +1,15 @@
 import BaseRepository from '@repositories/baseRepository';
-import { IRoleBase } from '@modules/Role/interface/role.interface';
+import {
+  IPeralatanBase,
+  IPeralatanPC,
+  IPeralatanInfocus,
+} from './interface/peralatan.interface';
 
-export default class RoleRepository extends BaseRepository<IRoleBase> {
+export default class PeralatanITRepository extends BaseRepository<
+  // IPeralatanBase
+  IPeralatanPC | IPeralatanBase | IPeralatanInfocus
+> {
   constructor() {
-    super('roles', 'role');
+    super('peralatan_its', 'peralatan_it');
   }
 }

@@ -1,8 +1,16 @@
 import BaseRepository from '@repositories/baseRepository';
-import { IRoleBase } from '@modules/Role/interface/role.interface';
+import {
+  IPengadaanSwakelolaPembelian,
+  IPengadaanBarangdanJasa,
+  IPengadaanJasaKonsultan,
+} from './interface/pengadaan.interface';
 
-export default class RoleRepository extends BaseRepository<IRoleBase> {
+export default class RoleRepository extends BaseRepository<
+  | IPengadaanSwakelolaPembelian
+  | IPengadaanBarangdanJasa
+  | IPengadaanJasaKonsultan
+> {
   constructor() {
-    super('roles', 'role');
+    super('pengadaans', 'pengadaan');
   }
 }

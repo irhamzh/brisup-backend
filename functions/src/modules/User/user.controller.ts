@@ -11,13 +11,15 @@ import paramValidation from '@utils/paramValidation';
 import RoleRepository from '@modules/Role/role.repository';
 import UserRepository from '@modules/User/user.repository';
 import ExtensionError from '@interfaces/ExtensionError';
+import yupValidate from '@utils/yupValidate';
 
 const { v4: uuidv4 } = require('uuid');
 const defaultImg = 'no-user-pic.png';
 
 export const createUser = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
+
   const roleRepository = new RoleRepository();
   const role: any = await roleRepository.findById(validatedBody.role);
 
@@ -41,7 +43,7 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const logIn = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.login.validateSync(body);
+  const validatedBody = yupValidate(schema.login, body);
 
   const userRepository = new UserRepository();
   const token = await userRepository.logIn(validatedBody);
@@ -57,9 +59,12 @@ export const getAllUser = async (req: Request, res: Response) => {
   let { page, limit } = req.query;
   const userRepository = new UserRepository();
   const data = await userRepository.findAll(page as string, limit as string);
+  const totalCount = await userRepository.countDocument();
+
   res.json({
     message: 'Successfully Get User',
     data,
+    totalCount,
   });
 };
 
@@ -89,7 +94,8 @@ export const deleteUserById = async (req: Request, res: Response) => {
 export const updateUserById = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'userId');
-  const validatedBody = schema.update.validateSync(body);
+  const validatedBody = yupValidate(schema.update, body);
+
   const userRepository = new UserRepository();
   let authData = {};
   if (validatedBody.email || validatedBody.password) {

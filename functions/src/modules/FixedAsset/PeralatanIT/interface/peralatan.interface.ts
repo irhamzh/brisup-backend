@@ -1,44 +1,36 @@
 import { IRuanganBase } from '@modules/Ruangan/interface/ruangan.interface';
-export interface IPeralatanBase {
+import { IJenisPCBase } from '@modules/JenisPC/interface/jenis_pc.interface';
+interface IPeralatan {
+  jenisPeralatan: string;
   merk: string;
-  model: string;
   sn: string;
   ruangan: IRuanganBase;
   kondisi: string;
-  Keterangan: string;
+  keterangan: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-// Merk *
-// Model *
-// SN *
-// Ruangan *
-// Kondisi *
-// Keterangan *
+export enum JenisPeralatan {
+  'Sound' = 'Sound',
+  'Printer dan Scanner' = 'Printer dan Scanner',
+  'Laptop' = 'Laptop',
+  'Infocus' = 'Infocus',
+  'PC' = 'PC',
+}
+export interface IPeralatanBase {
+  model: string;
+}
 
-// Merk *
-// Model *
-// SN *
-// Ruangan *
-// Kondisi *
-// Keterangan *
-
-// Tanggal *
-// Merk *
-// Model *
-// SN *
-// Lamp Timer *
-// Ganti Lampu *
-// Kondisi *
-// Keterangan *
-
-// Jenis PC *
-// Nama Pengguna *
-// Merk *
-// SN PC *
-// Jumlah PC *
-// SN Monitor *
-// Jumlah Monitor *
-// Ruangan *
-// Keterangan *
+export interface IPeralatanInfocus extends IPeralatanBase {
+  tanggal: Date;
+  lampTimer: string;
+  gantiLampu: string;
+}
+export interface IPeralatanPC extends IPeralatan {
+  namaPengguna: string;
+  jenisPc: IJenisPCBase;
+  jumlahPc: number;
+  snMonitor: string;
+  jumlahMonitor: number;
+}
