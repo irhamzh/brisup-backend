@@ -73,7 +73,11 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     // .where('name', '==', '\uf8ff' + '' + '\uf8ff')
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
-    const skip = (parsedPage - 1) * parsedLimit || 1;
+    let skip = (parsedPage - 1) * parsedLimit || 1;
+    const currentSize = await this.countDocument();
+    if (currentSize > 10 && parsedPage !== 1) {
+      skip = Number(skip) + 1;
+    }
 
     //get skipbatch
     const first = await this._collection
@@ -88,7 +92,7 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     //getData
     const ref = await this._collection
       .orderBy('createdAt', 'asc')
-      .startAfter(last)
+      .startAt(last)
       .limit(parsedLimit)
       .get();
     const data: admin.firestore.DocumentData = [];
