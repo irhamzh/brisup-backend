@@ -74,17 +74,16 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
     let skip = (parsedPage - 1) * parsedLimit || 1;
-    const currentSize = await this.countDocument();
-    if (currentSize > 10 && parsedPage !== 1) {
+    if (parsedPage > 1) {
       skip = Number(skip) + 1;
     }
-
+    console.log(skip);
     //get skipbatch
     const first = await this._collection
       .orderBy('createdAt', 'asc')
       .limit(skip)
       .get();
-    if (first.docs.length <= 0) {
+    if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
