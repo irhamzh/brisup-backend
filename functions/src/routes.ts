@@ -13,8 +13,6 @@ import persediaanRouter from '@modules/FixedAsset/Persediaan/persediaan.routes';
 
 const apiRouter = Router();
 
-const cors = require('cors');
-
 apiRouter.use('/users', useRouter);
 apiRouter.use('/roles', roleRouter);
 apiRouter.use('/rooms', ruanganRouter);
@@ -27,6 +25,5 @@ apiRouter.use('/persekots', persekotRouter);
 apiRouter.use('/persediaans', persediaanRouter);
 
 export default function useApiRouter(app: Application) {
-  app.use(cors({origin: true}));
   app.use('/v1', apiRouter);
 }
