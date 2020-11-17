@@ -88,7 +88,7 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     //getData
     const ref = await this._collection
       .orderBy('createdAt', 'asc')
-      .startAt(last)
+      .startAfter(last)
       .limit(parsedLimit)
       .get();
     const data: admin.firestore.DocumentData = [];

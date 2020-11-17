@@ -5,10 +5,11 @@ import EvaluasiSuplierRepository from '@modules/FixedAsset/Pengadaan/EvaluasiSup
 import ProviderRepository from '@modules/Provider/provider.repository';
 
 import paramValidation from '@utils/paramValidation';
+import yupValidate from '@utils/yupValidate';
 
 export const createEvaluasiSuplier = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
   const providerRepository = new ProviderRepository();
   const provider: any = await providerRepository.findById(
@@ -29,7 +30,8 @@ export const createEvaluasiSuplier = async (req: Request, res: Response) => {
 export const updateEvaluasiSuplier = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'evaluasiSuplierId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.update, body);
+
   let createParam: any = validatedBody;
   // delete createParam.provider;
   if (validatedBody.provider) {
@@ -69,9 +71,12 @@ export const getAllEvaluasiSuplier = async (req: Request, res: Response) => {
     page as string,
     limit as string
   );
+  const totalCount = await evaluasiSuplierRepository.countDocument();
+
   res.json({
     message: 'Successfully Get EvaluasiSuplier',
     data,
+    totalCount,
   });
 };
 

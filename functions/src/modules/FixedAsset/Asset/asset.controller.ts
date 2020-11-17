@@ -3,10 +3,11 @@ import { Request, Response } from 'express';
 import paramValidation from '@utils/paramValidation';
 import AssetRepository from '@modules/FixedAsset/Asset/asset.repository';
 import schema from '@modules/FixedAsset/Asset/asset.schema';
+import yupValidate from '@utils/yupValidate';
 
 export const createAsset = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
   const assetRepository = new AssetRepository();
   let createParam = validatedBody;
   if (!validatedBody.condition) {
@@ -22,7 +23,7 @@ export const createAsset = async (req: Request, res: Response) => {
 export const updateAsset = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'assetId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.update, body);
   const assetRepository = new AssetRepository();
   const data = await assetRepository.update(validateParam.uid, validatedBody);
   res.json({
@@ -46,9 +47,11 @@ export const getAllAsset = async (req: Request, res: Response) => {
   let { page, limit } = req.query;
   const assetRepository = new AssetRepository();
   const data = await assetRepository.findAll(page as string, limit as string);
+  const totalCount = await assetRepository.countDocument();
   res.json({
     message: 'Successfully Get Asset',
     data,
+    totalCount,
   });
 };
 
@@ -65,7 +68,7 @@ export const deleteAssetById = async (req: Request, res: Response) => {
 
 export const deleteMultipleAsset = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.deleteArrayIds.validateSync(body);
+  const validatedBody = yupValidate(schema.deleteArrayIds, body);
   const assetRepository = new AssetRepository();
   await assetRepository.deleteMultiple(validatedBody.assetIds);
   res.json({

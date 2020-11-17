@@ -3,10 +3,12 @@ import schema from '@modules/Ruangan/ruangan.schema';
 
 import RuanganRepository from '@modules/Ruangan/ruangan.repository';
 import paramValidation from '@utils/paramValidation';
+import yupValidate from '@utils/yupValidate';
 
 export const createRuangan = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
+
   const ruanganRepository = new RuanganRepository();
   const data = await ruanganRepository.create(validatedBody);
   res.json({
@@ -18,7 +20,8 @@ export const createRuangan = async (req: Request, res: Response) => {
 export const updateRuangan = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'ruanganId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
+
   const ruanganRepository = new RuanganRepository();
   const data = await ruanganRepository.update(validateParam.uid, validatedBody);
   res.json({
@@ -42,9 +45,12 @@ export const getAllRuangan = async (req: Request, res: Response) => {
   let { page, limit } = req.query;
   const ruanganRepository = new RuanganRepository();
   const data = await ruanganRepository.findAll(page as string, limit as string);
+  const totalCount = await ruanganRepository.countDocument();
+
   res.json({
     message: 'Successfully Get Ruangan',
     data,
+    totalCount,
   });
 };
 

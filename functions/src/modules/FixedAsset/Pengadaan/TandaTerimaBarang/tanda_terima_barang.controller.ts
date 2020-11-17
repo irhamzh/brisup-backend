@@ -5,10 +5,12 @@ import TandaTerimaBarangRepository from '@modules/FixedAsset/Pengadaan/TandaTeri
 import ProviderRepository from '@modules/Provider/provider.repository';
 
 import paramValidation from '@utils/paramValidation';
+import yupValidate from '@utils/yupValidate';
 
 export const createTandaTerimaBarang = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
+
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
   const providerRepository = new ProviderRepository();
   const provider: any = await providerRepository.findById(
@@ -29,7 +31,7 @@ export const createTandaTerimaBarang = async (req: Request, res: Response) => {
 export const updateTandaTerimaBarang = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'tandaTerimaBarangId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.update, body);
   let createParam: any = validatedBody;
   // delete createParam.provider;
   if (validatedBody.provider) {
@@ -63,9 +65,11 @@ export const getAllTandaTerimaBarang = async (req: Request, res: Response) => {
   let { page, limit } = req.query;
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
   const data = await tandaTerimaBarang.findAll(page as string, limit as string);
+  const totalCount = await tandaTerimaBarang.countDocument();
   res.json({
     message: 'Successfully Get TandaTerimaBarang',
     data,
+    totalCount,
   });
 };
 

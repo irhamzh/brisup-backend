@@ -2,10 +2,11 @@ import { Request, Response } from 'express';
 import schema from './jenis_barang.schema';
 import JenisBarangRepository from './jenis_barang.repository';
 import paramValidation from '@utils/paramValidation';
+import yupValidate from '@utils/yupValidate';
 
 export const createJenisBarang = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
   const jenisBarangRepository = new JenisBarangRepository();
   const data = await jenisBarangRepository.create(validatedBody);
   res.json({
@@ -17,7 +18,7 @@ export const createJenisBarang = async (req: Request, res: Response) => {
 export const updateJenisBarang = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'jenisBarangId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
   const jenisBarangRepository = new JenisBarangRepository();
   const data = await jenisBarangRepository.update(
     validateParam.uid,
@@ -47,9 +48,12 @@ export const getAllJenisBarang = async (req: Request, res: Response) => {
     page as string,
     limit as string
   );
+  const totalCount = await jenisBarangRepository.countDocument();
+
   res.json({
     message: 'Successfully Get JenisBarang',
     data,
+    totalCount,
   });
 };
 

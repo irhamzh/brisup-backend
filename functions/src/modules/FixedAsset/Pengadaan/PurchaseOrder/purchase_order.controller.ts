@@ -5,10 +5,12 @@ import PurchaseOrderRepository from '@modules/FixedAsset/Pengadaan/PurchaseOrder
 import ProviderRepository from '@modules/Provider/provider.repository';
 
 import paramValidation from '@utils/paramValidation';
+import yupValidate from '@utils/yupValidate';
 
 export const createPurchaseOrder = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.create, body);
+
   const purchaseOrder = new PurchaseOrderRepository();
   const providerRepository = new ProviderRepository();
   const provider: any = await providerRepository.findById(
@@ -29,7 +31,8 @@ export const createPurchaseOrder = async (req: Request, res: Response) => {
 export const updatePurchaseOrder = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'purchaseOrderId');
-  const validatedBody = schema.create.validateSync(body);
+  const validatedBody = yupValidate(schema.update, body);
+
   let createParam: any = validatedBody;
   // delete createParam.provider;
   if (validatedBody.provider) {
@@ -63,9 +66,11 @@ export const getAllPurchaseOrder = async (req: Request, res: Response) => {
   let { page, limit } = req.query;
   const purchaseOrder = new PurchaseOrderRepository();
   const data = await purchaseOrder.findAll(page as string, limit as string);
+  const totalCount = await purchaseOrder.countDocument();
   res.json({
     message: 'Successfully Get PurchaseOrder',
     data,
+    totalCount,
   });
 };
 
