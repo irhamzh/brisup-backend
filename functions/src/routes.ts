@@ -5,10 +5,12 @@ import roleRouter from '@modules/Role/role.routes';
 import ruanganRouter from '@modules/Ruangan/ruangan.routes';
 import jenisPcRouter from '@modules/JenisPC/jenis_pc.routes';
 import providerRouter from '@modules/Provider/provider.routes';
-import partnerRouter from '@modules/Partner/partner.routes';
 import jenisBarangRouter from '@modules/JenisBarang/jenis_barang.routes';
+import partnerRouter from '@modules/Partner/partner.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
+import vendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
+
 import persekotRouter from '@modules/FixedAsset/Persekot/persekot.routes';
 import persediaanRouter from '@modules/FixedAsset/Persediaan/persediaan.routes';
 import peralatanITRouter from '@modules/FixedAsset/PeralatanIT/peralatan.routes';
@@ -24,18 +26,19 @@ apiRouter.use('/users', useRouter);
 apiRouter.use('/roles', roleRouter);
 apiRouter.use('/rooms', ruanganRouter);
 apiRouter.use('/type-pc', jenisPcRouter); //jenis pc
-apiRouter.use('/partners', partnerRouter);
 apiRouter.use('/providers', providerRouter);
 apiRouter.use('/type-item', jenisBarangRouter); //jenis barang
+apiRouter.use('/partners', partnerRouter);
 
 apiRouter.use('/assets', assetRouter);
+apiRouter.use('/vendors', vendorRouter);
 apiRouter.use('/persekots', persekotRouter);
+apiRouter.use('/pengadaan', pengadaanRouter);
 apiRouter.use('/persediaans', persediaanRouter);
 apiRouter.use('/peralatan-it', peralatanITRouter);
-apiRouter.use('/pengadaans', pengadaanRouter);
-apiRouter.use('/tanda-terima-barangs', tandaTerimaRouter);
 apiRouter.use('/working-orders', workingOrderRouter);
-apiRouter.use('/purchase-orders', purchaseOrderRouter);
+apiRouter.use('/purchase-order', purchaseOrderRouter);
+apiRouter.use('/tanda-terima-barang', tandaTerimaRouter);
 apiRouter.use('/evaluasi-supliers', evaluasiSuplierRouter);
 
 export default function useApiRouter(app: Application) {
