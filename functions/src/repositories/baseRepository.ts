@@ -69,22 +69,33 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     };
   }
 
+  async findByIdWithoutFormat(id: string) {
+    const ref: admin.firestore.DocumentReference = this._collection.doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (!snap.exists) {
+      throw new NotFoundError(
+        validationWording.notFound(this._name),
+        this._name
+      );
+    }
+    return snap;
+  }
+
   async findAll(page: number | string = 1, limit: number | string = 10) {
     // .where('name', '==', '\uf8ff' + '' + '\uf8ff')
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
     let skip = (parsedPage - 1) * parsedLimit || 1;
-    const currentSize = await this.countDocument();
-    if (currentSize > 10 && parsedPage !== 1) {
+    if (parsedPage > 1) {
       skip = Number(skip) + 1;
     }
-
+    console.log(skip);
     //get skipbatch
     const first = await this._collection
       .orderBy('createdAt', 'asc')
       .limit(skip)
       .get();
-    if (first.docs.length <= 0) {
+    if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];

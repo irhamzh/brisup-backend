@@ -32,7 +32,7 @@ export const updateEvaluasiSuplier = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'evaluasiSuplierId');
   const validatedBody = yupValidate(schema.update, body);
 
-  let createParam: any = validatedBody;
+  let createParam = validatedBody;
   // delete createParam.provider;
   if (validatedBody.provider) {
     const providerRepository = new ProviderRepository();
