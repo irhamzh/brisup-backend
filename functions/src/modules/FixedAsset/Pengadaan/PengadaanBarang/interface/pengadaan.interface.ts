@@ -9,7 +9,7 @@ interface IPengadaan {
   izinPrinsipUser?: string;
   izinPrinsipPengadaan?: string;
   izinHasilPengadaan?: string;
-  Undangan?: string;
+  undangan?: string;
   klarifikasiNegosiasi?: string;
   aanwijzing?: string;
   pengumumanPemenang?: string;
@@ -23,7 +23,7 @@ interface IPengadaan {
 interface IPengadaanSPK extends IPengadaan {
   tanggalSPK: Date;
   nomorSPK: string;
-  namaProvider: IProviderBase;
+  provider: IProviderBase;
   jenisPekerjaan: string;
   jumlahBiaya: number;
   jenisBarang: string;
@@ -33,7 +33,7 @@ interface IPengadaanSPK extends IPengadaan {
 
 export interface IPengadaanSwakelolaPembelian extends IPengadaan {
   biayaPutusan: number;
-  namaProvider?: IProviderBase;
+  provider?: IProviderBase;
 }
 
 //kecuali swakelola dan pembelian langsung
@@ -42,17 +42,21 @@ export interface IPengadaanJasaKonsultan extends IPengadaanSPK {
   biayaPutusan: number;
 }
 
-export enum JenisPengadaan {
+export enum JenisPengadaanBarang {
   'Penunjukan Langsung' = 'Penunjukan Langsung',
-  'Seleksi Langsung ' = 'Seleksi Langsung',
   'Swakelola' = 'Swakelola',
   'Pembelian Langsung' = 'Pembelian Langsung',
   'Pemilihan Langsung' = 'Pemilihan Langsung',
   'Lelang' = 'Lelang',
 }
+export enum JenisPengadaanJasaKonsultan {
+  'Penunjukan Langsung' = 'Penunjukan Langsung',
+  'Seleksi Langsung' = 'Seleksi Langsung',
+}
+
 export enum TypePengadaan {
   'barang' = 'barang',
-  'jasa' = 'jasa',
+  'konsultan' = 'konsultan',
 }
 
 // Jenis Pengadaan *

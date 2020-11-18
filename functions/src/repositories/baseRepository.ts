@@ -69,6 +69,18 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     };
   }
 
+  async findByIdWithoutFormat(id: string) {
+    const ref: admin.firestore.DocumentReference = this._collection.doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (!snap.exists) {
+      throw new NotFoundError(
+        validationWording.notFound(this._name),
+        this._name
+      );
+    }
+    return snap;
+  }
+
   async findAll(page: number | string = 1, limit: number | string = 10) {
     // .where('name', '==', '\uf8ff' + '' + '\uf8ff')
     const parsedPage = parseInt(page as string);

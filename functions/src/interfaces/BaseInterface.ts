@@ -1,7 +1,7 @@
 export enum BaseCondition {
-  good = 'Baik',
-  undefined = 'Belum Ditentukan',
-  bad = 'Buruk',
+  'Baik' = 'Baik',
+  'Belum Ditentukan' = 'Belum Ditentukan',
+  'Buruk' = 'Buruk',
 }
 
 export enum YesNo {
@@ -9,7 +9,7 @@ export enum YesNo {
   no = 'Tidak',
 }
 
-export enum JenisAnggatan {
+export enum JenisAnggaran {
   investasi = 'Investasi',
   eksploitasi = 'Eksploitasi',
 }
