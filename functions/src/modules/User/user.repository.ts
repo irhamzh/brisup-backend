@@ -2,7 +2,6 @@ import * as firebase from 'firebase';
 import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
-import { formatDateTime } from '@utils/Date';
 import BaseRepository from '@repositories/baseRepository';
 import { IUserBase } from '@modules/User/interface/user.interface';
 
@@ -28,8 +27,8 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     const data: admin.firestore.DocumentData = {
       id: ref.id,
       ...snap.data(),
-      createdAt: formatDateTime(snap.data()?.createdAt.toDate()),
-      updatedAt: formatDateTime(snap.data()?.createdAt.toDate()),
+      createdAt: snap.data()?.createdAt.toDate(),
+      updatedAt: snap.data()?.createdAt.toDate(),
     };
     if (data?.password) {
       delete data.password;

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import schema from './persediaan.schema';
-import { formatDate } from '@utils/Date';
+// import { } from '@utils/Date';
 import * as admin from 'firebase-admin';
 import PersediaanRepository from './persediaan.repository';
 import JenisBarangRepository from '@modules/JenisBarang/jenis_barang.repository';
@@ -23,7 +23,7 @@ export const createPersediaan = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await persediaanRepository.create(
     createParam
   );
-  const formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
+  const formatedData = { ...data, tanggal: data.tanggal.toDate() };
   res.json({
     message: 'Successfully Create Persediaan',
     data: formatedData,
@@ -52,7 +52,7 @@ export const updatePersediaan = async (req: Request, res: Response) => {
   );
   const formatedData = {
     ...data,
-    tanggal: formatDate(data.tanggal.toDate()),
+    tanggal: data.tanggal.toDate(),
   };
   res.json({
     message: 'Successfully Update Persediaan',
@@ -69,7 +69,7 @@ export const getPersediaanById = async (req: Request, res: Response) => {
   );
   const formatedData = {
     ...data,
-    tanggal: formatDate(data.tanggal.toDate()),
+    tanggal: data.tanggal.toDate(),
   };
   res.json({
     message: 'Successfully Get Persediaan By Id',
@@ -87,7 +87,7 @@ export const getAllPersediaan = async (req: Request, res: Response) => {
   const totalCount = await persediaanRepository.countDocument();
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
-    tanggal: formatDate(item.tanggal.toDate()),
+    tanggal: item.tanggal.toDate(),
   }));
   res.json({
     message: 'Successfully Get Persediaan',

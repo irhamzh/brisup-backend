@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin';
 import * as firebase from 'firebase';
-// import { formatDateTime } from '@utils/Date';
 import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 

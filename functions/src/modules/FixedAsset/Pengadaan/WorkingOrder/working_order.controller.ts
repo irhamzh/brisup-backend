@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import schema from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.schema';
-import { formatDate } from '@utils/Date';
+// import { } from '@utils/Date';
 import * as admin from 'firebase-admin';
 import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
 import paramValidation from '@utils/paramValidation';
@@ -16,9 +16,9 @@ export const createWorkingOrder = async (req: Request, res: Response) => {
   );
   const formatedData = {
     ...data,
-    tanggalTerima: formatDate(data.tanggalTerima.toDate()),
-    tanggalRevisi: formatDate(data.tanggalRevisi.toDate()),
-    tanggalKonfirmasi: formatDate(data.tanggalKonfirmasi.toDate()),
+    tanggalTerima: data.tanggalTerima.toDate(),
+    tanggalRevisi: data.tanggalRevisi.toDate(),
+    tanggalKonfirmasi: data.tanggalKonfirmasi.toDate(),
   };
 
   res.json({
@@ -39,9 +39,9 @@ export const updateWorkingOrder = async (req: Request, res: Response) => {
   );
   const formatedData = {
     ...data,
-    tanggalTerima: formatDate(data.tanggalTerima.toDate()),
-    tanggalRevisi: formatDate(data.tanggalRevisi.toDate()),
-    tanggalKonfirmasi: formatDate(data.tanggalKonfirmasi.toDate()),
+    tanggalTerima: data.tanggalTerima.toDate(),
+    tanggalRevisi: data.tanggalRevisi.toDate(),
+    tanggalKonfirmasi: data.tanggalKonfirmasi.toDate(),
   };
   res.json({
     message: 'Successfully Update WorkingOrder',
@@ -58,9 +58,9 @@ export const getWorkingOrderById = async (req: Request, res: Response) => {
   );
   const formatedData = {
     ...data,
-    tanggalTerima: formatDate(data.tanggalTerima.toDate()),
-    tanggalRevisi: formatDate(data.tanggalRevisi.toDate()),
-    tanggalKonfirmasi: formatDate(data.tanggalKonfirmasi.toDate()),
+    tanggalTerima: data.tanggalTerima.toDate(),
+    tanggalRevisi: data.tanggalRevisi.toDate(),
+    tanggalKonfirmasi: data.tanggalKonfirmasi.toDate(),
   };
   res.json({
     message: 'Successfully Get WorkingOrder By Id',
@@ -78,9 +78,9 @@ export const getAllWorkingOrder = async (req: Request, res: Response) => {
   const totalCount = await workingOrderRepository.countDocument();
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
-    tanggalTerima: formatDate(item.tanggalTerima.toDate()),
-    tanggalRevisi: formatDate(item.tanggalRevisi.toDate()),
-    tanggalKonfirmasi: formatDate(item.tanggalKonfirmasi.toDate()),
+    tanggalTerima: item.tanggalTerima.toDate(),
+    tanggalRevisi: item.tanggalRevisi.toDate(),
+    tanggalKonfirmasi: item.tanggalKonfirmasi.toDate(),
   }));
   res.json({
     message: 'Successfully Get WorkingOrder',

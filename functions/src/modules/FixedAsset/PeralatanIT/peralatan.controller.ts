@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import paramValidation from '@utils/paramValidation';
 import * as admin from 'firebase-admin';
-import { formatDate } from '@utils/Date';
 import yupValidate from '@utils/yupValidate';
 
 import schema from './peralatan.schema';
@@ -43,7 +42,7 @@ export const createPeralatan = async (req: Request, res: Response) => {
   );
   let formatedData = data;
   if (formatedData.tanggal) {
-    formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
+    formatedData = { ...data, tanggal: data.tanggal.toDate() };
   }
 
   res.json({
@@ -93,7 +92,7 @@ export const updatePeralatan = async (req: Request, res: Response) => {
   );
   let formatedData = data;
   if (formatedData.tanggal) {
-    formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
+    formatedData = { ...data, tanggal: data.tanggal.toDate() };
   }
 
   res.json({
@@ -111,7 +110,7 @@ export const getPeralatanById = async (req: Request, res: Response) => {
   );
   let formatedData = data;
   if (formatedData.tanggal) {
-    formatedData = { ...data, tanggal: formatDate(data.tanggal.toDate()) };
+    formatedData = { ...data, tanggal: data.tanggal.toDate() };
   }
 
   res.json({
@@ -131,7 +130,7 @@ export const getAllPeralatan = async (req: Request, res: Response) => {
     if (item.tanggal) {
       return {
         ...item,
-        tanggal: formatDate(item.tanggal.toDate()),
+        tanggal: item.tanggal.toDate(),
       };
     }
     return item;
