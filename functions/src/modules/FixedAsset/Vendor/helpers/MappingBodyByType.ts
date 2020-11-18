@@ -3,8 +3,8 @@ import schema from '@modules/FixedAsset/Vendor/vendor.schema';
 import { TypeMonitoring } from '@modules/FixedAsset/Vendor/interface/vendor.interface';
 
 export default function MappingBodyByType(
-  body: any,
   key: string,
+  body: any,
   action = 'create'
 ) {
   let validatedBody = undefined;

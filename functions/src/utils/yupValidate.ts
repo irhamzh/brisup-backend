@@ -6,7 +6,6 @@ function yupValidate<T>(
   options?: ValidateOptions
 ): T {
   return schema.validateSync(value, {
-    abortEarly: false,
     stripUnknown: true,
     ...options,
   });
