@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import * as firebase from 'firebase';
-import { formatDateTime } from '@utils/Date';
+// import { formatDateTime } from '@utils/Date';
 import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 
@@ -39,15 +39,15 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
       return {
         id: ref.id,
         ...snap.data(),
-        createdAt: formatDateTime(snap.data()?.createdAt.toDate()),
-        updatedAt: formatDateTime(snap.data()?.updatedAt.toDate()),
+        createdAt: snap.data()?.createdAt.toDate(),
+        updatedAt: snap.data()?.updatedAt.toDate(),
       };
     }
     return {
       id: ref.id,
       ...object,
-      createdAt: formatDateTime(createParam.createdAt),
-      updatedAt: formatDateTime(createParam.updatedAt),
+      createdAt: createParam.createdAt,
+      updatedAt: createParam.updatedAt,
     };
   }
 
@@ -64,8 +64,8 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     return {
       id: snap.id,
       ...data,
-      createdAt: formatDateTime(data?.createdAt.toDate()),
-      updatedAt: formatDateTime(data?.updatedAt.toDate()),
+      createdAt: data?.createdAt.toDate(),
+      updatedAt: data?.updatedAt.toDate(),
     };
   }
 
@@ -111,8 +111,8 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
       const snap = { id: doc.id, ...doc.data() };
       return data.push({
         ...snap,
-        createdAt: formatDateTime(snap.createdAt.toDate()),
-        updatedAt: formatDateTime(snap.updatedAt.toDate()),
+        createdAt: snap.createdAt.toDate(),
+        updatedAt: snap.updatedAt.toDate(),
       });
     });
     return data;
@@ -136,8 +136,8 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     return {
       id: ref.id,
       ...updateSnap.data(),
-      createdAt: formatDateTime(updateSnap.data()?.createdAt.toDate()),
-      updatedAt: formatDateTime(updateSnap.data()?.updatedAt.toDate()),
+      createdAt: updateSnap.data()?.createdAt.toDate(),
+      updatedAt: updateSnap.data()?.updatedAt.toDate(),
     };
   }
 
@@ -154,8 +154,8 @@ export default class FirestoreRepository<CreateParam, ConditionParam = {}> {
     return {
       id: ref.id,
       ...snap.data(),
-      createdAt: formatDateTime(snap.data()?.createdAt.toDate()),
-      updatedAt: formatDateTime(snap.data()?.updatedAt.toDate()),
+      createdAt: snap.data()?.createdAt.toDate(),
+      updatedAt: snap.data()?.updatedAt.toDate(),
     };
   }
 }
