@@ -5,6 +5,7 @@ import roleRouter from '@modules/Role/role.routes';
 import ruanganRouter from '@modules/Ruangan/ruangan.routes';
 import jenisPcRouter from '@modules/JenisPC/jenis_pc.routes';
 import providerRouter from '@modules/Provider/provider.routes';
+import partnerRouter from '@modules/Partner/partner.routes';
 import jenisBarangRouter from '@modules/JenisBarang/jenis_barang.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
@@ -23,6 +24,7 @@ apiRouter.use('/users', useRouter);
 apiRouter.use('/roles', roleRouter);
 apiRouter.use('/rooms', ruanganRouter);
 apiRouter.use('/type-pc', jenisPcRouter); //jenis pc
+apiRouter.use('/partners', partnerRouter);
 apiRouter.use('/providers', providerRouter);
 apiRouter.use('/type-item', jenisBarangRouter); //jenis barang
 
