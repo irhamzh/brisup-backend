@@ -9,6 +9,7 @@ import PeralatanRepository from './peralatan.repository';
 import { JenisPeralatan } from './interface/peralatan.interface';
 import JenisPcRepostiory from '@modules/JenisPC/jenis_pc.repository';
 import RuanganRepository from '@modules/Ruangan/ruangan.repository';
+
 export const createPeralatan = async (req: Request, res: Response) => {
   const { body } = req;
   let validatedBody = undefined;

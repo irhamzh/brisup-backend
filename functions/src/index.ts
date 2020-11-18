@@ -53,16 +53,16 @@ export { api };
 // // app.put("/vendor/:id", FBAuth, updatePersekot);
 
 // // // masterKondisi Route
-// // app.get("/master-kondisi", getAllMasterKondisi);
-// // app.get("/master-kondisi/:id", getMasterKondisi);
-// // app.post("/master-kondisi", FBAuth, createMasterKondisi);
-// // app.put("/master-kondisi/:id", FBAuth, updateMasterKondisi);
+// // app.get("/master-condition", getAllMasterKondisi);
+// // app.get("/master-condition/:id", getMasterKondisi);
+// // app.post("/master-condition", FBAuth, createMasterKondisi);
+// // app.put("/master-condition/:id", FBAuth, updateMasterKondisi);
 
 // // // JenisBarang Route
-// // app.get("/master-kondisi", getAllJenisBarang);
-// // app.get("/master-kondisi/:id", getJenisBarang);
-// // app.post("/master-kondisi", FBAuth, createJenisBarang);
-// // app.put("/master-kondisi/:id", FBAuth, updateJenisBarang);
+// // app.get("/master-condition", getAllJenisBarang);
+// // app.get("/master-condition/:id", getJenisBarang);
+// // app.post("/master-condition", FBAuth, createJenisBarang);
+// // app.put("/master-condition/:id", FBAuth, updateJenisBarang);
 
 // // Master Jenis Barang Route
 // // app.get('/master-jenis-barang', getAllMasterJenisBarang)

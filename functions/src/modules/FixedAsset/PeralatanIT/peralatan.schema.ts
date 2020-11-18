@@ -20,14 +20,16 @@ const create = yup
     merk: yup.string().required(validationWording.required('merk')),
     sn: yup.string().required(validationWording.required('sn')),
     ruangan: yup.string().required(validationWording.required('ruangan')),
-    kondisi: yup
+    condition: yup
       .mixed<keyof typeof BaseCondition>()
       .oneOf(
         getAllEnumKey(BaseCondition),
-        validationWording.oneOf('kondisi', ...getAllEnumKey(BaseCondition))
+        validationWording.oneOf('condition', ...getAllEnumKey(BaseCondition))
       )
-      .required(validationWording.required('kondisi')),
-    keterangan: yup.string().required(validationWording.required('keterangan')),
+      .required(validationWording.required('condition')),
+    information: yup
+      .string()
+      .required(validationWording.required('information')),
     model: yup.string().required(validationWording.required('model')),
   })
   .required();
@@ -48,13 +50,13 @@ const update = yup
     merk: yup.string(),
     sn: yup.string(),
     ruangan: yup.string(),
-    kondisi: yup
+    condition: yup
       .mixed<keyof typeof BaseCondition>()
       .oneOf(
         getAllEnumKey(BaseCondition),
-        validationWording.oneOf('kondisi', ...getAllEnumKey(BaseCondition))
+        validationWording.oneOf('condition', ...getAllEnumKey(BaseCondition))
       ),
-    keterangan: yup.string(),
+    information: yup.string(),
     model: yup.string(),
   })
   .required();
@@ -75,14 +77,16 @@ const createInfocus = yup
     merk: yup.string().required(validationWording.required('merk')),
     sn: yup.string().required(validationWording.required('sn')),
     ruangan: yup.string().required(validationWording.required('ruangan')),
-    kondisi: yup
+    condition: yup
       .mixed<keyof typeof BaseCondition>()
       .oneOf(
         getAllEnumKey(BaseCondition),
-        validationWording.oneOf('kondisi', ...getAllEnumKey(BaseCondition))
+        validationWording.oneOf('condition', ...getAllEnumKey(BaseCondition))
       )
-      .required(validationWording.required('kondisi')),
-    keterangan: yup.string().required(validationWording.required('keterangan')),
+      .required(validationWording.required('condition')),
+    information: yup
+      .string()
+      .required(validationWording.required('information')),
     model: yup.string().required(validationWording.required('model')),
     tanggal: yup.date().required(validationWording.required('tanggal')),
     lampTimer: yup.string().required(validationWording.required('lamp Timer')),
@@ -112,13 +116,13 @@ const updateInfocus = yup
     merk: yup.string(),
     sn: yup.string(),
     ruangan: yup.string(),
-    kondisi: yup
+    condition: yup
       .mixed<keyof typeof BaseCondition>()
       .oneOf(
         getAllEnumKey(BaseCondition),
-        validationWording.oneOf('kondisi', ...getAllEnumKey(BaseCondition))
+        validationWording.oneOf('condition', ...getAllEnumKey(BaseCondition))
       ),
-    keterangan: yup.string(),
+    information: yup.string(),
     model: yup.string(),
     tanggal: yup.date(),
     lampTimer: yup.string(),
@@ -147,8 +151,10 @@ const createPc = yup
     merk: yup.string().required(validationWording.required('merk')),
     sn: yup.string().required(validationWording.required('sn')),
     ruangan: yup.string().required(validationWording.required('ruangan')),
-    kondisi: yup.string().required(validationWording.required('kondisi')),
-    keterangan: yup.string().required(validationWording.required('keterangan')),
+    condition: yup.string().required(validationWording.required('condition')),
+    information: yup
+      .string()
+      .required(validationWording.required('information')),
     namaPengguna: yup
       .string()
       .required(validationWording.required('namaPengguna')),
@@ -177,13 +183,13 @@ const updatePc = yup
     merk: yup.string(),
     sn: yup.string(),
     ruangan: yup.string(),
-    kondisi: yup
+    condition: yup
       .mixed<keyof typeof BaseCondition>()
       .oneOf(
         getAllEnumKey(BaseCondition),
-        validationWording.oneOf('kondisi', ...getAllEnumKey(BaseCondition))
+        validationWording.oneOf('condition', ...getAllEnumKey(BaseCondition))
       ),
-    keterangan: yup.string(),
+    information: yup.string(),
     namaPengguna: yup.string(),
     jenisPc: yup.string(),
     jumlahPc: yup.number(),
