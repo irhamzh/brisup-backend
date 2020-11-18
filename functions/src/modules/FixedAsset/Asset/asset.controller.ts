@@ -11,7 +11,7 @@ export const createAsset = async (req: Request, res: Response) => {
   const assetRepository = new AssetRepository();
   let createParam = validatedBody;
   if (!validatedBody.condition) {
-    createParam.condition = 'undefined';
+    createParam.condition = 'Belum Ditentukan';
   }
   const data = await assetRepository.create(createParam);
   res.json({

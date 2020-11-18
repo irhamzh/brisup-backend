@@ -7,7 +7,7 @@ export interface IAssetBase {
 }
 
 export enum AssetCondition {
-  good = 'Baik',
-  undefined = 'Belum Ditentukan',
-  bad = 'Buruk',
+  'Baik' = 'Baik',
+  'Belum Ditentukan' = 'Belum Ditentukan',
+  'Buruk' = 'Buruk',
 }
