@@ -3,6 +3,7 @@ import schema from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_supli
 
 import EvaluasiSuplierRepository from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.repository';
 import ProviderRepository from '@modules/Provider/provider.repository';
+import PengadaanRepository from '@modules/FixedAsset/Pengadaan/PengadaanBarang/pengadaan.repository';
 
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
@@ -15,9 +16,14 @@ export const createEvaluasiSuplier = async (req: Request, res: Response) => {
   const provider: any = await providerRepository.findById(
     validatedBody.provider
   );
+  const pengadaanRepository = new PengadaanRepository();
+  const pengadaan: any = await pengadaanRepository.findById(
+    validatedBody.pengadaan
+  );
   const createParam = {
     ...validatedBody,
     provider,
+    pengadaan,
   };
 
   const data = await evaluasiSuplierRepository.create(createParam);
@@ -39,7 +45,14 @@ export const updateEvaluasiSuplier = async (req: Request, res: Response) => {
     const provider: any = await providerRepository.findById(
       validatedBody.provider
     );
-    createParam = { ...validatedBody, provider };
+    createParam = { ...createParam, provider };
+  }
+  if (validatedBody.pengadaan) {
+    const pengadaanRepository = new PengadaanRepository();
+    const pengadaan: any = await pengadaanRepository.findById(
+      validatedBody.pengadaan
+    );
+    createParam = { ...createParam, pengadaan };
   }
 
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
