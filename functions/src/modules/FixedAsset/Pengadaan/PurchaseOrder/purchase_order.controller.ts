@@ -3,6 +3,7 @@ import schema from '@modules/FixedAsset/Pengadaan/PurchaseOrder/purchase_order.s
 
 import PurchaseOrderRepository from '@modules/FixedAsset/Pengadaan/PurchaseOrder/purchase_order.repository';
 import ProviderRepository from '@modules/Provider/provider.repository';
+import PengadaanRepository from '@modules/FixedAsset/Pengadaan/PengadaanBarang/pengadaan.repository';
 
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
@@ -16,9 +17,14 @@ export const createPurchaseOrder = async (req: Request, res: Response) => {
   const provider: any = await providerRepository.findById(
     validatedBody.provider
   );
+  const pengadaanRepository = new PengadaanRepository();
+  const pengadaan: any = await pengadaanRepository.findById(
+    validatedBody.pengadaan
+  );
   const createParam = {
     ...validatedBody,
     provider,
+    pengadaan,
   };
 
   const data = await purchaseOrder.create(createParam);
@@ -40,7 +46,14 @@ export const updatePurchaseOrder = async (req: Request, res: Response) => {
     const provider: any = await providerRepository.findById(
       validatedBody.provider
     );
-    createParam = { ...validatedBody, provider };
+    createParam = { ...createParam, provider };
+  }
+  if (validatedBody.pengadaan) {
+    const pengadaanRepository = new PengadaanRepository();
+    const pengadaan: any = await pengadaanRepository.findById(
+      validatedBody.pengadaan
+    );
+    createParam = { ...createParam, pengadaan };
   }
 
   const purchaseOrder = new PurchaseOrderRepository();
