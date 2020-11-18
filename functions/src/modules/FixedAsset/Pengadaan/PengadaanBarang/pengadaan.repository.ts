@@ -8,7 +8,6 @@ import {
   // JenisPengadaanBarang,
 } from './interface/pengadaan.interface';
 import { db } from '@utils/admin';
-import { formatDateTime } from '@utils/Date';
 import * as admin from 'firebase-admin';
 import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
@@ -47,8 +46,8 @@ export default class PengadaanRepository extends BaseRepository<
     return {
       id: snap.id,
       ...data,
-      createdAt: formatDateTime(data?.createdAt.toDate()),
-      updatedAt: formatDateTime(data?.updatedAt.toDate()),
+      createdAt: data?.createdAt.toDate(),
+      updatedAt: data?.updatedAt.toDate(),
     };
   }
 
@@ -93,8 +92,8 @@ export default class PengadaanRepository extends BaseRepository<
     return {
       id: ref.id,
       ...updateSnap.data(),
-      createdAt: formatDateTime(updateSnap.data()?.createdAt.toDate()),
-      updatedAt: formatDateTime(updateSnap.data()?.updatedAt.toDate()),
+      createdAt: updateSnap.data()?.createdAt.toDate(),
+      updatedAt: updateSnap.data()?.updatedAt.toDate(),
     };
   }
 
@@ -160,8 +159,8 @@ export default class PengadaanRepository extends BaseRepository<
       const snap = { id: doc.id, ...doc.data() };
       return data.push({
         ...snap,
-        createdAt: formatDateTime(snap.createdAt.toDate()),
-        updatedAt: formatDateTime(snap.updatedAt.toDate()),
+        createdAt: snap.createdAt.toDate(),
+        updatedAt: snap.updatedAt.toDate(),
       });
     });
     return data;

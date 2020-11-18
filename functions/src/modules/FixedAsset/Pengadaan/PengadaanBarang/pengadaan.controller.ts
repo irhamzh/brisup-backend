@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import * as admin from 'firebase-admin';
-// import { formatDate } from '@utils/Date';
 
 import schema from './pengadaan.schema';
 import yupValidate from '@utils/yupValidate';
@@ -24,13 +23,7 @@ export const createKonsultanSeleksiLangsung = async (
     'Seleksi Langsung',
     validatedBody.provider
   );
-  // const formatedData = {
-  //   ...data,
-  //   tanggalSPK: formatDate(data.tanggalSPK.toDate()),
-  //   tanggalPengadaan: formatDate(data.tanggalSPK.toDate()),
-  //   sampai: formatDate(data.sampai.toDate()),
-  //   tanggalKonfirmasi: formatDate(data.tanggalKonfirmasi.toDate()),
-  // };
+
   res.json({
     message:
       'Successfully Create Pengadaan Pengadaan Jasa Konsultan Seleksi Langsung',

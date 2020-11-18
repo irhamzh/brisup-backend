@@ -5,8 +5,8 @@ interface IPeralatan {
   merk: string;
   sn: string;
   ruangan: IRuanganBase;
-  kondisi: string;
-  keterangan: string;
+  condition: string;
+  information: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
