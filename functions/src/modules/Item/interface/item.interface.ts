@@ -6,5 +6,5 @@ export interface IItemBase {
 }
 export enum TypeItem {
   fisik = 'fisik',
-  jarigan = 'jaringan',
+  jaringan = 'jaringan',
 }
