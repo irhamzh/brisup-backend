@@ -95,13 +95,10 @@ export const getPeralatanITById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await peralatanITRepository.findById(
     validateParam.uid
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Get PeralatanIT By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -113,13 +110,9 @@ export const getAllPeralatanIT = async (req: Request, res: Response) => {
     limit as string
   );
   const totalCount = await peralatanITRepository.countDocument();
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
   res.json({
     message: 'Successfully Get PeralatanIT',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
