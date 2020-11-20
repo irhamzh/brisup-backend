@@ -138,7 +138,7 @@ export default class PengadaanRepository extends BaseRepository<
     const first = await this._pengadaanModel
       .where('typePengadaan', '==', typePengadaan)
       .where('jenisPengadaan', '==', jenisPengadaan)
-      .orderBy('createdAt', 'asc')
+      // .orderBy('createdAt', 'asc')
       .limit(skip)
       .get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
@@ -150,7 +150,7 @@ export default class PengadaanRepository extends BaseRepository<
     const ref = await this._pengadaanModel
       .where('typePengadaan', '==', typePengadaan)
       .where('jenisPengadaan', '==', jenisPengadaan)
-      .orderBy('createdAt', 'asc')
+      // .orderBy('createdAt', 'asc')
       .startAt(last)
       .limit(parsedLimit)
       .get();
