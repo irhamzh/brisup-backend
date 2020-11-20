@@ -33,11 +33,11 @@ apiRouter.use('/partners', partnerRouter);
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/vendors', vendorRouter);
 apiRouter.use('/persekots', persekotRouter);
-apiRouter.use('/pengadaan', pengadaanRouter);
+apiRouter.use('/pengadaans', pengadaanRouter);
 apiRouter.use('/persediaans', persediaanRouter);
 apiRouter.use('/peralatan-it', peralatanITRouter);
 apiRouter.use('/working-orders', workingOrderRouter);
-apiRouter.use('/purchase-order', purchaseOrderRouter);
+apiRouter.use('/purchase-orders', purchaseOrderRouter);
 apiRouter.use('/tanda-terima-barang', tandaTerimaRouter);
 apiRouter.use('/evaluasi-supliers', evaluasiSuplierRouter);
 
