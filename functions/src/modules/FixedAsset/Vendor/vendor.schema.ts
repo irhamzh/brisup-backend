@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import validationWording from '@constants/validationWording';
 import { TypeMonitoring } from './interface/vendor.interface';
-import { YesNo } from '@interfaces/BaseInterface';
+// import { YesNo } from '@interfaces/BaseInterface';
 
 const baseCreateMonitoring = yup
   .object()
@@ -45,174 +45,49 @@ const baseUpdatePartner = yup
 const monitoringPestControl = yup
   .object()
   .shape({
-    toilet: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('toilet', ...getAllEnumKey(YesNo))
-      ),
-    musholla: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('musholla', ...getAllEnumKey(YesNo))
-      ),
-    lobbyLounge: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('lobbyLounge', ...getAllEnumKey(YesNo))
-      ),
-    ruangMeeting: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('ruangMeeting', ...getAllEnumKey(YesNo))
-      ),
-    ruangKelas: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('ruangKelas', ...getAllEnumKey(YesNo))
-      ),
-    ruangKerja: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('ruangKerja', ...getAllEnumKey(YesNo))
-      ),
-    corridor: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('corridor', ...getAllEnumKey(YesNo))
-      ),
-    tanggaDarurat: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('tanggaDarurat', ...getAllEnumKey(YesNo))
-      ),
-    ruangSampah: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('ruangSampah', ...getAllEnumKey(YesNo))
-      ),
-    ruangShaft: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('ruangShaft', ...getAllEnumKey(YesNo))
-      ),
-    parkirMotor: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('parkirMotor', ...getAllEnumKey(YesNo))
-      ),
-    halaman: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('halaman', ...getAllEnumKey(YesNo))
-      ),
+    toilet: yup.boolean(),
+    musholla: yup.boolean(),
+    lobbyLounge: yup.boolean(),
+    ruangMeeting: yup.boolean(),
+    ruangKelas: yup.boolean(),
+    ruangKerja: yup.boolean(),
+    corridor: yup.boolean(),
+    tanggaDarurat: yup.boolean(),
+    ruangSampah: yup.boolean(),
+    ruangShaft: yup.boolean(),
+    parkirMotor: yup.boolean(),
+    halaman: yup.boolean(),
   })
   .required();
 
 const monitoringPengangkutanSampah = yup
   .object()
   .shape({
-    pengangkutanSampah: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pengangkutanSampah', ...getAllEnumKey(YesNo))
-      ),
+    pengangkutanSampah: yup.boolean(),
   })
   .required();
 
 const monitoringTanamanHias = yup
   .object()
   .shape({
-    tanamanHiasL1: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('tanamanHiasL1', ...getAllEnumKey(YesNo))
-      ),
-    tanamanHiasL2: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('tanamanHiasL2', ...getAllEnumKey(YesNo))
-      ),
-    tanamanHiasL3: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('tanamanHiasL3', ...getAllEnumKey(YesNo))
-      ),
-    tanamanHiasL4: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('tanamanHiasL4', ...getAllEnumKey(YesNo))
-      ),
-    tanamanHiasL5: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('tanamanHiasL5', ...getAllEnumKey(YesNo))
-      ),
-    tanamanHiasL6: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('tanamanHiasL6', ...getAllEnumKey(YesNo))
-      ),
+    tanamanHiasL1: yup.boolean(),
+    tanamanHiasL2: yup.boolean(),
+    tanamanHiasL3: yup.boolean(),
+    tanamanHiasL4: yup.boolean(),
+    tanamanHiasL5: yup.boolean(),
+    tanamanHiasL6: yup.boolean(),
   })
   .required();
 
 const monitoringPewangiRuangan = yup
   .object()
   .shape({
-    pewangiRuanganL1: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pewangiRuanganL1', ...getAllEnumKey(YesNo))
-      ),
-    pewangiRuanganL2: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pewangiRuanganL2', ...getAllEnumKey(YesNo))
-      ),
-    pewangiRuanganL3: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pewangiRuanganL3', ...getAllEnumKey(YesNo))
-      ),
-    pewangiRuanganL4: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pewangiRuanganL4', ...getAllEnumKey(YesNo))
-      ),
-    pewangiRuanganL5: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pewangiRuanganL5', ...getAllEnumKey(YesNo))
-      ),
-    pewangiRuanganL6: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pewangiRuanganL6', ...getAllEnumKey(YesNo))
-      ),
+    pewangiRuanganL1: yup.boolean(),
+    pewangiRuanganL2: yup.boolean(),
+    pewangiRuanganL3: yup.boolean(),
+    pewangiRuanganL4: yup.boolean(),
+    pewangiRuanganL5: yup.boolean(),
+    pewangiRuanganL6: yup.boolean(),
   })
   .required();
 
@@ -249,123 +124,27 @@ const updateInformation = yup
 const monitoringLift = yup
   .object()
   .shape({
-    cleaningAreaSangkarL1: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'cleaningAreaSangkarL1',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
-    cleaningAreaSangkarL2: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'cleaningAreaSangkarL2',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
-    cleaningAreaSangkarL3: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'cleaningAreaSangkarL3',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
-    cleaningAreaSangkarL4: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'cleaningAreaSangkarL4',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
-    cleaningAreaSangkarL5: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'cleaningAreaSangkarL5',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
-    cleaningAreaSangkarL6: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'cleaningAreaSangkarL6',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
-    oliRelSangkarLift: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('oliRelSangkarLift', ...getAllEnumKey(YesNo))
-      ),
-    taliSelingLift: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('taliSelingLift', ...getAllEnumKey(YesNo))
-      ),
-    pengeremanLift: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pengeremanLift', ...getAllEnumKey(YesNo))
-      ),
-    exhaustFanLift: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('exhaustFanLift', ...getAllEnumKey(YesNo))
-      ),
-    mesinMotorLift: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('mesinMotorLift', ...getAllEnumKey(YesNo))
-      ),
-    powerListrikLift: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('powerListrikLift', ...getAllEnumKey(YesNo))
-      ),
+    cleaningAreaSangkarL1: yup.boolean(),
+    cleaningAreaSangkarL2: yup.boolean(),
+    cleaningAreaSangkarL3: yup.boolean(),
+    cleaningAreaSangkarL4: yup.boolean(),
+    cleaningAreaSangkarL5: yup.boolean(),
+    cleaningAreaSangkarL6: yup.boolean(),
+    oliRelSangkarLift: yup.boolean(),
+    taliSelingLift: yup.boolean(),
+    pengeremanLift: yup.boolean(),
+    exhaustFanLift: yup.boolean(),
+    mesinMotorLift: yup.boolean(),
+    powerListrikLift: yup.boolean(),
   })
   .required();
 
 const monitoringGondola = yup
   .object()
   .shape({
-    sistemKerjaTaliBaja: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('sistemKerjaTaliBaja', ...getAllEnumKey(YesNo))
-      ),
-    panelKelistrikan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('panelKelistrikan', ...getAllEnumKey(YesNo))
-      ),
-    perangkatKerjaGondola: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'perangkatKerjaGondola',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
+    sistemKerjaTaliBaja: yup.boolean(),
+    panelKelistrikan: yup.boolean(),
+    perangkatKerjaGondola: yup.boolean(),
   })
   .required();
 
