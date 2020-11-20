@@ -6,6 +6,22 @@ import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 import PengadaanRepository from './pengadaan.repository';
 
+export const getAllPengadaan = async (req: Request, res: Response) => {
+  let { page, limit } = req.query;
+  const pengadaanRepository = new PengadaanRepository();
+  const data = await pengadaanRepository.findAll(
+    page as string,
+    limit as string
+  );
+  const totalCount = await pengadaanRepository.countDocument();
+
+  res.json({
+    message: 'Successfully Get All Pengadaan',
+    data,
+    totalCount,
+  });
+};
+
 //Pengadaan Jasa Konsultan - Seleksi Langsung
 export const createKonsultanSeleksiLangsung = async (
   req: Request,

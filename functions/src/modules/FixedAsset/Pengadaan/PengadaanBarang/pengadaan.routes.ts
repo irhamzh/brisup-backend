@@ -120,5 +120,6 @@ errorHandledRoute.get(
 );
 
 errorHandledRoute.delete('/:uid', controller.deletePengadaanById);
+errorHandledRoute.get('/', controller.getAllPengadaan);
 
 export default router;
