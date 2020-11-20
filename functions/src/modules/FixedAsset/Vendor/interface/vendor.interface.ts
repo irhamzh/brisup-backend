@@ -20,63 +20,63 @@ interface IVendorPartner extends IVendorBase {
 }
 
 export interface IVendorPestControl extends IVendorPartner {
-  toilet?: string;
-  musholla?: string;
-  lobbyLounge?: string;
-  ruangMeeting?: string;
-  ruangKelas?: string;
-  ruangKerja?: string;
-  corridor?: string;
-  tanggaDarurat?: string;
-  ruangSampah?: string;
-  ruangShaft?: string;
-  parkirMotor?: string;
-  halaman?: string;
+  toilet?: boolean;
+  musholla?: boolean;
+  lobbyLounge?: boolean;
+  ruangMeeting?: boolean;
+  ruangKelas?: boolean;
+  ruangKerja?: boolean;
+  corridor?: boolean;
+  tanggaDarurat?: boolean;
+  ruangSampah?: boolean;
+  ruangShaft?: boolean;
+  parkirMotor?: boolean;
+  halaman?: boolean;
 }
 
 export interface IVendorPengangkutanSampah extends IVendorPartner {
-  pengangkutanSampah?: string;
+  pengangkutanSampah?: boolean;
 }
 
 //kalao mau fleksibel pindah ke arraay aja
 export interface IVendorPewangiRuangan extends IVendorPartner {
-  pewangiRuanganL1?: string;
-  pewangiRuanganL2?: string;
-  pewangiRuanganL3?: string;
-  pewangiRuanganL4?: string;
-  pewangiRuanganL5?: string;
-  pewangiRuanganL6?: string;
+  pewangiRuanganL1?: boolean;
+  pewangiRuanganL2?: boolean;
+  pewangiRuanganL3?: boolean;
+  pewangiRuanganL4?: boolean;
+  pewangiRuanganL5?: boolean;
+  pewangiRuanganL6?: boolean;
 }
 
 //kalao mau fleksibel pindah ke arraay aja
 export interface IVendorTanamanHias extends IVendorPartner {
-  tanamanHiasL1?: string;
-  tanamanHiasL2?: string;
-  tanamanHiasL3?: string;
-  tanamanHiasL4?: string;
-  tanamanHiasL5?: string;
-  tanamanHiasL6?: string;
+  tanamanHiasL1?: boolean;
+  tanamanHiasL2?: boolean;
+  tanamanHiasL3?: boolean;
+  tanamanHiasL4?: boolean;
+  tanamanHiasL5?: boolean;
+  tanamanHiasL6?: boolean;
 }
 
 export interface IVendorLift extends IVendorBase {
   lift: string;
-  cleaningAreaSangkarL1?: string;
-  cleaningAreaSangkarL2?: string;
-  cleaningAreaSangkarL3?: string;
-  cleaningAreaSangkarL4?: string;
-  cleaningAreaSangkarL5?: string;
-  cleaningAreaSangkarL6?: string;
-  oliRelSangkarLift?: string;
-  taliSelingLift?: string;
-  pengeremanLift?: string;
-  exhaustFanLift?: string;
-  mesinMotorLift?: string;
-  powerListrikLift?: string;
+  cleaningAreaSangkarL1?: boolean;
+  cleaningAreaSangkarL2?: boolean;
+  cleaningAreaSangkarL3?: boolean;
+  cleaningAreaSangkarL4?: boolean;
+  cleaningAreaSangkarL5?: boolean;
+  cleaningAreaSangkarL6?: boolean;
+  oliRelSangkarLift?: boolean;
+  taliSelingLift?: boolean;
+  pengeremanLift?: boolean;
+  exhaustFanLift?: boolean;
+  mesinMotorLift?: boolean;
+  powerListrikLift?: boolean;
 }
 
 export interface IVendorGondola extends IVendorBase {
   information: string;
-  sistemKerjaTaliBaja?: string;
-  panelKelistrikan?: string;
-  perangkatKerjaGondola?: string;
+  sistemKerjaTaliBaja?: boolean;
+  panelKelistrikan?: boolean;
+  perangkatKerjaGondola?: boolean;
 }
