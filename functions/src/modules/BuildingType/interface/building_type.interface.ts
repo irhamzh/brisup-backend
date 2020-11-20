@@ -1,4 +1,4 @@
-export interface IRoomTypeBase {
+export interface IBuildingTypeBase {
   name: string;
   createdAt?: Date;
   updatedAt?: Date;
