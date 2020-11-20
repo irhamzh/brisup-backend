@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
+import getAllEnumKey from '@utils/getAllEnumKeys';
+import { Division } from '@interfaces/BaseInterface';
 
 const create = yup
   .object()
@@ -8,6 +10,13 @@ const create = yup
     name: yup.string().required(validationWording.required('name')),
     costNominal: yup
       .string()
+      .required(validationWording.required('costNominal')),
+    typePersekot: yup
+      .mixed<keyof typeof Division>()
+      .oneOf(
+        getAllEnumKey(Division),
+        validationWording.oneOf('typePersekot', ...getAllEnumKey(Division))
+      )
       .required(validationWording.required('costNominal')),
   })
   .required();
@@ -18,6 +27,12 @@ const update = yup
     date: yup.date(),
     name: yup.string(),
     costNominal: yup.string(),
+    typePersekot: yup
+      .mixed<keyof typeof Division>()
+      .oneOf(
+        getAllEnumKey(Division),
+        validationWording.oneOf('typePersekot', ...getAllEnumKey(Division))
+      ),
   })
   .required();
 

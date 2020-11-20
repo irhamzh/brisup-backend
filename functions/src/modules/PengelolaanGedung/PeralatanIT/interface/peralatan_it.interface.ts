@@ -12,6 +12,6 @@ export interface IPeralatanITBase {
   updatedAt?: Date;
 }
 
-export interface IPeralatanITFisik {
+export interface IPeralatanITFisik extends IPeralatanITBase {
   hekonisme: string;
 }

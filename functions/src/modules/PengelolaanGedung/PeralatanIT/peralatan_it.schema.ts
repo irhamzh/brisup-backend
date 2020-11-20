@@ -13,7 +13,7 @@ const baseCreate = yup
         getAllEnumKey(TypeItem),
         validationWording.oneOf('type Peralatan IT', ...getAllEnumKey(TypeItem))
       )
-      .required(validationWording.required('information')),
+      .required(validationWording.required('typePeralatanIT')),
   })
   .required();
 
@@ -48,7 +48,7 @@ const createFisik = yup
         getAllEnumKey(YesNo),
         validationWording.oneOf('hekonisme', ...getAllEnumKey(YesNo))
       )
-      .required(validationWording.required('information')),
+      .required(validationWording.required('hekonisme')),
   })
   .required();
 
