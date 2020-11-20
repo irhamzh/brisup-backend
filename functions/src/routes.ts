@@ -8,6 +8,7 @@ import ruanganRouter from '@modules/Ruangan/ruangan.routes';
 import partnerRouter from '@modules/Partner/partner.routes';
 import jenisPcRouter from '@modules/JenisPC/jenis_pc.routes';
 import providerRouter from '@modules/Provider/provider.routes';
+import roomTypeRouter from '@modules/RoomType/room_type.routes';
 import buildingRouter from '@modules/BuildingType/building_type.routes';
 import jenisBarangRouter from '@modules/JenisBarang/jenis_barang.routes';
 
@@ -35,8 +36,9 @@ apiRouter.use('/rooms', ruanganRouter);
 apiRouter.use('/type-pc', jenisPcRouter); //jenis pc
 apiRouter.use('/partners', partnerRouter);
 apiRouter.use('/providers', providerRouter);
-apiRouter.use('/building-types', buildingRouter);
+apiRouter.use('/room-types', roomTypeRouter);
 apiRouter.use('/type-item', jenisBarangRouter); //jenis barang
+apiRouter.use('/building-types', buildingRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/vendors', vendorRouter);
