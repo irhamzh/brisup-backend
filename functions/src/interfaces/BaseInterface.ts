@@ -4,6 +4,11 @@ export enum BaseCondition {
   'Buruk' = 'Buruk',
 }
 
+export enum BaseCondition1 {
+  'Baik' = 'Baik',
+  'Buruk' = 'Buruk',
+}
+
 export enum YesNo {
   yes = 'Ya',
   no = 'Tidak',
