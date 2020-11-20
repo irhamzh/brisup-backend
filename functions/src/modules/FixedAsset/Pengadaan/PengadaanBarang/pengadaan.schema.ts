@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import validationWording from '@constants/validationWording';
-import { YesNo, JenisAnggaran } from '@interfaces/BaseInterface';
+import { JenisAnggaran } from '@interfaces/BaseInterface';
 // import {
 //   JenisPengadaanBarang,
 //   TypePengadaan,
@@ -107,84 +107,24 @@ const updateBiayaPutusan = yup
 const konsultanSeleksiLangsung = yup
   .object()
   .shape({
-    izinPrinsipUser: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinPrinsipUser', ...getAllEnumKey(YesNo))
-      ),
-    izinPrinsipPengadaan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinPrinsipPengadaan', ...getAllEnumKey(YesNo))
-      ),
-    undangan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('undangan', ...getAllEnumKey(YesNo))
-      ),
-    aanwijzing: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('aanwijzing', ...getAllEnumKey(YesNo))
-      ),
-    klarifikasiNegosiasi: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('klarifikasiNegosiasi', ...getAllEnumKey(YesNo))
-      ),
-    izinHasilPengadaan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinHasilPengadaan', ...getAllEnumKey(YesNo))
-      ),
-    pengumumanPemenang: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pengumumanPemenang', ...getAllEnumKey(YesNo))
-      ),
+    izinPrinsipUser: yup.boolean(),
+    izinPrinsipPengadaan: yup.boolean(),
+    undangan: yup.boolean(),
+    aanwijzing: yup.boolean(),
+    klarifikasiNegosiasi: yup.boolean(),
+    izinHasilPengadaan: yup.boolean(),
+    pengumumanPemenang: yup.boolean(),
   })
   .required();
 
 const konsultanPenunjukanLangsung = yup
   .object()
   .shape({
-    izinPrinsipUser: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinPrinsipUser', ...getAllEnumKey(YesNo))
-      ),
-    izinPrinsipPengadaan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinPrinsipPengadaan', ...getAllEnumKey(YesNo))
-      ),
-    undangan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('undangan', ...getAllEnumKey(YesNo))
-      ),
-    klarifikasiNegosiasi: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('klarifikasiNegosiasi', ...getAllEnumKey(YesNo))
-      ),
-    izinHasilPengadaan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinHasilPengadaan', ...getAllEnumKey(YesNo))
-      ),
+    izinPrinsipUser: yup.boolean(),
+    izinPrinsipPengadaan: yup.boolean(),
+    undangan: yup.boolean(),
+    klarifikasiNegosiasi: yup.boolean(),
+    izinHasilPengadaan: yup.boolean(),
   })
   .required();
 
@@ -192,63 +132,24 @@ const swakelolaPembelian = yup
   .object()
   .shape({
     provider: yup.string(),
-    izinPrinsipUser: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinPrinsipUser', ...getAllEnumKey(YesNo))
-      ),
-    izinPrinsipPengadaan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinPrinsipPengadaan', ...getAllEnumKey(YesNo))
-      ),
-    izinHasilPengadaan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('izinHasilPengadaan', ...getAllEnumKey(YesNo))
-      ),
+    izinPrinsipUser: yup.boolean(),
+    izinPrinsipPengadaan: yup.boolean(),
+    izinHasilPengadaan: yup.boolean(),
   })
   .required();
 
 const pemasukanSampulProposalTeknis = yup
   .object()
   .shape({
-    pemasukanSampulProposalTeknis: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'pemasukanSampulProposalTeknis',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
+    pemasukanSampulProposalTeknis: yup.boolean(),
   })
   .required();
 
 const lelang = yup
   .object()
   .shape({
-    penilaianProposalTeknis: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'penilaianProposalTeknis',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
-    pembukuanProposalFinancial: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf(
-          'pembukuanProposalFinancial',
-          ...getAllEnumKey(YesNo)
-        )
-      ),
+    penilaianProposalTeknis: yup.boolean(),
+    pembukuanProposalFinancial: yup.boolean(),
   })
   .required();
 

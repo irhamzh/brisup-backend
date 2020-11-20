@@ -6,16 +6,16 @@ interface IPengadaan {
   tanggalPengadaan: Date;
   namaPengadaan: string;
   jenisAnggaran: string;
-  izinPrinsipUser?: string;
-  izinPrinsipPengadaan?: string;
-  izinHasilPengadaan?: string;
-  undangan?: string;
-  klarifikasiNegosiasi?: string;
-  aanwijzing?: string;
-  pengumumanPemenang?: string;
-  pemasukanSampulProposalTeknis?: string;
-  penilaianProposalTeknis?: string;
-  pembukuanProposalFinancial?: string;
+  izinPrinsipUser?: boolean;
+  izinPrinsipPengadaan?: boolean;
+  izinHasilPengadaan?: boolean;
+  undangan?: boolean;
+  klarifikasiNegosiasi?: boolean;
+  aanwijzing?: boolean;
+  pengumumanPemenang?: boolean;
+  pemasukanSampulProposalTeknis?: boolean;
+  penilaianProposalTeknis?: boolean;
+  pembukuanProposalFinancial?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
