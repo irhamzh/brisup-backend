@@ -39,7 +39,7 @@ apiRouter.use('/peralatan-it', peralatanITRouter);
 apiRouter.use('/working-orders', workingOrderRouter);
 apiRouter.use('/purchase-orders', purchaseOrderRouter);
 apiRouter.use('/tanda-terima-barang', tandaTerimaRouter);
-apiRouter.use('/evaluasi-supliers', evaluasiSuplierRouter);
+apiRouter.use('/evaluasi-suppliers', evaluasiSuplierRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);

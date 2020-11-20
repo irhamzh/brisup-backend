@@ -13,3 +13,8 @@ export enum JenisAnggaran {
   investasi = 'Investasi',
   eksploitasi = 'Eksploitasi',
 }
+
+export enum Division {
+  'Fixed Asset' = 'Fixed Asset',
+  'Procurement' = 'Procurement',
+}
