@@ -14,6 +14,7 @@ import jenisBarangRouter from '@modules/JenisBarang/jenis_barang.routes';
 import buildingRouter from '@modules/MasterData/Building/building.routes';
 import compressorRouter from '@modules/MasterData/Compressor/compressor.routes';
 import waterMeterRouter from '@modules/MasterData/WaterMater/water_meter.routes';
+import pumpRouter from '@modules/MasterData/Pump/pump.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
 import vendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
@@ -46,6 +47,7 @@ apiRouter.use('/type-item', jenisBarangRouter); //jenis barang
 apiRouter.use('/building-types', buildingTypeRouter);
 apiRouter.use('/buildings', buildingRouter);
 apiRouter.use('/compressors', compressorRouter);
+apiRouter.use('/pumps', pumpRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/vendors', vendorRouter);
