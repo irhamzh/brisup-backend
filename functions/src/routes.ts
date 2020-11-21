@@ -9,7 +9,8 @@ import partnerRouter from '@modules/Partner/partner.routes';
 import jenisPcRouter from '@modules/JenisPC/jenis_pc.routes';
 import providerRouter from '@modules/Provider/provider.routes';
 import roomTypeRouter from '@modules/RoomType/room_type.routes';
-import buildingRouter from '@modules/BuildingType/building_type.routes';
+import buildingTypeRouter from '@modules/BuildingType/building_type.routes';
+import buildingRouter from '@modules/MasterData/Building/building.routes';
 import jenisBarangRouter from '@modules/JenisBarang/jenis_barang.routes';
 import waterMeterRouter from '@modules/MasterData/WaterMater/water_meter.routes';
 
@@ -41,7 +42,8 @@ apiRouter.use('/water-meters', waterMeterRouter);
 apiRouter.use('/providers', providerRouter);
 apiRouter.use('/room-types', roomTypeRouter);
 apiRouter.use('/type-item', jenisBarangRouter); //jenis barang
-apiRouter.use('/building-types', buildingRouter);
+apiRouter.use('/building-types', buildingTypeRouter);
+apiRouter.use('/building', buildingRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/vendors', vendorRouter);
