@@ -61,10 +61,14 @@ export const updateWaterMeter = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
 
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data,
+    data: formatedData,
   });
 };
 
@@ -93,10 +97,14 @@ export const getWaterMeterById = async (req: Request, res: Response) => {
     'water-meter',
     'pg-water-meters'
   );
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
 
   res.json({
     message: 'Successfully Get WaterMeterBy Id',
-    data,
+    data: formatedData,
   });
 };
 
@@ -113,9 +121,13 @@ export const getAllWaterMeter = async (req: Request, res: Response) => {
     'water-meter',
     'pg-water-meters'
   );
+  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
+    ...item,
+    tanggal: item.tanggal.toDate(),
+  }));
   res.json({
     message: 'Successfully Get Water Meter',
-    data,
+    data: formatedData,
     totalCount,
   });
 };
@@ -153,10 +165,13 @@ export const updateElectrify = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data,
+    data: formatedData,
   });
 };
 
@@ -185,10 +200,13 @@ export const getElectrifyById = async (req: Request, res: Response) => {
     'electricity',
     'pg-electricities'
   );
-
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
   res.json({
     message: 'Successfully Get ElectrifyBy Id',
-    data,
+    data: formatedData,
   });
 };
 
@@ -205,9 +223,13 @@ export const getAllElectrify = async (req: Request, res: Response) => {
     'electricity',
     'pg-electricities'
   );
+  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
+    ...item,
+    tanggal: item.tanggal.toDate(),
+  }));
   res.json({
     message: 'Successfully Get Electricity',
-    data,
+    data: formatedData,
     totalCount,
   });
 };
@@ -282,10 +304,13 @@ export const updateAC = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data,
+    data: formatedData,
   });
 };
 
@@ -314,9 +339,14 @@ export const getACById = async (req: Request, res: Response) => {
     'pg-acs'
   );
 
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
+
   res.json({
     message: 'Successfully Get AC By Id',
-    data,
+    data: formatedData,
   });
 };
 
@@ -333,9 +363,13 @@ export const getAllAC = async (req: Request, res: Response) => {
     'ac',
     'pg-acs'
   );
+  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
+    ...item,
+    tanggal: item.tanggal.toDate(),
+  }));
   res.json({
     message: 'Successfully Get ac',
-    data,
+    data: formatedData,
     totalCount,
   });
 };
@@ -396,9 +430,14 @@ export const updatePlumbing = async (req: Request, res: Response) => {
     validatedBody
   );
 
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
+
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data,
+    data: formatedData,
   });
 };
 
@@ -427,10 +466,13 @@ export const getPlumbingById = async (req: Request, res: Response) => {
     'plumbing',
     'pg-plumbings'
   );
-
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
   res.json({
     message: 'Successfully Get AC By Id',
-    data,
+    data: formatedData,
   });
 };
 
@@ -447,9 +489,14 @@ export const getAllPlumbing = async (req: Request, res: Response) => {
     'plumbing',
     'pg-plumbing'
   );
+
+  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
+    ...item,
+    tanggal: item.tanggal.toDate(),
+  }));
   res.json({
     message: 'Successfully Get plumbing',
-    data,
+    data: formatedData,
     totalCount,
   });
 };

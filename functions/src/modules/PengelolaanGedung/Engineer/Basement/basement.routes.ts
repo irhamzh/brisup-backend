@@ -20,20 +20,20 @@ errorHandledRoute.get('/electrify/:uid', controller.getElectrifyById);
 errorHandledRoute.delete('/electrify/:uid', controller.deleteElectrifyById);
 
 errorHandledRoute.get('/stp', controller.getAllSTP);
-errorHandledRoute.post('/electrify', controller.createSTP);
-errorHandledRoute.put('/electrify/:uid', controller.updateSTP);
-errorHandledRoute.get('/electrify/:uid', controller.getSTPById);
-errorHandledRoute.delete('/electrify/:uid', controller.deleteSTPById);
+errorHandledRoute.post('/stp', controller.createSTP);
+errorHandledRoute.put('/stp/:uid', controller.updateSTP);
+errorHandledRoute.get('/stp/:uid', controller.getSTPById);
+errorHandledRoute.delete('/stp/:uid', controller.deleteSTPById);
 
 errorHandledRoute.get('/plumbing', controller.getAllPlumbing);
-errorHandledRoute.post('/electrify', controller.createPlumbing);
-errorHandledRoute.put('/electrify/:uid', controller.updatePlumbing);
-errorHandledRoute.get('/electrify/:uid', controller.getPlumbingById);
-errorHandledRoute.delete('/electrify/:uid', controller.deletePlumbingById);
+errorHandledRoute.post('/plumbing', controller.createPlumbing);
+errorHandledRoute.put('/plumbing/:uid', controller.updatePlumbing);
+errorHandledRoute.get('/plumbing/:uid', controller.getPlumbingById);
+errorHandledRoute.delete('/plumbing/:uid', controller.deletePlumbingById);
 
 errorHandledRoute.get('/ac', controller.getAllAC);
-errorHandledRoute.post('/electrify', controller.createAC);
-errorHandledRoute.put('/electrify/:uid', controller.updateAC);
-errorHandledRoute.get('/electrify/:uid', controller.getACById);
-errorHandledRoute.delete('/electrify/:uid', controller.deleteACById);
+errorHandledRoute.post('/ac', controller.createAC);
+errorHandledRoute.put('/ac/:uid', controller.updateAC);
+errorHandledRoute.get('/ac/:uid', controller.getACById);
+errorHandledRoute.delete('/ac/:uid', controller.deleteACById);
 export default router;

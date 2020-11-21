@@ -36,9 +36,14 @@ export const createBuildingRoom = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await buildingRoomRepository.create(
     createParam
   );
+
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
   res.json({
     message: 'Successfully Create BuildingRoom',
-    data,
+    data: formatedData,
   });
 };
 
@@ -76,9 +81,14 @@ export const updateBuildingRoom = async (req: Request, res: Response) => {
     validatedBody
   );
 
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
+
   res.json({
     message: 'Successfully Update Building Room',
-    data,
+    data: formatedData,
   });
 };
 
@@ -90,9 +100,13 @@ export const getBuildingRoomById = async (req: Request, res: Response) => {
     validateParam.uid
   );
 
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
   res.json({
     message: 'Successfully Get Building Room By Id',
-    data,
+    data: formatedData,
   });
 };
 
@@ -104,9 +118,14 @@ export const getAllBuildingRoom = async (req: Request, res: Response) => {
     limit as string
   );
   const totalCount = await buildingRoomRepository.countDocument();
+
+  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
+    ...item,
+    tanggal: item.tanggal.toDate(),
+  }));
   res.json({
     message: 'Successfully Get BuildingRoom',
-    data,
+    data: formatedData,
     totalCount,
   });
 };
