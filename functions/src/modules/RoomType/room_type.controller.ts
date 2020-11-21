@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import schema from '@modules/RoomType/room_type.schema';
 
-import RoomTypeRepository from '@modules/RoomType/room_type.repository';
-import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
+import paramValidation from '@utils/paramValidation';
+
+import schema from './room_type.schema';
+import RoomTypeRepository from './room_type.repository';
 
 export const createRoomType = async (req: Request, res: Response) => {
   const { body } = req;
