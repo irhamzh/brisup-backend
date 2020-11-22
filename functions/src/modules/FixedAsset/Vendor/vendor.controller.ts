@@ -41,7 +41,8 @@ export const updateVendor = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'vendorId');
   const partnerRepository = new PartnerRepository();
-  const ref: admin.firestore.DocumentData = await partnerRepository.findById(
+  const vendorRepository = new VendorRepository();
+  const ref: admin.firestore.DocumentData = await vendorRepository.findById(
     validateParam.uid
   );
   let validatedBody: any = MappingBodyByType(
@@ -55,7 +56,6 @@ export const updateVendor = async (req: Request, res: Response) => {
     );
     validatedBody.partner = partner;
   }
-  const vendorRepository = new VendorRepository();
   const data: admin.firestore.DocumentData = await vendorRepository.update(
     validateParam.uid,
     validatedBody
