@@ -95,3 +95,76 @@ export interface ISaranaPendukungPos extends ISaranaPendukungBase {
   meja?: string;
   lampu?: string;
 }
+
+export enum TypeInnovationBuilding {
+  'Ruang Pendidikan' = 'Ruang Pendidikan',
+  'Ruang Kerja' = 'Ruang Kerja',
+  'Toilet' = 'Toilet',
+  'Tangga Darurat' = 'Tangga Darurat',
+  'Selasar Dan Lobby' = 'Selasar Dan Lobby',
+  'Ruang Lain' = 'Ruang Lain',
+}
+
+interface IInovationBuildingBase {
+  tanggal: Date;
+  information: string;
+  typeInnovationBuilding: string;
+}
+
+export interface IRuang extends IInovationBuildingBase {
+  ruangan: IRuanganBase;
+  plafond?: string;
+  dinding?: string;
+  lantai?: string;
+  pintu?: string;
+  jendela?: string;
+  kursi?: string;
+  meja?: string;
+  lampu?: string;
+}
+
+export interface IToilet extends IInovationBuildingBase {
+  location: ILocationBase;
+  wastafel?: boolean;
+  kloset?: boolean;
+  urinoir?: boolean;
+  kaca?: boolean;
+  lantai?: boolean;
+  dinding?: boolean;
+  tempatSampah?: boolean;
+  handDryer?: boolean;
+  handSoap?: boolean;
+  tissue?: boolean;
+  pengharum?: boolean;
+}
+
+export interface ITanggaSelasar extends IInovationBuildingBase {
+  location: ILocationBase;
+  pintu?: boolean;
+  handle?: boolean;
+  anakTangga?: boolean;
+  railingTangga?: boolean;
+  dinding?: boolean;
+  signage?: boolean;
+  ceiling?: boolean;
+  exhaustFan?: boolean;
+}
+
+export interface ISelasarLobby extends IInovationBuildingBase {
+  location: ILocationBase;
+  lantaiGranit?: boolean;
+  dindingGranit?: boolean;
+  boxHydrant?: boolean;
+  signage?: boolean;
+  stainlessSteel?: boolean;
+  dropOffArea?: boolean;
+  kacaFasad?: boolean;
+  frontDesk?: boolean;
+  mediaInformasi?: boolean;
+  atm?: boolean;
+  standingAshtray?: boolean;
+  kacaDalam?: boolean;
+  plafond?: boolean;
+  grillAC?: boolean;
+  kapLampu?: boolean;
+}
