@@ -127,13 +127,14 @@ export const getAllPeralatan = async (req: Request, res: Response) => {
     limit as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
     if (item.tanggal) {
-      return {
-        ...item,
+      dataReturn = {
+        ...dataReturn,
         tanggal: item.tanggal.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   const totalCount = await peralatanRepository.countDocument();
   res.json({

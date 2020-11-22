@@ -15,31 +15,39 @@ export const getAllPengadaan = async (req: Request, res: Response) => {
   );
 
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
+    if (item.masaBerlaku) {
+      dataReturn = {
+        ...dataReturn,
+        masaBerlaku: item.masaBerlaku.toDate(),
+      };
+    }
     if (item.tanggalPengadaan) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalPengadaan: item.tanggalPengadaan.toDate(),
       };
     }
+
     if (item.tanggalSPK) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalSPK: item.tanggalSPK.toDate(),
       };
     }
     if (item.masaBerlaku) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         masaBerlaku: item.masaBerlaku.toDate(),
       };
     }
     if (item.sampai) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         sampai: item.sampai.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   const totalCount = await pengadaanRepository.countDocument();
 
@@ -135,35 +143,44 @@ export const getAllPengadaanKonsultanSeleksiLangsung = async (
     'Seleksi Langsung'
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
+    if (item.masaBerlaku) {
+      dataReturn = {
+        ...dataReturn,
+        masaBerlaku: item.masaBerlaku.toDate(),
+      };
+    }
     if (item.tanggalPengadaan) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalPengadaan: item.tanggalPengadaan.toDate(),
       };
     }
+
     if (item.tanggalSPK) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalSPK: item.tanggalSPK.toDate(),
       };
     }
     if (item.masaBerlaku) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         masaBerlaku: item.masaBerlaku.toDate(),
       };
     }
     if (item.sampai) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         sampai: item.sampai.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   res.json({
     message: 'Successfully Get Pengadaan',
     data: formatedData,
+    datas: data,
     totalCount,
   });
 };
@@ -252,31 +269,39 @@ export const getAllPengadaanKonsultanPenunjukanLangsung = async (
     'Penunjukan Langsung'
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
+    if (item.masaBerlaku) {
+      dataReturn = {
+        ...dataReturn,
+        masaBerlaku: item.masaBerlaku.toDate(),
+      };
+    }
     if (item.tanggalPengadaan) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalPengadaan: item.tanggalPengadaan.toDate(),
       };
     }
+
     if (item.tanggalSPK) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalSPK: item.tanggalSPK.toDate(),
       };
     }
     if (item.masaBerlaku) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         masaBerlaku: item.masaBerlaku.toDate(),
       };
     }
     if (item.sampai) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         sampai: item.sampai.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   res.json({
     message: 'Successfully Get Pengadaan',
@@ -356,31 +381,39 @@ export const getAllPengadaanBarangSwakelola = async (
     'Swakelola'
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
+    if (item.masaBerlaku) {
+      dataReturn = {
+        ...dataReturn,
+        masaBerlaku: item.masaBerlaku.toDate(),
+      };
+    }
     if (item.tanggalPengadaan) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalPengadaan: item.tanggalPengadaan.toDate(),
       };
     }
+
     if (item.tanggalSPK) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalSPK: item.tanggalSPK.toDate(),
       };
     }
     if (item.masaBerlaku) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         masaBerlaku: item.masaBerlaku.toDate(),
       };
     }
     if (item.sampai) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         sampai: item.sampai.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   res.json({
     message: 'Successfully Get Pengadaan',
@@ -467,31 +500,39 @@ export const getAllPengadaanBarangPembelianLangsung = async (
     'Pembelian Langsung'
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
+    if (item.masaBerlaku) {
+      dataReturn = {
+        ...dataReturn,
+        masaBerlaku: item.masaBerlaku.toDate(),
+      };
+    }
     if (item.tanggalPengadaan) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalPengadaan: item.tanggalPengadaan.toDate(),
       };
     }
+
     if (item.tanggalSPK) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalSPK: item.tanggalSPK.toDate(),
       };
     }
     if (item.masaBerlaku) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         masaBerlaku: item.masaBerlaku.toDate(),
       };
     }
     if (item.sampai) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         sampai: item.sampai.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   res.json({
     message: 'Successfully Get Pengadaan',
@@ -584,31 +625,39 @@ export const getAllPengadaanBarangPenunjukanLangsung = async (
     'Penunjukan Langsung'
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
+    if (item.masaBerlaku) {
+      dataReturn = {
+        ...dataReturn,
+        masaBerlaku: item.masaBerlaku.toDate(),
+      };
+    }
     if (item.tanggalPengadaan) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalPengadaan: item.tanggalPengadaan.toDate(),
       };
     }
+
     if (item.tanggalSPK) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalSPK: item.tanggalSPK.toDate(),
       };
     }
     if (item.masaBerlaku) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         masaBerlaku: item.masaBerlaku.toDate(),
       };
     }
     if (item.sampai) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         sampai: item.sampai.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   res.json({
     message: 'Successfully Get Pengadaan',
@@ -695,31 +744,39 @@ export const getAllPengadaanBarangPemilihanLangsung = async (
     'Pemilihan Langsung'
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
+    if (item.masaBerlaku) {
+      dataReturn = {
+        ...dataReturn,
+        masaBerlaku: item.masaBerlaku.toDate(),
+      };
+    }
     if (item.tanggalPengadaan) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalPengadaan: item.tanggalPengadaan.toDate(),
       };
     }
+
     if (item.tanggalSPK) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalSPK: item.tanggalSPK.toDate(),
       };
     }
     if (item.masaBerlaku) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         masaBerlaku: item.masaBerlaku.toDate(),
       };
     }
     if (item.sampai) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         sampai: item.sampai.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   res.json({
     message: 'Successfully Get Pengadaan',
@@ -799,31 +856,39 @@ export const getAllPengadaanBarangLelang = async (
     'Lelang'
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let dataReturn = item;
+    if (item.masaBerlaku) {
+      dataReturn = {
+        ...dataReturn,
+        masaBerlaku: item.masaBerlaku.toDate(),
+      };
+    }
     if (item.tanggalPengadaan) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalPengadaan: item.tanggalPengadaan.toDate(),
       };
     }
+
     if (item.tanggalSPK) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         tanggalSPK: item.tanggalSPK.toDate(),
       };
     }
     if (item.masaBerlaku) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         masaBerlaku: item.masaBerlaku.toDate(),
       };
     }
     if (item.sampai) {
-      return {
-        ...item,
+      dataReturn = dataReturn = {
+        ...dataReturn,
         sampai: item.sampai.toDate(),
       };
     }
-    return item;
+    return dataReturn;
   });
   res.json({
     message: 'Successfully Get Pengadaan',

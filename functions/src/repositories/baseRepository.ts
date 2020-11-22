@@ -321,4 +321,193 @@ export default class FirestoreRepository<
       .get();
     return snap.size || 0;
   }
+
+  async create2LevelSubDocument(
+    object: SubCreateParam,
+    parentId: string,
+    collectionName: string,
+    secondParentId: string,
+    secondCollectionName: string
+  ) {
+    const createParam = {
+      ...object,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    const ref = await this._collection
+      .doc(parentId)
+      .collection(collectionName)
+      .doc(secondParentId)
+      .collection(secondCollectionName)
+      .add(createParam);
+    const snap = await ref.get();
+    if (snap.data()) {
+      return {
+        id: ref.id,
+        ...snap.data(),
+        createdAt: snap.data()?.createdAt.toDate(),
+        updatedAt: snap.data()?.updatedAt.toDate(),
+      };
+    }
+    return {
+      id: ref.id,
+      ...object,
+      createdAt: createParam.createdAt,
+      updatedAt: createParam.updatedAt,
+    };
+  }
+
+  async findAll2LevelSubDocument(
+    page: number | string = 1,
+    limit: number | string = 10,
+    parentId: string,
+    collectionName: string,
+    secondParentId: string,
+    secondCollectionName: string
+  ) {
+    const parsedPage = parseInt(page as string);
+    const parsedLimit = parseInt(limit as string);
+    let skip = (parsedPage - 1) * parsedLimit || 1;
+    if (parsedPage > 1) {
+      skip = Number(skip) + 1;
+    }
+    const first = await this._collection
+      .doc(parentId)
+      .collection(collectionName)
+      .doc(secondParentId)
+      .collection(secondCollectionName)
+      .orderBy('createdAt', 'asc')
+      .limit(skip)
+      .get();
+    if (first.docs.length <= 0 || first.docs.length < skip) {
+      return [];
+    }
+    const last = first.docs[first.docs.length - 1];
+
+    const ref = await this._collection
+      .doc(parentId)
+      .collection(collectionName)
+      .doc(secondParentId)
+      .collection(secondCollectionName)
+      .orderBy('createdAt', 'asc')
+      .startAt(last)
+      .limit(parsedLimit)
+      .get();
+    const data: admin.firestore.DocumentData = [];
+    ref.forEach((doc: firebase.firestore.DocumentData) => {
+      const snap = { id: doc.id, ...doc.data() };
+      return data.push({
+        ...snap,
+        createdAt: snap.createdAt.toDate(),
+        updatedAt: snap.updatedAt.toDate(),
+      });
+    });
+    return data;
+  }
+  async find2LevelSubDocumentById(
+    id: string,
+    parentId: string,
+    collectionName: string,
+    secondParentId: string,
+    secondCollectionName: string
+  ) {
+    const ref: admin.firestore.DocumentReference = this._collection
+      .doc(parentId)
+      .collection(collectionName)
+      .doc(secondParentId)
+      .collection(secondCollectionName)
+      .doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (!snap.exists) {
+      throw new NotFoundError(
+        validationWording.notFound(this._name),
+        this._name
+      );
+    }
+    const data = snap.data();
+    return {
+      id: snap.id,
+      ...data,
+      createdAt: data?.createdAt.toDate(),
+      updatedAt: data?.updatedAt.toDate(),
+    };
+  }
+
+  async update2LevelSubDocument(
+    id: string,
+    object: SubCreateParam,
+    parentId: string,
+    collectionName: string,
+    secondParentId: string,
+    secondCollectionName: string
+  ) {
+    const ref: admin.firestore.DocumentReference = this._collection
+      .doc(parentId)
+      .collection(collectionName)
+      .doc(secondParentId)
+      .collection(secondCollectionName)
+      .doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (!snap.exists) {
+      throw new NotFoundError(
+        validationWording.notFound(this._name),
+        this._name
+      );
+    }
+    const createParam = {
+      ...object,
+      updatedAt: new Date(),
+    };
+    await ref.set(createParam, { merge: true });
+    const updateSnap = await ref.get();
+    return {
+      id: ref.id,
+      ...updateSnap.data(),
+      createdAt: updateSnap.data()?.createdAt.toDate(),
+      updatedAt: updateSnap.data()?.updatedAt.toDate(),
+    };
+  }
+
+  async delete2LevelSubDocument(
+    id: string,
+    parentId: string,
+    collectionName: string,
+    secondParentId: string,
+    secondCollectionName: string
+  ) {
+    const ref: admin.firestore.DocumentReference = this._collection
+      .doc(parentId)
+      .collection(collectionName)
+      .doc(secondParentId)
+      .collection(secondCollectionName)
+      .doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (!snap.exists) {
+      throw new NotFoundError(
+        validationWording.notFound(this._name),
+        this._name
+      );
+    }
+    await ref.delete();
+    return {
+      id: ref.id,
+      ...snap.data(),
+      createdAt: snap.data()?.createdAt.toDate(),
+      updatedAt: snap.data()?.updatedAt.toDate(),
+    };
+  }
+  async count2LevelSubDocument(
+    parentId: string,
+    collectionName: string,
+    secondParentId: string,
+    secondCollectionName: string
+  ) {
+    const snap = await this._collection
+      .doc(parentId)
+      .collection(collectionName)
+      .doc(secondParentId)
+      .collection(secondCollectionName)
+      .get();
+    return snap.size || 0;
+  }
 }
