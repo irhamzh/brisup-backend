@@ -14,6 +14,7 @@ import RuanganRepository from '@modules/Ruangan/ruangan.repository';
 
 import schema from './sanitation.schema';
 import SanitationRepository from './sanitation.repository';
+import MappingBodyByType from './helpers/MappingBodyByType';
 
 //yard
 export const createYardSanitation = async (req: Request, res: Response) => {
@@ -525,6 +526,164 @@ export const getAllSecurityPosSanitation = async (
     'pg-saran-pendukung',
     'security-pos',
     'pg-security-pos'
+  );
+  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
+    ...item,
+    tanggal: item.tanggal.toDate(),
+  }));
+  res.json({
+    message: 'Successfully Get ac',
+    data: formatedData,
+    totalCount,
+  });
+};
+
+//Innovation Building
+export const createInnovationBuildingSanitation = async (
+  req: Request,
+  res: Response
+) => {
+  const { body } = req;
+  const masterValidate = yupValidate(schema.baseCreateInnovationBuilding, body);
+  let validatedBody: any = MappingBodyByType(
+    masterValidate.typeInnovationBuilding,
+    body
+  );
+
+  const locationRepository = new LocationRepository();
+  const ruanganRepository = new RuanganRepository();
+  const sanitationRepository = new SanitationRepository();
+
+  if (validatedBody?.ruangan) {
+    const ruangan: any = await ruanganRepository.findById(
+      validatedBody.ruangan
+    );
+    validatedBody.ruangan = ruangan;
+  }
+  if (validatedBody?.location) {
+    const location: any = await locationRepository.findById(
+      validatedBody.location
+    );
+    validatedBody.location = location;
+  }
+
+  const data: admin.firestore.DocumentData = await sanitationRepository.createInnovationBuilding(
+    validatedBody
+  );
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
+
+  res.json({
+    message: 'Successfully Create Data',
+    data: formatedData,
+  });
+};
+
+export const updateInnovationBuildingSanitation = async (
+  req: Request,
+  res: Response
+) => {
+  const { body, params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const locationRepository = new LocationRepository();
+  const ruanganRepository = new RuanganRepository();
+  const sanitationRepository = new SanitationRepository();
+  const ref: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+    validateParam.uid,
+    'innovation-building',
+    'pg-innovation-building'
+  );
+  let validatedBody: any = MappingBodyByType(
+    ref?.typeInnovationBuilding,
+    body,
+    'update'
+  );
+  if (validatedBody.ruangan) {
+    const ruangan: any = await ruanganRepository.findById(
+      validatedBody.ruangan
+    );
+    validatedBody = { ...validatedBody, ruangan };
+  }
+  if (validatedBody.location) {
+    const location: any = await locationRepository.findById(
+      validatedBody.location
+    );
+    validatedBody = { ...validatedBody, location };
+  }
+
+  const data: admin.firestore.DocumentData = await sanitationRepository.updateInnovationBuilding(
+    validateParam.uid,
+    validatedBody
+  );
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
+  res.json({
+    message: 'Successfully Update Data',
+    data: formatedData,
+  });
+};
+
+export const deleteInnovationBuildingSanitationById = async (
+  req: Request,
+  res: Response
+) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const sanitationRepository = new SanitationRepository();
+
+  const data = await sanitationRepository.deleteSubDocument(
+    validateParam.uid,
+    'innovation-building',
+    'pg-innovation-building'
+  );
+  res.json({
+    message: 'SuccessfullyDeleteBy Id',
+    data,
+  });
+};
+export const getInnovationBuildingSanitationById = async (
+  req: Request,
+  res: Response
+) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const sanitationRepository = new SanitationRepository();
+  const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+    validateParam.uid,
+    'innovation-building',
+    'pg-innovation-building'
+  );
+
+  const formatedData = {
+    ...data,
+    tanggal: data.tanggal.toDate(),
+  };
+
+  res.json({
+    message: 'Successfully Get InnovationBuildingSanitation By Id',
+    data: formatedData,
+  });
+};
+
+export const getAllInnovationBuildingSanitation = async (
+  req: Request,
+  res: Response
+) => {
+  let { page, limit } = req.query;
+  const sanitationRepository = new SanitationRepository();
+  const data = await sanitationRepository.findAllSubDocument(
+    page as string,
+    limit as string,
+    'innovation-building',
+    'pg-innovation-building'
+  );
+  const totalCount = await sanitationRepository.countSubDocument(
+    'innovation-building',
+    'pg-innovation-building'
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,

@@ -79,4 +79,26 @@ errorHandledRoute.delete(
   controller.deleteSecurityPosSanitationById
 );
 
+//yard
+errorHandledRoute.get(
+  '/innovation-building',
+  controller.getAllInnovationBuildingSanitation
+);
+errorHandledRoute.post(
+  '/innovation-building',
+  controller.createInnovationBuildingSanitation
+);
+errorHandledRoute.put(
+  '/innovation-building/:uid',
+  controller.updateInnovationBuildingSanitation
+);
+errorHandledRoute.get(
+  '/innovation-building/:uid',
+  controller.getInnovationBuildingSanitationById
+);
+errorHandledRoute.delete(
+  '/innovation-building/:uid',
+  controller.deleteInnovationBuildingSanitationById
+);
+
 export default router;
