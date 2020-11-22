@@ -36,47 +36,47 @@ errorHandledRoute.delete(
   controller.deleteSmartBuildingSanitationById
 );
 
-//mushola
-errorHandledRoute.get(
-  '/sarana-pendukung/mushola',
-  controller.getAllMusholaSanitation
-);
-errorHandledRoute.post(
-  '/sarana-pendukung/mushola',
-  controller.createMusholaSanitation
-);
-errorHandledRoute.put(
-  '/sarana-pendukung/mushola/:uid',
-  controller.updateMusholaSanitation
-);
-errorHandledRoute.get(
-  '/sarana-pendukung/mushola/:uid',
-  controller.getMusholaSanitationById
-);
-errorHandledRoute.delete(
-  '/sarana-pendukung/mushola/:uid',
-  controller.deleteMusholaSanitationById
-);
+// //mushola
+// errorHandledRoute.get(
+//   '/sarana-pendukung/mushola',
+//   controller.getAllMusholaSanitation
+// );
+// errorHandledRoute.post(
+//   '/sarana-pendukung/mushola',
+//   controller.createMusholaSanitation
+// );
+// errorHandledRoute.put(
+//   '/sarana-pendukung/mushola/:uid',
+//   controller.updateMusholaSanitation
+// );
+// errorHandledRoute.get(
+//   '/sarana-pendukung/mushola/:uid',
+//   controller.getMusholaSanitationById
+// );
+// errorHandledRoute.delete(
+//   '/sarana-pendukung/mushola/:uid',
+//   controller.deleteMusholaSanitationById
+// );
 
 errorHandledRoute.get(
-  '/sarana-pendukung/pos-security',
-  controller.getAllSecurityPosSanitation
+  '/sarana-pendukung',
+  controller.getAllSaranaPendukungSanitation
 );
 errorHandledRoute.post(
-  '/sarana-pendukung/pos-security',
-  controller.createSecurityPosSanitation
+  '/sarana-pendukung',
+  controller.createSaranaPendukungSanitation
 );
 errorHandledRoute.put(
-  '/sarana-pendukung/pos-security/:uid',
-  controller.updateSecurityPosSanitation
+  '/sarana-pendukung/:uid',
+  controller.updateSaranaPendukungSanitation
 );
 errorHandledRoute.get(
-  '/sarana-pendukung/pos-security/:uid',
-  controller.getSecurityPosSanitationById
+  '/sarana-pendukung/:uid',
+  controller.getSaranaPendukungSanitationById
 );
 errorHandledRoute.delete(
-  '/sarana-pendukung/pos-security/:uid',
-  controller.deleteSecurityPosSanitationById
+  '/sarana-pendukung/:uid',
+  controller.deleteSaranaPendukungSanitationById
 );
 
 //yard

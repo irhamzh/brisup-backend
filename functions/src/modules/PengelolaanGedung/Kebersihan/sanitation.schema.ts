@@ -2,7 +2,10 @@ import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import { BaseCondition1 } from '@interfaces/BaseInterface';
 import validationWording from '@constants/validationWording';
-import { TypeInnovationBuilding } from './interface/sanitation.interface';
+import {
+  TypeInnovationBuilding,
+  TypeSaranaPendukung,
+} from './interface/sanitation.interface';
 
 const yardSanitation = yup
   .object()
@@ -312,6 +315,16 @@ const createSaranaPendukung = yup
       .string()
       .required(validationWording.required('information')),
     location: yup.string().required(validationWording.required('location')),
+    typeSaranaPendukung: yup
+      .mixed<keyof typeof TypeSaranaPendukung>()
+      .oneOf(
+        getAllEnumKey(TypeSaranaPendukung),
+        validationWording.oneOf(
+          'plafond',
+          ...getAllEnumKey(TypeSaranaPendukung)
+        )
+      )
+      .required(validationWording.required('typeSaranaPendukung')),
   })
   .required();
 
@@ -559,4 +572,5 @@ export default {
   createSelasarLobbyInnovationBuilding,
   UpdateSelasarLobbyInnovationBuilding,
   baseCreateInnovationBuilding,
+  createSaranaPendukung,
 };
