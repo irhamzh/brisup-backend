@@ -52,55 +52,55 @@ export default class BuildingSanitationRepository extends BaseRepository<
     return data;
   }
 
-  async createMusholaSanitation(object: ISaranaPendukungMushola) {
-    const data = await this.create2LevelSubDocument(
-      object,
-      'saran-pendukung',
-      'pg-saran-pendukung',
-      'mushola',
-      'pg-mushola'
-    );
-    return data;
-  }
-  async updateMusholaSanitation(
-    id: string,
-    object: Partial<ISaranaPendukungMushola>
-  ) {
-    const data = await this.update2LevelSubDocument(
-      id,
-      object,
-      'saran-pendukung',
-      'pg-saran-pendukung',
-      'mushola',
-      'pg-mushola'
-    );
-    return data;
-  }
-  async createSecurityPosSanitation(object: ISaranaPendukungPos) {
-    const data = await this.create2LevelSubDocument(
-      object,
-      'saran-pendukung',
-      'pg-saran-pendukung',
-      'security-pos',
-      'pg-security-pos'
-    );
-    return data;
-  }
+  // async createMusholaSanitation(object: ISaranaPendukungMushola) {
+  //   const data = await this.create2LevelSubDocument(
+  //     object,
+  //     'saran-pendukung',
+  //     'pg-saran-pendukung',
+  //     'mushola',
+  //     'pg-mushola'
+  //   );
+  //   return data;
+  // }
+  // async updateMusholaSanitation(
+  //   id: string,
+  //   object: Partial<ISaranaPendukungMushola>
+  // ) {
+  //   const data = await this.update2LevelSubDocument(
+  //     id,
+  //     object,
+  //     'saran-pendukung',
+  //     'pg-saran-pendukung',
+  //     'mushola',
+  //     'pg-mushola'
+  //   );
+  //   return data;
+  // }
+  // async createSecurityPosSanitation(object: ISaranaPendukungPos) {
+  //   const data = await this.create2LevelSubDocument(
+  //     object,
+  //     'saran-pendukung',
+  //     'pg-saran-pendukung',
+  //     'security-pos',
+  //     'pg-security-pos'
+  //   );
+  //   return data;
+  // }
 
-  async updateSecurityPosSanitation(
-    id: string,
-    object: Partial<ISaranaPendukungPos>
-  ) {
-    const data = await this.update2LevelSubDocument(
-      id,
-      object,
-      'saran-pendukung',
-      'pg-saran-pendukung',
-      'security-pos',
-      'pg-security-pos'
-    );
-    return data;
-  }
+  // async updateSecurityPosSanitation(
+  //   id: string,
+  //   object: Partial<ISaranaPendukungPos>
+  // ) {
+  //   const data = await this.update2LevelSubDocument(
+  //     id,
+  //     object,
+  //     'saran-pendukung',
+  //     'pg-saran-pendukung',
+  //     'security-pos',
+  //     'pg-security-pos'
+  //   );
+  //   return data;
+  // }
   async createInnovationBuilding(
     object: IRuang | ISelasarLobby | ITanggaSelasar | IToilet
   ) {
@@ -121,6 +121,29 @@ export default class BuildingSanitationRepository extends BaseRepository<
       object,
       'innovation-building',
       'pg-innovation-building'
+    );
+    return data;
+  }
+  async createSaranaPendukung(
+    object: ISaranaPendukungMushola | ISaranaPendukungPos
+  ) {
+    const data = await this.createWithSubdocument(
+      object,
+      'sarana-pendukung',
+      'pg-sarana-pendukung'
+    );
+    return data;
+  }
+
+  async updateSaranaPendukung(
+    id: string,
+    object: Partial<ISaranaPendukungPos | ISaranaPendukungMushola>
+  ) {
+    const data = await this.updateSubDocument(
+      id,
+      object,
+      'sarana-pendukung',
+      'pg-sarana-pendukung'
     );
     return data;
   }

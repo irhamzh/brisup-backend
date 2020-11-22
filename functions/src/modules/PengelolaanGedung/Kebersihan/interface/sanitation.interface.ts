@@ -77,6 +77,7 @@ interface ISaranaPendukungBase {
   pintu?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  typeSaranaPendukung: string;
 }
 
 export interface ISaranaPendukungMushola extends ISaranaPendukungBase {
@@ -103,6 +104,11 @@ export enum TypeInnovationBuilding {
   'Tangga Darurat' = 'Tangga Darurat',
   'Selasar Dan Lobby' = 'Selasar Dan Lobby',
   'Ruang Lain' = 'Ruang Lain',
+}
+
+export enum TypeSaranaPendukung {
+  'Pos security' = 'Pos security',
+  'Musholla' = 'Musholla',
 }
 
 interface IInovationBuildingBase {
