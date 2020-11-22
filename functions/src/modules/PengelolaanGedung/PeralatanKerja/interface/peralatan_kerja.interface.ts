@@ -21,11 +21,11 @@ interface IInformation extends IBasePGPeralatanKerja {
 }
 
 export interface IPeralatanTeknis extends IPekerjaan {
-  pelindungKepala?: string;
-  pelindungMata?: string;
-  pelindungPernafasan?: string;
-  pelindungBadan?: string;
-  pelindungKaki?: string;
+  pelindungKepala?: boolean;
+  pelindungMata?: boolean;
+  pelindungPernafasan?: boolean;
+  pelindungBadan?: boolean;
+  pelindungKaki?: boolean;
 }
 
 export interface IMachinery extends IInformation {
@@ -51,17 +51,17 @@ export interface IEquipmentConsumable extends IInformation {
 }
 
 export interface IChemical extends IInformation {
-  floorKlin?: string;
-  glassCleaner?: string;
-  allPurposeCleaner?: string;
-  metalPolish?: string;
-  handSoap?: string;
-  furniturePolish?: string;
-  vim?: string;
-  bubukDetergen?: string;
-  thiner?: string;
-  bayFresh?: string;
-  fresPhone?: string;
-  marblePowder?: string;
-  karbolWangi?: string;
+  floorKlin?: boolean;
+  glassCleaner?: boolean;
+  allPurposeCleaner?: boolean;
+  metalPolish?: boolean;
+  handSoap?: boolean;
+  furniturePolish?: boolean;
+  vim?: boolean;
+  bubukDetergen?: boolean;
+  thiner?: boolean;
+  bayFresh?: boolean;
+  fresPhone?: boolean;
+  marblePowder?: boolean;
+  karbolWangi?: boolean;
 }

@@ -54,36 +54,11 @@ const informationUpdate = yup
 const peralatanTekis = yup
   .object()
   .shape({
-    pelindungKepala: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pelindungKepala', ...getAllEnumKey(YesNo))
-      ),
-    pelindungMata: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pelindungMata', ...getAllEnumKey(YesNo))
-      ),
-    pelindungPernafasan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pelindungPernafasan', ...getAllEnumKey(YesNo))
-      ),
-    pelindungBadan: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pelindungBadan', ...getAllEnumKey(YesNo))
-      ),
-    pelindungKaki: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('pelindungKaki', ...getAllEnumKey(YesNo))
-      ),
+    pelindungKepala: yup.boolean(),
+    pelindungMata: yup.boolean(),
+    pelindungPernafasan: yup.boolean(),
+    pelindungBadan: yup.boolean(),
+    pelindungKaki: yup.boolean(),
   })
   .required();
 
@@ -201,84 +176,19 @@ const peralatanEquipmentConsumable = yup
 const peralatanChemical = yup
   .object()
   .shape({
-    floorKlin: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('floorKlin', ...getAllEnumKey(YesNo))
-      ),
-    glassCleaner: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('glassCleaner', ...getAllEnumKey(YesNo))
-      ),
-    allPurposeCleaner: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('allPurposeCleaner', ...getAllEnumKey(YesNo))
-      ),
-    metalPolish: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('metalPolish', ...getAllEnumKey(YesNo))
-      ),
-    handSoap: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('handSoap', ...getAllEnumKey(YesNo))
-      ),
-    furniturePolish: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('furniturePolish', ...getAllEnumKey(YesNo))
-      ),
-    vim: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('vim', ...getAllEnumKey(YesNo))
-      ),
-    bubukDetergen: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('bubukDetergen', ...getAllEnumKey(YesNo))
-      ),
-    thiner: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('thiner', ...getAllEnumKey(YesNo))
-      ),
-    bayFresh: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('bayFresh', ...getAllEnumKey(YesNo))
-      ),
-    fresPhone: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('fresPhone', ...getAllEnumKey(YesNo))
-      ),
-    marblePowder: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('marblePowder', ...getAllEnumKey(YesNo))
-      ),
-    karbolWangi: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('karbolWangi', ...getAllEnumKey(YesNo))
-      ),
+    floorKlin: yup.boolean(),
+    glassCleaner: yup.boolean(),
+    allPurposeCleaner: yup.boolean(),
+    metalPolish: yup.boolean(),
+    handSoap: yup.boolean(),
+    furniturePolish: yup.boolean(),
+    vim: yup.boolean(),
+    bubukDetergen: yup.boolean(),
+    thiner: yup.boolean(),
+    bayFresh: yup.boolean(),
+    fresPhone: yup.boolean(),
+    marblePowder: yup.boolean(),
+    karbolWangi: yup.boolean(),
   })
   .required();
 
