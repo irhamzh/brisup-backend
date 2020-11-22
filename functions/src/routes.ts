@@ -16,6 +16,7 @@ import compressorRouter from '@modules/MasterData/Compressor/compressor.routes';
 import waterMeterRouter from '@modules/MasterData/WaterMater/water_meter.routes';
 import pumpRouter from '@modules/MasterData/Pump/pump.routes';
 import pumpUnitRouter from '@modules/MasterData/PumpUnit/pump_unit.routes';
+import locationRouter from '@modules/MasterData/Location/location.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
 import vendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
@@ -31,6 +32,7 @@ import workingOrderRouter from '@modules/FixedAsset/Pengadaan/WorkingOrder/worki
 import itToolRouter from '@modules/PengelolaanGedung/PeralatanIT/peralatan_it.routes';
 import workingToolRouter from '@modules/PengelolaanGedung/PeralatanKerja/peralatan_kerja.routes';
 import basementRouter from '@modules/PengelolaanGedung/Engineer/Basement/basement.routes';
+import sanitationRouter from '@modules/PengelolaanGedung/Kebersihan/sanitation.routes';
 
 const apiRouter = Router();
 
@@ -50,6 +52,7 @@ apiRouter.use('/buildings', buildingRouter);
 apiRouter.use('/compressors', compressorRouter);
 apiRouter.use('/pumps', pumpRouter);
 apiRouter.use('/pump-units', pumpUnitRouter);
+apiRouter.use('/locations', locationRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/vendors', vendorRouter);
@@ -65,6 +68,7 @@ apiRouter.use('/evaluasi-suppliers', evaluasiSuplierRouter);
 apiRouter.use('/pg-it-tools', itToolRouter);
 apiRouter.use('/pg-engineer-basements', basementRouter);
 apiRouter.use('/pg-working-tools', workingToolRouter);
+apiRouter.use('/pg-sanitations', sanitationRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
