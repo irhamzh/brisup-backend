@@ -12,6 +12,7 @@ export enum TypePeralatanKerja {
   'peralatan teknis' = 'peralatan teknis',
 }
 
+//????
 interface IPekerjaan extends IBasePGPeralatanKerja {
   pekerjaan: string;
 }

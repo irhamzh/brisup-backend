@@ -9,6 +9,10 @@ import {
   ISanitationSmartBuilding,
   ISaranaPendukungMushola,
   ISaranaPendukungPos,
+  IRuang,
+  ISelasarLobby,
+  ITanggaSelasar,
+  IToilet,
 } from './interface/sanitation.interface';
 
 export default class BuildingSanitationRepository extends BaseRepository<
@@ -94,6 +98,29 @@ export default class BuildingSanitationRepository extends BaseRepository<
       'pg-saran-pendukung',
       'security-pos',
       'pg-security-pos'
+    );
+    return data;
+  }
+  async createInnovationBuilding(
+    object: IRuang | ISelasarLobby | ITanggaSelasar | IToilet
+  ) {
+    const data = await this.createWithSubdocument(
+      object,
+      'innovation-building',
+      'pg-innovation-building'
+    );
+    return data;
+  }
+
+  async updateInnovationBuilding(
+    id: string,
+    object: Partial<IRuang | ISelasarLobby | ITanggaSelasar | IToilet>
+  ) {
+    const data = await this.updateSubDocument(
+      id,
+      object,
+      'innovation-building',
+      'pg-innovation-building'
     );
     return data;
   }
