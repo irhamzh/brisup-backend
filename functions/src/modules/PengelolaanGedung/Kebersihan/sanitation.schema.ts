@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
-import { BaseCondition1 } from '@interfaces/BaseInterface';
+import { BaseCondition1 } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 import {
   TypeInnovationBuilding,

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
 import getAllEnumKey from '@utils/getAllEnumKeys';
-import { Division } from '@interfaces/BaseInterface';
+import { Division } from '@constants/BaseCondition';
 
 const create = yup
   .object()

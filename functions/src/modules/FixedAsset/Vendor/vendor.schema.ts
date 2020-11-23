@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import validationWording from '@constants/validationWording';
 import { TypeMonitoring } from './interface/vendor.interface';
-// import { YesNo } from '@interfaces/BaseInterface';
+// import { YesNo } from '@constants/BaseCondition';
 
 const baseCreateMonitoring = yup
   .object()

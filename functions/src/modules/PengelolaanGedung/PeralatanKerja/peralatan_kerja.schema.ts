@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
-import { YesNo } from '@interfaces/BaseInterface';
+import { YesNo } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 import { TypePeralatanKerja } from './interface/peralatan_kerja.interface';
 

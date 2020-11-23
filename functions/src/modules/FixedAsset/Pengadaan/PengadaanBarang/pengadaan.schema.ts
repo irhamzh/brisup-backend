@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import validationWording from '@constants/validationWording';
-import { JenisAnggaran } from '@interfaces/BaseInterface';
+import { JenisAnggaran } from '@constants/BaseCondition';
 // import {
 //   JenisPengadaanBarang,
 //   TypePengadaan,
