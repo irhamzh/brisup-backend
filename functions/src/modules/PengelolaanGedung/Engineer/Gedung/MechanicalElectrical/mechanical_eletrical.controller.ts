@@ -21,14 +21,14 @@ export const createMechanicalElectrical = async (
   const floorRepository = new FloorRepository();
   const buildingRepository = new BuildingTypeRepository();
 
-  const buldingType: any = await buildingRepository.findById(
-    validatedBody.buldingType
+  const buildingType: any = await buildingRepository.findById(
+    validatedBody.buildingType
   );
   const floor: any = await floorRepository.findById(validatedBody.floor);
   const createParam = {
     ...validatedBody,
     floor,
-    buldingType,
+    buildingType,
   };
   const data: admin.firestore.DocumentData = await mechanicalElectricalRepository.create(
     createParam
@@ -61,11 +61,11 @@ export const updateMechanicalElectrical = async (
     validatedBody = { ...validatedBody, floor };
   }
 
-  if (validatedBody.buldingType) {
-    const buldingType: any = await buildingRepository.findById(
-      validatedBody.buldingType
+  if (validatedBody.buildingType) {
+    const buildingType: any = await buildingRepository.findById(
+      validatedBody.buildingType
     );
-    validatedBody = { ...validatedBody, buldingType };
+    validatedBody = { ...validatedBody, buildingType };
   }
 
   const data: admin.firestore.DocumentData = await mechanicalElectricalRepository.update(

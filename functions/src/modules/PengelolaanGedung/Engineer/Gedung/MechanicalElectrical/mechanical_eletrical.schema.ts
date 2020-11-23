@@ -7,9 +7,9 @@ const create = yup
   .object()
   .shape({
     floor: yup.string().required(validationWording.required('floor')),
-    buldingType: yup
+    buildingType: yup
       .string()
-      .required(validationWording.required('buldingType')),
+      .required(validationWording.required('buildingType')),
     expiredTabung: yup
       .date()
       .required(validationWording.required('expiredTabung')),
@@ -168,7 +168,7 @@ const update = yup
   .object()
   .shape({
     floor: yup.string(),
-    buldingType: yup.string(),
+    buildingType: yup.string(),
     expiredTabung: yup.date(),
     information: yup.string(),
     smokeDetector: yup

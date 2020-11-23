@@ -4,7 +4,7 @@ import { IBuildingTypeBase } from '@modules/BuildingType/interface/building_type
 
 export interface IGedungRuanganBase {
   roomType: IRoomTypeBase;
-  buldingType: IBuildingTypeBase;
+  buildingType: IBuildingTypeBase;
   ruangan: IRuanganBase;
   tanggal: Date;
   information: string;

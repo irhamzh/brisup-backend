@@ -3,7 +3,7 @@ import { IBuildingTypeBase } from '@modules/BuildingType/interface/building_type
 
 export interface IMechanicalElectricalBase {
   floor: IFloorBase;
-  buldingType: IBuildingTypeBase;
+  buildingType: IBuildingTypeBase;
   expiredTabung: Date;
   information: string;
   smokeDetector: string;

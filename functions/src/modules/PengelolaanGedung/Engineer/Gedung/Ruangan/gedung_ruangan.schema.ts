@@ -7,9 +7,9 @@ const create = yup
   .object()
   .shape({
     roomType: yup.string().required(validationWording.required('roomType')),
-    buldingType: yup
+    buildingType: yup
       .string()
-      .required(validationWording.required('buldingType')),
+      .required(validationWording.required('buildingType')),
     ruangan: yup.string().required(validationWording.required('ruangan')),
     tanggal: yup.date().required(validationWording.required('tanggal')),
     information: yup
@@ -109,7 +109,7 @@ const update = yup
   .object()
   .shape({
     roomType: yup.string(),
-    buldingType: yup.string(),
+    buildingType: yup.string(),
     ruangan: yup.string(),
     tanggal: yup.date(),
     information: yup.string(),
