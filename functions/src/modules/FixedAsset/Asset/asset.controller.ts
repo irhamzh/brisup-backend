@@ -44,10 +44,15 @@ export const getAssetById = async (req: Request, res: Response) => {
 };
 
 export const getAllAsset = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const assetRepository = new AssetRepository();
-  const data = await assetRepository.findAll(page as string, limit as string);
-  const totalCount = await assetRepository.countDocument();
+  const data = await assetRepository.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await assetRepository.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get Asset',
     data,

@@ -95,17 +95,20 @@ export const getYardSanitationById = async (req: Request, res: Response) => {
 };
 
 export const getAllYardSanitation = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const sanitationRepository = new SanitationRepository();
   const data = await sanitationRepository.findAllSubDocument(
     page as string,
     limit as string,
     'yard',
-    'pg-yard'
+    'pg-yard',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await sanitationRepository.countSubDocument(
     'yard',
-    'pg-yard'
+    'pg-yard',
+    filtered as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
@@ -240,17 +243,20 @@ export const getAllSmartBuildingSanitation = async (
   req: Request,
   res: Response
 ) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const sanitationRepository = new SanitationRepository();
   const data = await sanitationRepository.findAllSubDocument(
     page as string,
     limit as string,
     'smart-building',
-    'pg-smart-building'
+    'pg-smart-building',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await sanitationRepository.countSubDocument(
     'smart-building',
-    'pg-smart-building'
+    'pg-smart-building',
+    filtered as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
@@ -674,17 +680,20 @@ export const getAllInnovationBuildingSanitation = async (
   req: Request,
   res: Response
 ) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const sanitationRepository = new SanitationRepository();
   const data = await sanitationRepository.findAllSubDocument(
     page as string,
     limit as string,
     'innovation-building',
-    'pg-innovation-building'
+    'pg-innovation-building',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await sanitationRepository.countSubDocument(
     'innovation-building',
-    'pg-innovation-building'
+    'pg-innovation-building',
+    filtered as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
@@ -827,17 +836,20 @@ export const getAllSaranaPendukungSanitation = async (
   req: Request,
   res: Response
 ) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const sanitationRepository = new SanitationRepository();
   const data = await sanitationRepository.findAllSubDocument(
     page as string,
     limit as string,
     'sarana-pendukung',
-    'pg-sarana-pendukung'
+    'pg-sarana-pendukung',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await sanitationRepository.countSubDocument(
     'sarana-pendukung',
-    'pg-sarana-pendukung'
+    'pg-sarana-pendukung',
+    filtered as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,

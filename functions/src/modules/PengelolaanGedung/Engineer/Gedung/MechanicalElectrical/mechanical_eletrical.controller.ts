@@ -106,13 +106,17 @@ export const getAllMechanicalElectrical = async (
   req: Request,
   res: Response
 ) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const mechanicalElectricalRepository = new MechanicalElectricalRepository();
   const data = await mechanicalElectricalRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await mechanicalElectricalRepository.countDocument();
+  const totalCount = await mechanicalElectricalRepository.countDocument(
+    filtered as string
+  );
 
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,

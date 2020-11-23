@@ -46,13 +46,15 @@ export const getRoomTypeById = async (req: Request, res: Response) => {
 };
 
 export const getAllRoomType = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const roomTypeRepository = new RoomTypeRepository();
   const data = await roomTypeRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await roomTypeRepository.countDocument();
+  const totalCount = await roomTypeRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get RoomType',

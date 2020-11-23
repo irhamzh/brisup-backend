@@ -120,11 +120,13 @@ export const getPeralatanById = async (req: Request, res: Response) => {
 };
 
 export const getAllPeralatan = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  let { page, limit, filtered, sorted } = req.query;
   const peralatanRepository = new PeralatanRepository();
   const data = await peralatanRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
@@ -136,7 +138,9 @@ export const getAllPeralatan = async (req: Request, res: Response) => {
     }
     return dataReturn;
   });
-  const totalCount = await peralatanRepository.countDocument();
+  const totalCount = await peralatanRepository.countDocument(
+    filtered as string
+  );
   res.json({
     message: 'Successfully Get Peralatan',
     data: formatedData,

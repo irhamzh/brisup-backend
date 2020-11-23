@@ -42,10 +42,15 @@ export const getRoleById = async (req: Request, res: Response) => {
 };
 
 export const getAllRole = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const roleRepository = new RoleRepository();
-  const data = await roleRepository.findAll(page as string, limit as string);
-  const totalCount = await roleRepository.countDocument();
+  const data = await roleRepository.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await roleRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Role',

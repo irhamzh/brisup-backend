@@ -78,13 +78,17 @@ export const getEvaluasiSuplierById = async (req: Request, res: Response) => {
 };
 
 export const getAllEvaluasiSuplier = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
   const data = await evaluasiSuplierRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await evaluasiSuplierRepository.countDocument();
+  const totalCount = await evaluasiSuplierRepository.countDocument(
+    filtered as string
+  );
 
   res.json({
     message: 'Successfully Get EvaluasiSuplier',

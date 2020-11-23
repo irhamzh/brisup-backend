@@ -41,10 +41,16 @@ export const getPartnerById = async (req: Request, res: Response) => {
 };
 
 export const getAllPartner = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
+
   const partnerRepository = new PartnerRepository();
-  const data = await partnerRepository.findAll(page as string, limit as string);
-  const totalCount = await partnerRepository.countDocument();
+  const data = await partnerRepository.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await partnerRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Partner',

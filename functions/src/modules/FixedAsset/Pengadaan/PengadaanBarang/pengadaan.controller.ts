@@ -7,11 +7,13 @@ import paramValidation from '@utils/paramValidation';
 import PengadaanRepository from './pengadaan.repository';
 
 export const getAllPengadaan = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const pengadaanRepository = new PengadaanRepository();
   const data = await pengadaanRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
 
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
@@ -49,7 +51,9 @@ export const getAllPengadaan = async (req: Request, res: Response) => {
     }
     return dataReturn;
   });
-  const totalCount = await pengadaanRepository.countDocument();
+  const totalCount = await pengadaanRepository.countDocument(
+    filtered as string
+  );
 
   res.json({
     message: 'Successfully Get All Pengadaan',
@@ -130,7 +134,7 @@ export const getAllPengadaanKonsultanSeleksiLangsung = async (
   req: Request,
   res: Response
 ) => {
-  let { page, limit } = req.query;
+  const { page, limit } = req.query;
   const pengadaanRepository = new PengadaanRepository();
   const data = await pengadaanRepository.findAllPengadaan(
     page as string,

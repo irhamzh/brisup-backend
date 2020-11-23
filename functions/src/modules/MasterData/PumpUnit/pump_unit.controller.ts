@@ -62,13 +62,15 @@ export const getPumpUnitById = async (req: Request, res: Response) => {
 };
 
 export const getAllPumpUnit = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const pumpUnitRepository = new PumpUnitRepository();
   const data = await pumpUnitRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await pumpUnitRepository.countDocument();
+  const totalCount = await pumpUnitRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get PumpUnit',

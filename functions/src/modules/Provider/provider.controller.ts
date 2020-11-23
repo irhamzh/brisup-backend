@@ -44,13 +44,15 @@ export const getProviderById = async (req: Request, res: Response) => {
 };
 
 export const getAllProvider = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const providerRepository = new ProviderRepository();
   const data = await providerRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await providerRepository.countDocument();
+  const totalCount = await providerRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Provider',

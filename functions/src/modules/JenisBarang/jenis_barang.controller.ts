@@ -42,13 +42,17 @@ export const getJenisBarangById = async (req: Request, res: Response) => {
 };
 
 export const getAllJenisBarang = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const jenisBarangRepository = new JenisBarangRepository();
   const data = await jenisBarangRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await jenisBarangRepository.countDocument();
+  const totalCount = await jenisBarangRepository.countDocument(
+    filtered as string
+  );
 
   res.json({
     message: 'Successfully Get JenisBarang',

@@ -45,13 +45,17 @@ export const getBuildingTypeById = async (req: Request, res: Response) => {
 };
 
 export const getAllBuildingType = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const buildingTypeRepository = new BuildingTypeRepository();
   const data = await buildingTypeRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await buildingTypeRepository.countDocument();
+  const totalCount = await buildingTypeRepository.countDocument(
+    filtered as string
+  );
 
   res.json({
     message: 'Successfully Get BuildingType',

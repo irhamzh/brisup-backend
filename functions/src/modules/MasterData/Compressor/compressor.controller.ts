@@ -46,13 +46,17 @@ export const getCompressorById = async (req: Request, res: Response) => {
 };
 
 export const getAllCompressor = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const compressorRepository = new CompressorRepository();
   const data = await compressorRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await compressorRepository.countDocument();
+  const totalCount = await compressorRepository.countDocument(
+    filtered as string
+  );
 
   res.json({
     message: 'Successfully Get Compressor',

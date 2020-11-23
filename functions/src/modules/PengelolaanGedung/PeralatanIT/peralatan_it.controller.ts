@@ -104,13 +104,17 @@ export const getPeralatanITById = async (req: Request, res: Response) => {
 };
 
 export const getAllPeralatanIT = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const peralatanITRepository = new PeralatanITRepository();
   const data = await peralatanITRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await peralatanITRepository.countDocument();
+  const totalCount = await peralatanITRepository.countDocument(
+    filtered as string
+  );
   res.json({
     message: 'Successfully Get PeralatanIT',
     data,

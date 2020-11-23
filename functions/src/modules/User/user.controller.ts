@@ -56,10 +56,15 @@ export const logIn = async (req: Request, res: Response) => {
 };
 
 export const getAllUser = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const userRepository = new UserRepository();
-  const data = await userRepository.findAll(page as string, limit as string);
-  const totalCount = await userRepository.countDocument();
+  const data = await userRepository.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await userRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get User',

@@ -76,10 +76,15 @@ export const getPurchaseOrderById = async (req: Request, res: Response) => {
 };
 
 export const getAllPurchaseOrder = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const purchaseOrder = new PurchaseOrderRepository();
-  const data = await purchaseOrder.findAll(page as string, limit as string);
-  const totalCount = await purchaseOrder.countDocument();
+  const data = await purchaseOrder.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await purchaseOrder.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get PurchaseOrder',
     data,
