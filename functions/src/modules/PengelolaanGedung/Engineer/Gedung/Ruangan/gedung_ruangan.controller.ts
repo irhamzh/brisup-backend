@@ -20,8 +20,8 @@ export const createBuildingRoom = async (req: Request, res: Response) => {
   const buildingRepository = new BuildingTypeRepository();
   const roomRepository = new RuanganRepository();
 
-  const buldingType: any = await buildingRepository.findById(
-    validatedBody.buldingType
+  const buildingType: any = await buildingRepository.findById(
+    validatedBody.buildingType
   );
   const roomType: any = await roomTypeRepository.findById(
     validatedBody.roomType
@@ -30,7 +30,7 @@ export const createBuildingRoom = async (req: Request, res: Response) => {
   const createParam = {
     ...validatedBody,
     roomType,
-    buldingType,
+    buildingType,
     ruangan,
   };
   const data: admin.firestore.DocumentData = await buildingRoomRepository.create(
@@ -64,11 +64,11 @@ export const updateBuildingRoom = async (req: Request, res: Response) => {
     validatedBody = { ...validatedBody, roomType };
   }
 
-  if (validatedBody.buldingType) {
-    const buldingType: any = await buildingRepository.findById(
-      validatedBody.buldingType
+  if (validatedBody.buildingType) {
+    const buildingType: any = await buildingRepository.findById(
+      validatedBody.buildingType
     );
-    validatedBody = { ...validatedBody, buldingType };
+    validatedBody = { ...validatedBody, buildingType };
   }
 
   if (validatedBody.ruangan) {
