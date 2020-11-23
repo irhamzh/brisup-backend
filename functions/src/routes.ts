@@ -33,7 +33,7 @@ import itToolRouter from '@modules/PengelolaanGedung/PeralatanIT/peralatan_it.ro
 import workingToolRouter from '@modules/PengelolaanGedung/PeralatanKerja/peralatan_kerja.routes';
 import basementRouter from '@modules/PengelolaanGedung/Engineer/Basement/basement.routes';
 import mechanicalElectricalRouter from '@modules/PengelolaanGedung/Engineer/Gedung/MechanicalElectrical/mechanical_eletrical.routes';
-import ruanganGeudngRouter from '@modules/PengelolaanGedung/Engineer/Gedung/Ruangan/gedung_ruangan.routes';
+import ruanganGedungRouter from '@modules/PengelolaanGedung/Engineer/Gedung/Ruangan/gedung_ruangan.routes';
 
 import sanitationRouter from '@modules/PengelolaanGedung/Kebersihan/sanitation.routes';
 
@@ -70,10 +70,10 @@ apiRouter.use('/evaluasi-suppliers', evaluasiSuplierRouter);
 
 apiRouter.use('/pg-it-tools', itToolRouter);
 apiRouter.use('/pg-engineer-basements', basementRouter);
-apiRouter.use('/pg-engineer-buildings/room', mechanicalElectricalRouter);
+apiRouter.use('/pg-engineer-buildings/room', ruanganGedungRouter);
 apiRouter.use(
   '/pg-engineer-buildings/mechanical-electrical',
-  ruanganGeudngRouter
+  mechanicalElectricalRouter
 );
 
 apiRouter.use('/pg-working-tools', workingToolRouter);
