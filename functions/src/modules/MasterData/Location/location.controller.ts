@@ -46,13 +46,15 @@ export const getLocationById = async (req: Request, res: Response) => {
 };
 
 export const getAllLocation = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const locationRepository = new LocationRepository();
   const data = await locationRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await locationRepository.countDocument();
+  const totalCount = await locationRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Location',

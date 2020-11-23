@@ -42,10 +42,15 @@ export const getFloorById = async (req: Request, res: Response) => {
 };
 
 export const getAllFloor = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const floorRepository = new FloorRepository();
-  const data = await floorRepository.findAll(page as string, limit as string);
-  const totalCount = await floorRepository.countDocument();
+  const data = await floorRepository.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await floorRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Floor',

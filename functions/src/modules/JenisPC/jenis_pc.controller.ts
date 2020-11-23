@@ -42,10 +42,15 @@ export const getJenisPcById = async (req: Request, res: Response) => {
 };
 
 export const getAllJenisPc = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const jenisPcRepository = new JenisPcRepository();
-  const data = await jenisPcRepository.findAll(page as string, limit as string);
-  const totalCount = await jenisPcRepository.countDocument();
+  const data = await jenisPcRepository.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await jenisPcRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get JenisPc',

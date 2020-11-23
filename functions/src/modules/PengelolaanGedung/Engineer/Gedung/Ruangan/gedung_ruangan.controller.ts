@@ -111,13 +111,17 @@ export const getBuildingRoomById = async (req: Request, res: Response) => {
 };
 
 export const getAllBuildingRoom = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const buildingRoomRepository = new BuildingRoomRepository();
   const data = await buildingRoomRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await buildingRoomRepository.countDocument();
+  const totalCount = await buildingRoomRepository.countDocument(
+    filtered as string
+  );
 
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,

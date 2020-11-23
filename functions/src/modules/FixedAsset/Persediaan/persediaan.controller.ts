@@ -78,13 +78,17 @@ export const getPersediaanById = async (req: Request, res: Response) => {
 };
 
 export const getAllPersediaan = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const persediaanRepository = new PersediaanRepository();
   const data = await persediaanRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await persediaanRepository.countDocument();
+  const totalCount = await persediaanRepository.countDocument(
+    filtered as string
+  );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
     tanggal: item.tanggal.toDate(),

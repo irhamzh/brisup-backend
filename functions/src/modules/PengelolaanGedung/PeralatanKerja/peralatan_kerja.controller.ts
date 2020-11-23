@@ -109,13 +109,17 @@ export const getPeralatanKerjaById = async (req: Request, res: Response) => {
 };
 
 export const getAllPeralatanKerja = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const peralatanKerjaRepository = new PeralatanKerjaRepository();
   const data = await peralatanKerjaRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await peralatanKerjaRepository.countDocument();
+  const totalCount = await peralatanKerjaRepository.countDocument(
+    filtered as string
+  );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
     tanggal: item.tanggal.toDate(),

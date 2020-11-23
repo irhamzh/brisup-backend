@@ -69,13 +69,17 @@ export const getWorkingOrderById = async (req: Request, res: Response) => {
 };
 
 export const getAllWorkingOrder = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const workingOrderRepository = new WorkingOrderRepository();
   const data = await workingOrderRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await workingOrderRepository.countDocument();
+  const totalCount = await workingOrderRepository.countDocument(
+    filtered as string
+  );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
     tanggalTerima: item.tanggalTerima.toDate(),

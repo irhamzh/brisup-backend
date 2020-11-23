@@ -46,13 +46,17 @@ export const getWaterMeterById = async (req: Request, res: Response) => {
 };
 
 export const getAllWaterMeter = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const waterMeterRepository = new WaterMeterRepository();
   const data = await waterMeterRepository.findAll(
     page as string,
-    limit as string
+    limit as string,
+    filtered as string,
+    sorted as string
   );
-  const totalCount = await waterMeterRepository.countDocument();
+  const totalCount = await waterMeterRepository.countDocument(
+    filtered as string
+  );
 
   res.json({
     message: 'Successfully Get WaterMeter',

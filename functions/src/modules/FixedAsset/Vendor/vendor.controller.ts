@@ -88,10 +88,15 @@ export const getVendorById = async (req: Request, res: Response) => {
 };
 
 export const getAllVendor = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const vendorRepository = new VendorRepository();
-  const data = await vendorRepository.findAll(page as string, limit as string);
-  const totalCount = await vendorRepository.countDocument();
+  const data = await vendorRepository.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await vendorRepository.countDocument(filtered as string);
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
     tanggal: item.tanggal.toDate(),

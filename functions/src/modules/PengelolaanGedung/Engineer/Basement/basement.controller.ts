@@ -109,17 +109,20 @@ export const getWaterMeterById = async (req: Request, res: Response) => {
 };
 
 export const getAllWaterMeter = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
   const data = await engineerBasementRepository.findAllSubDocument(
     page as string,
     limit as string,
     'water-meter',
-    'pg-water-meters'
+    'pg-water-meters',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await engineerBasementRepository.countSubDocument(
     'water-meter',
-    'pg-water-meters'
+    'pg-water-meters',
+    filtered as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
@@ -211,17 +214,20 @@ export const getElectrifyById = async (req: Request, res: Response) => {
 };
 
 export const getAllElectrify = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
   const data = await engineerBasementRepository.findAllSubDocument(
     page as string,
     limit as string,
     'electricity',
-    'pg-electricities'
+    'pg-electricities',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await engineerBasementRepository.countSubDocument(
     'electricity',
-    'pg-electricities'
+    'pg-electricities',
+    filtered as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
@@ -351,17 +357,20 @@ export const getACById = async (req: Request, res: Response) => {
 };
 
 export const getAllAC = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
   const data = await engineerBasementRepository.findAllSubDocument(
     page as string,
     limit as string,
     'ac',
-    'pg-acs'
+    'pg-acs',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await engineerBasementRepository.countSubDocument(
     'ac',
-    'pg-acs'
+    'pg-acs',
+    filtered as string
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
@@ -477,17 +486,20 @@ export const getPlumbingById = async (req: Request, res: Response) => {
 };
 
 export const getAllPlumbing = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
   const data = await engineerBasementRepository.findAllSubDocument(
     page as string,
     limit as string,
     'plumbing',
-    'pg-plumbings'
+    'pg-plumbings',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await engineerBasementRepository.countSubDocument(
     'plumbing',
-    'pg-plumbing'
+    'pg-plumbing',
+    filtered as string
   );
 
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
@@ -570,17 +582,20 @@ export const getSTPById = async (req: Request, res: Response) => {
 };
 
 export const getAllSTP = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
   const data = await engineerBasementRepository.findAllSubDocument(
     page as string,
     limit as string,
     'stp',
-    'pg-stps'
+    'pg-stps',
+    filtered as string,
+    sorted as string
   );
   const totalCount = await engineerBasementRepository.countSubDocument(
     'stp',
-    'pg-stps'
+    'pg-stps',
+    filtered as string
   );
   res.json({
     message: 'Successfully Get stp',

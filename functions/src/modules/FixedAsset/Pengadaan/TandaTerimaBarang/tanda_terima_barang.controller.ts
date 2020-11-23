@@ -75,10 +75,15 @@ export const getTandaTerimaBarangById = async (req: Request, res: Response) => {
 };
 
 export const getAllTandaTerimaBarang = async (req: Request, res: Response) => {
-  let { page, limit } = req.query;
+  const { page, limit, filtered, sorted } = req.query;
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
-  const data = await tandaTerimaBarang.findAll(page as string, limit as string);
-  const totalCount = await tandaTerimaBarang.countDocument();
+  const data = await tandaTerimaBarang.findAll(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  const totalCount = await tandaTerimaBarang.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get TandaTerimaBarang',
     data,
