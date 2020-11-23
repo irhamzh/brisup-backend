@@ -49,6 +49,15 @@ export enum JenisPengadaanBarang {
   'Pemilihan Langsung' = 'Pemilihan Langsung',
   'Lelang' = 'Lelang',
 }
+export enum JenisPengadaan {
+  'Penunjukan Langsung' = 'Penunjukan Langsung',
+  'Swakelola' = 'Swakelola',
+  'Pembelian Langsung' = 'Pembelian Langsung',
+  'Pemilihan Langsung' = 'Pemilihan Langsung',
+  'Seleksi Langsung' = 'Seleksi Langsung',
+  'Lelang' = 'Lelang',
+}
+
 export enum JenisPengadaanJasaKonsultan {
   'Penunjukan Langsung' = 'Penunjukan Langsung',
   'Seleksi Langsung' = 'Seleksi Langsung',
