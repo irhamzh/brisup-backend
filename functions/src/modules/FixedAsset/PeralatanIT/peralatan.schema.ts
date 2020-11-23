@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import validationWording from '@constants/validationWording';
-import { BaseCondition, YesNo } from '@interfaces/BaseInterface';
+import { BaseCondition, YesNo } from '@constants/BaseCondition';
 import { JenisPeralatan } from './interface/peralatan.interface';
 
 const create = yup

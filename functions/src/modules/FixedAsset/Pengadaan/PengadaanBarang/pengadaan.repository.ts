@@ -3,7 +3,7 @@ import {
   IPengadaanSwakelolaPembelian,
   IPengadaanBarangdanJasa,
   IPengadaanJasaKonsultan,
-  JenisPengadaanJasaKonsultan,
+  JenisPengadaan,
   TypePengadaan,
   // JenisPengadaanBarang,
 } from './interface/pengadaan.interface';
@@ -103,14 +103,13 @@ export default class PengadaanRepository extends BaseRepository<
     jenisPengadaan: string,
     paramProvider?: string
   ) {
+    console.log(typePengadaan, '222');
     let createParam = {
       ...param,
       typePengadaan: TypePengadaan[typePengadaan as TypePengadaan],
-      jenisPengadaan:
-        JenisPengadaanJasaKonsultan[
-          jenisPengadaan as JenisPengadaanJasaKonsultan
-        ],
+      jenisPengadaan: JenisPengadaan[jenisPengadaan as JenisPengadaan],
     };
+    console.log(createParam, 'sdsds');
     if (paramProvider) {
       const providerRepository = new ProviderRepository();
       const provider: any = await providerRepository.findById(paramProvider);
