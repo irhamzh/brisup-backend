@@ -73,28 +73,28 @@ interface ISaranaPendukungBase {
   tanggal: Date;
   information: string;
   location: ILocationBase;
-  dinding?: string;
-  pintu?: string;
+  dinding?: boolean;
+  pintu?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   typeSaranaPendukung: string;
 }
 
 export interface ISaranaPendukungMushola extends ISaranaPendukungBase {
-  ceiling?: string;
-  carpetSholat?: string;
-  sajadah?: string;
-  jamDinding?: string;
-  pajangan?: string;
+  ceiling?: boolean;
+  carpetSholat?: boolean;
+  sajadah?: boolean;
+  jamDinding?: boolean;
+  pajangan?: boolean;
 }
 
 export interface ISaranaPendukungPos extends ISaranaPendukungBase {
-  plafond?: string;
-  lantai?: string;
-  jendela?: string;
-  kursi?: string;
-  meja?: string;
-  lampu?: string;
+  plafond?: boolean;
+  lantai?: boolean;
+  jendela?: boolean;
+  kursi?: boolean;
+  meja?: boolean;
+  lampu?: boolean;
 }
 
 export enum TypeInnovationBuilding {
@@ -119,14 +119,14 @@ interface IInovationBuildingBase {
 
 export interface IRuang extends IInovationBuildingBase {
   ruangan: IRuanganBase;
-  plafond?: string;
-  dinding?: string;
-  lantai?: string;
-  pintu?: string;
-  jendela?: string;
-  kursi?: string;
-  meja?: string;
-  lampu?: string;
+  plafond?: boolean;
+  dinding?: boolean;
+  lantai?: boolean;
+  pintu?: boolean;
+  jendela?: boolean;
+  kursi?: boolean;
+  meja?: boolean;
+  lampu?: boolean;
 }
 
 export interface IToilet extends IInovationBuildingBase {
