@@ -4,6 +4,7 @@ import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 
 import { db } from '@utils/admin';
+import applyFilterQuery from '@utils/applyFilterQuery';
 
 export default class FirestoreRepository<
   CreateParam,
@@ -25,8 +26,11 @@ export default class FirestoreRepository<
   }
 
   //cadangan
-  async countDocument() {
-    const snap = await this._collection.get();
+  async countDocument(filtered: string) {
+    const query = filtered
+      ? applyFilterQuery(this._collection, JSON.parse(filtered))
+      : this._collection;
+    const snap = await query.get();
     return snap.size || 0;
   }
 
@@ -84,31 +88,31 @@ export default class FirestoreRepository<
     return snap;
   }
 
-  async findAll(page: number | string = 1, limit: number | string = 10) {
-    // .where('name', '==', '\uf8ff' + '' + '\uf8ff')
+  async findAll(
+    page: number | string = 1,
+    limit: number | string = 10,
+    filtered: string,
+    sorted: string
+  ) {
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
     let skip = (parsedPage - 1) * parsedLimit || 1;
     if (parsedPage > 1) {
       skip = Number(skip) + 1;
     }
-    console.log(skip);
+    let query = filtered
+      ? applyFilterQuery(this._collection, JSON.parse(filtered))
+      : this._collection;
+
     //get skipbatch
-    const first = await this._collection
-      .orderBy('createdAt', 'asc')
-      .limit(skip)
-      .get();
+    const first = await query.limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
     //getData
-    const ref = await this._collection
-      .orderBy('createdAt', 'asc')
-      .startAt(last)
-      .limit(parsedLimit)
-      .get();
+    const ref = await query.startAt(last).limit(parsedLimit).get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
@@ -197,7 +201,9 @@ export default class FirestoreRepository<
     page: number | string = 1,
     limit: number | string = 10,
     parentId: string,
-    collectionName: string
+    collectionName: string,
+    filtered: string,
+    sorted: string
   ) {
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
@@ -205,24 +211,20 @@ export default class FirestoreRepository<
     if (parsedPage > 1) {
       skip = Number(skip) + 1;
     }
-    const first = await this._collection
-      .doc(parentId)
-      .collection(collectionName)
-      .orderBy('createdAt', 'asc')
-      .limit(skip)
-      .get();
+    let query = filtered
+      ? applyFilterQuery(
+          this._collection.doc(parentId).collection(collectionName),
+          JSON.parse(filtered)
+        )
+      : this._collection.doc(parentId).collection(collectionName);
+
+    const first = await query.limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
-    const ref = await this._collection
-      .doc(parentId)
-      .collection(collectionName)
-      .orderBy('createdAt', 'asc')
-      .startAt(last)
-      .limit(parsedLimit)
-      .get();
+    const ref = await query.startAt(last).limit(parsedLimit).get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
@@ -314,11 +316,18 @@ export default class FirestoreRepository<
       updatedAt: snap.data()?.updatedAt.toDate(),
     };
   }
-  async countSubDocument(parentId: string, collectionName: string) {
-    const snap = await this._collection
-      .doc(parentId)
-      .collection(collectionName)
-      .get();
+  async countSubDocument(
+    parentId: string,
+    collectionName: string,
+    filtered: string
+  ) {
+    const query = filtered
+      ? applyFilterQuery(
+          this._collection.doc(parentId).collection(collectionName),
+          JSON.parse(filtered)
+        )
+      : this._collection.doc(parentId).collection(collectionName);
+    const snap = await query.get();
     return snap.size || 0;
   }
 
@@ -363,7 +372,9 @@ export default class FirestoreRepository<
     parentId: string,
     collectionName: string,
     secondParentId: string,
-    secondCollectionName: string
+    secondCollectionName: string,
+    filtered: string,
+    sorted: string
   ) {
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
@@ -371,28 +382,28 @@ export default class FirestoreRepository<
     if (parsedPage > 1) {
       skip = Number(skip) + 1;
     }
-    const first = await this._collection
-      .doc(parentId)
-      .collection(collectionName)
-      .doc(secondParentId)
-      .collection(secondCollectionName)
-      .orderBy('createdAt', 'asc')
-      .limit(skip)
-      .get();
+    let query = filtered
+      ? applyFilterQuery(
+          this._collection
+            .doc(parentId)
+            .collection(collectionName)
+            .doc(secondParentId)
+            .collection(secondCollectionName),
+          JSON.parse(filtered)
+        )
+      : this._collection
+          .doc(parentId)
+          .collection(collectionName)
+          .doc(secondParentId)
+          .collection(secondCollectionName);
+
+    const first = await query.limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
-    const ref = await this._collection
-      .doc(parentId)
-      .collection(collectionName)
-      .doc(secondParentId)
-      .collection(secondCollectionName)
-      .orderBy('createdAt', 'asc')
-      .startAt(last)
-      .limit(parsedLimit)
-      .get();
+    const ref = await query.startAt(last).limit(parsedLimit).get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
@@ -500,14 +511,25 @@ export default class FirestoreRepository<
     parentId: string,
     collectionName: string,
     secondParentId: string,
-    secondCollectionName: string
+    secondCollectionName: string,
+    filtered: string
   ) {
-    const snap = await this._collection
-      .doc(parentId)
-      .collection(collectionName)
-      .doc(secondParentId)
-      .collection(secondCollectionName)
-      .get();
+    const query = filtered
+      ? applyFilterQuery(
+          this._collection
+            .doc(parentId)
+            .collection(collectionName)
+            .doc(secondParentId)
+            .collection(secondCollectionName),
+          JSON.parse(filtered)
+        )
+      : this._collection
+          .doc(parentId)
+          .collection(collectionName)
+          .doc(secondParentId)
+          .collection(secondCollectionName);
+    const snap = await query.get();
+
     return snap.size || 0;
   }
 }
