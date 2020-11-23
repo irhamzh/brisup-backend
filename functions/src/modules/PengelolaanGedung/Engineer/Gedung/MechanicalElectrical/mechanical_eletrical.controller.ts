@@ -35,7 +35,7 @@ export const createMechanicalElectrical = async (
   );
   const formatedData = {
     ...data,
-    expiredtabung: data.expiredtabung.toDate(),
+    expiredTabung: data.expiredTabung.toDate(),
   };
 
   res.json({
@@ -74,7 +74,7 @@ export const updateMechanicalElectrical = async (
   );
   const formatedData = {
     ...data,
-    expiredtabung: data.expiredtabung.toDate(),
+    expiredTabung: data.expiredTabung.toDate(),
   };
   res.json({
     message: 'Successfully Update MechanicalElectrical',
@@ -94,7 +94,7 @@ export const getMechanicalElectricalById = async (
   );
   const formatedData = {
     ...data,
-    expiredtabung: data.expiredtabung.toDate(),
+    expiredTabung: data.expiredTabung.toDate(),
   };
   res.json({
     message: 'Successfully Get MechanicalElectrical By Id',
@@ -116,7 +116,7 @@ export const getAllMechanicalElectrical = async (
 
   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
     ...item,
-    expiredtabung: item.expiredtabung.toDate(),
+    expiredTabung: item.expiredTabung.toDate(),
   }));
   res.json({
     message: 'Successfully Get MechanicalElectrical',
