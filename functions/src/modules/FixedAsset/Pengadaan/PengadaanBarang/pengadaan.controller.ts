@@ -134,7 +134,7 @@ export const getAllPengadaanKonsultanSeleksiLangsung = async (
   req: Request,
   res: Response
 ) => {
-  const { page, limit, filtered, sorted } = req.query;
+  const { page, limit } = req.query;
   const pengadaanRepository = new PengadaanRepository();
   const data = await pengadaanRepository.findAllPengadaan(
     page as string,
