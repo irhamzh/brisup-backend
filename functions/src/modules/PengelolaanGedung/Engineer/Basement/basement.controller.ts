@@ -512,14 +512,10 @@ export const createSTP = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await engineerBasementRepository.createSTP(
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
