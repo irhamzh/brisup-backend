@@ -603,7 +603,7 @@ export const updateInnovationBuildingSanitation = async (
     'pg-innovation-building'
   );
   let validatedBody: any = MappingBodyByType(
-    ref?.typeSaranaPendukung,
+    ref?.typeInnovationBuilding,
     body,
     'update'
   );
