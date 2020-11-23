@@ -14,7 +14,7 @@ export interface IMechanicalElectricalBase {
   acSystem: string;
   telephone: string;
   exhaust: string;
-  hedSprinkler: string;
+  headSprinkler: string;
   mccb: string;
   valves: string;
   segel: string;

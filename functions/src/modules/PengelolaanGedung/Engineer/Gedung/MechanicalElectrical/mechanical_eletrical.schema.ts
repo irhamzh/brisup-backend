@@ -78,16 +78,16 @@ const create = yup
         validationWording.oneOf('exhaust', ...getAllEnumKey(BaseCondition1))
       )
       .required(validationWording.required('exhaust')),
-    hedSprinkler: yup
+    headSprinkler: yup
       .mixed<keyof typeof BaseCondition1>()
       .oneOf(
         getAllEnumKey(BaseCondition1),
         validationWording.oneOf(
-          'hedSprinkler',
+          'headSprinkler',
           ...getAllEnumKey(BaseCondition1)
         )
       )
-      .required(validationWording.required('hedSprinkler')),
+      .required(validationWording.required('headSprinkler')),
     mccb: yup
       .mixed<keyof typeof BaseCondition1>()
       .oneOf(
@@ -225,12 +225,12 @@ const update = yup
         getAllEnumKey(BaseCondition1),
         validationWording.oneOf('exhaust', ...getAllEnumKey(BaseCondition1))
       ),
-    hedSprinkler: yup
+    headSprinkler: yup
       .mixed<keyof typeof BaseCondition1>()
       .oneOf(
         getAllEnumKey(BaseCondition1),
         validationWording.oneOf(
-          'hedSprinkler',
+          'headSprinkler',
           ...getAllEnumKey(BaseCondition1)
         )
       ),
