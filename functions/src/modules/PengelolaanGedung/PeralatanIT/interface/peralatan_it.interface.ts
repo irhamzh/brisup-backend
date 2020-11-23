@@ -15,3 +15,6 @@ export interface IPeralatanITBase {
 export interface IPeralatanITFisik extends IPeralatanITBase {
   hekonisme: string;
 }
+export interface IPeralatanIJaringan extends IPeralatanITBase {
+  status: string;
+}
