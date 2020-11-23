@@ -39,6 +39,31 @@ const update = yup
   })
   .required();
 
+const createJaringan = yup
+  .object()
+  .shape({
+    status: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('status', ...getAllEnumKey(YesNo))
+      )
+      .required(validationWording.required('status')),
+  })
+  .required();
+
+const updateJaringan = yup
+  .object()
+  .shape({
+    status: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('status', ...getAllEnumKey(YesNo))
+      ),
+  })
+  .required();
+
 const createFisik = yup
   .object()
   .shape({
@@ -64,13 +89,17 @@ const updateFisik = yup
   })
   .required();
 
-const createPeralatan = create.concat(baseCreate);
 const createPeralatanFisik = create.concat(createFisik).concat(baseCreate);
 const updatePeralatanFisik = update.concat(updateFisik);
 
+const createPeralatanJaringan = create
+  .concat(createJaringan)
+  .concat(baseCreate);
+const updatePeralatanJaringan = update.concat(updateJaringan);
+
 export default {
-  createPeralatan,
-  update,
+  createPeralatanJaringan,
+  updatePeralatanJaringan,
   baseCreate,
   createPeralatanFisik,
   updatePeralatanFisik,

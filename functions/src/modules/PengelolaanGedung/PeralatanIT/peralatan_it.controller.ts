@@ -1,13 +1,14 @@
-import { Request, Response } from 'express';
 import * as admin from 'firebase-admin';
+import { Request, Response } from 'express';
 
 import schema from './peralatan_it.schema';
-import { TypeItem } from '@modules/Item/interface/item.interface';
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
-import PeralatanITRepository from './peralatan_it.repository';
-import FloorRepository from '@modules/Floor/floor.repository';
+import { TypeItem } from '@modules/Item/interface/item.interface';
+
 import ItemRepository from '@modules/Item/item.repository';
+import FloorRepository from '@modules/Floor/floor.repository';
+import PeralatanITRepository from './peralatan_it.repository';
 import RuanganRepository from '@modules/Ruangan/ruangan.repository';
 
 export const createPeralatanIT = async (req: Request, res: Response) => {
@@ -17,7 +18,7 @@ export const createPeralatanIT = async (req: Request, res: Response) => {
   if (body?.typePeralatanIT?.toLowerCase() === TypeItem.fisik?.toLowerCase()) {
     validatedBody = yupValidate(schema.createPeralatanFisik, body);
   } else {
-    validatedBody = yupValidate(schema.createPeralatan, body);
+    validatedBody = yupValidate(schema.createPeralatanJaringan, body);
   }
 
   const peralatanITRepository = new PeralatanITRepository();
@@ -59,7 +60,7 @@ export const updatePeralatanIT = async (req: Request, res: Response) => {
   if (ref?.typePeralatanIT?.toLowerCase() === TypeItem.fisik?.toLowerCase()) {
     validatedBody = yupValidate(schema.updatePeralatanFisik, body);
   } else {
-    validatedBody = yupValidate(schema.update, body);
+    validatedBody = yupValidate(schema.updatePeralatanJaringan, body);
   }
 
   if (validatedBody.floor) {
