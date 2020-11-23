@@ -17,7 +17,7 @@ const create = yup
         getAllEnumKey(Division),
         validationWording.oneOf('typePersekot', ...getAllEnumKey(Division))
       )
-      .required(validationWording.required('costNominal')),
+      .required(validationWording.required('typePersekot')),
   })
   .required();
 
