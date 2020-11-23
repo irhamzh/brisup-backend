@@ -5,6 +5,6 @@ export default class BuildingTypeRepository extends BaseRepository<
   IBuildingTypeBase
 > {
   constructor() {
-    super('bulding_types', 'bulding_type');
+    super('building_types', 'building_type');
   }
 }
