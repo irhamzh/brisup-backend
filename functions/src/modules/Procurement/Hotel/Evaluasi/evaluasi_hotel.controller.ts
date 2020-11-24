@@ -24,7 +24,7 @@ export const createEvaluasiHotel = async (req: Request, res: Response) => {
 export const updateEvaluasiHotel = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'evaluasiHotelId');
-  const validatedBody = yupValidate(schema.create, body);
+  const validatedBody = yupValidate(schema.update, body);
 
   const evaluasiHotelRepository = new EvaluasiHotelRepository();
   const data = await evaluasiHotelRepository.update(
