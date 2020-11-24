@@ -34,8 +34,10 @@ import workingToolRouter from '@modules/PengelolaanGedung/PeralatanKerja/peralat
 import basementRouter from '@modules/PengelolaanGedung/Engineer/Basement/basement.routes';
 import mechanicalElectricalRouter from '@modules/PengelolaanGedung/Engineer/Gedung/MechanicalElectrical/mechanical_eletrical.routes';
 import ruanganGedungRouter from '@modules/PengelolaanGedung/Engineer/Gedung/Ruangan/gedung_ruangan.routes';
-
 import sanitationRouter from '@modules/PengelolaanGedung/Kebersihan/sanitation.routes';
+
+import evaluasiHotelRouter from '@modules/Procurement/Hotel/Evaluasi/evaluasi_hotel.routes';
+import klasifikasiHotelRouter from '@modules/Procurement/Hotel/Klasifikasi/klasifikasi_hotel.routes';
 
 const apiRouter = Router();
 
@@ -78,6 +80,9 @@ apiRouter.use(
 
 apiRouter.use('/pg-working-tools', workingToolRouter);
 apiRouter.use('/pg-sanitations', sanitationRouter);
+
+apiRouter.use('/pr-hotel-evaluations', evaluasiHotelRouter);
+apiRouter.use('/pr-hotel-clasifications', klasifikasiHotelRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
