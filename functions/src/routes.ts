@@ -38,6 +38,8 @@ import sanitationRouter from '@modules/PengelolaanGedung/Kebersihan/sanitation.r
 
 import evaluasiHotelRouter from '@modules/Procurement/Hotel/Evaluasi/evaluasi_hotel.routes';
 import klasifikasiHotelRouter from '@modules/Procurement/Hotel/Klasifikasi/klasifikasi_hotel.routes';
+import evaluasiCateringRouter from '@modules/Procurement/Catering/Evaluasi/evaluasi_catering.routes';
+import klasifikasiCateringRouter from '@modules/Procurement/Catering/Klasifikasi/klasifikasi_catering.routes';
 
 const apiRouter = Router();
 
@@ -83,6 +85,8 @@ apiRouter.use('/pg-sanitations', sanitationRouter);
 
 apiRouter.use('/pr-hotel-evaluations', evaluasiHotelRouter);
 apiRouter.use('/pr-hotel-clasifications', klasifikasiHotelRouter);
+apiRouter.use('/pr-catering-evaluations', evaluasiCateringRouter);
+apiRouter.use('/pr-catering-clasifications', klasifikasiCateringRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
