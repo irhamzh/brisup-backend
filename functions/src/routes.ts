@@ -19,6 +19,7 @@ import pumpUnitRouter from '@modules/MasterData/PumpUnit/pump_unit.routes';
 import locationRouter from '@modules/MasterData/Location/location.routes';
 import cateringRouter from '@modules/MasterData/Catering/catering.routes';
 import vendorRouter from '@modules/MasterData/Vendor/vendor.routes';
+import educationRouter from '@modules/MasterData/Education/education.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
 import monitoringVendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
@@ -66,6 +67,7 @@ apiRouter.use('/pump-units', pumpUnitRouter);
 apiRouter.use('/locations', locationRouter);
 apiRouter.use('/caterings', cateringRouter);
 apiRouter.use('/vendors', vendorRouter);
+apiRouter.use('/educations', educationRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
