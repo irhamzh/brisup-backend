@@ -18,12 +18,7 @@ export const getAllPengadaan = async (req: Request, res: Response) => {
 
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
-    if (item.masaBerlaku) {
-      dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
+
     if (item.tanggalPengadaan) {
       dataReturn = dataReturn = {
         ...dataReturn,
@@ -148,12 +143,7 @@ export const getAllPengadaanKonsultanSeleksiLangsung = async (
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
-    if (item.masaBerlaku) {
-      dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
+
     if (item.tanggalPengadaan) {
       dataReturn = dataReturn = {
         ...dataReturn,
@@ -274,12 +264,7 @@ export const getAllPengadaanKonsultanPenunjukanLangsung = async (
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
-    if (item.masaBerlaku) {
-      dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
+
     if (item.tanggalPengadaan) {
       dataReturn = dataReturn = {
         ...dataReturn,
@@ -386,12 +371,7 @@ export const getAllPengadaanBarangSwakelola = async (
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
-    if (item.masaBerlaku) {
-      dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
+
     if (item.tanggalPengadaan) {
       dataReturn = dataReturn = {
         ...dataReturn,
@@ -505,12 +485,7 @@ export const getAllPengadaanBarangPembelianLangsung = async (
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
-    if (item.masaBerlaku) {
-      dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
+
     if (item.tanggalPengadaan) {
       dataReturn = dataReturn = {
         ...dataReturn,
@@ -630,12 +605,7 @@ export const getAllPengadaanBarangPenunjukanLangsung = async (
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
-    if (item.masaBerlaku) {
-      dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
+
     if (item.tanggalPengadaan) {
       dataReturn = dataReturn = {
         ...dataReturn,
@@ -749,12 +719,7 @@ export const getAllPengadaanBarangPemilihanLangsung = async (
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
-    if (item.masaBerlaku) {
-      dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
+
     if (item.tanggalPengadaan) {
       dataReturn = dataReturn = {
         ...dataReturn,
@@ -861,12 +826,7 @@ export const getAllPengadaanBarangLelang = async (
   );
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
     let dataReturn = item;
-    if (item.masaBerlaku) {
-      dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
+
     if (item.tanggalPengadaan) {
       dataReturn = dataReturn = {
         ...dataReturn,

@@ -7,6 +7,7 @@ import PengadaanRepository from '@modules/FixedAsset/Pengadaan/PengadaanBarang/p
 
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
+import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 
 export const createPurchaseOrder = async (req: Request, res: Response) => {
   const { body } = req;
@@ -84,10 +85,11 @@ export const getAllPurchaseOrder = async (req: Request, res: Response) => {
     filtered as string,
     sorted as string
   );
+  const formatedDate = firestoreTimeStampToDate(data);
   const totalCount = await purchaseOrder.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get PurchaseOrder',
-    data,
+    data: formatedDate,
     totalCount,
   });
 };
