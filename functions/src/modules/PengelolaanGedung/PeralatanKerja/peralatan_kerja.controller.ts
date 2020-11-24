@@ -38,13 +38,9 @@ export const createPeralatanKerja = async (req: Request, res: Response) => {
     validatedBody
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
   res.json({
     message: 'Successfully Create PeralatanKerja',
-    data: formatedData,
+    data,
   });
 };
 
@@ -81,13 +77,10 @@ export const updatePeralatanKerja = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update PeralatanKerja',
-    data: formatedData,
+    data,
   });
 };
 
@@ -98,13 +91,10 @@ export const getPeralatanKerjaById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await peralatanKerjaRepository.findById(
     validateParam.uid
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Get PeralatanKerja By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -120,13 +110,10 @@ export const getAllPeralatanKerja = async (req: Request, res: Response) => {
   const totalCount = await peralatanKerjaRepository.countDocument(
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get PeralatanKerja',
-    data: formatedData,
+    data,
     totalCount,
   });
 };

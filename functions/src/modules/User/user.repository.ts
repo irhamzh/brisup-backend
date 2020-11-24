@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin';
 import { db } from '@utils/admin';
 import BaseRepository from '@repositories/baseRepository';
 import { IUserBase } from '@modules/User/interface/user.interface';
+import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 
 type loginParam = Omit<IUserBase, 'name' | 'role' | 'profilePicture'>;
 
@@ -27,14 +28,12 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     const data: admin.firestore.DocumentData = {
       id: ref.id,
       ...snap.data(),
-      createdAt: snap.data()?.createdAt.toDate(),
-      updatedAt: snap.data()?.createdAt.toDate(),
     };
     if (data?.password) {
       delete data.password;
     }
     return {
-      data,
+      data: firestoreTimeStampToDate(data),
       token,
     };
   }

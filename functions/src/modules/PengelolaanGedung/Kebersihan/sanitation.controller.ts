@@ -26,14 +26,10 @@ export const createYardSanitation = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await sanitationRepository.createYardSanitation(
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create Data',
-    data: formatedData,
+    data,
   });
 };
 
@@ -47,14 +43,10 @@ export const updateYardSanitation = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Update Data',
-    data: formatedData,
+    data,
   });
 };
 
@@ -83,14 +75,10 @@ export const getYardSanitationById = async (req: Request, res: Response) => {
     'yard',
     'pg-yard'
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Get YardSanitationBy Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -110,13 +98,10 @@ export const getAllYardSanitation = async (req: Request, res: Response) => {
     'pg-yard',
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get Water Meter',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -147,14 +132,10 @@ export const createSmartBuildingSanitation = async (
   const data: admin.firestore.DocumentData = await sanitationRepository.createSmartBuildingSanitation(
     createParam
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create Data',
-    data: formatedData,
+    data,
   });
 };
 
@@ -187,13 +168,10 @@ export const updateSmartBuildingSanitation = async (
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update Data',
-    data: formatedData,
+    data,
   });
 };
 
@@ -228,14 +206,9 @@ export const getSmartBuildingSanitationById = async (
     'pg-smart-building'
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
-
   res.json({
     message: 'Successfully Get SmartBuildingSanitation By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -258,13 +231,10 @@ export const getAllSmartBuildingSanitation = async (
     'pg-smart-building',
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get ac',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -577,14 +547,10 @@ export const createInnovationBuildingSanitation = async (
   const data: admin.firestore.DocumentData = await sanitationRepository.createInnovationBuilding(
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create Data',
-    data: formatedData,
+    data,
   });
 };
 
@@ -624,13 +590,10 @@ export const updateInnovationBuildingSanitation = async (
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update Data',
-    data: formatedData,
+    data,
   });
 };
 
@@ -665,14 +628,9 @@ export const getInnovationBuildingSanitationById = async (
     'pg-innovation-building'
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
-
   res.json({
     message: 'Successfully Get InnovationBuildingSanitation By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -695,13 +653,10 @@ export const getAllInnovationBuildingSanitation = async (
     'pg-innovation-building',
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get ac',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -734,14 +689,10 @@ export const createSaranaPendukungSanitation = async (
   const data: admin.firestore.DocumentData = await sanitationRepository.createSaranaPendukung(
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create Data',
-    data: formatedData,
+    data,
   });
 };
 
@@ -780,13 +731,10 @@ export const updateSaranaPendukungSanitation = async (
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update Data',
-    data: formatedData,
+    data,
   });
 };
 
@@ -821,14 +769,9 @@ export const getSaranaPendukungSanitationById = async (
     'pg-sarana-pendukung'
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
-
   res.json({
     message: 'Successfully Get SaranaPendukungSanitation By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -851,13 +794,10 @@ export const getAllSaranaPendukungSanitation = async (
     'pg-sarana-pendukung',
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get ac',
-    data: formatedData,
+    data,
     totalCount,
   });
 };

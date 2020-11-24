@@ -23,10 +23,9 @@ export const createPersediaan = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await persediaanRepository.create(
     createParam
   );
-  const formatedData = { ...data, tanggal: data.tanggal.toDate() };
   res.json({
     message: 'Successfully Create Persediaan',
-    data: formatedData,
+    data,
   });
 };
 
@@ -50,13 +49,10 @@ export const updatePersediaan = async (req: Request, res: Response) => {
     validateParam.uid,
     createParam
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update Persediaan',
-    data: formatedData,
+    data,
   });
 };
 
@@ -67,13 +63,10 @@ export const getPersediaanById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await persediaanRepository.findById(
     validateParam.uid
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Get Persediaan By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -89,13 +82,10 @@ export const getAllPersediaan = async (req: Request, res: Response) => {
   const totalCount = await persediaanRepository.countDocument(
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get Persediaan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };

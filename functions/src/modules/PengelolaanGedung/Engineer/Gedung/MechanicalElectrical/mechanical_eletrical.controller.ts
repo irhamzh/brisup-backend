@@ -33,14 +33,10 @@ export const createMechanicalElectrical = async (
   const data: admin.firestore.DocumentData = await mechanicalElectricalRepository.create(
     createParam
   );
-  const formatedData = {
-    ...data,
-    expiredTabung: data.expiredTabung.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -72,13 +68,10 @@ export const updateMechanicalElectrical = async (
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    expiredTabung: data.expiredTabung.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -92,13 +85,10 @@ export const getMechanicalElectricalById = async (
   const data: admin.firestore.DocumentData = await mechanicalElectricalRepository.findById(
     validateParam.uid
   );
-  const formatedData = {
-    ...data,
-    expiredTabung: data.expiredTabung.toDate(),
-  };
+
   res.json({
     message: 'Successfully Get MechanicalElectrical By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -118,13 +108,9 @@ export const getAllMechanicalElectrical = async (
     filtered as string
   );
 
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    expiredTabung: item.expiredTabung.toDate(),
-  }));
   res.json({
     message: 'Successfully Get MechanicalElectrical',
-    data: formatedData,
+    data,
     totalCount,
   });
 };

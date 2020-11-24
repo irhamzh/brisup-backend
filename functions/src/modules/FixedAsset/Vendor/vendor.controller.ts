@@ -28,13 +28,10 @@ export const createVendor = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await vendorRepository.create(
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Create Vendor',
-    data: formatedData,
+    data,
   });
 };
 
@@ -61,13 +58,10 @@ export const updateVendor = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update Vendor',
-    data: formatedData,
+    data,
   });
 };
 

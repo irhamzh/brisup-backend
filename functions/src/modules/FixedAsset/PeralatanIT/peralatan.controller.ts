@@ -40,14 +40,10 @@ export const createPeralatan = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await peralatanRepository.create(
     createParam
   );
-  let formatedData = data;
-  if (formatedData.tanggal) {
-    formatedData = { ...data, tanggal: data.tanggal.toDate() };
-  }
 
   res.json({
     message: 'Successfully Create Peralatan',
-    data: formatedData,
+    data,
   });
 };
 
@@ -90,14 +86,10 @@ export const updatePeralatan = async (req: Request, res: Response) => {
     validateParam.uid,
     createParam
   );
-  let formatedData = data;
-  if (formatedData.tanggal) {
-    formatedData = { ...data, tanggal: data.tanggal.toDate() };
-  }
 
   res.json({
     message: 'Successfully Update Peralatan',
-    data: formatedData,
+    data,
   });
 };
 
@@ -108,14 +100,10 @@ export const getPeralatanById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await peralatanRepository.findById(
     validateParam.uid
   );
-  let formatedData = data;
-  if (formatedData.tanggal) {
-    formatedData = { ...data, tanggal: data.tanggal.toDate() };
-  }
 
   res.json({
     message: 'Successfully Get Peralatan By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -128,22 +116,13 @@ export const getAllPeralatan = async (req: Request, res: Response) => {
     filtered as string,
     sorted as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
-    if (item.tanggal) {
-      dataReturn = {
-        ...dataReturn,
-        tanggal: item.tanggal.toDate(),
-      };
-    }
-    return dataReturn;
-  });
+
   const totalCount = await peralatanRepository.countDocument(
     filtered as string
   );
   res.json({
     message: 'Successfully Get Peralatan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };

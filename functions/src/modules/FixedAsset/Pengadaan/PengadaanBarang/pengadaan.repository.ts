@@ -20,6 +20,8 @@ import ProviderRepository from '@modules/Provider/provider.repository';
 //   'provider'
 // >;
 
+import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+
 export default class PengadaanRepository extends BaseRepository<
   | IPengadaanSwakelolaPembelian
   | IPengadaanBarangdanJasa
@@ -43,12 +45,10 @@ export default class PengadaanRepository extends BaseRepository<
         this._name
       );
     }
-    return {
+    return firestoreTimeStampToDate({
       id: snap.id,
       ...data,
-      createdAt: data?.createdAt.toDate(),
-      updatedAt: data?.updatedAt.toDate(),
-    };
+    });
   }
 
   async updatePengadaan(
@@ -89,12 +89,10 @@ export default class PengadaanRepository extends BaseRepository<
     }
     await ref.set(createParam, { merge: true });
     const updateSnap = await ref.get();
-    return {
+    return firestoreTimeStampToDate({
       id: ref.id,
       ...updateSnap.data(),
-      createdAt: updateSnap.data()?.createdAt.toDate(),
-      updatedAt: updateSnap.data()?.updatedAt.toDate(),
-    };
+    });
   }
 
   async createPengadaan(
@@ -156,13 +154,9 @@ export default class PengadaanRepository extends BaseRepository<
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
-      return data.push({
-        ...snap,
-        createdAt: snap.createdAt.toDate(),
-        updatedAt: snap.updatedAt.toDate(),
-      });
+      return data.push(snap);
     });
-    return data;
+    return firestoreTimeStampToDate(data);
   }
 
   async countDocumentPengadaan(typePengadaan: string, jenisPengadaan: string) {

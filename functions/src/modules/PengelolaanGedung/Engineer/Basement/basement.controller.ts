@@ -31,14 +31,10 @@ export const createWaterMeter = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await engineerBasementRepository.createWaterMeter(
     createParam
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -61,14 +57,10 @@ export const updateWaterMeter = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -97,14 +89,10 @@ export const getWaterMeterById = async (req: Request, res: Response) => {
     'water-meter',
     'pg-water-meters'
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Get WaterMeterBy Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -124,13 +112,10 @@ export const getAllWaterMeter = async (req: Request, res: Response) => {
     'pg-water-meters',
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get Water Meter',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -146,14 +131,10 @@ export const createElectrify = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await engineerBasementRepository.createElectrify(
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -168,13 +149,10 @@ export const updateElectrify = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -203,13 +181,10 @@ export const getElectrifyById = async (req: Request, res: Response) => {
     'electricity',
     'pg-electricities'
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Get ElectrifyBy Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -229,13 +204,10 @@ export const getAllElectrify = async (req: Request, res: Response) => {
     'pg-electricities',
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get Electricity',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -268,14 +240,10 @@ export const createAC = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await engineerBasementRepository.createAC(
     createParam
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -310,13 +278,10 @@ export const updateAC = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -345,14 +310,9 @@ export const getACById = async (req: Request, res: Response) => {
     'pg-acs'
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
-
   res.json({
     message: 'Successfully Get AC By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -372,13 +332,10 @@ export const getAllAC = async (req: Request, res: Response) => {
     'pg-acs',
     filtered as string
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get ac',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -405,14 +362,10 @@ export const createPlumbing = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await engineerBasementRepository.createPlumbing(
     createParam
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
 
   res.json({
     message: 'Successfully Create MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -439,14 +392,9 @@ export const updatePlumbing = async (req: Request, res: Response) => {
     validatedBody
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
-
   res.json({
     message: 'Successfully Update MechanicalElectrical',
-    data: formatedData,
+    data,
   });
 };
 
@@ -475,13 +423,10 @@ export const getPlumbingById = async (req: Request, res: Response) => {
     'plumbing',
     'pg-plumbings'
   );
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
+
   res.json({
     message: 'Successfully Get AC By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -502,13 +447,9 @@ export const getAllPlumbing = async (req: Request, res: Response) => {
     filtered as string
   );
 
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
   res.json({
     message: 'Successfully Get plumbing',
-    data: formatedData,
+    data,
     totalCount,
   });
 };

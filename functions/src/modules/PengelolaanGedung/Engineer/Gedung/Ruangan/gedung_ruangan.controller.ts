@@ -37,13 +37,9 @@ export const createBuildingRoom = async (req: Request, res: Response) => {
     createParam
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
   res.json({
     message: 'Successfully Create BuildingRoom',
-    data: formatedData,
+    data,
   });
 };
 
@@ -81,14 +77,9 @@ export const updateBuildingRoom = async (req: Request, res: Response) => {
     validatedBody
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
-
   res.json({
     message: 'Successfully Update Building Room',
-    data: formatedData,
+    data,
   });
 };
 
@@ -100,13 +91,9 @@ export const getBuildingRoomById = async (req: Request, res: Response) => {
     validateParam.uid
   );
 
-  const formatedData = {
-    ...data,
-    tanggal: data.tanggal.toDate(),
-  };
   res.json({
     message: 'Successfully Get Building Room By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -123,13 +110,9 @@ export const getAllBuildingRoom = async (req: Request, res: Response) => {
     filtered as string
   );
 
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    tanggal: item.tanggal.toDate(),
-  }));
   res.json({
     message: 'Successfully Get BuildingRoom',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
