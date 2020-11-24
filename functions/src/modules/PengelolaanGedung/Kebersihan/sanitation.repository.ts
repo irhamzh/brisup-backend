@@ -20,7 +20,7 @@ export default class BuildingSanitationRepository extends BaseRepository<
 > {
   _buildingSanitationModel: admin.firestore.CollectionReference;
   constructor() {
-    super('pg-building-sanitations', 'pg-building-sanitation');
+    super('pg-building-sanitations', 'pg-building-sanitation'); //rename
     this._buildingSanitationModel = db.collection('pg-building-sanitations');
   }
   async createYardSanitation(object: ISanitationYard) {

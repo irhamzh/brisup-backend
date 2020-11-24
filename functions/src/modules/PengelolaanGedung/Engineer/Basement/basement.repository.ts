@@ -17,7 +17,7 @@ export default class EngineerBasementRepository extends BaseRepository<
 > {
   _basementModel: admin.firestore.CollectionReference;
   constructor() {
-    super('pg-basements', 'pg-basement');
+    super('pg-basements', 'pg-basement'); //rename
     this._basementModel = db.collection('pg-basements');
   }
   async createWaterMeter(object: IEngineerBasementWater) {

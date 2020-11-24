@@ -6,6 +6,8 @@ import validationWording from '@constants/validationWording';
 import { db } from '@utils/admin';
 import applyFilterQuery from '@utils/applyFilterQuery';
 
+import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+
 export default class FirestoreRepository<
   CreateParam,
   ConditionParam = {},
@@ -43,19 +45,15 @@ export default class FirestoreRepository<
     const ref = await this._collection.add(createParam);
     const snap = await ref.get();
     if (snap.data()) {
-      return {
+      return firestoreTimeStampToDate({
         id: ref.id,
         ...snap.data(),
-        createdAt: snap.data()?.createdAt.toDate(),
-        updatedAt: snap.data()?.updatedAt.toDate(),
-      };
+      });
     }
-    return {
+    return firestoreTimeStampToDate({
       id: ref.id,
       ...object,
-      createdAt: createParam.createdAt,
-      updatedAt: createParam.updatedAt,
-    };
+    });
   }
 
   async findById(id: string) {
@@ -68,12 +66,10 @@ export default class FirestoreRepository<
       );
     }
     const data = snap.data();
-    return {
+    return firestoreTimeStampToDate({
       id: snap.id,
       ...data,
-      createdAt: data?.createdAt.toDate(),
-      updatedAt: data?.updatedAt.toDate(),
-    };
+    });
   }
 
   async findByIdWithoutFormat(id: string) {
@@ -116,13 +112,9 @@ export default class FirestoreRepository<
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
-      return data.push({
-        ...snap,
-        createdAt: snap.createdAt.toDate(),
-        updatedAt: snap.updatedAt.toDate(),
-      });
+      return data.push(snap);
     });
-    return data;
+    return firestoreTimeStampToDate(data);
   }
 
   async update(id: string, object: Partial<CreateParam>) {
@@ -140,12 +132,10 @@ export default class FirestoreRepository<
     };
     await ref.set(createParam, { merge: true });
     const updateSnap = await ref.get();
-    return {
+    return firestoreTimeStampToDate({
       id: ref.id,
       ...updateSnap.data(),
-      createdAt: updateSnap.data()?.createdAt.toDate(),
-      updatedAt: updateSnap.data()?.updatedAt.toDate(),
-    };
+    });
   }
 
   async delete(id: string) {
@@ -158,12 +148,10 @@ export default class FirestoreRepository<
       );
     }
     await ref.delete();
-    return {
+    return firestoreTimeStampToDate({
       id: ref.id,
       ...snap.data(),
-      createdAt: snap.data()?.createdAt.toDate(),
-      updatedAt: snap.data()?.updatedAt.toDate(),
-    };
+    });
   }
 
   async createWithSubdocument(
@@ -182,19 +170,15 @@ export default class FirestoreRepository<
       .add(createParam);
     const snap = await ref.get();
     if (snap.data()) {
-      return {
+      return firestoreTimeStampToDate({
         id: ref.id,
         ...snap.data(),
-        createdAt: snap.data()?.createdAt.toDate(),
-        updatedAt: snap.data()?.updatedAt.toDate(),
-      };
+      });
     }
-    return {
+    return firestoreTimeStampToDate({
       id: ref.id,
       ...object,
-      createdAt: createParam.createdAt,
-      updatedAt: createParam.updatedAt,
-    };
+    });
   }
 
   async findAllSubDocument(
@@ -228,13 +212,9 @@ export default class FirestoreRepository<
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
-      return data.push({
-        ...snap,
-        createdAt: snap.createdAt.toDate(),
-        updatedAt: snap.updatedAt.toDate(),
-      });
+      return data.push(snap);
     });
-    return data;
+    return firestoreTimeStampToDate(data);
   }
   async findSubdocumentById(
     id: string,
@@ -253,12 +233,7 @@ export default class FirestoreRepository<
       );
     }
     const data = snap.data();
-    return {
-      id: snap.id,
-      ...data,
-      createdAt: data?.createdAt.toDate(),
-      updatedAt: data?.updatedAt.toDate(),
-    };
+    return firestoreTimeStampToDate({ id: snap.id, ...data });
   }
 
   async updateSubDocument(
@@ -284,12 +259,7 @@ export default class FirestoreRepository<
     };
     await ref.set(createParam, { merge: true });
     const updateSnap = await ref.get();
-    return {
-      id: ref.id,
-      ...updateSnap.data(),
-      createdAt: updateSnap.data()?.createdAt.toDate(),
-      updatedAt: updateSnap.data()?.updatedAt.toDate(),
-    };
+    return firestoreTimeStampToDate({ id: ref.id, ...updateSnap.data() });
   }
 
   async deleteSubDocument(
@@ -309,13 +279,9 @@ export default class FirestoreRepository<
       );
     }
     await ref.delete();
-    return {
-      id: ref.id,
-      ...snap.data(),
-      createdAt: snap.data()?.createdAt.toDate(),
-      updatedAt: snap.data()?.updatedAt.toDate(),
-    };
+    return firestoreTimeStampToDate({ id: ref.id, ...snap.data() });
   }
+
   async countSubDocument(
     parentId: string,
     collectionName: string,
@@ -351,19 +317,9 @@ export default class FirestoreRepository<
       .add(createParam);
     const snap = await ref.get();
     if (snap.data()) {
-      return {
-        id: ref.id,
-        ...snap.data(),
-        createdAt: snap.data()?.createdAt.toDate(),
-        updatedAt: snap.data()?.updatedAt.toDate(),
-      };
+      return firestoreTimeStampToDate({ id: ref.id, ...snap.data() });
     }
-    return {
-      id: ref.id,
-      ...object,
-      createdAt: createParam.createdAt,
-      updatedAt: createParam.updatedAt,
-    };
+    return firestoreTimeStampToDate({ id: ref.id, ...object });
   }
 
   async findAll2LevelSubDocument(
@@ -407,14 +363,11 @@ export default class FirestoreRepository<
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
-      return data.push({
-        ...snap,
-        createdAt: snap.createdAt.toDate(),
-        updatedAt: snap.updatedAt.toDate(),
-      });
+      return data.push(snap);
     });
-    return data;
+    return firestoreTimeStampToDate(data);
   }
+
   async find2LevelSubDocumentById(
     id: string,
     parentId: string,
@@ -436,12 +389,7 @@ export default class FirestoreRepository<
       );
     }
     const data = snap.data();
-    return {
-      id: snap.id,
-      ...data,
-      createdAt: data?.createdAt.toDate(),
-      updatedAt: data?.updatedAt.toDate(),
-    };
+    return firestoreTimeStampToDate({ id: snap.id, ...data });
   }
 
   async update2LevelSubDocument(
@@ -471,12 +419,7 @@ export default class FirestoreRepository<
     };
     await ref.set(createParam, { merge: true });
     const updateSnap = await ref.get();
-    return {
-      id: ref.id,
-      ...updateSnap.data(),
-      createdAt: updateSnap.data()?.createdAt.toDate(),
-      updatedAt: updateSnap.data()?.updatedAt.toDate(),
-    };
+    return firestoreTimeStampToDate({ id: ref.id, ...updateSnap.data() });
   }
 
   async delete2LevelSubDocument(
@@ -500,13 +443,9 @@ export default class FirestoreRepository<
       );
     }
     await ref.delete();
-    return {
-      id: ref.id,
-      ...snap.data(),
-      createdAt: snap.data()?.createdAt.toDate(),
-      updatedAt: snap.data()?.updatedAt.toDate(),
-    };
+    return firestoreTimeStampToDate({ id: ref.id, ...snap.data() });
   }
+
   async count2LevelSubDocument(
     parentId: string,
     collectionName: string,

@@ -13,11 +13,10 @@ export const createPersekot = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await persekotRepository.create(
     validatedBody
   );
-  const formatedData = { ...data, date: data.date.toDate() };
 
   res.json({
     message: 'Successfully Create Persekot',
-    data: formatedData,
+    data,
   });
 };
 
@@ -30,10 +29,9 @@ export const updatePersekot = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = { ...data, date: data.date.toDate() };
   res.json({
     message: 'Successfully Update Persekot',
-    data: formatedData,
+    data,
   });
 };
 
@@ -44,10 +42,9 @@ export const getPersekotById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await persekotRepository.findById(
     validateParam.uid
   );
-  const formatedData = { ...data, date: data.date.toDate() };
   res.json({
     message: 'Successfully Get PersekotBy Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -61,14 +58,10 @@ export const getAllPersekot = async (req: Request, res: Response) => {
     sorted as string
   );
   const totalCount = await persekotRepository.countDocument(filtered as string);
-  const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-    ...item,
-    date: item.date.toDate(),
-  }));
+
   res.json({
     message: 'Successfully Get Persekot',
-    data: formatedData,
-    panjang: formatedData.length || 0,
+    data,
     totalCount,
   });
 };

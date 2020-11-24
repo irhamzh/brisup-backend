@@ -5,6 +5,6 @@ export default class PgRoomRepository extends BaseRepository<
   IGedungRuanganBase
 > {
   constructor() {
-    super('pg-rooms', 'pg-room');
+    super('pg-rooms', 'pg-room'); //rename
   }
 }

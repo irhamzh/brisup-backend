@@ -18,9 +18,11 @@ import pumpRouter from '@modules/MasterData/Pump/pump.routes';
 import pumpUnitRouter from '@modules/MasterData/PumpUnit/pump_unit.routes';
 import locationRouter from '@modules/MasterData/Location/location.routes';
 import cateringRouter from '@modules/MasterData/Catering/catering.routes';
+import vendorRouter from '@modules/MasterData/Vendor/vendor.routes';
+import educationRouter from '@modules/MasterData/Education/education.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
-import vendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
+import monitoringVendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
 import persekotRouter from '@modules/FixedAsset/Persekot/persekot.routes';
 import persediaanRouter from '@modules/FixedAsset/Persediaan/persediaan.routes';
 import peralatanITRouter from '@modules/FixedAsset/PeralatanIT/peralatan.routes';
@@ -41,6 +43,8 @@ import evaluasiHotelRouter from '@modules/Procurement/Hotel/Evaluasi/evaluasi_ho
 import klasifikasiHotelRouter from '@modules/Procurement/Hotel/Klasifikasi/klasifikasi_hotel.routes';
 import evaluasiCateringRouter from '@modules/Procurement/Catering/Evaluasi/evaluasi_catering.routes';
 import klasifikasiCateringRouter from '@modules/Procurement/Catering/Klasifikasi/klasifikasi_catering.routes';
+import evaluasiATKRouter from '@modules/Procurement/ATK/Evaluasi/evaluasi_atk.routes';
+import klasifikasiATKRouter from '@modules/Procurement/ATK/Klasifikasi/klasifikasi_atk.routes';
 
 const apiRouter = Router();
 
@@ -62,9 +66,11 @@ apiRouter.use('/pumps', pumpRouter);
 apiRouter.use('/pump-units', pumpUnitRouter);
 apiRouter.use('/locations', locationRouter);
 apiRouter.use('/caterings', cateringRouter);
+apiRouter.use('/vendors', vendorRouter);
+apiRouter.use('/educations', educationRouter);
 
 apiRouter.use('/assets', assetRouter);
-apiRouter.use('/vendors', vendorRouter);
+apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
 apiRouter.use('/persekots', persekotRouter);
 apiRouter.use('/pengadaans', pengadaanRouter);
 apiRouter.use('/persediaans', persediaanRouter);
@@ -89,6 +95,8 @@ apiRouter.use('/pr-hotel-evaluations', evaluasiHotelRouter);
 apiRouter.use('/pr-hotel-clasifications', klasifikasiHotelRouter);
 apiRouter.use('/pr-catering-evaluations', evaluasiCateringRouter);
 apiRouter.use('/pr-catering-clasifications', klasifikasiCateringRouter);
+apiRouter.use('/pr-atk-evaluations', evaluasiATKRouter);
+apiRouter.use('/pr-atk-clasifications', klasifikasiATKRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);

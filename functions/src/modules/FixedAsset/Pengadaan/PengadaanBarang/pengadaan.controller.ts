@@ -16,43 +16,13 @@ export const getAllPengadaan = async (req: Request, res: Response) => {
     sorted as string
   );
 
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
-
-    if (item.tanggalPengadaan) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalPengadaan: item.tanggalPengadaan.toDate(),
-      };
-    }
-
-    if (item.tanggalSPK) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalSPK: item.tanggalSPK.toDate(),
-      };
-    }
-    if (item.masaBerlaku) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
-    if (item.sampai) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        sampai: item.sampai.toDate(),
-      };
-    }
-    return dataReturn;
-  });
   const totalCount = await pengadaanRepository.countDocument(
     filtered as string
   );
 
   res.json({
     message: 'Successfully Get All Pengadaan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -141,39 +111,10 @@ export const getAllPengadaanKonsultanSeleksiLangsung = async (
     'konsultan',
     'Seleksi Langsung'
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
 
-    if (item.tanggalPengadaan) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalPengadaan: item.tanggalPengadaan.toDate(),
-      };
-    }
-
-    if (item.tanggalSPK) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalSPK: item.tanggalSPK.toDate(),
-      };
-    }
-    if (item.masaBerlaku) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
-    if (item.sampai) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        sampai: item.sampai.toDate(),
-      };
-    }
-    return dataReturn;
-  });
   res.json({
     message: 'Successfully Get Pengadaan',
-    data: formatedData,
+    data,
     datas: data,
     totalCount,
   });
@@ -262,39 +203,10 @@ export const getAllPengadaanKonsultanPenunjukanLangsung = async (
     'konsultan',
     'Penunjukan Langsung'
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
 
-    if (item.tanggalPengadaan) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalPengadaan: item.tanggalPengadaan.toDate(),
-      };
-    }
-
-    if (item.tanggalSPK) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalSPK: item.tanggalSPK.toDate(),
-      };
-    }
-    if (item.masaBerlaku) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
-    if (item.sampai) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        sampai: item.sampai.toDate(),
-      };
-    }
-    return dataReturn;
-  });
   res.json({
     message: 'Successfully Get Pengadaan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -369,39 +281,10 @@ export const getAllPengadaanBarangSwakelola = async (
     'barang',
     'Swakelola'
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
 
-    if (item.tanggalPengadaan) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalPengadaan: item.tanggalPengadaan.toDate(),
-      };
-    }
-
-    if (item.tanggalSPK) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalSPK: item.tanggalSPK.toDate(),
-      };
-    }
-    if (item.masaBerlaku) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
-    if (item.sampai) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        sampai: item.sampai.toDate(),
-      };
-    }
-    return dataReturn;
-  });
   res.json({
     message: 'Successfully Get Pengadaan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -483,39 +366,10 @@ export const getAllPengadaanBarangPembelianLangsung = async (
     'barang',
     'Pembelian Langsung'
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
 
-    if (item.tanggalPengadaan) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalPengadaan: item.tanggalPengadaan.toDate(),
-      };
-    }
-
-    if (item.tanggalSPK) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalSPK: item.tanggalSPK.toDate(),
-      };
-    }
-    if (item.masaBerlaku) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
-    if (item.sampai) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        sampai: item.sampai.toDate(),
-      };
-    }
-    return dataReturn;
-  });
   res.json({
     message: 'Successfully Get Pengadaan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -603,39 +457,10 @@ export const getAllPengadaanBarangPenunjukanLangsung = async (
     'barang',
     'Penunjukan Langsung'
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
 
-    if (item.tanggalPengadaan) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalPengadaan: item.tanggalPengadaan.toDate(),
-      };
-    }
-
-    if (item.tanggalSPK) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalSPK: item.tanggalSPK.toDate(),
-      };
-    }
-    if (item.masaBerlaku) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
-    if (item.sampai) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        sampai: item.sampai.toDate(),
-      };
-    }
-    return dataReturn;
-  });
   res.json({
     message: 'Successfully Get Pengadaan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -717,39 +542,10 @@ export const getAllPengadaanBarangPemilihanLangsung = async (
     'barang',
     'Pemilihan Langsung'
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
 
-    if (item.tanggalPengadaan) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalPengadaan: item.tanggalPengadaan.toDate(),
-      };
-    }
-
-    if (item.tanggalSPK) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalSPK: item.tanggalSPK.toDate(),
-      };
-    }
-    if (item.masaBerlaku) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
-    if (item.sampai) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        sampai: item.sampai.toDate(),
-      };
-    }
-    return dataReturn;
-  });
   res.json({
     message: 'Successfully Get Pengadaan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -824,39 +620,10 @@ export const getAllPengadaanBarangLelang = async (
     'barang',
     'Lelang'
   );
-  const formatedData = data.map((item: admin.firestore.DocumentData) => {
-    let dataReturn = item;
 
-    if (item.tanggalPengadaan) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalPengadaan: item.tanggalPengadaan.toDate(),
-      };
-    }
-
-    if (item.tanggalSPK) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        tanggalSPK: item.tanggalSPK.toDate(),
-      };
-    }
-    if (item.masaBerlaku) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        masaBerlaku: item.masaBerlaku.toDate(),
-      };
-    }
-    if (item.sampai) {
-      dataReturn = dataReturn = {
-        ...dataReturn,
-        sampai: item.sampai.toDate(),
-      };
-    }
-    return dataReturn;
-  });
   res.json({
     message: 'Successfully Get Pengadaan',
-    data: formatedData,
+    data,
     totalCount,
   });
 };

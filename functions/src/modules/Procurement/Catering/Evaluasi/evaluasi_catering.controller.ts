@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 
-import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
 import CateringRepository from '@modules/MasterData/Catering/catering.repository';
 
@@ -31,11 +30,10 @@ export const createEvaluasiCatering = async (req: Request, res: Response) => {
   };
 
   const data = await evaluasiCateringRepository.create(createParam);
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Create EvaluasiCatering',
-    data: formatedData,
+    data,
   });
 };
 
@@ -65,10 +63,9 @@ export const updateEvaluasiCatering = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = firestoreTimeStampToDate(data);
   res.json({
     message: 'Successfully Update EvaluasiCatering',
-    data: formatedData,
+    data,
   });
 };
 
@@ -77,11 +74,10 @@ export const getEvaluasiCateringById = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'evaluasiCateringId');
   const evaluasiCateringRepository = new EvaluasiCateringRepository();
   const data = await evaluasiCateringRepository.findById(validateParam.uid);
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Get EvaluasiCatering By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -97,11 +93,10 @@ export const getAllEvaluasiCatering = async (req: Request, res: Response) => {
   const totalCount = await evaluasiCateringRepository.countDocument(
     filtered as string
   );
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Get EvaluasiCatering',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -114,10 +109,9 @@ export const deleteEvaluasiCateringById = async (
   const validateParam = paramValidation(params, 'evaluasiCateringId');
   const evaluasiCateringRepository = new EvaluasiCateringRepository();
   const data = await evaluasiCateringRepository.delete(validateParam.uid);
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'SuccessfullyDeleteBy Id',
-    data: formatedData,
+    data,
   });
 };
