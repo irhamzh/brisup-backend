@@ -18,9 +18,10 @@ import pumpRouter from '@modules/MasterData/Pump/pump.routes';
 import pumpUnitRouter from '@modules/MasterData/PumpUnit/pump_unit.routes';
 import locationRouter from '@modules/MasterData/Location/location.routes';
 import cateringRouter from '@modules/MasterData/Catering/catering.routes';
+import vendorRouter from '@modules/MasterData/Vendor/vendor.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
-import vendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
+import monitoringVendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
 import persekotRouter from '@modules/FixedAsset/Persekot/persekot.routes';
 import persediaanRouter from '@modules/FixedAsset/Persediaan/persediaan.routes';
 import peralatanITRouter from '@modules/FixedAsset/PeralatanIT/peralatan.routes';
@@ -62,9 +63,10 @@ apiRouter.use('/pumps', pumpRouter);
 apiRouter.use('/pump-units', pumpUnitRouter);
 apiRouter.use('/locations', locationRouter);
 apiRouter.use('/caterings', cateringRouter);
+apiRouter.use('/vendors', vendorRouter);
 
 apiRouter.use('/assets', assetRouter);
-apiRouter.use('/vendors', vendorRouter);
+apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
 apiRouter.use('/persekots', persekotRouter);
 apiRouter.use('/pengadaans', pengadaanRouter);
 apiRouter.use('/persediaans', persediaanRouter);
