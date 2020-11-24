@@ -6,7 +6,6 @@ import paramValidation from '@utils/paramValidation';
 import schema from './klasifikasi_hotel.schema';
 import HotelClasificationRepository from './klasifikasi_hotel.repository';
 import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
-import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 
 export const createHotelClasification = async (req: Request, res: Response) => {
   const { body } = req;
@@ -23,11 +22,10 @@ export const createHotelClasification = async (req: Request, res: Response) => {
   };
 
   const data = await hotelClasificationRepository.create(createParam);
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Create HotelClasification',
-    data: formatedData,
+    data,
   });
 };
 
@@ -50,11 +48,10 @@ export const updateHotelClasification = async (req: Request, res: Response) => {
     validateParam.uid,
     validatedBody
   );
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Update HotelClasification',
-    data: formatedData,
+    data,
   });
 };
 
@@ -66,11 +63,10 @@ export const getHotelClasificationById = async (
   const validateParam = paramValidation(params, 'hotelClasificationId');
   const hotelClasificationRepository = new HotelClasificationRepository();
   const data = await hotelClasificationRepository.findById(validateParam.uid);
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Get HotelClasification By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -86,11 +82,10 @@ export const getAllHotelClasification = async (req: Request, res: Response) => {
   const totalCount = await hotelClasificationRepository.countDocument(
     filtered as string
   );
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Get HotelClasification',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -103,10 +98,9 @@ export const deleteHotelClasificationById = async (
   const validateParam = paramValidation(params, 'hotelClasificationId');
   const hotelClasificationRepository = new HotelClasificationRepository();
   const data = await hotelClasificationRepository.delete(validateParam.uid);
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'SuccessfullyDeleteBy Id',
-    data: formatedData,
+    data,
   });
 };

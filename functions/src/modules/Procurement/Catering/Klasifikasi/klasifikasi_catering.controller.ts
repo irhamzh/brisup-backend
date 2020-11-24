@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 
-import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
 import CateringRepository from '@modules/MasterData/Catering/catering.repository';
 
@@ -33,11 +32,10 @@ export const createCateringClasification = async (
   };
 
   const data = await cateringClasificationRepository.create(createParam);
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Create CateringClasification',
-    data: formatedData,
+    data,
   });
 };
 
@@ -70,11 +68,10 @@ export const updateCateringClasification = async (
     validateParam.uid,
     validatedBody
   );
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Update CateringClasification',
-    data: formatedData,
+    data,
   });
 };
 
@@ -88,11 +85,10 @@ export const getCateringClasificationById = async (
   const data = await cateringClasificationRepository.findById(
     validateParam.uid
   );
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Get CateringClasification By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -111,11 +107,10 @@ export const getAllCateringClasification = async (
   const totalCount = await cateringClasificationRepository.countDocument(
     filtered as string
   );
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Get CateringClasification',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
@@ -128,10 +123,9 @@ export const deleteCateringClasificationById = async (
   const validateParam = paramValidation(params, 'cateringClasificationId');
   const cateringClasificationRepository = new CateringClasificationRepository();
   const data = await cateringClasificationRepository.delete(validateParam.uid);
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'SuccessfullyDeleteBy Id',
-    data: formatedData,
+    data,
   });
 };

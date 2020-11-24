@@ -7,7 +7,6 @@ import MappingBodyByType from './helpers/MappingBodyByType';
 import schema from '@modules/FixedAsset/Vendor/vendor.schema';
 import PartnerRepository from '@modules/Partner/partner.repository';
 import VendorRepository from '@modules/FixedAsset/Vendor/vendor.repository';
-import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 
 export const createVendor = async (req: Request, res: Response) => {
   const { body } = req;
@@ -72,15 +71,10 @@ export const getVendorById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await vendorRepository.findById(
     validateParam.uid
   );
-  // const formatedData = {
-  //   ...data,
-  //   tanggal: data.tanggal.toDate(),
-  // };
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Get Vendor By Id',
-    data: formatedData,
+    data,
   });
 };
 
@@ -94,15 +88,10 @@ export const getAllVendor = async (req: Request, res: Response) => {
     sorted as string
   );
   const totalCount = await vendorRepository.countDocument(filtered as string);
-  // const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-  //   ...item,
-  //   tanggal: item.tanggal.toDate(),
-  // }));
-  const formatedData = firestoreTimeStampToDate(data);
 
   res.json({
     message: 'Successfully Get Vendor',
-    data: formatedData,
+    data,
     totalCount,
   });
 };
