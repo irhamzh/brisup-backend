@@ -5,14 +5,20 @@ import * as admin from 'firebase-admin';
 import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
+import generateUniqueId from '@utils/generateAutoNumber';
 
 export const createWorkingOrder = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
+  const kodeWorkingOrder = generateUniqueId({
+    length: 10,
+    prefix: 'WK-',
+  });
+  let createParam = { ...validatedBody, kodeWorkingOrder };
 
   const workingOrderRepository = new WorkingOrderRepository();
   const data: admin.firestore.DocumentData = await workingOrderRepository.create(
-    validatedBody
+    createParam
   );
   const formatedData = {
     ...data,

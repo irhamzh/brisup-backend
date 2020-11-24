@@ -1,5 +1,5 @@
 export interface IPersekotBase {
-  typePersekot: string;
+  division: string;
   date: Date;
   name: string;
   costNominal: string;

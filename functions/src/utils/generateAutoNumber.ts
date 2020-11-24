@@ -49,7 +49,7 @@ export default function generateUniqueId({
 
   const result = createId(availableChars, length);
   if (prefix) {
-    return prefix + '-' + result;
+    return prefix + result;
   }
   return prefix;
 }
