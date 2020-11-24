@@ -42,6 +42,7 @@ import evaluasiHotelRouter from '@modules/Procurement/Hotel/Evaluasi/evaluasi_ho
 import klasifikasiHotelRouter from '@modules/Procurement/Hotel/Klasifikasi/klasifikasi_hotel.routes';
 import evaluasiCateringRouter from '@modules/Procurement/Catering/Evaluasi/evaluasi_catering.routes';
 import klasifikasiCateringRouter from '@modules/Procurement/Catering/Klasifikasi/klasifikasi_catering.routes';
+import evaluasiATKRouter from '@modules/Procurement/ATK/Evaluasi/evaluasi_atk.routes';
 
 const apiRouter = Router();
 
@@ -91,6 +92,7 @@ apiRouter.use('/pr-hotel-evaluations', evaluasiHotelRouter);
 apiRouter.use('/pr-hotel-clasifications', klasifikasiHotelRouter);
 apiRouter.use('/pr-catering-evaluations', evaluasiCateringRouter);
 apiRouter.use('/pr-catering-clasifications', klasifikasiCateringRouter);
+apiRouter.use('/pr-atk-evaluations', evaluasiATKRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
