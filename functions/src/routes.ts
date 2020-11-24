@@ -17,6 +17,7 @@ import waterMeterRouter from '@modules/MasterData/WaterMater/water_meter.routes'
 import pumpRouter from '@modules/MasterData/Pump/pump.routes';
 import pumpUnitRouter from '@modules/MasterData/PumpUnit/pump_unit.routes';
 import locationRouter from '@modules/MasterData/Location/location.routes';
+import cateringRouter from '@modules/MasterData/Catering/catering.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
 import vendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
@@ -60,6 +61,7 @@ apiRouter.use('/compressors', compressorRouter);
 apiRouter.use('/pumps', pumpRouter);
 apiRouter.use('/pump-units', pumpUnitRouter);
 apiRouter.use('/locations', locationRouter);
+apiRouter.use('/caterings', cateringRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/vendors', vendorRouter);
