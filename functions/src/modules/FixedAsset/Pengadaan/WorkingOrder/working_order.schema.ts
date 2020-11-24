@@ -2,13 +2,21 @@ import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import { TypeKegiatan } from './interface/working_order.interface';
+import { Division, YesNo } from '@constants/BaseCondition';
 
 const create = yup
   .object()
   .shape({
-    kodeWorkingOrder: yup
-      .string()
-      .required(validationWording.required('kodeWorkingOrder')),
+    // kodeWorkingOrder: yup
+    //   .string()
+    //   .required(validationWording.required('kodeWorkingOrder')),
+    division: yup
+      .mixed<keyof typeof Division>()
+      .oneOf(
+        getAllEnumKey(Division),
+        validationWording.oneOf('division', ...getAllEnumKey(Division))
+      )
+      .required(validationWording.required('division')),
     namaKegiatan: yup
       .string()
       .required(validationWording.required('namaKegiatan')),
@@ -31,12 +39,40 @@ const create = yup
     tanggalKonfirmasi: yup
       .date()
       .required(validationWording.required('tanggalKonfirmasi')),
-    catering: yup.string().required(validationWording.required('catering')),
-    atk: yup.string().required(validationWording.required('atk')),
-    hotel: yup.string().required(validationWording.required('hotel')),
-    akomodasi: yup.string().required(validationWording.required('akomodasi')),
+    catering: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('catering', ...getAllEnumKey(YesNo))
+      )
+      .required(validationWording.required('catering')),
+    atk: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('atk', ...getAllEnumKey(YesNo))
+      )
+      .required(validationWording.required('atk')),
+    hotel: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('hotel', ...getAllEnumKey(YesNo))
+      )
+      .required(validationWording.required('hotel')),
+    akomodasi: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('akomodasi', ...getAllEnumKey(YesNo))
+      )
+      .required(validationWording.required('akomodasi')),
     pengajarEksternal: yup
-      .string()
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('pengajarEksternal', ...getAllEnumKey(YesNo))
+      )
       .required(validationWording.required('pengajarEksternal')),
   })
   .required();
@@ -44,7 +80,13 @@ const create = yup
 const update = yup
   .object()
   .shape({
-    kodeWorkingOrder: yup.string(),
+    // kodeWorkingOrder: yup.string(),
+    division: yup
+      .mixed<keyof typeof Division>()
+      .oneOf(
+        getAllEnumKey(Division),
+        validationWording.oneOf('division', ...getAllEnumKey(Division))
+      ),
     namaKegiatan: yup.string(),
     typeKegiatan: yup
       .mixed<keyof typeof TypeKegiatan>()
@@ -56,11 +98,36 @@ const update = yup
     tanggalTerima: yup.date(),
     tanggalRevisi: yup.date(),
     tanggalKonfirmasi: yup.date(),
-    catering: yup.string(),
-    atk: yup.string(),
-    hotel: yup.string(),
-    akomodasi: yup.string(),
-    pengajarEksternal: yup.string(),
+    catering: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('catering', ...getAllEnumKey(YesNo))
+      ),
+    atk: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('atk', ...getAllEnumKey(YesNo))
+      ),
+    hotel: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('hotel', ...getAllEnumKey(YesNo))
+      ),
+    akomodasi: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('akomodasi', ...getAllEnumKey(YesNo))
+      ),
+    pengajarEksternal: yup
+      .mixed<keyof typeof YesNo>()
+      .oneOf(
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('pengajarEksternal', ...getAllEnumKey(YesNo))
+      ),
   })
   .required();
 export default { create, update };

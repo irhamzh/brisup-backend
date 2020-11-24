@@ -1,4 +1,5 @@
 export interface IWorkingOrderBase {
+  division: string;
   kodeWorkingOrder: string;
   namaKegiatan: string;
   typeKegiatan: string;

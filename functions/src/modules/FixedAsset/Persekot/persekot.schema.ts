@@ -11,13 +11,13 @@ const create = yup
     costNominal: yup
       .string()
       .required(validationWording.required('costNominal')),
-    typePersekot: yup
+    division: yup
       .mixed<keyof typeof Division>()
       .oneOf(
         getAllEnumKey(Division),
-        validationWording.oneOf('typePersekot', ...getAllEnumKey(Division))
+        validationWording.oneOf('division', ...getAllEnumKey(Division))
       )
-      .required(validationWording.required('typePersekot')),
+      .required(validationWording.required('division')),
   })
   .required();
 
@@ -27,11 +27,11 @@ const update = yup
     date: yup.date(),
     name: yup.string(),
     costNominal: yup.string(),
-    typePersekot: yup
+    division: yup
       .mixed<keyof typeof Division>()
       .oneOf(
         getAllEnumKey(Division),
-        validationWording.oneOf('typePersekot', ...getAllEnumKey(Division))
+        validationWording.oneOf('division', ...getAllEnumKey(Division))
       ),
   })
   .required();
