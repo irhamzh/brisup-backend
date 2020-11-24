@@ -5,6 +5,6 @@ export default class EvaluasiHotelRepository extends BaseRepository<
   IEvaluasiHotelBase
 > {
   constructor() {
-    super('pr-evaluasi_hotels', 'evaluasi_hotel');
+    super('pr_evaluasi_hotels', 'evaluasi_hotel');
   }
 }

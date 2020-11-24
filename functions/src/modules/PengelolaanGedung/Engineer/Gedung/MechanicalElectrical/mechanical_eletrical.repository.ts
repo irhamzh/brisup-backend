@@ -5,6 +5,6 @@ export default class MechanicalElectricalRepository extends BaseRepository<
   IMechanicalElectricalBase
 > {
   constructor() {
-    super('pg-mechanical-eletricals', 'pg-mechanical-eletrical');
+    super('pg-mechanical-eletricals', 'pg-mechanical-eletrical'); //rename
   }
 }

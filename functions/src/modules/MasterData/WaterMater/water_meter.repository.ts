@@ -6,6 +6,6 @@ export default class WaterMeterRepository extends BaseRepository<
   IWaterMeterBase
 > {
   constructor() {
-    super('water-meters', 'water-meter');
+    super('water-meters', 'water-meter'); //rename
   }
 }

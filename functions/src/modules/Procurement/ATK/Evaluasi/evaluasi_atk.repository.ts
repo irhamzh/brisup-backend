@@ -5,6 +5,6 @@ export default class EvaluasiATKRepository extends BaseRepository<
   IEvaluasiATKBase
 > {
   constructor() {
-    super('pr-evaluasi_atks', 'evaluasi_atk');
+    super('pr_evaluasi_atks', 'evaluasi_atk');
   }
 }

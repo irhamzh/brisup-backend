@@ -17,6 +17,6 @@ export default class VendorRepository extends BaseRepository<
   | IVendorPengangkutanSampah
 > {
   constructor() {
-    super('monitoring-vendors', 'monitoring-vendor');
+    super('monitoring_vendors', 'monitoring_vendor');
   }
 }

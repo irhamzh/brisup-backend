@@ -6,6 +6,6 @@ export default class KlasifikasiHotelRepository extends BaseRepository<
   IKlasifikasiHotelBase
 > {
   constructor() {
-    super('pr-klasifikasi_hotels', 'klasifikasi_hotel');
+    super('pr_klasifikasi_hotels', 'klasifikasi_hotel');
   }
 }

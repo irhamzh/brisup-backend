@@ -10,6 +10,6 @@ export default class WorkingToolRepository extends BaseRepository<
   IPeralatanTeknis | IEquipmentConsumable | IChemical | IMachinery
 > {
   constructor() {
-    super('pg-working-tools', 'pg-working-tool');
+    super('pg-working-tools', 'pg-working-tool'); //rename
   }
 }
