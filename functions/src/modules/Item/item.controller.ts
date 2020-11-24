@@ -20,7 +20,7 @@ export const createItem = async (req: Request, res: Response) => {
 export const updateItem = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'itemId');
-  const validatedBody = yupValidate(schema.create, body);
+  const validatedBody = yupValidate(schema.update, body);
 
   const itemRepository = new ItemRepository();
   const data = await itemRepository.update(validateParam.uid, validatedBody);
