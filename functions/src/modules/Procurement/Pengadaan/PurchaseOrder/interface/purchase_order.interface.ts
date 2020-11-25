@@ -5,15 +5,16 @@ import {
   IPengadaanSwakelolaPembelian,
 } from '@modules/FixedAsset/Pengadaan/PengadaanBarang/interface/pengadaan.interface';
 
-export interface IEvaluasiSuplierBase {
+export interface IPurchaseOrderBase {
   tanggal: Date;
   pengadaan:
     | IPengadaanBarangdanJasa
     | IPengadaanJasaKonsultan
     | IPengadaanSwakelolaPembelian;
   provider: IProviderBase;
-  nilai: number;
-  information: string;
+  jumlah: number;
+  hargaSatuan: number;
+  totalHarga: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
