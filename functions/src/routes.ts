@@ -45,6 +45,7 @@ import evaluasiCateringRouter from '@modules/Procurement/Catering/Evaluasi/evalu
 import klasifikasiCateringRouter from '@modules/Procurement/Catering/Klasifikasi/klasifikasi_catering.routes';
 import evaluasiATKRouter from '@modules/Procurement/ATK/Evaluasi/evaluasi_atk.routes';
 import klasifikasiATKRouter from '@modules/Procurement/ATK/Klasifikasi/klasifikasi_atk.routes';
+import stockOpnameATKRouter from '@modules/Procurement/ATK/StokOpname/stock_opname.routes';
 
 const apiRouter = Router();
 
@@ -97,6 +98,7 @@ apiRouter.use('/pr-catering-evaluations', evaluasiCateringRouter);
 apiRouter.use('/pr-catering-clasifications', klasifikasiCateringRouter);
 apiRouter.use('/pr-atk-evaluations', evaluasiATKRouter);
 apiRouter.use('/pr-atk-clasifications', klasifikasiATKRouter);
+apiRouter.use('/pr-atk-stock-opnames', stockOpnameATKRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);

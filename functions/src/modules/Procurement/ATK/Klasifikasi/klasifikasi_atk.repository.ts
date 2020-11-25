@@ -2,7 +2,7 @@ import BaseRepository from '@repositories/baseRepository';
 
 import { IKlasifikasiATKBase } from './interface/klasifikasi_atk.interface';
 
-export default class KlasifikasiCateringRepository extends BaseRepository<
+export default class KlasifikasiATKRepository extends BaseRepository<
   IKlasifikasiATKBase
 > {
   constructor() {
