@@ -46,6 +46,7 @@ import klasifikasiCateringRouter from '@modules/Procurement/Catering/Klasifikasi
 import evaluasiATKRouter from '@modules/Procurement/ATK/Evaluasi/evaluasi_atk.routes';
 import klasifikasiATKRouter from '@modules/Procurement/ATK/Klasifikasi/klasifikasi_atk.routes';
 import stockOpnameATKRouter from '@modules/Procurement/ATK/StokOpname/stock_opname.routes';
+import procurementEvaluasiRouter from '@modules/Procurement/Pengadaan/Evaluasi/evaluasi.routes';
 
 const apiRouter = Router();
 
@@ -57,7 +58,7 @@ apiRouter.use('/rooms', ruanganRouter);
 apiRouter.use('/type-pc', jenisPcRouter); //jenis pc
 apiRouter.use('/partners', partnerRouter);
 apiRouter.use('/water-meters', waterMeterRouter);
-apiRouter.use('/providers', providerRouter);
+apiRouter.use('/providers', providerRouter); //vendor
 apiRouter.use('/room-types', roomTypeRouter);
 apiRouter.use('/type-item', jenisBarangRouter); //jenis barang
 apiRouter.use('/building-types', buildingTypeRouter);
@@ -99,6 +100,8 @@ apiRouter.use('/pr-catering-clasifications', klasifikasiCateringRouter);
 apiRouter.use('/pr-atk-evaluations', evaluasiATKRouter);
 apiRouter.use('/pr-atk-clasifications', klasifikasiATKRouter);
 apiRouter.use('/pr-atk-stock-opnames', stockOpnameATKRouter);
+
+apiRouter.use('/pr-pengadaan-evaluations', procurementEvaluasiRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
