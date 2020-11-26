@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import ProviderRepository from '@modules/Provider/provider.repository';
-import PengadaanRepository from '@modules/FixedAsset/Pengadaan/PengadaanBarang/pengadaan.repository';
+import PengadaanRepository from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.repository';
 
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
