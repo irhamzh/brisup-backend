@@ -49,6 +49,7 @@ import stockOpnameATKRouter from '@modules/Procurement/ATK/StokOpname/stock_opna
 import procurementEvaluasiRouter from '@modules/Procurement/Pengadaan/Evaluasi/evaluasi.routes';
 import procurementTandaTerimaRouter from '@modules/Procurement/Pengadaan/TandaTerimaBarang/tanda_terima_barang.routes';
 import procurementPurchaseOrderRouter from '@modules/Procurement/Pengadaan/PurchaseOrder/purchase_order.routes';
+import pengadaanPurchaseOrderRouter from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.routes';
 
 const apiRouter = Router();
 
@@ -70,8 +71,8 @@ apiRouter.use('/pumps', pumpRouter);
 apiRouter.use('/pump-units', pumpUnitRouter);
 apiRouter.use('/locations', locationRouter);
 apiRouter.use('/caterings', cateringRouter);
-apiRouter.use('/vendors', vendorRouter);
 apiRouter.use('/educations', educationRouter);
+apiRouter.use('/vendors', vendorRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
@@ -108,7 +109,9 @@ apiRouter.use(
   '/pr-pengadaan-tanda-terima-barangs',
   procurementTandaTerimaRouter
 );
-apiRouter.use('/pr-pengadaan-purchase-order s', procurementPurchaseOrderRouter);
+apiRouter.use('/pr-pengadaan-purchase-orders', procurementPurchaseOrderRouter);
+apiRouter.use('/pr-pengadaan-jasa-barangs', pengadaanPurchaseOrderRouter);
+
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
 }
