@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
-import { BaseCondition1 } from '@constants/BaseCondition';
+import { YesNo } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 
 const createWaterMeter = yup
@@ -81,22 +81,22 @@ const plumbing = yup
   .object()
   .shape({
     valve: yup
-      .mixed<keyof typeof BaseCondition1>()
+      .mixed<keyof typeof YesNo>()
       .oneOf(
-        getAllEnumKey(BaseCondition1),
-        validationWording.oneOf('valve', ...getAllEnumKey(BaseCondition1))
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('valve', ...getAllEnumKey(YesNo))
       ),
     bearing: yup
-      .mixed<keyof typeof BaseCondition1>()
+      .mixed<keyof typeof YesNo>()
       .oneOf(
-        getAllEnumKey(BaseCondition1),
-        validationWording.oneOf('bearing', ...getAllEnumKey(BaseCondition1))
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('bearing', ...getAllEnumKey(YesNo))
       ),
     oli: yup
-      .mixed<keyof typeof BaseCondition1>()
+      .mixed<keyof typeof YesNo>()
       .oneOf(
-        getAllEnumKey(BaseCondition1),
-        validationWording.oneOf('oli', ...getAllEnumKey(BaseCondition1))
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('oli', ...getAllEnumKey(YesNo))
       ),
   })
   .required();
@@ -130,31 +130,28 @@ const stp = yup
   .object()
   .shape({
     pompa: yup
-      .mixed<keyof typeof BaseCondition1>()
+      .mixed<keyof typeof YesNo>()
       .oneOf(
-        getAllEnumKey(BaseCondition1),
-        validationWording.oneOf('pompa', ...getAllEnumKey(BaseCondition1))
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('pompa', ...getAllEnumKey(YesNo))
       ),
     oli: yup
-      .mixed<keyof typeof BaseCondition1>()
+      .mixed<keyof typeof YesNo>()
       .oneOf(
-        getAllEnumKey(BaseCondition1),
-        validationWording.oneOf('oli', ...getAllEnumKey(BaseCondition1))
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('oli', ...getAllEnumKey(YesNo))
       ),
     waterLevelControl: yup
-      .mixed<keyof typeof BaseCondition1>()
+      .mixed<keyof typeof YesNo>()
       .oneOf(
-        getAllEnumKey(BaseCondition1),
-        validationWording.oneOf(
-          'waterLevelControl',
-          ...getAllEnumKey(BaseCondition1)
-        )
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('waterLevelControl', ...getAllEnumKey(YesNo))
       ),
     operasional: yup
-      .mixed<keyof typeof BaseCondition1>()
+      .mixed<keyof typeof YesNo>()
       .oneOf(
-        getAllEnumKey(BaseCondition1),
-        validationWording.oneOf('operasional', ...getAllEnumKey(BaseCondition1))
+        getAllEnumKey(YesNo),
+        validationWording.oneOf('operasional', ...getAllEnumKey(YesNo))
       ),
   })
   .required();

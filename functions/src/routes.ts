@@ -18,8 +18,8 @@ import pumpRouter from '@modules/MasterData/Pump/pump.routes';
 import pumpUnitRouter from '@modules/MasterData/PumpUnit/pump_unit.routes';
 import locationRouter from '@modules/MasterData/Location/location.routes';
 import cateringRouter from '@modules/MasterData/Catering/catering.routes';
-import vendorRouter from '@modules/MasterData/Vendor/vendor.routes';
 import educationRouter from '@modules/MasterData/Education/education.routes';
+import checkpointRouter from '@modules/MasterData/Checkpoint/checkpoint.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
 import monitoringVendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
@@ -51,6 +51,9 @@ import procurementTandaTerimaRouter from '@modules/Procurement/Pengadaan/TandaTe
 import procurementPurchaseOrderRouter from '@modules/Procurement/Pengadaan/PurchaseOrder/purchase_order.routes';
 import pengadaanPurchaseOrderRouter from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.routes';
 
+import monitoringCCTVRouter from '@modules/GeneralAffair/MonitoringCCTV/monitoring_cctv.routes';
+import clinicEvaluationRouter from '@modules/GeneralAffair/EvaluasiKlinik/evaluasi_klinik.routes';
+
 const apiRouter = Router();
 
 apiRouter.use('/users', useRouter);
@@ -72,7 +75,7 @@ apiRouter.use('/pump-units', pumpUnitRouter);
 apiRouter.use('/locations', locationRouter);
 apiRouter.use('/caterings', cateringRouter);
 apiRouter.use('/educations', educationRouter);
-apiRouter.use('/vendors', vendorRouter);
+apiRouter.use('/checkpoints', checkpointRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
@@ -111,6 +114,9 @@ apiRouter.use(
 );
 apiRouter.use('/pr-pengadaan-purchase-orders', procurementPurchaseOrderRouter);
 apiRouter.use('/pr-pengadaan-jasa-barangs', pengadaanPurchaseOrderRouter);
+
+apiRouter.use('/ga-monitoring-cctvs', monitoringCCTVRouter);
+apiRouter.use('/ga-clinic-evaluations', clinicEvaluationRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
