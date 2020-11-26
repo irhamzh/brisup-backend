@@ -22,4 +22,5 @@ export enum JenisAnggaran {
 export enum Division {
   'Fixed Asset' = 'Fixed Asset',
   'Procurement' = 'Procurement',
+  'General Affair' = 'General Affair',
 }
