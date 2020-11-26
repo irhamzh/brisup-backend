@@ -1,12 +1,12 @@
 import { IFloorBase } from '@modules/Floor/interface/floor.interface';
-import { IItemBase } from '@modules/Item/interface/item.interface';
+// import { IItemBase } from '@modules/Item/interface/item.interface';
 import { IRuanganBase } from '@modules/Ruangan/interface/ruangan.interface';
 
 export interface IPeralatanITBase {
   typePeralatanIT: string;
   floor: IFloorBase;
   ruangan: IRuanganBase;
-  item: IItemBase;
+  item: string;
   information: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -18,3 +18,11 @@ export interface IPeralatanITFisik extends IPeralatanITBase {
 export interface IPeralatanIJaringan extends IPeralatanITBase {
   status: string;
 }
+
+export enum Item {
+  Antivirus = 'Antivirus',
+  Jaringan = 'Jaringan',
+}
+
+export const AntivirusStatus = ['Updated', 'Not Updated'];
+export const JaringanStatus = ['Connected', 'Disconnected'];

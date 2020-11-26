@@ -7,7 +7,7 @@ const create = yup
   .object()
   .shape({
     tanggal: yup.date(),
-    vendor: yup.string().required(validationWording.required('vendor')),
+    provider: yup.string().required(validationWording.required('provider')),
     remark: yup.string().required(validationWording.required('remark')),
     performance: yup
       .mixed()
@@ -20,7 +20,7 @@ const update = yup
   .object()
   .shape({
     tanggal: yup.date(),
-    vendor: yup.string(),
+    provider: yup.string(),
     remark: yup.string(),
     performance: yup.mixed().oneOf(Performace),
   })

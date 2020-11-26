@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 
-import VendorRepository from '@modules/MasterData/Vendor/vendor.repository';
+import ProviderRepository from '@modules/Provider/provider.repository';
 
 import schema from './evaluasi_atk.schema';
 import EvaluasiATKRepository from './evaluasi_atk.repository';
@@ -13,12 +13,14 @@ export const createEvaluasiATK = async (req: Request, res: Response) => {
   const validatedBody = yupValidate(schema.create, body);
 
   const evaluasiATKRepository = new EvaluasiATKRepository();
-  const vendorRepository = new VendorRepository();
+  const providerRepository = new ProviderRepository();
 
-  const vendor: any = await vendorRepository.findById(validatedBody.vendor);
+  const provider: any = await providerRepository.findById(
+    validatedBody.provider
+  );
   const createParam = {
     ...validatedBody,
-    vendor,
+    provider,
   };
 
   const data = await evaluasiATKRepository.create(createParam);
@@ -35,11 +37,13 @@ export const updateEvaluasiATK = async (req: Request, res: Response) => {
   let validatedBody = yupValidate(schema.update, body);
 
   const evaluasiATKRepository = new EvaluasiATKRepository();
-  const vendorRepository = new VendorRepository();
+  const providerRepository = new ProviderRepository();
 
-  if (validatedBody.vendor) {
-    const vendor: any = await vendorRepository.findById(validatedBody.vendor);
-    validatedBody = { ...validatedBody, vendor };
+  if (validatedBody.provider) {
+    const provider: any = await providerRepository.findById(
+      validatedBody.provider
+    );
+    validatedBody = { ...validatedBody, provider };
   }
 
   const data = await evaluasiATKRepository.update(

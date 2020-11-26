@@ -3,6 +3,11 @@ import getAllEnumKey from '@utils/getAllEnumKeys';
 import { YesNo } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 import { TypeItem } from '@modules/Item/interface/item.interface';
+import {
+  AntivirusStatus,
+  JaringanStatus,
+  Item,
+} from './interface/peralatan_it.interface';
 
 const baseCreate = yup
   .object()
@@ -22,7 +27,13 @@ const create = yup
   .shape({
     floor: yup.string().required(validationWording.required('floor')),
     ruangan: yup.string().required(validationWording.required('ruangan')),
-    item: yup.string().required(validationWording.required('item')),
+    item: yup
+      .mixed<keyof typeof Item>()
+      .oneOf(
+        getAllEnumKey(Item),
+        validationWording.oneOf('Item', ...getAllEnumKey(Item))
+      )
+      .required(validationWording.required('Item')),
     information: yup
       .string()
       .required(validationWording.required('information')),
@@ -34,7 +45,12 @@ const update = yup
   .shape({
     floor: yup.string(),
     ruangan: yup.string(),
-    item: yup.string(),
+    item: yup
+      .mixed<keyof typeof Item>()
+      .oneOf(
+        getAllEnumKey(Item),
+        validationWording.oneOf('Item', ...getAllEnumKey(Item))
+      ),
     information: yup.string(),
   })
   .required();
@@ -43,11 +59,12 @@ const createJaringan = yup
   .object()
   .shape({
     status: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('status', ...getAllEnumKey(YesNo))
-      )
+      .mixed()
+      .oneOf(AntivirusStatus)
+      .when('item', {
+        is: 'Jaringan',
+        then: yup.mixed().oneOf(JaringanStatus),
+      })
       .required(validationWording.required('status')),
   })
   .required();
@@ -56,11 +73,12 @@ const updateJaringan = yup
   .object()
   .shape({
     status: yup
-      .mixed<keyof typeof YesNo>()
-      .oneOf(
-        getAllEnumKey(YesNo),
-        validationWording.oneOf('status', ...getAllEnumKey(YesNo))
-      ),
+      .mixed()
+      .oneOf(AntivirusStatus)
+      .when('item', {
+        is: 'Jaringan',
+        then: yup.mixed().oneOf(JaringanStatus),
+      }),
   })
   .required();
 

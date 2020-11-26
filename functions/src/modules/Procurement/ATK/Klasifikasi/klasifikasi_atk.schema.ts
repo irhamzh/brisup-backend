@@ -8,7 +8,7 @@ const create = yup
     workingOrder: yup
       .string()
       .required(validationWording.required('workingOrder')),
-    vendor: yup.string().required(validationWording.required('vendor')),
+    provider: yup.string().required(validationWording.required('provider')),
     noSuratPesanan: yup
       .string()
       .required(validationWording.required('noSuratPesanan')),
@@ -33,7 +33,7 @@ const update = yup
   .shape({
     tanggal: yup.date(),
     workingOrder: yup.string(),
-    vendor: yup.string(),
+    provider: yup.string(),
     noSuratPesanan: yup.string(),
     kebutuhan: yup.string(),
     barang: yup.array().of(

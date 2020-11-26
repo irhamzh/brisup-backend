@@ -6,7 +6,6 @@ import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 import { TypeItem } from '@modules/Item/interface/item.interface';
 
-import ItemRepository from '@modules/Item/item.repository';
 import FloorRepository from '@modules/Floor/floor.repository';
 import PeralatanITRepository from './peralatan_it.repository';
 import RuanganRepository from '@modules/Ruangan/ruangan.repository';
@@ -23,17 +22,14 @@ export const createPeralatanIT = async (req: Request, res: Response) => {
 
   const peralatanITRepository = new PeralatanITRepository();
   const floorRepository = new FloorRepository();
-  const itemRepository = new ItemRepository();
   const ruanganRepository = new RuanganRepository();
 
-  const item: any = await itemRepository.findById(validatedBody.item);
   const ruangan: any = await ruanganRepository.findById(validatedBody.ruangan);
   const floor: any = await floorRepository.findById(validatedBody.floor);
   const createParam = {
     ...validatedBody,
     floor,
     ruangan,
-    item,
   };
   const data: admin.firestore.DocumentData = await peralatanITRepository.create(
     createParam
@@ -51,7 +47,6 @@ export const updatePeralatanIT = async (req: Request, res: Response) => {
 
   const peralatanITRepository = new PeralatanITRepository();
   const floorRepository = new FloorRepository();
-  const itemRepository = new ItemRepository();
   const ruanganRepository = new RuanganRepository();
 
   const ref: admin.firestore.DocumentData = await peralatanITRepository.findById(
@@ -72,10 +67,6 @@ export const updatePeralatanIT = async (req: Request, res: Response) => {
       validatedBody.ruangan
     );
     validatedBody = { ...validatedBody, ruangan };
-  }
-  if (validatedBody.item) {
-    const item: any = await itemRepository.findById(validatedBody.item);
-    validatedBody = { ...validatedBody, item };
   }
 
   const data: admin.firestore.DocumentData = await peralatanITRepository.update(

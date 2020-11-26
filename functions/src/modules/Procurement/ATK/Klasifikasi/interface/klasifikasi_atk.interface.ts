@@ -1,10 +1,10 @@
 import { IWorkingOrderBase } from '@modules/FixedAsset/Pengadaan/WorkingOrder/interface/working_order.interface';
-import { IVendorBase } from '@modules/MasterData/Vendor/interface/vendor.interface';
+import { IProviderBase } from '@modules/Provider/interface/provider.interface';
 
 export interface IKlasifikasiATKBase {
   tanggal: Date;
   workingOrder: IWorkingOrderBase;
-  vendor: IVendorBase;
+  provider: IProviderBase;
   noSuratPesanan: string;
   kebutuhan: string;
   barang: IBarang[];

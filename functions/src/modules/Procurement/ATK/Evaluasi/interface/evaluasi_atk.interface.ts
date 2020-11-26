@@ -1,8 +1,8 @@
-import { IVendorBase } from '@modules/MasterData/Vendor/interface/vendor.interface';
+import { IProviderBase } from '@modules/Provider/interface/provider.interface';
 
 export interface IEvaluasiATKBase {
   tanggal: Date;
-  vendor: IVendorBase;
+  provider: IProviderBase;
   performance: number;
   remark: string;
   createdAt?: Date;

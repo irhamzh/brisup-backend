@@ -4,7 +4,7 @@ import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 
 import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
-import VendorRepository from '@modules/MasterData/Vendor/vendor.repository';
+import ProviderRepository from '@modules/Provider/provider.repository';
 
 import schema from './klasifikasi_atk.schema';
 import ATKClasificationRepository from './klasifikasi_atk.repository';
@@ -15,15 +15,17 @@ export const createATKClasification = async (req: Request, res: Response) => {
 
   const atkClasificationRepository = new ATKClasificationRepository();
   const workingOrderRepository = new WorkingOrderRepository();
-  const vendorRepository = new VendorRepository();
+  const providerRepository = new ProviderRepository();
 
   const workingOrder: any = await workingOrderRepository.findById(
     validatedBody.workingOrder
   );
-  const vendor: any = await vendorRepository.findById(validatedBody.vendor);
+  const provider: any = await providerRepository.findById(
+    validatedBody.provider
+  );
   const createParam = {
     ...validatedBody,
-    vendor,
+    provider,
     workingOrder,
   };
 
@@ -42,7 +44,7 @@ export const updateATKClasification = async (req: Request, res: Response) => {
 
   const atkClasificationRepository = new ATKClasificationRepository();
   const workingOrderRepository = new WorkingOrderRepository();
-  const vendorRepository = new VendorRepository();
+  const providerRepository = new ProviderRepository();
 
   if (validatedBody.workingOrder) {
     const workingOrder: any = await workingOrderRepository.findById(
@@ -50,9 +52,11 @@ export const updateATKClasification = async (req: Request, res: Response) => {
     );
     validatedBody = { ...validatedBody, workingOrder };
   }
-  if (validatedBody.vendor) {
-    const vendor: any = await vendorRepository.findById(validatedBody.vendor);
-    validatedBody = { ...validatedBody, vendor };
+  if (validatedBody.provider) {
+    const provider: any = await providerRepository.findById(
+      validatedBody.provider
+    );
+    validatedBody = { ...validatedBody, provider };
   }
 
   const data = await atkClasificationRepository.update(

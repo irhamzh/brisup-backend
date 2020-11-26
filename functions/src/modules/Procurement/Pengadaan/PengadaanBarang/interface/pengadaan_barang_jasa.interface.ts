@@ -59,6 +59,6 @@ export enum TypePengadaan {
 }
 
 export enum JenisPengadaan {
-  'barang' = 'barang',
-  'konsultan' = 'konsultan',
+  barang = 'barang',
+  jasa = 'jasa',
 }
