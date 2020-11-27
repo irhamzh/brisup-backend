@@ -1,6 +1,7 @@
+import { IHotelBase } from '@modules/MasterData/Hotel/interface/hotel.interface';
 export interface IEvaluasiHotelBase {
   tanggal: Date;
-  hotelName: string;
+  hotelName: IHotelBase;
   namePendidikan: string;
   performance: number;
   remark: string;

@@ -1,7 +1,26 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
 
-import { HotelClasification } from './interface/klasifikasi_hotel.interface';
+import {
+  HotelClasification,
+  ListFacilitas,
+} from './interface/klasifikasi_hotel.interface';
+
+// declare module 'yup' {
+//   // tslint:disable-next-line
+//   interface ArraySchema<T> {
+//     unique(mapper: (a: T) => T, message?: any): ArraySchema<T>;
+//   }
+// }
+
+// yup.addMethod(yup.array, 'unique', function (
+//   mapper = (a: any) => a,
+//   message: string = '${path} may not have duplicates'
+// ) {
+//   return this.test('unique', message, (list) => {
+//     return list.length === new Set(list.map(mapper)).size;
+//   });
+// });
 
 const create = yup
   .object()
@@ -27,7 +46,10 @@ const create = yup
         yup
           .object()
           .shape({
-            name: yup.string().required(validationWording.required('name')),
+            name: yup
+              .mixed()
+              .oneOf(ListFacilitas)
+              .required(validationWording.required('name')),
             price: yup.number().required(validationWording.required('price')),
           })
           .required()
@@ -49,7 +71,10 @@ const update = yup
       yup
         .object()
         .shape({
-          name: yup.string().required(validationWording.required('name')),
+          name: yup
+            .mixed()
+            .oneOf(ListFacilitas)
+            .required(validationWording.required('name')),
           price: yup.number().required(validationWording.required('price')),
         })
         .required()

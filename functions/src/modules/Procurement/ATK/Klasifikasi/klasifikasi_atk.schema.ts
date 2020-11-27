@@ -1,6 +1,8 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
 
+import { ListBarang } from './interface/klasifikasi_atk.interface';
+
 const create = yup
   .object()
   .shape({
@@ -19,7 +21,10 @@ const create = yup
         yup
           .object()
           .shape({
-            name: yup.string().required(validationWording.required('name')),
+            name: yup
+              .mixed()
+              .oneOf(ListBarang)
+              .required(validationWording.required('name')),
             price: yup.number().required(validationWording.required('price')),
           })
           .required()
@@ -40,7 +45,10 @@ const update = yup
       yup
         .object()
         .shape({
-          name: yup.string().required(validationWording.required('name')),
+          name: yup
+            .mixed()
+            .oneOf(ListBarang)
+            .required(validationWording.required('name')),
           price: yup.number().required(validationWording.required('price')),
         })
         .required()

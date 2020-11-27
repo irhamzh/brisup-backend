@@ -16,3 +16,13 @@ interface IBarang {
   name: string;
   price: number;
 }
+
+export const ListBarang = [
+  'Bolpoin',
+  'Buku tulis',
+  'Blocknote',
+  'Baterai',
+  'Pouch',
+  'Spidol',
+  'Lain lain',
+];

@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
+import { ListBarang } from '../Klasifikasi/interface/klasifikasi_atk.interface';
 
 const create = yup
   .object()
@@ -15,7 +16,10 @@ const create = yup
         yup
           .object()
           .shape({
-            name: yup.string().required(validationWording.required('name')),
+            name: yup
+              .mixed()
+              .oneOf(ListBarang)
+              .required(validationWording.required('name')),
             stockAwal: yup
               .number()
               .required(validationWording.required('stockAwal')),
@@ -42,7 +46,7 @@ const update = yup
       yup
         .object()
         .shape({
-          name: yup.string(),
+          name: yup.mixed().oneOf(ListBarang),
           stockAwal: yup.number(),
           jumlahMasuk: yup.number(),
           jumlahKeluar: yup.number(),
