@@ -54,7 +54,7 @@ import pengadaanPurchaseOrderRouter from '@modules/Procurement/Pengadaan/Pengada
 
 import monitoringCCTVRouter from '@modules/GeneralAffair/MonitoringCCTV/monitoring_cctv.routes';
 import clinicEvaluationRouter from '@modules/GeneralAffair/EvaluasiKlinik/evaluasi_klinik.routes';
-import activityRouter from '@modules/GeneralAffair/Aktivitas/Security/security.routes';
+// import activityRouter from '@modules/GeneralAffair/Aktivitas/Security/security.routes';
 
 const apiRouter = Router();
 
