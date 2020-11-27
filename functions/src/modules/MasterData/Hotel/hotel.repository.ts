@@ -1,8 +1,8 @@
 import BaseRepository from '@repositories/baseRepository';
 
-import { IHotelnBase } from './interface/hotel.interface';
+import { IHotelBase } from './interface/hotel.interface';
 
-export default class EducationRepository extends BaseRepository<IHotelnBase> {
+export default class HotelRepository extends BaseRepository<IHotelBase> {
   constructor() {
     super('hotels', 'hotel');
   }

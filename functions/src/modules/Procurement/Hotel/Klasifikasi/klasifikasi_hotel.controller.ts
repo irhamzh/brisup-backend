@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
+import HotelRepository from '@modules/MasterData/Hotel/hotel.repository';
 
 import schema from './klasifikasi_hotel.schema';
 import HotelClasificationRepository from './klasifikasi_hotel.repository';
@@ -12,13 +13,18 @@ export const createHotelClasification = async (req: Request, res: Response) => {
   const validatedBody = yupValidate(schema.create, body);
   const hotelClasificationRepository = new HotelClasificationRepository();
   const workingOrderRepository = new WorkingOrderRepository();
+  const hotelRepository = new HotelRepository();
 
+  const hotelName: any = await hotelRepository.findById(
+    validatedBody.hotelName
+  );
   const workingOrder: any = await workingOrderRepository.findById(
     validatedBody.workingOrder
   );
   const createParam = {
     ...validatedBody,
     workingOrder,
+    hotelName,
   };
 
   const data = await hotelClasificationRepository.create(createParam);
@@ -36,7 +42,14 @@ export const updateHotelClasification = async (req: Request, res: Response) => {
 
   const hotelClasificationRepository = new HotelClasificationRepository();
   const workingOrderRepository = new WorkingOrderRepository();
+  const hotelRepository = new HotelRepository();
 
+  if (validatedBody.hotelName) {
+    const hotelName: any = await hotelRepository.findById(
+      validatedBody.hotelName
+    );
+    validatedBody = { ...validatedBody, hotelName };
+  }
   if (validatedBody.workingOrder) {
     const workingOrder: any = await workingOrderRepository.findById(
       validatedBody.workingOrder

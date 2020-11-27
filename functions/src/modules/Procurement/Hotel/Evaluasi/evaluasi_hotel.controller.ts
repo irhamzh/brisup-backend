@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
+import HotelRepository from '@modules/MasterData/Hotel/hotel.repository';
 
 import schema from './evaluasi_hotel.schema';
 import EvaluasiHotelRepository from './evaluasi_hotel.repository';
@@ -9,9 +10,17 @@ import EvaluasiHotelRepository from './evaluasi_hotel.repository';
 export const createEvaluasiHotel = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
-
+  const hotelRepository = new HotelRepository();
   const evaluasiHotelRepository = new EvaluasiHotelRepository();
-  const data = await evaluasiHotelRepository.create(validatedBody);
+
+  const hotelName: any = await hotelRepository.findById(
+    validatedBody.hotelName
+  );
+
+  const data = await evaluasiHotelRepository.create({
+    ...validatedBody,
+    hotelName,
+  });
 
   res.json({
     message: 'Successfully Create EvaluasiHotel',
@@ -22,9 +31,18 @@ export const createEvaluasiHotel = async (req: Request, res: Response) => {
 export const updateEvaluasiHotel = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'evaluasiHotelId');
-  const validatedBody = yupValidate(schema.update, body);
+  let validatedBody = yupValidate(schema.update, body);
 
   const evaluasiHotelRepository = new EvaluasiHotelRepository();
+  const hotelRepository = new HotelRepository();
+
+  const hotelName: any = await hotelRepository.findById(
+    validatedBody.hotelName
+  );
+
+  if (validatedBody.hotelName) {
+    validatedBody = { ...validatedBody, hotelName };
+  }
   const data = await evaluasiHotelRepository.update(
     validateParam.uid,
     validatedBody

@@ -1,4 +1,5 @@
 import { IWorkingOrderBase } from '@modules/FixedAsset/Pengadaan/WorkingOrder/interface/working_order.interface';
+import { IHotelBase } from '@modules/MasterData/Hotel/interface/hotel.interface';
 
 export interface IKlasifikasiHotelBase {
   tanggal: Date;
@@ -6,7 +7,7 @@ export interface IKlasifikasiHotelBase {
   noSuratPesanan: string;
   kedudukanJabatan: string;
   hotelClasification: number;
-  hotelName: string;
+  hotelName: IHotelBase;
   facilities: IFacilities[];
   createdAt?: Date;
   updatedAt?: Date;
@@ -16,5 +17,16 @@ interface IFacilities {
   name: string;
   price: number;
 }
+
+export const ListFacilitas = [
+  'Deluxe Single',
+  'Deluxe Twin',
+  'Residential Meeting Single',
+  'Residential Meeting Twin',
+  'Full Board Meeting',
+  'Fullday Meeting',
+  'Meeting Room',
+  'Lain-lain',
+];
 
 export const HotelClasification = [3, 4, 5];
