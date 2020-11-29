@@ -14,7 +14,7 @@ const create = yup
     pengurangan: yup
       .number()
       .required(validationWording.required('pengurangan')),
-    stokAkhir: yup.number().required(validationWording.required('stokAkhir')),
+    // stokAkhir: yup.number().required(validationWording.required('stokAkhir')),
   })
   .required();
 
@@ -27,7 +27,7 @@ const update = yup
     stokAwal: yup.number(),
     penambahan: yup.number(),
     pengurangan: yup.number(),
-    stokAkhir: yup.number(),
+    // stokAkhir: yup.number(),
   })
   .required();
 export default { create, update };
