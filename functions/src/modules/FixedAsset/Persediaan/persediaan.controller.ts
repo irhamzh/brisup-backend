@@ -16,8 +16,13 @@ export const createPersediaan = async (req: Request, res: Response) => {
   const jenisBarang: any = await jenisBarangRepository.findById(
     validatedBody.jenisBarang
   );
+  const stokAkhir =
+    Number(validatedBody.stokAwal) +
+      Number(validatedBody.penambahan) -
+      Number(validatedBody.pengurangan) || 0;
   const createParam = {
     ...validatedBody,
+    stokAkhir,
     jenisBarang,
   };
   const data: admin.firestore.DocumentData = await persediaanRepository.create(
@@ -45,7 +50,7 @@ export const updatePersediaan = async (req: Request, res: Response) => {
   }
 
   const persediaanRepository = new PersediaanRepository();
-  const data: admin.firestore.DocumentData = await persediaanRepository.update(
+  const data: admin.firestore.DocumentData = await persediaanRepository.updatePersediaanById(
     validateParam.uid,
     createParam
   );

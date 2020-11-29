@@ -23,6 +23,11 @@ errorHandledRoute.get(
   controller.getPengadaanBarangPenunjukanLangsungById
 );
 
+errorHandledRoute.delete(
+  '/barang/penunjukan-langsung/:uid',
+  controller.deletePengadaanById
+);
+
 //Pembelian Langsung
 errorHandledRoute.get(
   '/barang/pembelian-langsung',
@@ -39,6 +44,10 @@ errorHandledRoute.put(
 errorHandledRoute.get(
   '/barang/pembelian-langsung/:uid',
   controller.getPengadaanBarangPembelianLangsungById
+);
+errorHandledRoute.delete(
+  '/barang/pembelian-langsung/:uid',
+  controller.deletePengadaanById
 );
 
 //Pemilihan Langsung
@@ -58,6 +67,10 @@ errorHandledRoute.get(
   '/barang/pemilihan-langsung/:uid',
   controller.getPengadaanBarangPemilihanLangsungById
 );
+errorHandledRoute.delete(
+  '/barang/pemilihan-langsung/:uid',
+  controller.deletePengadaanById
+);
 
 //Swakelola
 errorHandledRoute.get(
@@ -73,6 +86,10 @@ errorHandledRoute.get(
   '/barang/swakelola/:uid',
   controller.getPengadaanBarangSwakelolaById
 );
+errorHandledRoute.delete(
+  '/barang/swakelola/:uid',
+  controller.deletePengadaanById
+);
 
 //Lelang
 errorHandledRoute.get('/barang/lelang', controller.getAllPengadaanBarangLelang);
@@ -82,6 +99,7 @@ errorHandledRoute.get(
   '/barang/lelang/:uid',
   controller.getPengadaanBarangLelangById
 );
+errorHandledRoute.delete('/barang/lelang/:uid', controller.deletePengadaanById);
 
 //penunjukan-langsung
 errorHandledRoute.get(
@@ -99,6 +117,10 @@ errorHandledRoute.put(
 errorHandledRoute.get(
   '/konsultan/penunjukan-langsung/:uid',
   controller.getPengadaanKonsultanPenunjukanLangsungById
+);
+errorHandledRoute.delete(
+  '/konsultan/penunjukan-langsung/:uid',
+  controller.deletePengadaanById
 );
 
 // Seleksi Langsung
@@ -118,7 +140,10 @@ errorHandledRoute.get(
   '/konsultan/seleksi-langsung/:uid',
   controller.getPengadaanKonsultanSeleksiLangsungById
 );
-
+errorHandledRoute.delete(
+  '/konsultan/seleksi-langsung/:uid',
+  controller.deletePengadaanById
+);
 errorHandledRoute.delete('/:uid', controller.deletePengadaanById);
 errorHandledRoute.get('/', controller.getAllPengadaan);
 
