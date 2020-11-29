@@ -27,13 +27,6 @@ const create = yup
   .shape({
     floor: yup.string().required(validationWording.required('floor')),
     ruangan: yup.string().required(validationWording.required('ruangan')),
-    item: yup
-      .mixed<keyof typeof Item>()
-      .oneOf(
-        getAllEnumKey(Item),
-        validationWording.oneOf('Item', ...getAllEnumKey(Item))
-      )
-      .required(validationWording.required('Item')),
     information: yup
       .string()
       .required(validationWording.required('information')),
@@ -45,12 +38,6 @@ const update = yup
   .shape({
     floor: yup.string(),
     ruangan: yup.string(),
-    item: yup
-      .mixed<keyof typeof Item>()
-      .oneOf(
-        getAllEnumKey(Item),
-        validationWording.oneOf('Item', ...getAllEnumKey(Item))
-      ),
     information: yup.string(),
   })
   .required();
@@ -58,6 +45,13 @@ const update = yup
 const createJaringan = yup
   .object()
   .shape({
+    item: yup
+      .mixed<keyof typeof Item>()
+      .oneOf(
+        getAllEnumKey(Item),
+        validationWording.oneOf('Item', ...getAllEnumKey(Item))
+      )
+      .required(validationWording.required('Item')),
     status: yup
       .mixed()
       .oneOf(AntivirusStatus)
@@ -72,6 +66,13 @@ const createJaringan = yup
 const updateJaringan = yup
   .object()
   .shape({
+    item: yup
+      .mixed<keyof typeof Item>()
+      .oneOf(
+        getAllEnumKey(Item),
+        validationWording.oneOf('Item', ...getAllEnumKey(Item))
+      )
+      .required(validationWording.required('Item')),
     status: yup
       .mixed()
       .oneOf(AntivirusStatus)
@@ -85,6 +86,7 @@ const updateJaringan = yup
 const createFisik = yup
   .object()
   .shape({
+    item: yup.string().required(validationWording.required('Item')),
     hekonisme: yup
       .mixed<keyof typeof YesNo>()
       .oneOf(
@@ -98,6 +100,7 @@ const createFisik = yup
 const updateFisik = yup
   .object()
   .shape({
+    item: yup.string(),
     hekonisme: yup
       .mixed<keyof typeof YesNo>()
       .oneOf(
