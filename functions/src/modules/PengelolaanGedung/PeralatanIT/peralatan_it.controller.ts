@@ -5,6 +5,7 @@ import schema from './peralatan_it.schema';
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 import { TypeItem } from '@modules/Item/interface/item.interface';
+import ItemRepository from '@modules/Item/item.repository';
 
 import FloorRepository from '@modules/Floor/floor.repository';
 import PeralatanITRepository from './peralatan_it.repository';
@@ -15,7 +16,10 @@ export const createPeralatanIT = async (req: Request, res: Response) => {
   let validatedBody = undefined;
   validatedBody = yupValidate(schema.baseCreate, body);
   if (body?.typePeralatanIT?.toLowerCase() === TypeItem.fisik?.toLowerCase()) {
+    const itemRepository = new ItemRepository();
     validatedBody = yupValidate(schema.createPeralatanFisik, body);
+    const item: any = await itemRepository.findById(validatedBody.item);
+    validatedBody = { ...validatedBody, item };
   } else {
     validatedBody = yupValidate(schema.createPeralatanJaringan, body);
   }
@@ -26,13 +30,13 @@ export const createPeralatanIT = async (req: Request, res: Response) => {
 
   const ruangan: any = await ruanganRepository.findById(validatedBody.ruangan);
   const floor: any = await floorRepository.findById(validatedBody.floor);
-  const createParam = {
+  validatedBody = {
     ...validatedBody,
     floor,
     ruangan,
   };
   const data: admin.firestore.DocumentData = await peralatanITRepository.create(
-    createParam
+    validatedBody
   );
   res.json({
     message: 'Successfully Create PeralatanIT',
@@ -54,6 +58,11 @@ export const updatePeralatanIT = async (req: Request, res: Response) => {
   );
   if (ref?.typePeralatanIT?.toLowerCase() === TypeItem.fisik?.toLowerCase()) {
     validatedBody = yupValidate(schema.updatePeralatanFisik, body);
+    if (validatedBody.item) {
+      const itemRepository = new ItemRepository();
+      const item: any = await itemRepository.findById(validatedBody.item);
+      validatedBody = { ...validatedBody, item };
+    }
   } else {
     validatedBody = yupValidate(schema.updatePeralatanJaringan, body);
   }
