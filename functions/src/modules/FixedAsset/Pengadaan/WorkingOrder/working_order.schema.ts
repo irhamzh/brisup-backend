@@ -1,15 +1,15 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
 import getAllEnumKey from '@utils/getAllEnumKeys';
-import { TypeKegiatan } from './interface/working_order.interface';
+import {
+  TypeKegiatan,
+  TypeGeneralAffair,
+} from './interface/working_order.interface';
 import { Division, YesNo } from '@constants/BaseCondition';
 
-const create = yup
+const baseCreate = yup
   .object()
   .shape({
-    // kodeWorkingOrder: yup
-    //   .string()
-    //   .required(validationWording.required('kodeWorkingOrder')),
     division: yup
       .mixed<keyof typeof Division>()
       .oneOf(
@@ -20,6 +20,35 @@ const create = yup
     namaKegiatan: yup
       .string()
       .required(validationWording.required('namaKegiatan')),
+    kodePelatihan: yup
+      .string()
+      .required(validationWording.required('kodePelatihan')),
+    tanggalTerima: yup
+      .date()
+      .required(validationWording.required('tanggalTerima')),
+  })
+  .required();
+
+const createGeneralAffair = yup
+  .object()
+  .shape({
+    typeKegiatan: yup
+      .mixed<keyof typeof TypeGeneralAffair>()
+      .oneOf(
+        getAllEnumKey(TypeGeneralAffair),
+        validationWording.oneOf(
+          'TypeGeneralAffair',
+          ...getAllEnumKey(TypeGeneralAffair)
+        )
+      )
+      .required(validationWording.required('type kegiatan')),
+  })
+  .required()
+  .concat(baseCreate);
+
+const create = yup
+  .object()
+  .shape({
     typeKegiatan: yup
       .mixed<keyof typeof TypeKegiatan>()
       .oneOf(
@@ -27,12 +56,7 @@ const create = yup
         validationWording.oneOf('TypeKegiatan', ...getAllEnumKey(TypeKegiatan))
       )
       .required(validationWording.required('type kegiatan')),
-    kodePelatihan: yup
-      .string()
-      .required(validationWording.required('kodePelatihan')),
-    tanggalTerima: yup
-      .date()
-      .required(validationWording.required('tanggalTerima')),
+
     tanggalRevisi: yup
       .date()
       .required(validationWording.required('tanggalRevisi')),
@@ -75,27 +99,42 @@ const create = yup
       )
       .required(validationWording.required('pengajarEksternal')),
   })
+  .required()
+  .concat(baseCreate);
+
+const baseUpdate = yup
+  .object()
+  .shape({
+    namaKegiatan: yup.string(),
+    kodePelatihan: yup.string(),
+    tanggalTerima: yup.date(),
+  })
   .required();
 
+const updateGeneralAffair = yup
+  .object()
+  .shape({
+    typeKegiatan: yup
+      .mixed<keyof typeof TypeGeneralAffair>()
+      .oneOf(
+        getAllEnumKey(TypeGeneralAffair),
+        validationWording.oneOf(
+          'TypeGeneralAffair',
+          ...getAllEnumKey(TypeGeneralAffair)
+        )
+      ),
+  })
+  .required()
+  .concat(baseUpdate);
 const update = yup
   .object()
   .shape({
-    // kodeWorkingOrder: yup.string(),
-    division: yup
-      .mixed<keyof typeof Division>()
-      .oneOf(
-        getAllEnumKey(Division),
-        validationWording.oneOf('division', ...getAllEnumKey(Division))
-      ),
-    namaKegiatan: yup.string(),
     typeKegiatan: yup
       .mixed<keyof typeof TypeKegiatan>()
       .oneOf(
         getAllEnumKey(TypeKegiatan),
         validationWording.oneOf('TypeKegiatan', ...getAllEnumKey(TypeKegiatan))
       ),
-    kodePelatihan: yup.string(),
-    tanggalTerima: yup.date(),
     tanggalRevisi: yup.date(),
     tanggalKonfirmasi: yup.date(),
     catering: yup
@@ -129,5 +168,13 @@ const update = yup
         validationWording.oneOf('pengajarEksternal', ...getAllEnumKey(YesNo))
       ),
   })
-  .required();
-export default { create, update };
+  .required()
+  .concat(baseUpdate);
+export default {
+  baseCreate,
+  baseUpdate,
+  create,
+  createGeneralAffair,
+  update,
+  updateGeneralAffair,
+};

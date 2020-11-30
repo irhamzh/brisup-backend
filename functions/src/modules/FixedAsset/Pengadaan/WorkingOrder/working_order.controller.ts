@@ -5,20 +5,17 @@ import * as admin from 'firebase-admin';
 import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
-import generateUniqueId from '@utils/generateAutoNumber';
+
+import MappingBodyByType from './helpers/MappingBodyByType';
 
 export const createWorkingOrder = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = yupValidate(schema.create, body);
-  const kodeWorkingOrder = generateUniqueId({
-    length: 10,
-    prefix: 'WK-',
-  });
-  let createParam = { ...validatedBody, kodeWorkingOrder };
+  const masterValidate = yupValidate(schema.baseCreate, body);
+  const validatedBody: any = MappingBodyByType(masterValidate.division, body);
 
   const workingOrderRepository = new WorkingOrderRepository();
   const data: admin.firestore.DocumentData = await workingOrderRepository.create(
-    createParam
+    validatedBody
   );
 
   res.json({
@@ -30,9 +27,13 @@ export const createWorkingOrder = async (req: Request, res: Response) => {
 export const updateWorkingOrder = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'workingOrderId');
-  const validatedBody = yupValidate(schema.update, body);
-
   const workingOrderRepository = new WorkingOrderRepository();
+  const ref: admin.firestore.DocumentData = await workingOrderRepository.findById(
+    validateParam.uid
+  );
+
+  const validatedBody: any = MappingBodyByType(ref?.division, body, 'update');
+
   const data: admin.firestore.DocumentData = await workingOrderRepository.update(
     validateParam.uid,
     validatedBody

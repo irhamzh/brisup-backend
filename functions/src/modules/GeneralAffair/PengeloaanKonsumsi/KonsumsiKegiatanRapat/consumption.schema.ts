@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
-import getAllEnumKey from '@utils/getAllEnumKeys';
 
 import { ConsumptionType } from './interface/consumption.interface';
 
@@ -29,14 +28,8 @@ const create = yup
       )
       .required(validationWording.required('menu')),
     consumptionType: yup
-      .mixed<keyof typeof ConsumptionType>()
-      .oneOf(
-        getAllEnumKey(ConsumptionType),
-        validationWording.oneOf(
-          'ConsumptionT ype',
-          ...getAllEnumKey(ConsumptionType)
-        )
-      )
+      .mixed()
+      .oneOf(ConsumptionType)
       .required(validationWording.required('Consumption Type')),
   })
   .required();
@@ -58,15 +51,7 @@ const update = yup
         })
         .required()
     ),
-    consumptionType: yup
-      .mixed<keyof typeof ConsumptionType>()
-      .oneOf(
-        getAllEnumKey(ConsumptionType),
-        validationWording.oneOf(
-          'ConsumptionT ype',
-          ...getAllEnumKey(ConsumptionType)
-        )
-      ),
+    consumptionType: yup.mixed().oneOf(ConsumptionType),
   })
   .required();
 export default { create, update };
