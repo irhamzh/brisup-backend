@@ -5,7 +5,7 @@ const create = yup
   .object()
   .shape({
     tanggal: yup.date().required(validationWording.required('tanggal')),
-    checkpoint: yup.string().required(validationWording.required('checkpoint')),
+    tujuan: yup.string().required(validationWording.required('tujuan')),
     // foto: yup.string().required(valiationWording.required('foto')),
   })
   .required();
@@ -14,7 +14,7 @@ const update = yup
   .object()
   .shape({
     tanggal: yup.date(),
-    checkpoint: yup.string(),
+    tujuan: yup.string(),
     foto: yup.string(),
   })
   .required();

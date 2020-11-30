@@ -3,14 +3,26 @@ import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
+import InvalidRequestError from '@interfaces/InvalidRequestError';
+import handleFirebaseUpload from '@utils/handleFirebaseUpload';
+// import validationWording from '@constants/validationWording';
 import CheckpointRepository from '@modules/MasterData/Checkpoint/checkpoint.repository';
 
 import schema from './security.schema';
 import SecurityRepository from './security.repository';
 
-export const createSecurity = async (req: Request, res: Response) => {
-  const { body } = req;
+const defaultBucket = 'images/ga-activity/security/';
+
+export const createSecurity = async (req: any, res: Response) => {
+  const { body, files } = req;
   const validatedBody = yupValidate(schema.create, body);
+  if (!files.foto) {
+    throw new InvalidRequestError('No files were uploaded', 'foto');
+  }
+  const { filename, path, mimetype } = files.foto;
+  const pathBucket = defaultBucket + filename;
+
+  const foto = await handleFirebaseUpload(path, pathBucket, mimetype, files);
 
   const checkpointRepository = new CheckpointRepository();
   const securityRepository = new SecurityRepository();
@@ -21,6 +33,7 @@ export const createSecurity = async (req: Request, res: Response) => {
   const createParam = {
     ...validatedBody,
     checkpoint,
+    foto,
   };
 
   const data: admin.firestore.DocumentData = await securityRepository.createSecurity(
@@ -33,8 +46,8 @@ export const createSecurity = async (req: Request, res: Response) => {
   });
 };
 
-export const updateSecurity = async (req: Request, res: Response) => {
-  const { body, params } = req;
+export const updateSecurity = async (req: any, res: Response) => {
+  const { body, params, files } = req;
   const validateParam = paramValidation(params, 'id');
   let validatedBody = yupValidate(schema.update, body);
 
@@ -46,6 +59,13 @@ export const updateSecurity = async (req: Request, res: Response) => {
       validatedBody.checkpoint
     );
     validatedBody = { ...validatedBody, checkpoint };
+  }
+  if (files?.foto) {
+    const { filename, path, mimetype } = files.foto;
+    const pathBucket = defaultBucket + filename;
+
+    const foto = await handleFirebaseUpload(path, pathBucket, mimetype, files);
+    validatedBody = { ...validatedBody, foto };
   }
 
   const data: admin.firestore.DocumentData = await securityRepository.updateSecurity(

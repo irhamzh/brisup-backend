@@ -2,17 +2,17 @@ import { Router } from 'express';
 import { withMiddleware } from 'express-kun';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 import fileParser from '@middlewares/fileParserMiddleware';
-import * as controller from './security.controller';
+import * as controller from './courier.controller';
 
 const router = Router();
 const uploadRouter = withMiddleware(router, fileParser);
 const errorHandledRoute = withErrorHandlerRoute(router);
 const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 
-errorHandledRoute.get('/security', controller.getAllSecurity);
-uploadHandleRouter.post('/security', controller.createSecurity);
-uploadHandleRouter.put('/security/:uid', controller.updateSecurity);
-errorHandledRoute.get('/security/:uid', controller.getSecurityById);
-errorHandledRoute.delete('/security/:uid', controller.deleteSecurityById);
+errorHandledRoute.get('/courier', controller.getAllCourier);
+uploadHandleRouter.post('/courier', controller.createCourier);
+uploadHandleRouter.put('/courier/:uid', controller.updateCourier);
+errorHandledRoute.get('/courier/:uid', controller.getCourierById);
+errorHandledRoute.delete('/courier/:uid', controller.deleteCourierById);
 
 export default router;
