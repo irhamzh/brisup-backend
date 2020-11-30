@@ -21,6 +21,8 @@ import cateringRouter from '@modules/MasterData/Catering/catering.routes';
 import educationRouter from '@modules/MasterData/Education/education.routes';
 import checkpointRouter from '@modules/MasterData/Checkpoint/checkpoint.routes';
 import hotelRouter from '@modules/MasterData/Hotel/hotel.routes';
+import areaRouter from '@modules/MasterData/Area/area.routes';
+import medicineTypeRouter from '@modules/MasterData/MedicineType/medicine_type.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
 import monitoringVendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
@@ -57,6 +59,7 @@ import clinicEvaluationRouter from '@modules/GeneralAffair/EvaluasiKlinik/evalua
 import activityRouter from '@modules/GeneralAffair/Aktivitas/Security/security.routes';
 import driverRouter from '@modules/GeneralAffair/Aktivitas/Driver/driver.routes';
 import courierRouter from '@modules/GeneralAffair/Aktivitas/Courier/courier.routes';
+import consumptionRouter from '@modules/GeneralAffair/PengeloaanKonsumsi/KonsumsiKegiatanRapat/consumption.routes';
 
 const apiRouter = Router();
 
@@ -80,8 +83,9 @@ apiRouter.use('/locations', locationRouter);
 apiRouter.use('/caterings', cateringRouter);
 apiRouter.use('/educations', educationRouter);
 apiRouter.use('/checkpoints', checkpointRouter);
-apiRouter.use('/checkpoints', checkpointRouter);
 apiRouter.use('/hotels', hotelRouter);
+apiRouter.use('/medicine-types', medicineTypeRouter);
+apiRouter.use('/area', areaRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
@@ -123,9 +127,10 @@ apiRouter.use('/pr-pengadaan-jasa-barangs', pengadaanPurchaseOrderRouter);
 
 apiRouter.use('/ga-monitoring-cctvs', monitoringCCTVRouter);
 apiRouter.use('/ga-clinic-evaluations', clinicEvaluationRouter);
-apiRouter.use('/ga-activities', activityRouter);
-apiRouter.use('/ga-activities', driverRouter);
-apiRouter.use('/ga-activities', courierRouter);
+apiRouter.use('/ga-activities', activityRouter); // security
+apiRouter.use('/ga-activities', driverRouter); // /driver
+apiRouter.use('/ga-activities', courierRouter); // /courier
+apiRouter.use('/ga-consumption', consumptionRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
