@@ -54,7 +54,7 @@ import pengadaanPurchaseOrderRouter from '@modules/Procurement/Pengadaan/Pengada
 
 import monitoringCCTVRouter from '@modules/GeneralAffair/MonitoringCCTV/monitoring_cctv.routes';
 import clinicEvaluationRouter from '@modules/GeneralAffair/EvaluasiKlinik/evaluasi_klinik.routes';
-// import activityRouter from '@modules/GeneralAffair/Aktivitas/Security/security.routes';
+import activityRouter from '@modules/GeneralAffair/Aktivitas/Security/security.routes';
 
 const apiRouter = Router();
 
@@ -121,7 +121,7 @@ apiRouter.use('/pr-pengadaan-jasa-barangs', pengadaanPurchaseOrderRouter);
 
 apiRouter.use('/ga-monitoring-cctvs', monitoringCCTVRouter);
 apiRouter.use('/ga-clinic-evaluations', clinicEvaluationRouter);
-// apiRouter.use('/ga-activities', activityRouter);
+apiRouter.use('/ga-activities', activityRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);

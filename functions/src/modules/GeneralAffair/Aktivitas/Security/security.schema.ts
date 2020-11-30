@@ -6,7 +6,7 @@ const create = yup
   .shape({
     tanggal: yup.date().required(validationWording.required('tanggal')),
     checkpoint: yup.string().required(validationWording.required('checkpoint')),
-    foto: yup.string().required(validationWording.required('foto')),
+    // foto: yup.string().required(valiationWording.required('foto')),
   })
   .required();
 
