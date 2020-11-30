@@ -7,4 +7,6 @@ export interface IRekreasiBase {
   ijinPenugasan: boolean;
   biayaRekreasi: boolean;
   laporanRekreasi: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

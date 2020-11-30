@@ -62,8 +62,8 @@ import driverRouter from '@modules/GeneralAffair/Aktivitas/Driver/driver.routes'
 import courierRouter from '@modules/GeneralAffair/Aktivitas/Courier/courier.routes';
 import firstAidRouter from '@modules/GeneralAffair/KegiatanLainnya/P3K/p3k.routes';
 import rekreasiRouter from '@modules/GeneralAffair/KegiatanLainnya/Rekreasi/rekreasi.routes';
-
 import consumptionRouter from '@modules/GeneralAffair/PengeloaanKonsumsi/KonsumsiKegiatanRapat/consumption.routes';
+import driverAssignmentnRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PenugasanDriver/driver_assignment.routes';
 
 const apiRouter = Router();
 
@@ -137,6 +137,7 @@ apiRouter.use('/ga-activities', driverRouter); // /driver
 apiRouter.use('/ga-activities', courierRouter); // /courier
 apiRouter.use('/ga-activities', firstAidRouter); // /
 apiRouter.use('/ga-activities', rekreasiRouter);
+apiRouter.use('/ga-driver-assignment', driverAssignmentnRouter);
 
 apiRouter.use('/ga-consumption', consumptionRouter);
 

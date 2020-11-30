@@ -8,4 +8,6 @@ export interface IP3kBase {
   jumlah: number;
   expired: Date;
   information: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
