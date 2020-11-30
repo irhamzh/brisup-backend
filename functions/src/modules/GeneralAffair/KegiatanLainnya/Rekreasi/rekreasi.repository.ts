@@ -15,7 +15,7 @@ export default class RekreasiRepository extends BaseRepository<IRekreasiBase> {
     const data = await this.createWithSubdocument(
       object,
       'recreation',
-      'ga-recreations'
+      'ga_recreations'
     );
     return data;
   }
@@ -24,7 +24,7 @@ export default class RekreasiRepository extends BaseRepository<IRekreasiBase> {
       id,
       object,
       'recreation',
-      'ga-recreations'
+      'ga_recreations'
     );
     return data;
   }

@@ -15,7 +15,7 @@ export default class DriverRepository extends BaseRepository<IDriverBase> {
     const data = await this.createWithSubdocument(
       object,
       'driver',
-      'ga-drivers'
+      'ga_drivers'
     );
     return data;
   }
@@ -24,7 +24,7 @@ export default class DriverRepository extends BaseRepository<IDriverBase> {
       id,
       object,
       'driver',
-      'ga-drivers'
+      'ga_drivers'
     );
     return data;
   }

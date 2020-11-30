@@ -73,7 +73,7 @@ export const deleteCourierById = async (req: Request, res: Response) => {
   const data = await courierRepository.deleteSubDocument(
     validateParam.uid,
     'courier',
-    'ga-couriers'
+    'ga_couriers'
   );
   res.json({
     message: 'SuccessfullyDeleteBy Id',
@@ -88,7 +88,7 @@ export const getCourierById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await courierRepository.findSubdocumentById(
     validateParam.uid,
     'courier',
-    'ga-couriers'
+    'ga_couriers'
   );
 
   res.json({
@@ -104,13 +104,13 @@ export const getAllCourier = async (req: Request, res: Response) => {
     page as string,
     limit as string,
     'courier',
-    'ga-couriers',
+    'ga_couriers',
     filtered as string,
     sorted as string
   );
   const totalCount = await courierRepository.countSubDocument(
     'courier',
-    'ga-couriers',
+    'ga_couriers',
     filtered as string
   );
 

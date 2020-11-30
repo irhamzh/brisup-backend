@@ -48,7 +48,7 @@ export const deleteRekreasiById = async (req: Request, res: Response) => {
   const data = await recreationRepository.deleteSubDocument(
     validateParam.uid,
     'recreation',
-    'ga-recreations'
+    'ga_recreations'
   );
   res.json({
     message: 'SuccessfullyDeleteBy Id',
@@ -63,7 +63,7 @@ export const getRekreasiById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await recreationRepository.findSubdocumentById(
     validateParam.uid,
     'recreation',
-    'ga-recreations'
+    'ga_recreations'
   );
 
   res.json({
@@ -79,13 +79,13 @@ export const getAllRekreasi = async (req: Request, res: Response) => {
     page as string,
     limit as string,
     'recreation',
-    'ga-recreations',
+    'ga_recreations',
     filtered as string,
     sorted as string
   );
   const totalCount = await recreationRepository.countSubDocument(
     'recreation',
-    'ga-recreations',
+    'ga_recreations',
     filtered as string
   );
 

@@ -73,7 +73,7 @@ export const deleteDriverById = async (req: Request, res: Response) => {
   const data = await driverRepository.deleteSubDocument(
     validateParam.uid,
     'driver',
-    'ga-drivers'
+    'ga_drivers'
   );
   res.json({
     message: 'SuccessfullyDeleteBy Id',
@@ -88,7 +88,7 @@ export const getDriverById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await driverRepository.findSubdocumentById(
     validateParam.uid,
     'driver',
-    'ga-drivers'
+    'ga_drivers'
   );
 
   res.json({
@@ -104,13 +104,13 @@ export const getAllDriver = async (req: Request, res: Response) => {
     page as string,
     limit as string,
     'driver',
-    'ga-drivers',
+    'ga_drivers',
     filtered as string,
     sorted as string
   );
   const totalCount = await driverRepository.countSubDocument(
     'driver',
-    'ga-drivers',
+    'ga_drivers',
     filtered as string
   );
 

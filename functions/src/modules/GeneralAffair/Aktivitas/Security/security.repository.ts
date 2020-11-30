@@ -17,7 +17,7 @@ export default class EngineerBasementRepository extends BaseRepository<
     const data = await this.createWithSubdocument(
       object,
       'security',
-      'ga-securities'
+      'ga_securities'
     );
     return data;
   }
@@ -26,7 +26,7 @@ export default class EngineerBasementRepository extends BaseRepository<
       id,
       object,
       'security',
-      'ga-securities'
+      'ga_securities'
     );
     return data;
   }

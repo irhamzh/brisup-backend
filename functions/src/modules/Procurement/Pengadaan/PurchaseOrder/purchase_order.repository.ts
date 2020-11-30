@@ -5,6 +5,6 @@ export default class PurchaseOrderRepository extends BaseRepository<
   IPurchaseOrderBase
 > {
   constructor() {
-    super('pr_pengadaan__purchase_orders', 'pr_pengadaan__purchase_order');
+    super('pr_pengadaan_purchase_orders', 'pr_pengadaan_purchase_order');
   }
 }
