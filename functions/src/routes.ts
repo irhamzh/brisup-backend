@@ -59,6 +59,9 @@ import clinicEvaluationRouter from '@modules/GeneralAffair/EvaluasiKlinik/evalua
 import activityRouter from '@modules/GeneralAffair/Aktivitas/Security/security.routes';
 import driverRouter from '@modules/GeneralAffair/Aktivitas/Driver/driver.routes';
 import courierRouter from '@modules/GeneralAffair/Aktivitas/Courier/courier.routes';
+import firstAidRouter from '@modules/GeneralAffair/KegiatanLainnya/P3K/p3k.routes';
+import rekreasiRouter from '@modules/GeneralAffair/KegiatanLainnya/Rekreasi/rekreasi.routes';
+
 import consumptionRouter from '@modules/GeneralAffair/PengeloaanKonsumsi/KonsumsiKegiatanRapat/consumption.routes';
 
 const apiRouter = Router();
@@ -130,6 +133,9 @@ apiRouter.use('/ga-clinic-evaluations', clinicEvaluationRouter);
 apiRouter.use('/ga-activities', activityRouter); // security
 apiRouter.use('/ga-activities', driverRouter); // /driver
 apiRouter.use('/ga-activities', courierRouter); // /courier
+apiRouter.use('/ga-activities', firstAidRouter); // /
+apiRouter.use('/ga-activities', rekreasiRouter);
+
 apiRouter.use('/ga-consumption', consumptionRouter);
 
 export default function useApiRouter(app: Application) {
