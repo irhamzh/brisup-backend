@@ -5,13 +5,13 @@ export interface IWorkingOrderBase {
   typeKegiatan: string;
   kodePelatihan: string;
   tanggalTerima: Date;
-  tanggalRevisi: Date;
-  tanggalKonfirmasi: Date;
-  catering: string;
-  atk: string;
-  hotel: string;
-  akomodasi: string;
-  pengajarEksternal: string;
+  tanggalRevisi?: Date;
+  tanggalKonfirmasi?: Date;
+  catering?: string;
+  atk?: string;
+  hotel?: string;
+  akomodasi?: string;
+  pengajarEksternal?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -19,6 +19,12 @@ export interface IWorkingOrderBase {
 export enum TypeKegiatan {
   'Kegiatan Pendidikan' = 'Kegiatan Pendidikan',
   'Kegiatan Lain' = 'Kegiatan Lain',
+}
+
+export enum TypeGeneralAffair {
+  'Sosialiasi' = 'Sosialiasi',
+  'Kegiatan Lain' = 'Kegiatan Lain',
+  'Rapat' = 'Rapat',
 }
 
 // interface IKebutuhan {

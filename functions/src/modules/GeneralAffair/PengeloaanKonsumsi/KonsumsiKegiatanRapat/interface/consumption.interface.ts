@@ -18,4 +18,4 @@ interface ICateringMenu {
   price: number;
 }
 
-export const ConsumptionType = [];
+export const ConsumptionType = ['Sosialiasi', 'Rapat', 'Kegiatan'];
