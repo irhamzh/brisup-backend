@@ -73,6 +73,7 @@ import accessoriesVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraa
 import taxVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Tax/tax.routes';
 import kirVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Kir/kir.routes';
 import pgppjsRouter from '@modules/GeneralAffair/DataPekerja/PGSPJS/pgppjs.routes';
+import attendanceRouter from '@modules/GeneralAffair/DataPekerja/Kehadiran/attendance.routes';
 
 const apiRouter = Router();
 
@@ -156,6 +157,7 @@ apiRouter.use('/ga-vehicles', accessoriesVehicleRouter);
 apiRouter.use('/ga-vehicles', taxVehicleRouter);
 apiRouter.use('/ga-vehicles', kirVehicleRouter);
 apiRouter.use('/ga-employees', pgppjsRouter);
+apiRouter.use('/ga-employees', attendanceRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
