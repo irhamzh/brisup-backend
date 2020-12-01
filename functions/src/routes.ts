@@ -68,6 +68,7 @@ import fuelRouter from '@modules/GeneralAffair/PengelolaanKendaraan/BahanBakar/f
 import externalVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PemesananDiluarKendaraanDinas/external_vehicle.routes';
 import serviceVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Service/service.routes';
 import accessoriesVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Accessories/accessories.routes';
+import taxVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Tax/tax.routes';
 
 const apiRouter = Router();
 
@@ -147,6 +148,7 @@ apiRouter.use('/ga-fuel', fuelRouter);
 apiRouter.use('/ga-external-vehicles', externalVehicleRouter);
 apiRouter.use('/ga-vehicles', serviceVehicleRouter);
 apiRouter.use('/ga-vehicles', accessoriesVehicleRouter);
+apiRouter.use('/ga-vehicles', taxVehicleRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
