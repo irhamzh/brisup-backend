@@ -22,6 +22,8 @@ import educationRouter from '@modules/MasterData/Education/education.routes';
 import checkpointRouter from '@modules/MasterData/Checkpoint/checkpoint.routes';
 import hotelRouter from '@modules/MasterData/Hotel/hotel.routes';
 import areaRouter from '@modules/MasterData/Area/area.routes';
+import ukerRouter from '@modules/MasterData/Uker/uker.routes';
+
 import vehicleRouter from '@modules/MasterData/Vehicle/vehicle.routes';
 import medicineTypeRouter from '@modules/MasterData/MedicineType/medicine_type.routes';
 
@@ -97,6 +99,7 @@ apiRouter.use('/hotels', hotelRouter);
 apiRouter.use('/medicine-types', medicineTypeRouter);
 apiRouter.use('/areas', areaRouter);
 apiRouter.use('/vehicles', vehicleRouter);
+apiRouter.use('/ukers', ukerRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
