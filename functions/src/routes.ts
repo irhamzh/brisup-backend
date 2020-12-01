@@ -66,7 +66,8 @@ import consumptionRouter from '@modules/GeneralAffair/PengeloaanKonsumsi/Konsums
 import driverAssignmentRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PenugasanDriver/driver_assignment.routes';
 import fuelRouter from '@modules/GeneralAffair/PengelolaanKendaraan/BahanBakar/fuel.routes';
 import externalVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PemesananDiluarKendaraanDinas/external_vehicle.routes';
-import serviceVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/ServiceKendaraan/service.routes';
+import serviceVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Service/service.routes';
+import accessoriesVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Accessories/accessories.routes';
 
 const apiRouter = Router();
 
@@ -145,6 +146,7 @@ apiRouter.use('/ga-consumption', consumptionRouter);
 apiRouter.use('/ga-fuel', fuelRouter);
 apiRouter.use('/ga-external-vehicles', externalVehicleRouter);
 apiRouter.use('/ga-vehicles', serviceVehicleRouter);
+apiRouter.use('/ga-vehicles', accessoriesVehicleRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
