@@ -6,7 +6,7 @@ export interface IDriverAssignmentBase {
   driverName: string;
   passengerName: string;
   destination: string;
-  rate: string;
+  rate: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
