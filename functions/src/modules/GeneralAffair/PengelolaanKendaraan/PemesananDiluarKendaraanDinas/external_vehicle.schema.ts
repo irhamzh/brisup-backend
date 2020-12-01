@@ -20,6 +20,7 @@ const baseCreate = yup
       )
       .required(validationWording.required('type')),
     biaya: yup.number().required(validationWording.required('biaya')),
+    name: yup.string().required(validationWording.required('name')),
     prosesPembayaran: yup
       .boolean()
       .required(validationWording.required('prosesPembayaran')),
@@ -55,6 +56,7 @@ const createReimburse = yup
 const baseUpdate = yup
   .object()
   .shape({
+    name: yup.string(),
     biaya: yup.number(),
     tanggal: yup.date(),
     prosesPembayaran: yup.boolean(),
