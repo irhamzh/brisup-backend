@@ -4,4 +4,6 @@ export interface IBasementBase {
   tanggal: Date;
   checkpoint: ICheckpointBase;
   foto: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

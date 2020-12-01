@@ -15,7 +15,7 @@ export default class CourierRepository extends BaseRepository<ICourierBase> {
     const data = await this.createWithSubdocument(
       object,
       'courier',
-      'ga-couriers'
+      'ga_couriers'
     );
     return data;
   }
@@ -24,7 +24,7 @@ export default class CourierRepository extends BaseRepository<ICourierBase> {
       id,
       object,
       'courier',
-      'ga-couriers'
+      'ga_couriers'
     );
     return data;
   }

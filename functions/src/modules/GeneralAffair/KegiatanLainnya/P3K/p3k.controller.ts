@@ -76,8 +76,8 @@ export const deleteP3kById = async (req: Request, res: Response) => {
 
   const data = await p3kRepository.deleteSubDocument(
     validateParam.uid,
-    'first-aid-kit',
-    'ga-first-aid-kits'
+    'first_aid_kit',
+    'ga_first_aid_kits'
   );
   res.json({
     message: 'SuccessfullyDeleteBy Id',
@@ -91,8 +91,8 @@ export const getP3kById = async (req: Request, res: Response) => {
   const p3kRepository = new P3kRepository();
   const data: admin.firestore.DocumentData = await p3kRepository.findSubdocumentById(
     validateParam.uid,
-    'first-aid-kit',
-    'ga-first-aid-kits'
+    'first_aid_kit',
+    'ga_first_aid_kits'
   );
 
   res.json({
@@ -107,14 +107,14 @@ export const getAllP3k = async (req: Request, res: Response) => {
   const data = await p3kRepository.findAllSubDocument(
     page as string,
     limit as string,
-    'first-aid-kit',
-    'ga-first-aid-kits',
+    'first_aid_kit',
+    'ga_first_aid_kits',
     filtered as string,
     sorted as string
   );
   const totalCount = await p3kRepository.countSubDocument(
-    'first-aid-kit',
-    'ga-first-aid-kits',
+    'first_aid_kit',
+    'ga_first_aid_kits',
     filtered as string
   );
 

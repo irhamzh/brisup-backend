@@ -87,7 +87,7 @@ export const deleteSecurityById = async (req: Request, res: Response) => {
   const data = await securityRepository.deleteSubDocument(
     validateParam.uid,
     'security',
-    'ga-securities'
+    'ga_securities'
   );
   res.json({
     message: 'SuccessfullyDeleteBy Id',
@@ -102,7 +102,7 @@ export const getSecurityById = async (req: Request, res: Response) => {
   const data: admin.firestore.DocumentData = await securityRepository.findSubdocumentById(
     validateParam.uid,
     'security',
-    'ga-securities'
+    'ga_securities'
   );
 
   res.json({
@@ -118,13 +118,13 @@ export const getAllSecurity = async (req: Request, res: Response) => {
     page as string,
     limit as string,
     'security',
-    'ga-securities',
+    'ga_securities',
     filtered as string,
     sorted as string
   );
   const totalCount = await securityRepository.countSubDocument(
     'security',
-    'ga-securities',
+    'ga_securities',
     filtered as string
   );
 

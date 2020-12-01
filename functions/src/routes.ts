@@ -22,6 +22,7 @@ import educationRouter from '@modules/MasterData/Education/education.routes';
 import checkpointRouter from '@modules/MasterData/Checkpoint/checkpoint.routes';
 import hotelRouter from '@modules/MasterData/Hotel/hotel.routes';
 import areaRouter from '@modules/MasterData/Area/area.routes';
+import vehicleRouter from '@modules/MasterData/Vehicle/vehicle.routes';
 import medicineTypeRouter from '@modules/MasterData/MedicineType/medicine_type.routes';
 
 import assetRouter from '@modules/FixedAsset/Asset/asset.routes';
@@ -61,8 +62,10 @@ import driverRouter from '@modules/GeneralAffair/Aktivitas/Driver/driver.routes'
 import courierRouter from '@modules/GeneralAffair/Aktivitas/Courier/courier.routes';
 import firstAidRouter from '@modules/GeneralAffair/KegiatanLainnya/P3K/p3k.routes';
 import rekreasiRouter from '@modules/GeneralAffair/KegiatanLainnya/Rekreasi/rekreasi.routes';
-
 import consumptionRouter from '@modules/GeneralAffair/PengeloaanKonsumsi/KonsumsiKegiatanRapat/consumption.routes';
+import driverAssignmentRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PenugasanDriver/driver_assignment.routes';
+import fuelRouter from '@modules/GeneralAffair/PengelolaanKendaraan/BahanBakar/fuel.routes';
+import externalVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PemesananDiluarKendaraanDinas/external_vehicle.routes';
 
 const apiRouter = Router();
 
@@ -88,7 +91,8 @@ apiRouter.use('/educations', educationRouter);
 apiRouter.use('/checkpoints', checkpointRouter);
 apiRouter.use('/hotels', hotelRouter);
 apiRouter.use('/medicine-types', medicineTypeRouter);
-apiRouter.use('/area', areaRouter);
+apiRouter.use('/areas', areaRouter);
+apiRouter.use('/vehicles', vehicleRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
@@ -135,8 +139,11 @@ apiRouter.use('/ga-activities', driverRouter); // /driver
 apiRouter.use('/ga-activities', courierRouter); // /courier
 apiRouter.use('/ga-activities', firstAidRouter); // /
 apiRouter.use('/ga-activities', rekreasiRouter);
+apiRouter.use('/ga-driver-assignment', driverAssignmentRouter);
 
 apiRouter.use('/ga-consumption', consumptionRouter);
+apiRouter.use('/ga-fuel', fuelRouter);
+apiRouter.use('/ga-external-vehicles', externalVehicleRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);

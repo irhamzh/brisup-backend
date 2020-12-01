@@ -6,6 +6,6 @@ export default class LocationRepository extends BaseRepository<
   IMedicineTypeBase
 > {
   constructor() {
-    super('medicine-types', 'medicine-type');
+    super('medicine_types', 'medicine_type');
   }
 }

@@ -16,8 +16,8 @@ export default class EngineerBasementRepository extends BaseRepository<
   async createP3k(object: IP3kBase) {
     const data = await this.createWithSubdocument(
       object,
-      'first-aid-kit',
-      'ga-first-aid-kits'
+      'first_aid_kit',
+      'ga_first_aid_kits'
     );
     return data;
   }
@@ -25,8 +25,8 @@ export default class EngineerBasementRepository extends BaseRepository<
     const data = await this.updateSubDocument(
       id,
       object,
-      'first-aid-kit',
-      'ga-first-aid-kits'
+      'first_aid_kit',
+      'ga_first_aid_kits'
     );
     return data;
   }
