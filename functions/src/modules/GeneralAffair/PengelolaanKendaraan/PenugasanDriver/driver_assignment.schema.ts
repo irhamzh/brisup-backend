@@ -4,9 +4,9 @@ import validationWording from '@constants/validationWording';
 const create = yup
   .object()
   .shape({
-    tanggal: yup.date(),
-    vehicle: yup.string(),
-    driverName: yup.string(),
+    tanggal: yup.date().required(validationWording.required('tanggal')),
+    vehicle: yup.string().required(validationWording.required('vehicle')),
+    driverName: yup.string().required(validationWording.required('driverName')),
     passengerName: yup
       .string()
       .required(validationWording.required('passengerName')),

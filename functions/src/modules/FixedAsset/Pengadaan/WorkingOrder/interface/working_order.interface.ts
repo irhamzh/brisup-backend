@@ -22,7 +22,7 @@ export enum TypeKegiatan {
 }
 
 export enum TypeGeneralAffair {
-  'Sosialiasi' = 'Sosialiasi',
+  'Sosialisasi' = 'Sosialisasi',
   'Kegiatan Lain' = 'Kegiatan Lain',
   'Rapat' = 'Rapat',
 }

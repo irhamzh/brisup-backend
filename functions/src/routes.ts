@@ -63,7 +63,9 @@ import courierRouter from '@modules/GeneralAffair/Aktivitas/Courier/courier.rout
 import firstAidRouter from '@modules/GeneralAffair/KegiatanLainnya/P3K/p3k.routes';
 import rekreasiRouter from '@modules/GeneralAffair/KegiatanLainnya/Rekreasi/rekreasi.routes';
 import consumptionRouter from '@modules/GeneralAffair/PengeloaanKonsumsi/KonsumsiKegiatanRapat/consumption.routes';
-import driverAssignmentnRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PenugasanDriver/driver_assignment.routes';
+import driverAssignmentRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PenugasanDriver/driver_assignment.routes';
+import fuelRouter from '@modules/GeneralAffair/PengelolaanKendaraan/BahanBakar/fuel.routes';
+import externalVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PemesananDiluarKendaraanDinas/external_vehicle.routes';
 
 const apiRouter = Router();
 
@@ -137,9 +139,11 @@ apiRouter.use('/ga-activities', driverRouter); // /driver
 apiRouter.use('/ga-activities', courierRouter); // /courier
 apiRouter.use('/ga-activities', firstAidRouter); // /
 apiRouter.use('/ga-activities', rekreasiRouter);
-apiRouter.use('/ga-driver-assignment', driverAssignmentnRouter);
+apiRouter.use('/ga-driver-assignment', driverAssignmentRouter);
 
 apiRouter.use('/ga-consumption', consumptionRouter);
+apiRouter.use('/ga-fuel', fuelRouter);
+apiRouter.use('/ga-external-vehicles', externalVehicleRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
