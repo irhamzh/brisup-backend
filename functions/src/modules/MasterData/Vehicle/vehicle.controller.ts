@@ -11,7 +11,7 @@ export const createVehicle = async (req: Request, res: Response) => {
   const validatedBody = yupValidate(schema.create, body);
 
   const vehicleRepository = new VehicleRepository();
-  const data = await vehicleRepository.create({ ...validatedBody, kmAkhir: 0 });
+  const data = await vehicleRepository.create(validatedBody);
   res.json({
     message: 'Successfully Create Vehicle',
     data,

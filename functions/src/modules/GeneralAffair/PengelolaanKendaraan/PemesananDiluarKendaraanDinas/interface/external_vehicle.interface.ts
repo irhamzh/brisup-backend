@@ -2,6 +2,7 @@ interface IExternalVehicleBase {
   tanggal: Date;
   biaya: number;
   type: string;
+  name: string;
   prosesPembayaran: boolean;
   createdAt?: Date;
   updatedAt?: Date;

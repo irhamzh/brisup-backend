@@ -22,6 +22,8 @@ import educationRouter from '@modules/MasterData/Education/education.routes';
 import checkpointRouter from '@modules/MasterData/Checkpoint/checkpoint.routes';
 import hotelRouter from '@modules/MasterData/Hotel/hotel.routes';
 import areaRouter from '@modules/MasterData/Area/area.routes';
+import ukerRouter from '@modules/MasterData/Uker/uker.routes';
+
 import vehicleRouter from '@modules/MasterData/Vehicle/vehicle.routes';
 import medicineTypeRouter from '@modules/MasterData/MedicineType/medicine_type.routes';
 
@@ -70,6 +72,8 @@ import serviceVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Ke
 import accessoriesVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Accessories/accessories.routes';
 import taxVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Tax/tax.routes';
 import kirVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Kir/kir.routes';
+import pgppjsRouter from '@modules/GeneralAffair/DataPekerja/PGSPJS/pgppjs.routes';
+import attendanceRouter from '@modules/GeneralAffair/DataPekerja/Kehadiran/attendance.routes';
 
 const apiRouter = Router();
 
@@ -97,6 +101,7 @@ apiRouter.use('/hotels', hotelRouter);
 apiRouter.use('/medicine-types', medicineTypeRouter);
 apiRouter.use('/areas', areaRouter);
 apiRouter.use('/vehicles', vehicleRouter);
+apiRouter.use('/ukers', ukerRouter);
 
 apiRouter.use('/assets', assetRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
@@ -151,6 +156,8 @@ apiRouter.use('/ga-vehicles', serviceVehicleRouter);
 apiRouter.use('/ga-vehicles', accessoriesVehicleRouter);
 apiRouter.use('/ga-vehicles', taxVehicleRouter);
 apiRouter.use('/ga-vehicles', kirVehicleRouter);
+apiRouter.use('/ga-employees', pgppjsRouter);
+apiRouter.use('/ga-employees', attendanceRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
