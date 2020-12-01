@@ -1,9 +1,8 @@
 import { IVehicleBase } from '@modules/MasterData/Vehicle/interface/vehicle.interface';
 
-export interface ITaxBase {
+export interface IKIRBase {
   tanggal: Date;
   vehicle: IVehicleBase;
-  jatuhTempo: string;
   biaya: number;
   createdAt?: Date;
   updatedAt?: Date;

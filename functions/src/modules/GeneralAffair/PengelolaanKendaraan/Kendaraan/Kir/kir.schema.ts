@@ -6,7 +6,6 @@ const create = yup
   .shape({
     tanggal: yup.date().required(validationWording.required('tanggal')),
     vehicle: yup.string().required(validationWording.required('vehicle')),
-    jatuhTempo: yup.string().required(validationWording.required('jatuhTempo')),
     biaya: yup.number().required(validationWording.required('biaya')),
   })
   .required();
@@ -16,7 +15,6 @@ const update = yup
   .shape({
     tanggal: yup.date(),
     vehicle: yup.string(),
-    jatuhTempo: yup.string(),
     biaya: yup.number(),
   })
   .required();

@@ -69,6 +69,7 @@ import externalVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/P
 import serviceVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Service/service.routes';
 import accessoriesVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Accessories/accessories.routes';
 import taxVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Tax/tax.routes';
+import kirVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Kir/kir.routes';
 
 const apiRouter = Router();
 
@@ -149,6 +150,7 @@ apiRouter.use('/ga-external-vehicles', externalVehicleRouter);
 apiRouter.use('/ga-vehicles', serviceVehicleRouter);
 apiRouter.use('/ga-vehicles', accessoriesVehicleRouter);
 apiRouter.use('/ga-vehicles', taxVehicleRouter);
+apiRouter.use('/ga-vehicles', kirVehicleRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
