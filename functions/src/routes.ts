@@ -75,6 +75,7 @@ import kirVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendar
 import pgppjsRouter from '@modules/GeneralAffair/DataPekerja/PGSPJS/pgppjs.routes';
 import attendanceRouter from '@modules/GeneralAffair/DataPekerja/Kehadiran/attendance.routes';
 import apsRouter from '@modules/GeneralAffair/DataPekerja/APS/aps.routes';
+import overtimeRouter from '@modules/GeneralAffair/DataPekerja/Lembur/overtime.routes';
 
 const apiRouter = Router();
 
@@ -160,6 +161,7 @@ apiRouter.use('/ga-vehicles', kirVehicleRouter);
 apiRouter.use('/ga-employees', pgppjsRouter);
 apiRouter.use('/ga-employees', attendanceRouter);
 apiRouter.use('/ga-employees', apsRouter);
+apiRouter.use('/ga-employees', overtimeRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
