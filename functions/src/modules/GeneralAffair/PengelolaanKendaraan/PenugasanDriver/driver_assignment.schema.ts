@@ -13,7 +13,7 @@ const create = yup
     destination: yup
       .string()
       .required(validationWording.required('destination')),
-    rate: yup.string().required(validationWording.required('rate')),
+    rate: yup.number().required(validationWording.required('rate')),
   })
   .required();
 
@@ -25,7 +25,7 @@ const update = yup
     driverName: yup.string(),
     passengerName: yup.string(),
     destination: yup.string(),
-    rate: yup.string(),
+    rate: yup.number(),
   })
   .required();
 
