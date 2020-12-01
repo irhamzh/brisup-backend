@@ -7,6 +7,7 @@ const create = yup
     merk: yup.string().required(validationWording.required('merk')),
     color: yup.string().required(validationWording.required('color')),
     platNomor: yup.string().required(validationWording.required('platNomor')),
+    kmAkhir: yup.number().required(validationWording.required('kmAkhir')),
   })
   .required();
 
