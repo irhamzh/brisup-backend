@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
 
-import { Penugasan } from './interface/pgppjs.interface';
+import { Penugasan } from './interface/pgspjs.interface';
 
 const create = yup
   .object()
