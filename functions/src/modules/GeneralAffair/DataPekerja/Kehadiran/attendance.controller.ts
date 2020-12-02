@@ -96,3 +96,28 @@ export const getAllAttendance = async (req: Request, res: Response) => {
     totalCount,
   });
 };
+
+export const importExcel = async (req: any, res: Response) => {
+  const { files } = req;
+
+  const attendanceRepository = new AttendanceRepository();
+  const invalidRow = await attendanceRepository.importExcel(
+    files,
+    {
+      B: 'tanggal',
+      C: 'name',
+      D: 'jumlahHadir',
+      E: 'jumlahTidakHadir',
+      F: 'jumlahCuti',
+      G: 'type',
+    },
+    schema.create,
+    attendanceRepository._collection
+      .doc('attendance')
+      .collection('ga_attendances')
+  );
+  res.json({
+    message: 'Successfully Create Attendance',
+    invalidRow,
+  });
+};

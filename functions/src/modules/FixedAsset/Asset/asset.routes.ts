@@ -16,6 +16,6 @@ errorHandledRoute.post('/', controller.createAsset);
 errorHandledRoute.post('/delete', controller.deleteMultipleAsset);
 errorHandledRoute.put('/:uid', controller.updateAsset);
 errorHandledRoute.delete('/:uid', controller.deleteAssetById);
-uploadHandleRouter.post('/import', controller.importExcel);
+uploadHandleRouter.post('/excel', controller.importExcel);
 
 export default router;
