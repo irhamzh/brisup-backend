@@ -11,9 +11,9 @@ export const createAttendance = async (req: any, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
 
-  const attendaceRepository = new AttendanceRepository();
+  const attendanceRepository = new AttendanceRepository();
 
-  const data: admin.firestore.DocumentData = await attendaceRepository.createAttendance(
+  const data: admin.firestore.DocumentData = await attendanceRepository.createAttendance(
     validatedBody
   );
 
@@ -28,9 +28,9 @@ export const updateAttendance = async (req: any, res: Response) => {
   const validateParam = paramValidation(params, 'id');
   let validatedBody = yupValidate(schema.update, body);
 
-  const attendaceRepository = new AttendanceRepository();
+  const attendanceRepository = new AttendanceRepository();
 
-  const data: admin.firestore.DocumentData = await attendaceRepository.updateAttendance(
+  const data: admin.firestore.DocumentData = await attendanceRepository.updateAttendance(
     validateParam.uid,
     validatedBody
   );
@@ -44,12 +44,12 @@ export const updateAttendance = async (req: any, res: Response) => {
 export const deleteAttendanceById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-  const attendaceRepository = new AttendanceRepository();
+  const attendanceRepository = new AttendanceRepository();
 
-  const data = await attendaceRepository.deleteSubDocument(
+  const data = await attendanceRepository.deleteSubDocument(
     validateParam.uid,
-    'attendace',
-    'ga_attendaces'
+    'attendance',
+    'ga_attendances'
   );
   res.json({
     message: 'SuccessfullyDeleteBy Id',
@@ -60,11 +60,11 @@ export const deleteAttendanceById = async (req: Request, res: Response) => {
 export const getAttendanceById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-  const attendaceRepository = new AttendanceRepository();
-  const data: admin.firestore.DocumentData = await attendaceRepository.findSubdocumentById(
+  const attendanceRepository = new AttendanceRepository();
+  const data: admin.firestore.DocumentData = await attendanceRepository.findSubdocumentById(
     validateParam.uid,
-    'attendace',
-    'ga_attendaces'
+    'attendance',
+    'ga_attendances'
   );
 
   res.json({
@@ -75,18 +75,18 @@ export const getAttendanceById = async (req: Request, res: Response) => {
 
 export const getAllAttendance = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
-  const attendaceRepository = new AttendanceRepository();
-  const data = await attendaceRepository.findAllSubDocument(
+  const attendanceRepository = new AttendanceRepository();
+  const data = await attendanceRepository.findAllSubDocument(
     page as string,
     limit as string,
-    'attendace',
-    'ga_attendaces',
+    'attendance',
+    'ga_attendances',
     filtered as string,
     sorted as string
   );
-  const totalCount = await attendaceRepository.countSubDocument(
-    'attendace',
-    'ga_attendaces',
+  const totalCount = await attendanceRepository.countSubDocument(
+    'attendance',
+    'ga_attendances',
     filtered as string
   );
 
