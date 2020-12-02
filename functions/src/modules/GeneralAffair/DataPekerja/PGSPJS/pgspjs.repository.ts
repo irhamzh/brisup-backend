@@ -1,25 +1,25 @@
 import BaseRepository from '@repositories/baseRepository';
 
-import { IPGPPJSBase } from './interface/pgppjs.interface';
+import { IPGSPJSBase } from './interface/pgspjs.interface';
 
-export default class PGPPJSRepository extends BaseRepository<IPGPPJSBase> {
+export default class PGSPJSRepository extends BaseRepository<IPGSPJSBase> {
   constructor() {
     super('ga_employees', 'employee');
   }
-  async createPGPPJS(object: IPGPPJSBase) {
+  async createPGSPJS(object: IPGSPJSBase) {
     const data = await this.createWithSubdocument(
       object,
-      'pgppjs',
-      'ga_pgppjs'
+      'pgspjs',
+      'ga_pgspjs'
     );
     return data;
   }
-  async updatePGPPJS(id: string, object: Partial<IPGPPJSBase>) {
+  async updatePGSPJS(id: string, object: Partial<IPGSPJSBase>) {
     const data = await this.updateSubDocument(
       id,
       object,
-      'pgppjs',
-      'ga_pgppjs'
+      'pgspjs',
+      'ga_pgspjs'
     );
     return data;
   }

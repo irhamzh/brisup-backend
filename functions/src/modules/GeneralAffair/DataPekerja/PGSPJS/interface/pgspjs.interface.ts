@@ -1,6 +1,6 @@
 import { IUkerBase } from '@modules/MasterData/Uker/interface/uker.interface';
 
-export interface IPGPPJSBase {
+export interface IPGSPJSBase {
   penugasan: string;
   tanggal: Date;
   uker: IUkerBase;
