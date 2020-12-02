@@ -77,6 +77,7 @@ import attendanceRouter from '@modules/GeneralAffair/DataPekerja/Kehadiran/atten
 import apsRouter from '@modules/GeneralAffair/DataPekerja/APS/aps.routes';
 import overtimeRouter from '@modules/GeneralAffair/DataPekerja/Lembur/overtime.routes';
 import internshipRouter from '@modules/GeneralAffair/DataPekerja/Magang/internship.routes';
+import employeepRouter from '@modules/GeneralAffair/DataPekerja/DataPekerja/employee.routes';
 
 const apiRouter = Router();
 
@@ -164,6 +165,7 @@ apiRouter.use('/ga-employees', attendanceRouter);
 apiRouter.use('/ga-employees', apsRouter);
 apiRouter.use('/ga-employees', overtimeRouter);
 apiRouter.use('/ga-employees', internshipRouter);
+apiRouter.use('/ga-employees', employeepRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
