@@ -11,8 +11,8 @@ export default class InternshipRepository extends BaseRepository<
   async createInternship(object: IUniversitas | ISMK) {
     const data = await this.createWithSubdocument(
       object,
-      'intership',
-      'ga_intership'
+      'internship',
+      'ga_internship'
     );
     return data;
   }
@@ -20,8 +20,8 @@ export default class InternshipRepository extends BaseRepository<
     const data = await this.updateSubDocument(
       id,
       object,
-      'intership',
-      'ga_intership'
+      'internship',
+      'ga_internship'
     );
     return data;
   }

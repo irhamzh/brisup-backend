@@ -81,3 +81,23 @@ export const deleteMultipleAsset = async (req: Request, res: Response) => {
     deletedAsset: validatedBody.assetIds,
   });
 };
+
+export const importExcel = async (req: any, res: Response) => {
+  const { files } = req;
+
+  const assetRepository = new AssetRepository();
+  const invalidRow = await assetRepository.importExcel(
+    files,
+    {
+      B: 'name',
+      C: 'information',
+      D: 'condition',
+    },
+    schema.create
+  );
+
+  res.json({
+    message: 'Successfully Create Asset',
+    invalidRow,
+  });
+};

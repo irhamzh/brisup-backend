@@ -11,7 +11,7 @@ export interface IAttendanceBase {
 
 export const Type = [
   'Pegawai Tetap',
-  'Outsourcing Man Powe',
+  'Outsourcing Man Power',
   'Security',
   'Driver',
 ];

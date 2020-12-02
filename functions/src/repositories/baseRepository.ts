@@ -1,13 +1,32 @@
-import * as admin from 'firebase-admin';
+import * as yup from 'yup';
 import * as firebase from 'firebase';
-import NotFoundError from '@interfaces/NotFoundError';
-import validationWording from '@constants/validationWording';
+import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
+import NotFoundError from '@interfaces/NotFoundError';
 import applyFilterQuery from '@utils/applyFilterQuery';
-
+import handleImportExcel from '@utils/handleImportExcel';
+import validationWording from '@constants/validationWording';
+import InvalidRequestError from '@interfaces/InvalidRequestError';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+import writeToFirestore from '@utils/writeToFirestore';
 
+interface IFile {
+  fieldname: string;
+  filename: string;
+  encoding: string;
+  mimetype: string;
+  path: string;
+  size: number;
+  buffer: Buffer;
+}
+
+interface StringKeys {
+  [key: string]: string;
+}
+interface IFiles {
+  [key: string]: IFile;
+}
 export default class FirestoreRepository<
   CreateParam,
   ConditionParam = {},
@@ -470,5 +489,31 @@ export default class FirestoreRepository<
     const snap = await query.get();
 
     return snap.size || 0;
+  }
+
+  async importExcel(
+    files: IFiles,
+    columnToKey: StringKeys,
+    schemaValidation: yup.ObjectSchema<any>,
+    collectionRef = this._collection
+  ) {
+    if (!files?.excel) {
+      throw new InvalidRequestError('Please upload xlsx, xls file', 'excel');
+    }
+    const { path } = files.excel;
+    const data = await handleImportExcel(path, columnToKey, files);
+
+    if (data.length < 1) {
+      throw new InvalidRequestError(
+        'Format Excel tidak valid, pastikan barada di "Sheet1"',
+        this._name
+      );
+    }
+    const executeData = await writeToFirestore(
+      data,
+      collectionRef,
+      schemaValidation
+    );
+    return executeData;
   }
 }
