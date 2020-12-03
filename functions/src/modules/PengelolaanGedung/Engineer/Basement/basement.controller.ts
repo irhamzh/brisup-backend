@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 import WaterMeterRepository from '@modules/MasterData/WaterMater/water_meter.repository';
-import FloorRepository from '@modules/Floor/floor.repository';
+import FloorRepository from '@modules/MasterData/Floor/floor.repository';
 import PumpRepository from '@modules/MasterData/Pump/pump.repository';
 import BuildingRepository from '@modules/MasterData/Building/building.repository';
 import PumpUnitRepository from '@modules/MasterData/PumpUnit/pump_unit.repository';

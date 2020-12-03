@@ -1,4 +1,4 @@
-import { IFloorBase } from '@modules/Floor/interface/floor.interface';
+import { IFloorBase } from '@modules/MasterData/Floor/interface/floor.interface';
 import { IPumpBase } from '@modules/MasterData/Pump/interface/pump.interface';
 import { IBuildingBase } from '@modules/MasterData/Building/interface/building.interface';
 import { IPumpUnitBase } from '@modules/MasterData/PumpUnit/interface/pump_unit.interface';

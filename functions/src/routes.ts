@@ -3,7 +3,7 @@ import { Router, Application } from 'express';
 import useRouter from '@modules/User/user.routes';
 import roleRouter from '@modules/Role/role.routes';
 import itemRouter from '@modules/Item/item.routes';
-import floorRouter from '@modules/Floor/floor.routes';
+import floorRouter from '@modules/MasterData/Floor/floor.routes';
 import ruanganRouter from '@modules/Ruangan/ruangan.routes';
 import partnerRouter from '@modules/Partner/partner.routes';
 import jenisPcRouter from '@modules/JenisPC/jenis_pc.routes';

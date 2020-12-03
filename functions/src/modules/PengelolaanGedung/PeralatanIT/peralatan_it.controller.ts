@@ -7,7 +7,7 @@ import paramValidation from '@utils/paramValidation';
 import { TypeItem } from '@modules/Item/interface/item.interface';
 import ItemRepository from '@modules/Item/item.repository';
 
-import FloorRepository from '@modules/Floor/floor.repository';
+import FloorRepository from '@modules/MasterData/Floor/floor.repository';
 import PeralatanITRepository from './peralatan_it.repository';
 import RuanganRepository from '@modules/Ruangan/ruangan.repository';
 

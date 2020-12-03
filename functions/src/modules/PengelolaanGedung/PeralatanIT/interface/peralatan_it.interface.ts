@@ -1,4 +1,4 @@
-import { IFloorBase } from '@modules/Floor/interface/floor.interface';
+import { IFloorBase } from '@modules/MasterData/Floor/interface/floor.interface';
 // import { IItemBase } from '@modules/Item/interface/item.interface';
 import { IRuanganBase } from '@modules/Ruangan/interface/ruangan.interface';
 
