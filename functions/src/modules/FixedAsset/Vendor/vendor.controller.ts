@@ -5,7 +5,7 @@ import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 import MappingBodyByType from './helpers/MappingBodyByType';
 import schema from '@modules/FixedAsset/Vendor/vendor.schema';
-import PartnerRepository from '@modules/Partner/partner.repository';
+import PartnerRepository from '@modules/MasterData/Partner/partner.repository';
 import VendorRepository from '@modules/FixedAsset/Vendor/vendor.repository';
 
 export const createVendor = async (req: Request, res: Response) => {

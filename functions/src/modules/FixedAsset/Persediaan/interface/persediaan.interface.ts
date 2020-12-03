@@ -1,4 +1,4 @@
-import { IJenisBarangBase } from '@modules/JenisBarang/interface/jenis_barang.interface';
+import { IJenisBarangBase } from '@modules/MasterData/JenisBarang/interface/jenis_barang.interface';
 
 export interface IPersediaanBase {
   name: string;

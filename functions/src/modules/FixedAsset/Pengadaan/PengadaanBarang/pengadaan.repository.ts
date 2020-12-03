@@ -11,7 +11,7 @@ import { db } from '@utils/admin';
 import * as admin from 'firebase-admin';
 import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
-import ProviderRepository from '@modules/Provider/provider.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 
 // type createParam = Omit<
 //   | IPengadaanSwakelolaPembelian

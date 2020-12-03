@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import schema from './purchase_order.schema';
 
 import PurchaseOrderRepository from './purchase_order.repository';
-import ProviderRepository from '@modules/Provider/provider.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 import PengadaanRepository from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.repository';
 
 import paramValidation from '@utils/paramValidation';

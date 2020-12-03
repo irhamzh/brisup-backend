@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 
-import ProviderRepository from '@modules/Provider/provider.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 
 import schema from './evaluasi_atk.schema';
 import EvaluasiATKRepository from './evaluasi_atk.repository';

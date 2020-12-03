@@ -10,7 +10,7 @@ import paramValidation from '@utils/paramValidation';
 // import PumpUnitRepository from '@modules/MasterData/PumpUnit/pump_unit.repository';
 // import CompressorRepository from '@modules/MasterData/Compressor/ruangan.repository';
 import LocationRepository from '@modules/MasterData/Location/location.repository';
-import RuanganRepository from '@modules/Ruangan/ruangan.repository';
+import RuanganRepository from '@modules/MasterData/Ruangan/ruangan.repository';
 
 import schema from './sanitation.schema';
 import SanitationRepository from './sanitation.repository';

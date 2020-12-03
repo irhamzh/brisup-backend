@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import schema from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.schema';
 
 import EvaluasiSuplierRepository from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.repository';
-import ProviderRepository from '@modules/Provider/provider.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 import PengadaanRepository from '@modules/FixedAsset/Pengadaan/PengadaanBarang/pengadaan.repository';
 
 import paramValidation from '@utils/paramValidation';

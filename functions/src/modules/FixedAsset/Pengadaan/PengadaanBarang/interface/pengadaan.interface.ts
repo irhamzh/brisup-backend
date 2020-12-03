@@ -1,4 +1,4 @@
-import { IProviderBase } from '@modules/Provider/interface/provider.interface';
+import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
 
 interface IPengadaan {
   typePengadaan: string;

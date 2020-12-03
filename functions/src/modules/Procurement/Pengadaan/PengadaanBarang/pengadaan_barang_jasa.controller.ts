@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 
-import ProviderRepository from '@modules/Provider/provider.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 import EducationRepository from '@modules/MasterData/Education/education.repository';
 
 import schema from './pengadaan_barang_jasa.schema';

@@ -3,7 +3,7 @@ import schema from './persediaan.schema';
 // import { } from '@utils/Date';
 import * as admin from 'firebase-admin';
 import PersediaanRepository from './persediaan.repository';
-import JenisBarangRepository from '@modules/JenisBarang/jenis_barang.repository';
+import JenisBarangRepository from '@modules/MasterData/JenisBarang/jenis_barang.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 

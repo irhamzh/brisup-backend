@@ -4,7 +4,7 @@ import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 
 import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
-import ProviderRepository from '@modules/Provider/provider.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 
 import schema from './klasifikasi_atk.schema';
 import ATKClasificationRepository from './klasifikasi_atk.repository';
