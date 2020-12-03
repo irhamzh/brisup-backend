@@ -6,10 +6,10 @@ import * as fs from 'fs';
 import * as admin from 'firebase-admin';
 
 import config from '@utils/config';
-import schema from '@modules/User/user.schema';
+import schema from '@modules/MasterData/User/user.schema';
 import paramValidation from '@utils/paramValidation';
-import RoleRepository from '@modules/Role/role.repository';
-import UserRepository from '@modules/User/user.repository';
+import RoleRepository from '@modules/MasterData/Role/role.repository';
+import UserRepository from '@modules/MasterData/User/user.repository';
 import ExtensionError from '@interfaces/ExtensionError';
 import yupValidate from '@utils/yupValidate';
 

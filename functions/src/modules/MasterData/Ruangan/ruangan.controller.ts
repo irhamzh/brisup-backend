@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import schema from '@modules/Ruangan/ruangan.schema';
+import schema from '@modules/MasterData/Ruangan/ruangan.schema';
 
-import RuanganRepository from '@modules/Ruangan/ruangan.repository';
+import RuanganRepository from '@modules/MasterData/Ruangan/ruangan.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 

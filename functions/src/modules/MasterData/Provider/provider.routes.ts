@@ -1,4 +1,4 @@
-import * as controller from '@modules/Provider/provider.controller';
+import * as controller from '@modules/MasterData/Provider/provider.controller';
 import { Router } from 'express';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 

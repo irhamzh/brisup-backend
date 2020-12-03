@@ -1,5 +1,5 @@
 import { IWorkingOrderBase } from '@modules/FixedAsset/Pengadaan/WorkingOrder/interface/working_order.interface';
-import { IProviderBase } from '@modules/Provider/interface/provider.interface';
+import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
 
 export interface IKlasifikasiATKBase {
   tanggal: Date;

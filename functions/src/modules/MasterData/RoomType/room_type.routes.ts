@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
-import * as controller from '@modules/RoomType/room_type.controller';
+import * as controller from '@modules/MasterData/RoomType/room_type.controller';
 
 const router = Router();
 const errorHandledRoute = withErrorHandlerRoute(router);

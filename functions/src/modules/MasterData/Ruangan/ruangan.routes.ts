@@ -1,4 +1,4 @@
-import * as controller from '@modules/Ruangan/ruangan.controller';
+import * as controller from '@modules/MasterData/Ruangan/ruangan.controller';
 import { Router } from 'express';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import schema from '@modules/JenisPC/jenis_pc.schema';
+import schema from '@modules/MasterData/JenisPC/jenis_pc.schema';
 
-import JenisPcRepository from '@modules/JenisPC/jenis_pc.repository';
+import JenisPcRepository from '@modules/MasterData/JenisPC/jenis_pc.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 

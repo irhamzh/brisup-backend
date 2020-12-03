@@ -1,6 +1,6 @@
 import { IFloorBase } from '@modules/MasterData/Floor/interface/floor.interface';
 // import { IItemBase } from '@modules/Item/interface/item.interface';
-import { IRuanganBase } from '@modules/Ruangan/interface/ruangan.interface';
+import { IRuanganBase } from '@modules/MasterData/Ruangan/interface/ruangan.interface';
 
 export interface IPeralatanITBase {
   typePeralatanIT: string;

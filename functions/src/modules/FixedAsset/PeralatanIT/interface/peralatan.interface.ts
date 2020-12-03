@@ -1,5 +1,5 @@
-import { IRuanganBase } from '@modules/Ruangan/interface/ruangan.interface';
-import { IJenisPCBase } from '@modules/JenisPC/interface/jenis_pc.interface';
+import { IRuanganBase } from '@modules/MasterData/Ruangan/interface/ruangan.interface';
+import { IJenisPCBase } from '@modules/MasterData/JenisPC/interface/jenis_pc.interface';
 interface IPeralatan {
   jenisPeralatan: string;
   merk: string;

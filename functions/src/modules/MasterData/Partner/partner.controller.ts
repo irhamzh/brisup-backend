@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import schema from '@modules/Partner/partner.schema';
+import schema from '@modules/MasterData/Partner/partner.schema';
 
-import PartnerRepository from '@modules/Partner/partner.repository';
+import PartnerRepository from '@modules/MasterData/Partner/partner.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 

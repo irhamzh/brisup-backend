@@ -4,12 +4,12 @@ import { Request, Response } from 'express';
 import schema from './peralatan_it.schema';
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
-import { TypeItem } from '@modules/Item/interface/item.interface';
-import ItemRepository from '@modules/Item/item.repository';
+import { TypeItem } from '@modules/MasterData/Item/interface/item.interface';
+import ItemRepository from '@modules/MasterData/Item/item.repository';
 
 import FloorRepository from '@modules/MasterData/Floor/floor.repository';
 import PeralatanITRepository from './peralatan_it.repository';
-import RuanganRepository from '@modules/Ruangan/ruangan.repository';
+import RuanganRepository from '@modules/MasterData/Ruangan/ruangan.repository';
 
 export const createPeralatanIT = async (req: Request, res: Response) => {
   const { body } = req;

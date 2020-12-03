@@ -1,4 +1,4 @@
-import { IRoleBase } from '@modules/Role/interface/role.interface';
+import { IRoleBase } from '@modules/MasterData/Role/interface/role.interface';
 export interface IUserBase {
   name: string;
   email: string;

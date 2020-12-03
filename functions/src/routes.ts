@@ -1,16 +1,16 @@
 import { Router, Application } from 'express';
 
-import useRouter from '@modules/User/user.routes';
-import roleRouter from '@modules/Role/role.routes';
-import itemRouter from '@modules/Item/item.routes';
+import useRouter from '@modules/MasterData/User/user.routes';
+import roleRouter from '@modules/MasterData/Role/role.routes';
+import itemRouter from '@modules/MasterData/Item/item.routes';
 import floorRouter from '@modules/MasterData/Floor/floor.routes';
-import ruanganRouter from '@modules/Ruangan/ruangan.routes';
-import partnerRouter from '@modules/Partner/partner.routes';
-import jenisPcRouter from '@modules/JenisPC/jenis_pc.routes';
-import providerRouter from '@modules/Provider/provider.routes';
-import roomTypeRouter from '@modules/RoomType/room_type.routes';
+import ruanganRouter from '@modules/MasterData/Ruangan/ruangan.routes';
+import partnerRouter from '@modules/MasterData/Partner/partner.routes';
+import jenisPcRouter from '@modules/MasterData/JenisPC/jenis_pc.routes';
+import providerRouter from '@modules/MasterData/Provider/provider.routes';
+import roomTypeRouter from '@modules/MasterData/RoomType/room_type.routes';
 import buildingTypeRouter from '@modules/MasterData/BuildingType/building_type.routes';
-import jenisBarangRouter from '@modules/JenisBarang/jenis_barang.routes';
+import jenisBarangRouter from '@modules/MasterData/JenisBarang/jenis_barang.routes';
 import buildingRouter from '@modules/MasterData/Building/building.routes';
 import compressorRouter from '@modules/MasterData/Compressor/compressor.routes';
 import waterMeterRouter from '@modules/MasterData/WaterMater/water_meter.routes';

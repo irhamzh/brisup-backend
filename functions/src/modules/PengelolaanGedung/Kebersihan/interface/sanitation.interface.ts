@@ -5,7 +5,7 @@
 // import { ICompressorBase } from '@modules/MasterData/Compressor/interface/compressor.interface';
 // import { IWaterMeterBase } from '@modules/MasterData/WaterMater/interface/water_meter.interface';
 import { ILocationBase } from '@modules/MasterData/Location/interface/location.interface';
-import { IRuanganBase } from '@modules/Ruangan/interface/ruangan.interface';
+import { IRuanganBase } from '@modules/MasterData/Ruangan/interface/ruangan.interface';
 
 export interface ISanitationBase {
   name: string;

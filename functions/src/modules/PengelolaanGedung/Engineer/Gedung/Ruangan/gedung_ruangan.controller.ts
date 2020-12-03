@@ -4,8 +4,8 @@ import * as admin from 'firebase-admin';
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 
-import RuanganRepository from '@modules/Ruangan/ruangan.repository';
-import RoomTypeRepository from '@modules/RoomType/room_type.repository';
+import RuanganRepository from '@modules/MasterData/Ruangan/ruangan.repository';
+import RoomTypeRepository from '@modules/MasterData/RoomType/room_type.repository';
 import BuildingTypeRepository from '@modules/MasterData/BuildingType/building_type.repository';
 
 import schema from './gedung_ruangan.schema';

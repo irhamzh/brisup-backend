@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import schema from '@modules/Provider/provider.schema';
+import schema from '@modules/MasterData/Provider/provider.schema';
 
-import ProviderRepository from '@modules/Provider/provider.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 

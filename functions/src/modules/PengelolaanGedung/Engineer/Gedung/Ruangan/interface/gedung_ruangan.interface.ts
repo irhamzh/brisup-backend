@@ -1,5 +1,5 @@
-import { IRuanganBase } from '@modules/Ruangan/interface/ruangan.interface';
-import { IRoomTypeBase } from '@modules/RoomType/interface/room_type.interface';
+import { IRuanganBase } from '@modules/MasterData/Ruangan/interface/ruangan.interface';
+import { IRoomTypeBase } from '@modules/MasterData/RoomType/interface/room_type.interface';
 import { IBuildingTypeBase } from '@modules/MasterData/BuildingType/interface/building_type.interface';
 
 export interface IGedungRuanganBase {

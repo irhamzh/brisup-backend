@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
 import BaseRepository from '@repositories/baseRepository';
-import { IUserBase } from '@modules/User/interface/user.interface';
+import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 
 type loginParam = Omit<IUserBase, 'name' | 'role' | 'profilePicture'>;

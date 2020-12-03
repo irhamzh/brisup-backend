@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import schema from '@modules/Role/role.schema';
+import schema from '@modules/MasterData/Role/role.schema';
 
-import RoleRepository from '@modules/Role/role.repository';
+import RoleRepository from '@modules/MasterData/Role/role.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 
