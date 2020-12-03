@@ -9,7 +9,7 @@ import partnerRouter from '@modules/Partner/partner.routes';
 import jenisPcRouter from '@modules/JenisPC/jenis_pc.routes';
 import providerRouter from '@modules/Provider/provider.routes';
 import roomTypeRouter from '@modules/RoomType/room_type.routes';
-import buildingTypeRouter from '@modules/BuildingType/building_type.routes';
+import buildingTypeRouter from '@modules/MasterData/BuildingType/building_type.routes';
 import jenisBarangRouter from '@modules/JenisBarang/jenis_barang.routes';
 import buildingRouter from '@modules/MasterData/Building/building.routes';
 import compressorRouter from '@modules/MasterData/Compressor/compressor.routes';

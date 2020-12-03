@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import schema from '@modules/BuildingType/building_type.schema';
+import schema from '@modules/MasterData/BuildingType/building_type.schema';
 
-import BuildingTypeRepository from '@modules/BuildingType/building_type.repository';
+import BuildingTypeRepository from '@modules/MasterData/BuildingType/building_type.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 

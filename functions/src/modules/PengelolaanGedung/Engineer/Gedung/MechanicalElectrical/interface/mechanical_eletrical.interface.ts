@@ -1,5 +1,5 @@
 import { IFloorBase } from '@modules/Floor/interface/floor.interface';
-import { IBuildingTypeBase } from '@modules/BuildingType/interface/building_type.interface';
+import { IBuildingTypeBase } from '@modules/MasterData/BuildingType/interface/building_type.interface';
 
 export interface IMechanicalElectricalBase {
   floor: IFloorBase;

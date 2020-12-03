@@ -5,7 +5,7 @@ import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 
 import FloorRepository from '@modules/Floor/floor.repository';
-import BuildingTypeRepository from '@modules/BuildingType/building_type.repository';
+import BuildingTypeRepository from '@modules/MasterData/BuildingType/building_type.repository';
 
 import schema from './mechanical_eletrical.schema';
 import MechanicalElectricalRepository from './mechanical_eletrical.repository';

@@ -1,5 +1,5 @@
 import BaseRepository from '@repositories/baseRepository';
-import { IBuildingTypeBase } from '@modules/BuildingType/interface/building_type.interface';
+import { IBuildingTypeBase } from '@modules/MasterData/BuildingType/interface/building_type.interface';
 
 export default class BuildingTypeRepository extends BaseRepository<
   IBuildingTypeBase

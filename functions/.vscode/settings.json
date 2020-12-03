@@ -1,5 +1,6 @@
 {
   "conventionalCommits.scopes": [
-    "General Affair"
+    "General Affair",
+    "Master Data"
   ]
 }
