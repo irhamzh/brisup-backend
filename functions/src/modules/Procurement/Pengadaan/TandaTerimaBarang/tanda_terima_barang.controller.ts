@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
 
-import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
-import PengadaanRepository from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.repository';
-
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 
@@ -12,25 +9,15 @@ import TandaTerimaBarangRepository from './tanda_terima_barang.repository';
 export const createTandaTerimaBarang = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
-
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
-  const providerRepository = new ProviderRepository();
-  const provider: any = await providerRepository.findById(
-    validatedBody.provider
-  );
-  const pengadaanRepository = new PengadaanRepository();
-  const pengadaan: any = await pengadaanRepository.findById(
+
+  const data = await tandaTerimaBarang.createWithValidatePengadaan(
+    validatedBody,
+    validatedBody.provider,
     validatedBody.pengadaan
   );
-  const createParam = {
-    ...validatedBody,
-    provider,
-    pengadaan,
-  };
-
-  const data = await tandaTerimaBarang.create(createParam);
   res.json({
-    message: 'Successfully Create TandaTerimaBarang',
+    message: 'Successfully Create Tanda Terima Barang',
     data,
   });
 };
@@ -39,27 +26,18 @@ export const updateTandaTerimaBarang = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'tandaTerimaBarangId');
   const validatedBody = yupValidate(schema.update, body);
-  let createParam: any = validatedBody;
-  // delete createParam.provider;
-  if (validatedBody.provider) {
-    const providerRepository = new ProviderRepository();
-    const provider: any = await providerRepository.findById(
-      validatedBody.provider
-    );
-    createParam = { ...createParam, provider };
-  }
-  if (validatedBody.pengadaan) {
-    const pengadaanRepository = new PengadaanRepository();
-    const pengadaan: any = await pengadaanRepository.findById(
-      validatedBody.pengadaan
-    );
-    createParam = { ...createParam, pengadaan };
-  }
 
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
-  const data = await tandaTerimaBarang.update(validateParam.uid, createParam);
+
+  const data = await tandaTerimaBarang.updateWithValidatePengadaan(
+    validateParam.uid,
+    validatedBody,
+    validatedBody?.provider || undefined,
+    validatedBody?.pengadaan || undefined
+  );
+
   res.json({
-    message: 'Successfully Update TandaTerimaBarang',
+    message: 'Successfully Update Tanda Terima Barang',
     data,
   });
 };
@@ -70,7 +48,7 @@ export const getTandaTerimaBarangById = async (req: Request, res: Response) => {
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
   const data = await tandaTerimaBarang.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get TandaTerimaBarang By Id',
+    message: 'Successfully Get Tanda Terima Barang By Id',
     data,
   });
 };
@@ -86,7 +64,7 @@ export const getAllTandaTerimaBarang = async (req: Request, res: Response) => {
   );
   const totalCount = await tandaTerimaBarang.countDocument(filtered as string);
   res.json({
-    message: 'Successfully Get TandaTerimaBarang',
+    message: 'Successfully Get Tanda Terima Barang',
     data,
     totalCount,
   });
@@ -101,7 +79,7 @@ export const deleteTandaTerimaBarangById = async (
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
   const data = await tandaTerimaBarang.delete(validateParam.uid);
   res.json({
-    message: 'Successfully Get Delete By Id',
+    message: 'Successfully Delete Tanda Terima Barang By Id',
     data,
   });
 };

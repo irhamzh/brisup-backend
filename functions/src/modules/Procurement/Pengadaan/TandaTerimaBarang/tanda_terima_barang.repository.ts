@@ -1,8 +1,10 @@
-import BaseRepository from '@repositories/baseRepository';
+import PengadaanRepository from '@repositories/pengadaanRepository';
+
 import { ITerimaBarangBase } from './interface/tanda_terima_barang.interface';
 
-export default class TandaTerimaBarangRepository extends BaseRepository<
-  ITerimaBarangBase
+type CreateParam = Omit<ITerimaBarangBase, 'provider' | 'pengadaan'>;
+export default class TandaTerimaBarangRepository extends PengadaanRepository<
+  CreateParam
 > {
   constructor() {
     super(
