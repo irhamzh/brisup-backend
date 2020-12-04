@@ -103,6 +103,19 @@ export default class FirestoreRepository<
     return snap;
   }
 
+  async find(filtered: string, rawQuery?: admin.firestore.Query) {
+    let query: admin.firestore.Query;
+    if (rawQuery) {
+      query = rawQuery;
+    } else {
+      query = filtered
+        ? applyFilterQuery(this._collection, JSON.parse(filtered))
+        : this._collection;
+    }
+
+    return query.get();
+  }
+
   async findAll(
     page: number | string = 1,
     limit: number | string = 10,
