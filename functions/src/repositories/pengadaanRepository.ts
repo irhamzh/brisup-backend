@@ -2,11 +2,11 @@ import FirestoreRepository from './baseRepository';
 import validationWording from '@constants/validationWording';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
-import PengadaanRepository from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.repository';
 import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
+import PengadaanRepository from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.repository';
 import {
   IPenunjukanLangsung,
-  IPembelianLangusng,
+  IPembelianLangsung,
   IPemilihanLangsung,
 } from '@modules/Procurement/Pengadaan/PengadaanBarang/interface/pengadaan_barang_jasa.interface';
 
@@ -44,7 +44,7 @@ export default class PengadaaanRepository<
     );
     const pengadaan:
       | IPenunjukanLangsung
-      | IPembelianLangusng
+      | IPembelianLangsung
       | IPemilihanLangsung = await pengadaanRepository.findById(pengadaanId);
     const crateParam = {
       ...object,
@@ -90,7 +90,7 @@ export default class PengadaaanRepository<
       const pengadaanRepository = new PengadaanRepository();
       const pengadaan:
         | IPenunjukanLangsung
-        | IPembelianLangusng
+        | IPembelianLangsung
         | IPemilihanLangsung = await pengadaanRepository.findById(pengadaanId);
       createParam = { ...createParam, pengadaan };
     }

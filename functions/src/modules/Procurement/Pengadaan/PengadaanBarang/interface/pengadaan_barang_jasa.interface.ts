@@ -1,9 +1,15 @@
 import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
 import { IEducationBase } from '@modules/MasterData/Education/interface/education.interface';
 
+// interface ApprovedBy {
+//   userId: string;
+//   name: string;
+//   approvedAt: Date;
+// }
+
 interface IPengadaan {
-  typePengadaan: string;
   jenisPengadaan: string;
+  typePengadaan: string;
   namaPengadaan: string;
   provider: IProviderBase;
   izinPrinsipPengadaan: boolean;
@@ -12,6 +18,7 @@ interface IPengadaan {
   information: string;
   // status: string;
   // isDraft: boolean;
+  // approvedBy: ApprovedBy[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -21,10 +28,6 @@ interface ITanggalAwalAkhir extends IPengadaan {
   tanggalAkhir: Date;
 }
 
-export interface IPembelianLangusng extends ITanggalAwalAkhir {
-  anggaranBiaya: boolean;
-}
-
 export interface IPenunjukanLangsung extends ITanggalAwalAkhir {
   izinPrinsipPengadaan: boolean;
   tor: boolean;
@@ -32,11 +35,14 @@ export interface IPenunjukanLangsung extends ITanggalAwalAkhir {
   undangan: boolean;
   klarifikasiNegosiasi: boolean;
   nomorSPK: string;
-  namaPendidikan: IEducationBase;
+  namaPendidikan: string | IEducationBase;
   jumlahPeserta: number;
   durasi: string;
   jumlahBiaya: number;
   masaBerlaku: string;
+}
+export interface IPembelianLangsung extends ITanggalAwalAkhir {
+  anggaranBiaya: boolean;
 }
 
 export interface IPemilihanLangsung extends IPengadaan {
@@ -47,7 +53,7 @@ export interface IPemilihanLangsung extends IPengadaan {
   undangan: boolean;
   klarifikasiNegosiasi: boolean;
   nomorSPK: string;
-  namePendidikan: IEducationBase;
+  namaPendidikan: string | IEducationBase;
   jumlahPeserta: number;
   durasi: string;
   jumlahBiaya: number;
