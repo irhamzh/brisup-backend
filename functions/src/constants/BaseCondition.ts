@@ -24,3 +24,12 @@ export enum Division {
   'Procurement' = 'Procurement',
   'General Affair' = 'General Affair',
 }
+
+export enum StatusPengadaan {
+  'Belum Berjalan' = 'Belum Berjalan',
+  'Proses Persetujuan' = 'Proses Persetujuan',
+  'Approved oleh Wakabag' = 'Approved oleh Wakabag',
+  'Approved oleh Kabag' = 'Approved oleh Kabag',
+  // 'Belum Selesai' = 'Belum Selesai',
+  'Selesai' = 'Selesai',
+}

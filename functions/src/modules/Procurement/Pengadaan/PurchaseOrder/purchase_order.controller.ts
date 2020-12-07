@@ -1,35 +1,22 @@
 import { Request, Response } from 'express';
-import schema from './purchase_order.schema';
-
-import PurchaseOrderRepository from './purchase_order.repository';
-import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
-import PengadaanRepository from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.repository';
 
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 
+import schema from './purchase_order.schema';
+import PurchaseOrderRepository from './purchase_order.repository';
+
 export const createPurchaseOrder = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
-
   const purchaseOrder = new PurchaseOrderRepository();
-  const providerRepository = new ProviderRepository();
-  const provider: any = await providerRepository.findById(
-    validatedBody.provider
-  );
-  const pengadaanRepository = new PengadaanRepository();
-  const pengadaan: any = await pengadaanRepository.findById(
+  const data = await purchaseOrder.createWithValidatePengadaan(
+    validatedBody,
+    validatedBody.provider,
     validatedBody.pengadaan
   );
-  const createParam = {
-    ...validatedBody,
-    provider,
-    pengadaan,
-  };
-
-  const data = await purchaseOrder.create(createParam);
   res.json({
-    message: 'Successfully Create PurchaseOrder',
+    message: 'Successfully Create Purchase Order',
     data,
   });
 };
@@ -38,28 +25,15 @@ export const updatePurchaseOrder = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'purchaseOrderId');
   const validatedBody = yupValidate(schema.update, body);
-
-  let createParam: any = validatedBody;
-  // delete createParam.provider;
-  if (validatedBody.provider) {
-    const providerRepository = new ProviderRepository();
-    const provider: any = await providerRepository.findById(
-      validatedBody.provider
-    );
-    createParam = { ...createParam, provider };
-  }
-  if (validatedBody.pengadaan) {
-    const pengadaanRepository = new PengadaanRepository();
-    const pengadaan: any = await pengadaanRepository.findById(
-      validatedBody.pengadaan
-    );
-    createParam = { ...createParam, pengadaan };
-  }
-
   const purchaseOrder = new PurchaseOrderRepository();
-  const data = await purchaseOrder.update(validateParam.uid, createParam);
+  const data = await purchaseOrder.updateWithValidatePengadaan(
+    validateParam.uid,
+    validatedBody,
+    validatedBody?.provider || undefined,
+    validatedBody?.pengadaan || undefined
+  );
   res.json({
-    message: 'Successfully Update PurchaseOrder',
+    message: 'Successfully Update Purchase Order',
     data,
   });
 };
@@ -98,7 +72,7 @@ export const deletePurchaseOrderById = async (req: Request, res: Response) => {
   const purchaseOrder = new PurchaseOrderRepository();
   const data = await purchaseOrder.delete(validateParam.uid);
   res.json({
-    message: 'Successfully Get Delete By Id',
+    message: 'Successfully Delete PurchaseOrder By Id',
     data,
   });
 };

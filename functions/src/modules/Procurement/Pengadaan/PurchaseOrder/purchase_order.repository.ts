@@ -1,8 +1,11 @@
-import BaseRepository from '@repositories/baseRepository';
+import PengadaanRepository from '@repositories/pengadaanRepository';
+
 import { IPurchaseOrderBase } from './interface/purchase_order.interface';
 
-export default class PurchaseOrderRepository extends BaseRepository<
-  IPurchaseOrderBase
+type CreateParam = Omit<IPurchaseOrderBase, 'provider' | 'pengadaan'>;
+
+export default class PurchaseOrderRepository extends PengadaanRepository<
+  CreateParam
 > {
   constructor() {
     super('pr_pengadaan_purchase_orders', 'pr_pengadaan_purchase_order');

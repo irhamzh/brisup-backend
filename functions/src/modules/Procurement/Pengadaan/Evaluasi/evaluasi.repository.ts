@@ -1,8 +1,10 @@
-import BaseRepository from '@repositories/baseRepository';
+import PengadaanRepository from '@repositories/pengadaanRepository';
+
 import { IEvaluasiSuplierBase } from './interface/evaluasi.interface';
 
-export default class EvaluasiSuplierRepository extends BaseRepository<
-  IEvaluasiSuplierBase
+type CreateParam = Omit<IEvaluasiSuplierBase, 'provider' | 'pengadaan'>;
+export default class EvaluasiSuplierRepository extends PengadaanRepository<
+  CreateParam
 > {
   constructor() {
     super('pr_pengadaan_evaluations', 'pr_pengadaan_evaluation');

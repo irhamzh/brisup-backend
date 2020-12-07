@@ -7,9 +7,9 @@ const create = yup
   .shape({
     tanggal: yup.date().required(validationWording.required('tanggal')),
     hotelName: yup.string().required(validationWording.required('hotelName')),
-    namePendidikan: yup
+    namaPendidikan: yup
       .string()
-      .required(validationWording.required('namePendidikan')),
+      .required(validationWording.required('namaPendidikan')),
     remark: yup.string().required(validationWording.required('remark')),
     performance: yup
       .mixed()
@@ -23,7 +23,7 @@ const update = yup
   .shape({
     tanggal: yup.date(),
     hotelName: yup.string(),
-    namePendidikan: yup.string(),
+    namaPendidikan: yup.string(),
     remark: yup.string(),
     performance: yup.mixed().oneOf(Performace),
   })

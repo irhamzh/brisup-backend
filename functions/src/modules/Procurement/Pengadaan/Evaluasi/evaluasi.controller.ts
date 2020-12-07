@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
 
-import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
-import PengadaanRepository from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.repository';
-
-import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
+import paramValidation from '@utils/paramValidation';
 
 import schema from './evaluasi.schema';
 import EvaluasiSuplierRepository from './evaluasi.repository';
@@ -12,24 +9,15 @@ import EvaluasiSuplierRepository from './evaluasi.repository';
 export const createEvaluasiSuplier = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
+
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
-  const providerRepository = new ProviderRepository();
-  const provider: any = await providerRepository.findById(
-    validatedBody.provider
-  );
-  const pengadaanRepository = new PengadaanRepository();
-  const pengadaan: any = await pengadaanRepository.findById(
+  const data = await evaluasiSuplierRepository.createWithValidatePengadaan(
+    validatedBody,
+    validatedBody.provider,
     validatedBody.pengadaan
   );
-  const createParam = {
-    ...validatedBody,
-    provider,
-    pengadaan,
-  };
-
-  const data = await evaluasiSuplierRepository.create(createParam);
   res.json({
-    message: 'Successfully Create EvaluasiSuplier',
+    message: 'Successfully Create Evaluasi Suplier',
     data,
   });
 };
@@ -39,30 +27,16 @@ export const updateEvaluasiSuplier = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'evaluasiSuplierId');
   const validatedBody = yupValidate(schema.update, body);
 
-  let createParam = validatedBody;
-  // delete createParam.provider;
-  if (validatedBody.provider) {
-    const providerRepository = new ProviderRepository();
-    const provider: any = await providerRepository.findById(
-      validatedBody.provider
-    );
-    createParam = { ...createParam, provider };
-  }
-  if (validatedBody.pengadaan) {
-    const pengadaanRepository = new PengadaanRepository();
-    const pengadaan: any = await pengadaanRepository.findById(
-      validatedBody.pengadaan
-    );
-    createParam = { ...createParam, pengadaan };
-  }
-
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
-  const data = await evaluasiSuplierRepository.update(
+  const data = await evaluasiSuplierRepository.updateWithValidatePengadaan(
     validateParam.uid,
-    createParam
+    validatedBody,
+    validatedBody?.provider || undefined,
+    validatedBody?.pengadaan || undefined
   );
+
   res.json({
-    message: 'Successfully Update EvaluasiSuplier',
+    message: 'Successfully Update Evaluasi Suplier',
     data,
   });
 };
@@ -73,7 +47,7 @@ export const getEvaluasiSuplierById = async (req: Request, res: Response) => {
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
   const data = await evaluasiSuplierRepository.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get EvaluasiSuplier By Id',
+    message: 'Successfully Get Evaluasi Suplier By Id',
     data,
   });
 };
@@ -92,7 +66,7 @@ export const getAllEvaluasiSuplier = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get EvaluasiSuplier',
+    message: 'Successfully Get Evaluasi Suplier',
     data,
     totalCount,
   });
@@ -107,7 +81,7 @@ export const deleteEvaluasiSuplierById = async (
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
   const data = await evaluasiSuplierRepository.delete(validateParam.uid);
   res.json({
-    message: 'Successfully Get Delete By Id',
+    message: 'Successfully Delete Evaluasi Suplier By Id',
     data,
   });
 };
