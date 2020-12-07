@@ -17,7 +17,7 @@ interface IPengadaan {
   izinHasilPengadaan: boolean;
   suratPemesanan: boolean;
   information: string;
-  // status: string;
+  status: string;
   isDraft: boolean;
   // approvedBy: ApprovedBy[];
   createdAt?: Date;
