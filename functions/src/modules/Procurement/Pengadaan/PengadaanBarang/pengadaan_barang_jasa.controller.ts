@@ -171,7 +171,7 @@ export const approveWabag = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
-  if (user?.role?.name === 'Wakil Kepala Bagian') {
+  if (user?.role?.name !== 'Wakil Kepala Bagian') {
     throw new AccessError('Approve Wabag');
   }
 
@@ -191,7 +191,7 @@ export const approveKabag = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
-  if (user?.role?.name === 'Kepala Bagian') {
+  if (user?.role?.name !== 'Kepala Bagian') {
     throw new AccessError('Approve Kepala Bagian');
   }
 
@@ -255,6 +255,8 @@ export const dashboard = async (req: Request, res: Response) => {
     totalProsesPersetujuan,
     totalApprovedWakabag,
     totalApprovedKabag,
+    totalBelumSelesai:
+      Number(totalApprovedWakabag) + Number(totalApprovedKabag) || 0,
     totalSelesai,
   };
   res.json({
