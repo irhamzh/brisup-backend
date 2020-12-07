@@ -35,7 +35,7 @@ export const createPengadaan = async (req: Request, res: Response) => {
     validatedBody.provider
   );
   let createParam = undefined;
-  createParam = { ...validatedBody, provider };
+  createParam = { ...validatedBody, provider, isDraft: false };
 
   if (createParam?.namaPendidikan) {
     const namaPendidikan: IEducationBase = await educationRepository.findById(
@@ -61,6 +61,7 @@ export const updatePengadaan = async (req: Request, res: Response) => {
   const ref = await pengadaanRepository.findById(validateParam.uid);
   const validatedBody = updateMappingBodyByType(ref?.typePengadaan, body);
   let createParam = undefined;
+  // @ts-ignore
   createParam = { ...validatedBody };
 
   if (createParam.provider) {
@@ -116,6 +117,23 @@ export const getAllPengadaan = async (req: Request, res: Response) => {
   );
   const totalCount = await pengadaanRepository.countDocument(
     filtered as string
+  );
+
+  res.json({
+    message: 'Successfully Get AllPengadaan ',
+    data,
+    totalCount,
+  });
+};
+
+export const getAllPengadaanFull = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const pengadaanRepository = new PengadaanRepository();
+  const { data, totalCount } = await pengadaanRepository.getPengadaanFull(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
   );
 
   res.json({

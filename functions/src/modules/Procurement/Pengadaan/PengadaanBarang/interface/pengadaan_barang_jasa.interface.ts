@@ -4,6 +4,7 @@ import { IEducationBase } from '@modules/MasterData/Education/interface/educatio
 // interface ApprovedBy {
 //   userId: string;
 //   name: string;
+// role:string;
 //   approvedAt: Date;
 // }
 
@@ -17,7 +18,7 @@ interface IPengadaan {
   suratPemesanan: boolean;
   information: string;
   // status: string;
-  // isDraft: boolean;
+  isDraft: boolean;
   // approvedBy: ApprovedBy[];
   createdAt?: Date;
   updatedAt?: Date;
