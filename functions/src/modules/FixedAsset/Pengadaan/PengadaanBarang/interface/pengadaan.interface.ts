@@ -5,6 +5,8 @@ interface IPengadaan {
   jenisPengadaan: string;
   tanggalPengadaan: Date;
   namaPengadaan: string;
+  status: string;
+  isDraft: boolean;
   jenisAnggaran: string;
   izinPrinsipUser?: boolean;
   izinPrinsipPengadaan?: boolean;

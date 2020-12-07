@@ -12,6 +12,11 @@ import * as admin from 'firebase-admin';
 import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
+import { StatusPengadaan } from '@constants/BaseCondition';
+
+import PurchaseOrderRepository from '@modules/FixedAsset/Pengadaan/PurchaseOrder/purchase_order.repository';
+import EvaluasiSuplierRepository from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.repository';
+import TandaTerimaBarangRepository from '@modules/FixedAsset/Pengadaan/TandaTerimaBarang/tanda_terima_barang.repository';
 
 // type createParam = Omit<
 //   | IPengadaanSwakelolaPembelian
@@ -113,6 +118,8 @@ export default class PengadaanRepository extends BaseRepository<
       const provider: any = await providerRepository.findById(paramProvider);
       createParam = {
         ...createParam,
+        isDraft: false,
+        status: StatusPengadaan['Belum Berjalan'],
         provider,
       };
     }
@@ -165,5 +172,42 @@ export default class PengadaanRepository extends BaseRepository<
       .where('jenisPengadaan', '==', jenisPengadaan)
       .get();
     return snap.size || 0;
+  }
+
+  async getPengadaanFull(
+    page: number | string = 1,
+    limit: number | string = 10,
+    filtered: string,
+    sorted: string
+  ) {
+    let data = await this.findAll(
+      page as string,
+      limit as string,
+      filtered as string,
+      sorted as string
+    );
+    const totalCount = await this.countDocument(filtered as string);
+
+    const purchaseOrderRepository = new PurchaseOrderRepository();
+    const tandaTerimaRepositoryRepository = new TandaTerimaBarangRepository();
+    const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
+    for (let i = 0; i < data.length; i++) {
+      const tandaTerima =
+        (await tandaTerimaRepositoryRepository.findOne(
+          JSON.stringify([{ id: 'pengadaan.id', value: data[i].id }])
+        )) || {};
+
+      const purchaseOrder =
+        (await purchaseOrderRepository.findOne(
+          JSON.stringify([{ id: 'pengadaan.id', value: data[i].id }])
+        )) || {};
+      const evaluasi =
+        (await evaluasiSuplierRepository.findOne(
+          JSON.stringify([{ id: 'pengadaan.id', value: data[i].id }])
+        )) || {};
+
+      data[i] = { ...data[i], evaluasi, tandaTerima, purchaseOrder };
+    }
+    return { data, totalCount };
   }
 }
