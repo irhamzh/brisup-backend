@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import schema from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.schema';
+import schema from '@modules/WorkingOrder/working_order.schema';
 // import { } from '@utils/Date';
 import * as admin from 'firebase-admin';
-import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
+import WorkingOrderRepository from '@modules/WorkingOrder/working_order.repository';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 

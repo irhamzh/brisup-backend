@@ -1,4 +1,4 @@
-import * as controller from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.controller';
+import * as controller from '@modules/WorkingOrder/working_order.controller';
 import { Router } from 'express';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 

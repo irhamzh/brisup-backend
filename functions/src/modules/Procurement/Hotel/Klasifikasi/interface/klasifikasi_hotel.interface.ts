@@ -1,4 +1,4 @@
-import { IWorkingOrderBase } from '@modules/FixedAsset/Pengadaan/WorkingOrder/interface/working_order.interface';
+import { IWorkingOrderBase } from '@modules/WorkingOrder/interface/working_order.interface';
 import { IHotelBase } from '@modules/MasterData/Hotel/interface/hotel.interface';
 
 export interface IKlasifikasiHotelBase {

@@ -32,7 +32,7 @@ import monitoringVendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
 import persediaanRouter from '@modules/FixedAsset/Persediaan/persediaan.routes';
 import peralatanITRouter from '@modules/FixedAsset/PeralatanIT/peralatan.routes';
 import pengadaanRouter from '@modules/FixedAsset/Pengadaan/PengadaanBarang/pengadaan.routes';
-import workingOrderRouter from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.routes';
+import workingOrderRouter from '@modules/WorkingOrder/working_order.routes';
 import purchaseOrderRouter from '@modules/FixedAsset/Pengadaan/PurchaseOrder/purchase_order.routes';
 import evaluasiSuplierRouter from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.routes';
 import tandaTerimaRouter from '@modules/FixedAsset/Pengadaan/TandaTerimaBarang/tanda_terima_barang.routes';

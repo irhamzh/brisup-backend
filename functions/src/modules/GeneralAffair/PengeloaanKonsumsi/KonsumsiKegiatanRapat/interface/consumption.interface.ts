@@ -1,4 +1,4 @@
-import { IWorkingOrderBase } from '@modules/FixedAsset/Pengadaan/WorkingOrder/interface/working_order.interface';
+import { IWorkingOrderBase } from '@modules/WorkingOrder/interface/working_order.interface';
 import { ICateringBase } from '@modules/MasterData/Catering/interface/catering.interface';
 
 export interface IConsumptionBase {
