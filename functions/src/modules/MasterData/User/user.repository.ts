@@ -19,7 +19,9 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     const execute = await firebase
       .auth()
       .createUserWithEmailAndPassword(object.email, object.password);
-
+    await admin
+      .auth()
+      .setCustomUserClaims(execute?.user?.uid as string, { role: object.role });
     const token = await execute?.user?.getIdToken();
     const ref = this._userModel.doc(execute?.user?.uid as string);
     await ref.set(object, { merge: true });
@@ -50,7 +52,14 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     return admin.auth().deleteUser(uid);
   }
 
-  async updateAuth(uid: string, object: Partial<loginParam>) {
-    return admin.auth().updateUser(uid, object);
+  async updateAuth(
+    uid: string,
+    object: Partial<Omit<IUserBase, 'name' | 'profilePicture'>>
+  ) {
+    const data = await admin.auth().updateUser(uid, object);
+    if (object?.role) {
+      await admin.auth().setCustomUserClaims(uid, { role: object.role });
+    }
+    return data;
   }
 }

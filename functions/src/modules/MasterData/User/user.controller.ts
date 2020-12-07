@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
-import * as BusBoy from 'busboy';
-import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
+import * as path from 'path';
+import * as BusBoy from 'busboy';
 import * as admin from 'firebase-admin';
 
 import config from '@utils/config';
-import schema from '@modules/MasterData/User/user.schema';
+import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
+import ExtensionError from '@interfaces/ExtensionError';
+import schema from '@modules/MasterData/User/user.schema';
 import RoleRepository from '@modules/MasterData/Role/role.repository';
 import UserRepository from '@modules/MasterData/User/user.repository';
-import ExtensionError from '@interfaces/ExtensionError';
-import yupValidate from '@utils/yupValidate';
 
 const { v4: uuidv4 } = require('uuid');
 const defaultImg = 'no-user-pic.png';
@@ -88,8 +88,8 @@ export const deleteUserById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'userId');
   const userRepository = new UserRepository();
-  await userRepository.deleteSingleAuthUser(validateParam.uid);
   const data = await userRepository.delete(validateParam.uid);
+  await userRepository.deleteSingleAuthUser(validateParam.uid);
   res.json({
     message: 'Successfully  Delete User By Id',
     data,
@@ -99,21 +99,32 @@ export const deleteUserById = async (req: Request, res: Response) => {
 export const updateUserById = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'userId');
-  const validatedBody = yupValidate(schema.update, body);
+  let validatedBody = yupValidate(schema.update, body);
 
+  if (validatedBody?.role) {
+    const roleRepository = new RoleRepository();
+    const role: any = await roleRepository.findById(validatedBody.role);
+    validatedBody = { ...validatedBody, role };
+  }
   const userRepository = new UserRepository();
+  const data = await userRepository.update(validateParam.uid, validatedBody);
+
   let authData = {};
-  if (validatedBody.email || validatedBody.password) {
+  if (validatedBody?.email || validatedBody?.password || validatedBody?.role) {
     const execute = await userRepository.updateAuth(
       validateParam.uid,
       validatedBody
     );
     authData = execute.toJSON();
   }
-  const data = await userRepository.update(validateParam.uid, validatedBody);
+  const token = await userRepository.logIn({
+    email: data.email,
+    password: data.password,
+  });
   res.json({
     message: 'Successfully Update User',
     data,
+    token,
     authData,
   });
 };
