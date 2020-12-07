@@ -44,7 +44,7 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     const data = await firebase
       .auth()
       .signInWithEmailAndPassword(object.email, object.password);
-    const token = await data?.user?.getIdToken();
+    const token = await data?.user?.getIdToken(true);
     return token;
   }
 
