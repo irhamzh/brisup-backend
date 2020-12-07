@@ -5,6 +5,6 @@ export default class TandaTerimaBarangRepository extends BaseRepository<
   ITerimaBarangBase
 > {
   constructor() {
-    super('tanda_terima_barangs', 'tanda_terima_barang');
+    super('fx_tanda_terima_barangs', 'fx_tanda_terima_barang');
   }
 }

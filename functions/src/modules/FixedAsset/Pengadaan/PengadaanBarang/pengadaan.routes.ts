@@ -1,10 +1,12 @@
-import * as controller from './pengadaan.controller';
 import { Router } from 'express';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
 const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
+import * as controller from './pengadaan.controller';
 // 'Penunjukan Langsung'
 errorHandledRoute.get(
   '/barang/penunjukan-langsung',
@@ -146,5 +148,11 @@ errorHandledRoute.delete(
 );
 errorHandledRoute.delete('/:uid', controller.deletePengadaanById);
 errorHandledRoute.get('/', controller.getAllPengadaan);
+errorHandledRoute.get('/full', controller.getAllPengadaanFull);
+errorHandledRoute.get('/dashboard', controller.dashboard);
+errorHandledRoute.put('/:uid/approve-process', controller.approveProcess);
+errorHandledRoute.put('/:uid/approve-wabag', controller.approveWabag);
+errorHandledRoute.put('/:uid/approve-kabag', controller.approveKabag);
+errorHandledRoute.put('/:uid/finsih', controller.approveFinish);
 
 export default router;
