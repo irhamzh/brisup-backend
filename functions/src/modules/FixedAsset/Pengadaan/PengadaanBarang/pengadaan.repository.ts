@@ -35,7 +35,7 @@ export default class PengadaanRepository extends BaseRepository<
   _pengadaanModel: admin.firestore.CollectionReference;
   constructor() {
     super('fx_pengadaans', 'fx_pengadaan');
-    this._pengadaanModel = db.collection('pengadaans');
+    this._pengadaanModel = db.collection('fx_pengadaans');
   }
 
   async findOneById(id: string, typePengadaan: string, jenisPengadaan: string) {
@@ -111,6 +111,8 @@ export default class PengadaanRepository extends BaseRepository<
       ...param,
       typePengadaan: TypePengadaan[typePengadaan as TypePengadaan],
       jenisPengadaan: JenisPengadaan[jenisPengadaan as JenisPengadaan],
+      isDraft: false,
+      status: StatusPengadaan['Belum Berjalan'],
     };
     console.log(createParam, 'sdsds');
     if (paramProvider) {
@@ -118,8 +120,6 @@ export default class PengadaanRepository extends BaseRepository<
       const provider: any = await providerRepository.findById(paramProvider);
       createParam = {
         ...createParam,
-        isDraft: false,
-        status: StatusPengadaan['Belum Berjalan'],
         provider,
       };
     }

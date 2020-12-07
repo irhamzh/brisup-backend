@@ -118,7 +118,6 @@ export const getAllPengadaanKonsultanSeleksiLangsung = async (
   res.json({
     message: 'Successfully Get Pengadaan',
     data,
-    datas: data,
     totalCount,
   });
 };
