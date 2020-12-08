@@ -8,6 +8,8 @@ import PengadaanRepository from './pengadaan.repository';
 import { StatusPengadaan } from '@constants/BaseCondition';
 import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 import AccessError from '@interfaces/AccessError';
+import InvalidRequestError from '@interfaces/InvalidRequestError';
+import validationWording from '@constants/validationWording';
 
 export const getAllPengadaan = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
@@ -643,6 +645,16 @@ export const approveProcess = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'id');
 
   const pengadaanRepository = new PengadaanRepository();
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Belum Berjalan']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(
+        ref.status,
+        StatusPengadaan['Proses Persetujuan']
+      ),
+      'Pengadaan'
+    );
+  }
 
   const data = await pengadaanRepository.update(validateParam.uid, {
     status: StatusPengadaan['Proses Persetujuan'],
@@ -664,6 +676,16 @@ export const approveWabag = async (req: Request, res: Response) => {
 
   const pengadaanRepository = new PengadaanRepository();
 
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Proses Persetujuan']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(
+        ref.status,
+        StatusPengadaan['Approved oleh Wakabag']
+      ),
+      'Pengadaan'
+    );
+  }
   const data = await pengadaanRepository.update(validateParam.uid, {
     status: StatusPengadaan['Approved oleh Wakabag'],
   });
@@ -683,6 +705,17 @@ export const approveKabag = async (req: Request, res: Response) => {
   }
 
   const pengadaanRepository = new PengadaanRepository();
+
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Approved oleh Wakabag']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(
+        ref.status,
+        StatusPengadaan['Approved oleh Kabag']
+      ),
+      'Pengadaan'
+    );
+  }
   const data = await pengadaanRepository.update(validateParam.uid, {
     status: StatusPengadaan['Approved oleh Kabag'],
   });
@@ -697,7 +730,16 @@ export const approveFinish = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'id');
 
   const pengadaanRepository = new PengadaanRepository();
-
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Approved oleh Kabag']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(
+        ref.status,
+        StatusPengadaan['Selesai']
+      ),
+      'Pengadaan'
+    );
+  }
   const data = await pengadaanRepository.update(validateParam.uid, {
     status: StatusPengadaan['Selesai'],
   });
@@ -739,11 +781,11 @@ export const dashboard = async (req: Request, res: Response) => {
     )) || 0;
   const data = {
     totalBelumBerjalan,
-    totalProsesPersetujuan,
+    totalProsesPersetujuan:
+      Number(totalProsesPersetujuan) + Number(totalApprovedWakabag) || 0,
     totalApprovedWakabag,
     totalApprovedKabag,
-    totalBelumSelesai:
-      Number(totalApprovedWakabag) + Number(totalApprovedKabag) || 0,
+    totalBelumSelesai: totalApprovedKabag,
     totalSelesai,
   };
   res.json({
