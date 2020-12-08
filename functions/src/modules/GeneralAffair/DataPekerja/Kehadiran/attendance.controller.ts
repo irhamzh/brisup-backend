@@ -52,7 +52,7 @@ export const deleteAttendanceById = async (req: Request, res: Response) => {
     'ga_attendances'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Aktivitas Attendance By Id',
     data,
   });
 };

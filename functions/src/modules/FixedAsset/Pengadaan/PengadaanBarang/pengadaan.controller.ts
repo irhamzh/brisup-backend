@@ -8,6 +8,8 @@ import PengadaanRepository from './pengadaan.repository';
 import { StatusPengadaan } from '@constants/BaseCondition';
 import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 import AccessError from '@interfaces/AccessError';
+import InvalidRequestError from '@interfaces/InvalidRequestError';
+import validationWording from '@constants/validationWording';
 
 export const getAllPengadaan = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
@@ -49,8 +51,7 @@ export const createKonsultanSeleksiLangsung = async (
   );
 
   res.json({
-    message:
-      'Successfully Create Pengadaan Pengadaan Jasa Konsultan Seleksi Langsung',
+    message: 'Successfully Create Pengadaan Jasa Konsultan Seleksi Langsung',
     data: data,
   });
 };
@@ -141,7 +142,7 @@ export const createKonsultanPenunjukanLangsung = async (
   );
   res.json({
     message:
-      'Successfully Create Pengadaan Pengadaan Jasa Konsultan Penunjukan  Langsung',
+      'Successfully Create Pengadaan Jasa Konsultan Penunjukan  Langsung',
     data: data,
   });
 };
@@ -225,7 +226,7 @@ export const createBarangSwakelola = async (req: Request, res: Response) => {
     validatedBody.provider
   );
   res.json({
-    message: 'Successfully Create Pengadaan Pengadaan Jasa Barang Swakelola',
+    message: 'Successfully Create Pengadaan Jasa Barang Swakelola',
     data: data,
   });
 };
@@ -306,8 +307,7 @@ export const createBarangPembelianLangsung = async (
     validatedBody.provider
   );
   res.json({
-    message:
-      'Successfully Create Pengadaan Pengadaan Jasa Barang Pembelian Langsung',
+    message: 'Successfully Create Pengadaan Jasa Barang Pembelian Langsung',
     data: data,
   });
 };
@@ -482,8 +482,7 @@ export const createBarangPemilihanLangsung = async (
     validatedBody.provider
   );
   res.json({
-    message:
-      'Successfully Create Pengadaan Pengadaan Jasa Barang Pemilihan Langsung',
+    message: 'Successfully Create Pengadaan Jasa Barang Pemilihan Langsung',
     data: data,
   });
 };
@@ -564,7 +563,7 @@ export const createBarangLelang = async (req: Request, res: Response) => {
     validatedBody.provider
   );
   res.json({
-    message: 'Successfully Create Pengadaan Pengadaan Jasa Barang Lelang',
+    message: 'Successfully Create Pengadaan Jasa Barang Lelang',
     data: data,
   });
 };
@@ -636,7 +635,7 @@ export const deletePengadaanById = async (req: Request, res: Response) => {
   const pengadaanRepository = new PengadaanRepository();
   const data = await pengadaanRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Pengadaan By Id',
     data,
   });
 };
@@ -646,6 +645,16 @@ export const approveProcess = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'id');
 
   const pengadaanRepository = new PengadaanRepository();
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Belum Berjalan']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(
+        ref.status,
+        StatusPengadaan['Proses Persetujuan']
+      ),
+      'Pengadaan'
+    );
+  }
 
   const data = await pengadaanRepository.update(validateParam.uid, {
     status: StatusPengadaan['Proses Persetujuan'],
@@ -667,6 +676,16 @@ export const approveWabag = async (req: Request, res: Response) => {
 
   const pengadaanRepository = new PengadaanRepository();
 
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Proses Persetujuan']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(
+        ref.status,
+        StatusPengadaan['Approved oleh Wakabag']
+      ),
+      'Pengadaan'
+    );
+  }
   const data = await pengadaanRepository.update(validateParam.uid, {
     status: StatusPengadaan['Approved oleh Wakabag'],
   });
@@ -686,6 +705,17 @@ export const approveKabag = async (req: Request, res: Response) => {
   }
 
   const pengadaanRepository = new PengadaanRepository();
+
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Approved oleh Wakabag']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(
+        ref.status,
+        StatusPengadaan['Approved oleh Kabag']
+      ),
+      'Pengadaan'
+    );
+  }
   const data = await pengadaanRepository.update(validateParam.uid, {
     status: StatusPengadaan['Approved oleh Kabag'],
   });
@@ -700,7 +730,16 @@ export const approveFinish = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'id');
 
   const pengadaanRepository = new PengadaanRepository();
-
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Approved oleh Kabag']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(
+        ref.status,
+        StatusPengadaan['Selesai']
+      ),
+      'Pengadaan'
+    );
+  }
   const data = await pengadaanRepository.update(validateParam.uid, {
     status: StatusPengadaan['Selesai'],
   });
@@ -742,11 +781,11 @@ export const dashboard = async (req: Request, res: Response) => {
     )) || 0;
   const data = {
     totalBelumBerjalan,
-    totalProsesPersetujuan,
+    totalProsesPersetujuan:
+      Number(totalProsesPersetujuan) + Number(totalApprovedWakabag) || 0,
     totalApprovedWakabag,
     totalApprovedKabag,
-    totalBelumSelesai:
-      Number(totalApprovedWakabag) + Number(totalApprovedKabag) || 0,
+    totalBelumSelesai: totalApprovedKabag,
     totalSelesai,
   };
   res.json({

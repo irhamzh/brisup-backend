@@ -76,7 +76,7 @@ export const deleteCourierById = async (req: Request, res: Response) => {
     'ga_couriers'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Aktivitas Courier By Id',
     data,
   });
 };

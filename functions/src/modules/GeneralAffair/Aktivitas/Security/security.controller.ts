@@ -90,7 +90,7 @@ export const deleteSecurityById = async (req: Request, res: Response) => {
     'ga_securities'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Aktivitas Security By Id',
     data,
   });
 };

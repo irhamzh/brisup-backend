@@ -54,7 +54,7 @@ export const getAllAsset = async (req: Request, res: Response) => {
   );
   const totalCount = await assetRepository.countDocument(filtered as string);
   res.json({
-    message: 'Successfully Get Asset',
+    message: 'Successfully Get All Asset',
     data,
     totalCount,
   });
@@ -66,7 +66,7 @@ export const deleteAssetById = async (req: Request, res: Response) => {
   const assetRepository = new AssetRepository();
   const data = await assetRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Asset By Id',
     data,
   });
 };
@@ -77,7 +77,7 @@ export const deleteMultipleAsset = async (req: Request, res: Response) => {
   const assetRepository = new AssetRepository();
   await assetRepository.deleteMultiple(validatedBody.assetIds);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Multiple Asset',
     deletedAsset: validatedBody.assetIds,
   });
 };
@@ -97,7 +97,7 @@ export const importExcel = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create Asset',
+    message: 'Successfully Import Asset',
     invalidRow,
   });
 };

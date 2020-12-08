@@ -53,7 +53,7 @@ export const deleteInternshipById = async (req: Request, res: Response) => {
     'ga_internship'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Aktivitas Internship By Id',
     data,
   });
 };

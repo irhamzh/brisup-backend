@@ -102,7 +102,7 @@ export const getPeralatanById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Peralatan By Id',
+    message: 'Successfully Get All Peralatan By Id',
     data,
   });
 };
@@ -133,7 +133,7 @@ export const deletePeralatanById = async (req: Request, res: Response) => {
   const peralatanRepository = new PeralatanRepository();
   const data = await peralatanRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Peralatan By Id',
     data,
   });
 };

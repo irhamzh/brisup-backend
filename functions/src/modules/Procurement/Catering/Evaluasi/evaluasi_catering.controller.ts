@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import paramValidation from '@utils/paramValidation';
 import yupValidate from '@utils/yupValidate';
 
-import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
+import WorkingOrderRepository from '@modules/WorkingOrder/working_order.repository';
 import CateringRepository from '@modules/MasterData/Catering/catering.repository';
 
 import schema from './evaluasi_catering.schema';

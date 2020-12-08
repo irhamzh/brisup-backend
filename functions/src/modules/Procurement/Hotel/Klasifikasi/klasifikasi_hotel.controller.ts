@@ -6,7 +6,7 @@ import HotelRepository from '@modules/MasterData/Hotel/hotel.repository';
 
 import schema from './klasifikasi_hotel.schema';
 import HotelClasificationRepository from './klasifikasi_hotel.repository';
-import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
+import WorkingOrderRepository from '@modules/WorkingOrder/working_order.repository';
 
 export const createHotelClasification = async (req: Request, res: Response) => {
   const { body } = req;

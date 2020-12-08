@@ -29,7 +29,7 @@ export const createTandaTerimaBarang = async (req: Request, res: Response) => {
 
   const data = await tandaTerimaBarang.create(createParam);
   res.json({
-    message: 'Successfully Create TandaTerimaBarang',
+    message: 'Successfully Create Tanda Terima Barang',
     data,
   });
 };
@@ -58,7 +58,7 @@ export const updateTandaTerimaBarang = async (req: Request, res: Response) => {
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
   const data = await tandaTerimaBarang.update(validateParam.uid, createParam);
   res.json({
-    message: 'Successfully Update TandaTerimaBarang',
+    message: 'Successfully Update Tanda Terima Barang',
     data,
   });
 };
@@ -69,7 +69,7 @@ export const getTandaTerimaBarangById = async (req: Request, res: Response) => {
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
   const data = await tandaTerimaBarang.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get TandaTerimaBarang By Id',
+    message: 'Successfully Get Tanda Terima Barang By Id',
     data,
   });
 };
@@ -85,7 +85,7 @@ export const getAllTandaTerimaBarang = async (req: Request, res: Response) => {
   );
   const totalCount = await tandaTerimaBarang.countDocument(filtered as string);
   res.json({
-    message: 'Successfully Get TandaTerimaBarang',
+    message: 'Successfully Get All Tanda Terima Barang',
     data,
     totalCount,
   });
@@ -100,7 +100,7 @@ export const deleteTandaTerimaBarangById = async (
   const tandaTerimaBarang = new TandaTerimaBarangRepository();
   const data = await tandaTerimaBarang.delete(validateParam.uid);
   res.json({
-    message: 'Successfully Get Delete By Id',
+    message: 'Successfully Delete Tanda Terima Barang By Id',
     data,
   });
 };

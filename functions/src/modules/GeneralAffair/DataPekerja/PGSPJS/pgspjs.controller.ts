@@ -66,7 +66,7 @@ export const deletePGSPJSById = async (req: Request, res: Response) => {
     'ga_pgspjs'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Aktivitas PGSPJS By Id',
     data,
   });
 };

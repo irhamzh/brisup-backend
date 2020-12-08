@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 
-import WorkingOrderRepository from '@modules/FixedAsset/Pengadaan/WorkingOrder/working_order.repository';
+import WorkingOrderRepository from '@modules/WorkingOrder/working_order.repository';
 import EducationRepository from '@modules/MasterData/Education/education.repository';
 
 import schema from './stock_opname.schema';

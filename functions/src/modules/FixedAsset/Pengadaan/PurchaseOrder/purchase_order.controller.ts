@@ -29,7 +29,7 @@ export const createPurchaseOrder = async (req: Request, res: Response) => {
 
   const data = await purchaseOrder.create(createParam);
   res.json({
-    message: 'Successfully Create PurchaseOrder',
+    message: 'Successfully Create Purchase Order',
     data,
   });
 };
@@ -59,7 +59,7 @@ export const updatePurchaseOrder = async (req: Request, res: Response) => {
   const purchaseOrder = new PurchaseOrderRepository();
   const data = await purchaseOrder.update(validateParam.uid, createParam);
   res.json({
-    message: 'Successfully Update PurchaseOrder',
+    message: 'Successfully Update Purchase Order',
     data,
   });
 };
@@ -70,7 +70,7 @@ export const getPurchaseOrderById = async (req: Request, res: Response) => {
   const purchaseOrder = new PurchaseOrderRepository();
   const data = await purchaseOrder.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get PurchaseOrder By Id',
+    message: 'Successfully Get Purchase Order By Id',
     data,
   });
 };
@@ -86,7 +86,7 @@ export const getAllPurchaseOrder = async (req: Request, res: Response) => {
   );
   const totalCount = await purchaseOrder.countDocument(filtered as string);
   res.json({
-    message: 'Successfully Get PurchaseOrder',
+    message: 'Successfully Get Purchase Order',
     data,
     totalCount,
   });
@@ -98,7 +98,7 @@ export const deletePurchaseOrderById = async (req: Request, res: Response) => {
   const purchaseOrder = new PurchaseOrderRepository();
   const data = await purchaseOrder.delete(validateParam.uid);
   res.json({
-    message: 'Successfully Get Delete By Id',
+    message: 'Successfully Delete Purchase Order By Id',
     data,
   });
 };

@@ -5,6 +5,7 @@ export interface IWorkingOrderBase {
   typeKegiatan: string;
   kodePelatihan: string;
   tanggalTerima: Date;
+  status: string;
   tanggalRevisi?: Date;
   tanggalKonfirmasi?: Date;
   catering?: string;
