@@ -72,7 +72,7 @@ export const deletePersekotById = async (req: Request, res: Response) => {
   const persekotRepository = new PersekotRepository();
   const data = await persekotRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Persekot By Id',
     data,
   });
 };
@@ -84,7 +84,7 @@ export const deleteMultiplePersekot = async (req: Request, res: Response) => {
   const persekotRepository = new PersekotRepository();
   await persekotRepository.deleteMultiple(validatedBody.persekotIds);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Multiple Persekot',
     deletedPersekot: validatedBody.persekotIds,
   });
 };

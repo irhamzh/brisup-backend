@@ -66,7 +66,7 @@ export const deleteAPSById = async (req: Request, res: Response) => {
     'ga_aps'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Aktivitas APS By Id',
     data,
   });
 };

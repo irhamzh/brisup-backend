@@ -101,7 +101,7 @@ export const deletePersediaanById = async (req: Request, res: Response) => {
   const persediaanRepository = new PersediaanRepository();
   const data = await persediaanRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Peralatan By Id',
     data,
   });
 };

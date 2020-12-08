@@ -28,7 +28,7 @@ export const createEvaluasiSuplier = async (req: Request, res: Response) => {
 
   const data = await evaluasiSuplierRepository.create(createParam);
   res.json({
-    message: 'Successfully Create EvaluasiSuplier',
+    message: 'Successfully Create Evaluasi Suplier',
     data,
   });
 };
@@ -61,7 +61,7 @@ export const updateEvaluasiSuplier = async (req: Request, res: Response) => {
     createParam
   );
   res.json({
-    message: 'Successfully Update EvaluasiSuplier',
+    message: 'Successfully Update Evaluasi Suplier',
     data,
   });
 };
@@ -72,7 +72,7 @@ export const getEvaluasiSuplierById = async (req: Request, res: Response) => {
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
   const data = await evaluasiSuplierRepository.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get EvaluasiSuplier By Id',
+    message: 'Successfully Get Evaluasi Suplier By Id',
     data,
   });
 };
@@ -91,7 +91,7 @@ export const getAllEvaluasiSuplier = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get EvaluasiSuplier',
+    message: 'Successfully Get All Evaluasi Suplier',
     data,
     totalCount,
   });
@@ -106,7 +106,7 @@ export const deleteEvaluasiSuplierById = async (
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
   const data = await evaluasiSuplierRepository.delete(validateParam.uid);
   res.json({
-    message: 'Successfully Get Delete By Id',
+    message: 'Successfully Evaluasi Suplier Delete By Id',
     data,
   });
 };

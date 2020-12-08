@@ -66,7 +66,7 @@ export const deleteOvertimeById = async (req: Request, res: Response) => {
     'ga_overtime'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Aktivitas Overtime By Id',
     data,
   });
 };

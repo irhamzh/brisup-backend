@@ -52,7 +52,7 @@ export const deleteEmployeeById = async (req: Request, res: Response) => {
     'ga_employees'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Aktivitas Employee Id',
     data,
   });
 };

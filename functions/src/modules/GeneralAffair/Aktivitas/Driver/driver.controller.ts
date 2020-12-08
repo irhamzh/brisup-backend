@@ -76,7 +76,7 @@ export const deleteDriverById = async (req: Request, res: Response) => {
     'ga_drivers'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Aktivitas Driver By Id',
     data,
   });
 };

@@ -49,8 +49,7 @@ export const createKonsultanSeleksiLangsung = async (
   );
 
   res.json({
-    message:
-      'Successfully Create Pengadaan Pengadaan Jasa Konsultan Seleksi Langsung',
+    message: 'Successfully Create Pengadaan Jasa Konsultan Seleksi Langsung',
     data: data,
   });
 };
@@ -141,7 +140,7 @@ export const createKonsultanPenunjukanLangsung = async (
   );
   res.json({
     message:
-      'Successfully Create Pengadaan Pengadaan Jasa Konsultan Penunjukan  Langsung',
+      'Successfully Create Pengadaan Jasa Konsultan Penunjukan  Langsung',
     data: data,
   });
 };
@@ -225,7 +224,7 @@ export const createBarangSwakelola = async (req: Request, res: Response) => {
     validatedBody.provider
   );
   res.json({
-    message: 'Successfully Create Pengadaan Pengadaan Jasa Barang Swakelola',
+    message: 'Successfully Create Pengadaan Jasa Barang Swakelola',
     data: data,
   });
 };
@@ -306,8 +305,7 @@ export const createBarangPembelianLangsung = async (
     validatedBody.provider
   );
   res.json({
-    message:
-      'Successfully Create Pengadaan Pengadaan Jasa Barang Pembelian Langsung',
+    message: 'Successfully Create Pengadaan Jasa Barang Pembelian Langsung',
     data: data,
   });
 };
@@ -482,8 +480,7 @@ export const createBarangPemilihanLangsung = async (
     validatedBody.provider
   );
   res.json({
-    message:
-      'Successfully Create Pengadaan Pengadaan Jasa Barang Pemilihan Langsung',
+    message: 'Successfully Create Pengadaan Jasa Barang Pemilihan Langsung',
     data: data,
   });
 };
@@ -564,7 +561,7 @@ export const createBarangLelang = async (req: Request, res: Response) => {
     validatedBody.provider
   );
   res.json({
-    message: 'Successfully Create Pengadaan Pengadaan Jasa Barang Lelang',
+    message: 'Successfully Create Pengadaan Jasa Barang Lelang',
     data: data,
   });
 };
@@ -636,7 +633,7 @@ export const deletePengadaanById = async (req: Request, res: Response) => {
   const pengadaanRepository = new PengadaanRepository();
   const data = await pengadaanRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Pengadaan By Id',
     data,
   });
 };
