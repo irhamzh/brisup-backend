@@ -16,6 +16,13 @@ import UserRepository from '@modules/MasterData/User/user.repository';
 const { v4: uuidv4 } = require('uuid');
 const defaultImg = 'no-user-pic.png';
 
+export const getTokenData = async (req: Request, res: Response) => {
+  res.json({
+    message: 'Successfully Get User',
+    data: res.locals.decoded,
+  });
+};
+
 export const createUser = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
