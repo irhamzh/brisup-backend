@@ -78,6 +78,8 @@ import driverAssignmentRouter from '@modules/GeneralAffair/PengelolaanKendaraan/
 import accessoriesVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Accessories/accessories.routes';
 import externalVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PemesananDiluarKendaraanDinas/external_vehicle.routes';
 
+import cashFinancialRouter from '@modules/FinancialAdmin/Cash/cash.routes';
+
 const apiRouter = Router();
 
 apiRouter.use('/users', useRouter);
@@ -163,6 +165,8 @@ apiRouter.use('/ga-monitoring-cctvs', monitoringCCTVRouter);
 apiRouter.use('/ga-external-vehicles', externalVehicleRouter);
 apiRouter.use('/ga-driver-assignment', driverAssignmentRouter);
 apiRouter.use('/ga-clinic-evaluations', clinicEvaluationRouter);
+
+apiRouter.use('/fa-cashes', cashFinancialRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
