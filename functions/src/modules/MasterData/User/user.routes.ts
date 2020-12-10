@@ -10,6 +10,7 @@ const protectedRouter = withAuthMiddleware(errorHandledRoute);
 
 // errorHandledRoute.get('/me', controller.getUserMe);
 protectedRouter.get('/', controller.getAllUser);
+protectedRouter.get('/token-data', controller.getTokenData);
 errorHandledRoute.post('/', controller.createUser);
 errorHandledRoute.post('/login', controller.logIn);
 protectedRouter.get('/:uid', controller.getUserById);
