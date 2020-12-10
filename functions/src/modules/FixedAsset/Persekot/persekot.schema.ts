@@ -1,15 +1,19 @@
 import * as yup from 'yup';
-import validationWording from '@constants/validationWording';
+
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import { Division } from '@constants/BaseCondition';
+import validationWording from '@constants/validationWording';
 
-const create = yup
+import { FinancialAdminPersekotType } from './interface/persekot.interface';
+
+const baseCreate = yup
   .object()
   .shape({
     date: yup.date().required(validationWording.required('date')),
     name: yup.string().required(validationWording.required('name')),
+    information: yup.string(),
     costNominal: yup
-      .string()
+      .number()
       .required(validationWording.required('costNominal')),
     division: yup
       .mixed<keyof typeof Division>()
@@ -21,12 +25,24 @@ const create = yup
   })
   .required();
 
-const update = yup
+const crateFinancialAdmin = yup
+  .object()
+  .shape({
+    typePersekot: yup
+      .mixed()
+      .oneOf(FinancialAdminPersekotType)
+      .required(validationWording.required('division')),
+  })
+  .required()
+  .concat(baseCreate);
+
+const baseUpdate = yup
   .object()
   .shape({
     date: yup.date(),
     name: yup.string(),
-    costNominal: yup.string(),
+    information: yup.string(),
+    costNominal: yup.number(),
     division: yup
       .mixed<keyof typeof Division>()
       .oneOf(
@@ -35,6 +51,14 @@ const update = yup
       ),
   })
   .required();
+
+const updateFinancialAdmin = yup
+  .object()
+  .shape({
+    typePersekot: yup.mixed().oneOf(FinancialAdminPersekotType),
+  })
+  .required()
+  .concat(baseUpdate);
 
 const deleteArrayIds = yup
   .object()
@@ -45,4 +69,11 @@ const deleteArrayIds = yup
       .required(validationWording.required('Array persekotIds')),
   })
   .required();
-export default { create, update, deleteArrayIds };
+
+export default {
+  baseCreate,
+  baseUpdate,
+  deleteArrayIds,
+  crateFinancialAdmin,
+  updateFinancialAdmin,
+};

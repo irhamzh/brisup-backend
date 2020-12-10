@@ -23,6 +23,7 @@ export enum Division {
   'Fixed Asset' = 'Fixed Asset',
   'Procurement' = 'Procurement',
   'General Affair' = 'General Affair',
+  'Financial Admin' = 'Financial Admin',
 }
 
 export enum StatusPengadaan {
