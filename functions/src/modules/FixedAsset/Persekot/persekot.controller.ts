@@ -1,18 +1,19 @@
 import { Request, Response } from 'express';
-import * as admin from 'firebase-admin';
-import paramValidation from '@utils/paramValidation';
-import PersekotRepository from '@modules/FixedAsset/Persekot/persekot.repository';
-import schema from '@modules/FixedAsset/Persekot/persekot.schema';
+
 import yupValidate from '@utils/yupValidate';
+import paramValidation from '@utils/paramValidation';
+import schema from '@modules/FixedAsset/Persekot/persekot.schema';
+import PersekotRepository from '@modules/FixedAsset/Persekot/persekot.repository';
+
+import MappingBodyByType from './helpers/MappingBodyByType';
 
 export const createPersekot = async (req: Request, res: Response) => {
   const { body } = req;
-  const validatedBody = yupValidate(schema.create, body);
+  const masterValidate = yupValidate(schema.baseCreate, body);
+  const validatedBody = MappingBodyByType(masterValidate.division, body);
 
   const persekotRepository = new PersekotRepository();
-  const data: admin.firestore.DocumentData = await persekotRepository.create(
-    validatedBody
-  );
+  const data = await persekotRepository.create(validatedBody);
 
   res.json({
     message: 'Successfully Create Persekot',
@@ -23,12 +24,15 @@ export const createPersekot = async (req: Request, res: Response) => {
 export const updatePersekot = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'persekotId');
-  const validatedBody = yupValidate(schema.update, body);
   const persekotRepository = new PersekotRepository();
-  const data: admin.firestore.DocumentData = await persekotRepository.update(
+  const ref = await persekotRepository.findById(validateParam.uid);
+  const validatedBody = MappingBodyByType(ref?.division, body, 'update');
+
+  const data = await persekotRepository.update(
     validateParam.uid,
     validatedBody
   );
+
   res.json({
     message: 'Successfully Update Persekot',
     data,
@@ -39,9 +43,7 @@ export const getPersekotById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'persekotId');
   const persekotRepository = new PersekotRepository();
-  const data: admin.firestore.DocumentData = await persekotRepository.findById(
-    validateParam.uid
-  );
+  const data = await persekotRepository.findById(validateParam.uid);
   res.json({
     message: 'Successfully Get PersekotBy Id',
     data,

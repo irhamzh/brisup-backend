@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "General Affair",
     "Master Data",
-    "Dashboard"
+    "Dashboard",
+    "Financial Admin"
   ]
 }

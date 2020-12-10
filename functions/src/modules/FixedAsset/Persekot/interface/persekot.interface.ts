@@ -1,8 +1,12 @@
 export interface IPersekotBase {
-  division: string;
   date: Date;
   name: string;
-  costNominal: string;
+  division: string;
+  costNominal: number;
+  information?: string;
+  typePersekot?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export const FinancialAdminPersekotType = ['LOP', 'DLK'];
