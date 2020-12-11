@@ -26,7 +26,7 @@ export const createWorkingOrder = async (req: Request, res: Response) => {
   });
 
   res.json({
-    message: 'Successfully Create WorkingOrder',
+    message: 'Successfully Create Working Order',
     data,
   });
 };
@@ -44,7 +44,7 @@ export const updateWorkingOrder = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update WorkingOrder',
+    message: 'Successfully Update Working Order',
     data,
   });
 };
@@ -56,7 +56,7 @@ export const getWorkingOrderById = async (req: Request, res: Response) => {
   const data = await workingOrderRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get WorkingOrder By Id',
+    message: 'Successfully Get Working Order By Id',
     data,
   });
 };
@@ -75,7 +75,7 @@ export const getAllWorkingOrder = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get WorkingOrder',
+    message: 'Successfully Get Working Order',
     data,
     totalCount,
   });
@@ -232,30 +232,37 @@ export const dashboard = async (req: Request, res: Response) => {
   const totalBelumBerjalan =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Belum Berjalan'] },
       ])
     )) || 0;
   const totalProsesPersetujuan =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Proses Persetujuan'] },
       ])
     )) || 0;
   const totalApprovedWakabag =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Approved oleh Wakabag'] },
       ])
     )) || 0;
   const totalApprovedKabag =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Approved oleh Kabag'] },
       ])
     )) || 0;
   const totalSelesai =
     (await workingOrderRepository.countDocument(
-      JSON.stringify([{ id: 'status', value: StatusPengadaan['Selesai'] }])
+      JSON.stringify([
+        { id: 'division', value: 'General Affair' },
+        { id: 'status', value: StatusPengadaan['Selesai'] },
+      ])
     )) || 0;
   const data = {
     totalBelumBerjalan,
@@ -267,7 +274,7 @@ export const dashboard = async (req: Request, res: Response) => {
     totalSelesai,
   };
   res.json({
-    message: 'Successfully getDashboard',
+    message: 'Successfully get Dashboard',
     data,
   });
 };
