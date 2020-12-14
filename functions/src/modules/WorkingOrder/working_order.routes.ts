@@ -18,6 +18,6 @@ errorHandledRoute.delete('/:uid', controller.deleteWorkingOrderById);
 errorHandledRoute.put('/:uid/approve-process', controller.approveProcess);
 errorHandledRoute.put('/:uid/approve-wabag', controller.approveWabag);
 errorHandledRoute.put('/:uid/approve-kabag', controller.approveKabag);
-errorHandledRoute.put('/:uid/finsih', controller.approveFinish);
+errorHandledRoute.put('/:uid/finish', controller.approveFinish);
 
 export default router;
