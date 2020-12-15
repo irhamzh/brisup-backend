@@ -14,10 +14,10 @@ const uploadRouter = withMiddleware(
 const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 const errorHandledRoute = withErrorHandlerRoute(router);
 
-errorHandledRoute.get('/', controller.getAllCash);
-uploadHandleRouter.post('/', controller.createCash);
-uploadHandleRouter.put('/:uid', controller.updateCash);
-errorHandledRoute.get(':uid', controller.getCashById);
-errorHandledRoute.delete('/:uid', controller.deleteCashById);
+errorHandledRoute.get('/', controller.getAllPayment);
+uploadHandleRouter.post('/', controller.createPayment);
+// uploadHandleRouter.put('/:uid', controller.updatePayment);
+errorHandledRoute.get(':uid', controller.getPaymentById);
+errorHandledRoute.delete('/:uid', controller.deletePaymentById);
 
 export default router;
