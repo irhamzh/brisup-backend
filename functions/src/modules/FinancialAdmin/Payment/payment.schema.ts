@@ -406,16 +406,243 @@ export const create: { [key: string]: yup.ObjectSchema<any> } = {
   'Akomodasi Asrama': createAkomodasiAsrama,
 };
 // ======================================END of Create
-export const update = yup
+
+export const baseUpdate = yup
   .object()
   .shape({
     tanggal: yup.date(),
-    typePayment: yup
-      .mixed<keyof typeof TypePayment>()
-      .oneOf(
-        getAllEnumKey(TypePayment),
-        validationWording.oneOf('Type Payment', ...getAllEnumKey(TypePayment))
-      ),
     information: yup.string(),
   })
   .required();
+
+const updateDataKelogistikan = yup
+  .object()
+  .shape({
+    kegiatan: yup.string(),
+    izinPrinsipPengadaan: yup.boolean(),
+    invoiceBermateraiKwitansi: yup.boolean(),
+    fakturPajak: yup.boolean(),
+    ktpAtauNpwp: yup.boolean(),
+    notaPembukuan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateTagihanBBM = yup
+  .object()
+  .shape({
+    namaPembayaran: yup.string(),
+    invoiceSPBUBermaterai: yup.boolean(),
+    rekapStrukPerTransaksi: yup.boolean(),
+    notaPembukuan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateTagihanServiceKendaraan = yup
+  .object()
+  .shape({
+    namaPembayaran: yup.string(),
+    invoiceBermaterai: yup.boolean(),
+    fakturPajak: yup.boolean(),
+    notaPembukuan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateTagihanSewaBus = yup
+  .object()
+  .shape({
+    namaPembayaran: yup.string(),
+    invoice: yup.boolean(),
+    workingOrder: yup.boolean(),
+    notaPembukuan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateTagihanRekreasiSiswa = yup
+  .object()
+  .shape({
+    namaPembayaran: yup.string(),
+    tiketKwitansiBukti: yup.boolean(),
+    rekapBiaya: yup.boolean(),
+    suratKeteranganRekreasiLOP: yup.boolean(),
+    workingOrder: yup.boolean(),
+    notaPembukuan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateTagihanRohaniHumasRepresentasiRapat = yup
+  .object()
+  .shape({
+    namaPembayaran: yup.string(),
+    invoice: yup.boolean(),
+    notaPembukuan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateTagihanBrimedika = yup
+  .object()
+  .shape({
+    invoiceBermaterai: yup.boolean(),
+    copySPK: yup.boolean(),
+    notaPembukuan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updatePublicCourse = yup
+  .object()
+  .shape({
+    namaPendidikan: yup.string(),
+    periode: yup.string(),
+    invoiceBermaterai: yup.boolean(),
+    suratPemanggilan: yup.boolean(),
+    dataBrismart: yup.boolean(),
+    anggaranKegiatan: yup.boolean(),
+    fakturPajakBagiWapu: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updatePenihilanPAUK = yup
+  .object()
+  .shape({
+    namaPAUK: yup.string(),
+    printPAUK: yup.boolean(),
+    kodePelatihan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateTagihanS2 = yup
+  .object()
+  .shape({
+    namaPendidikan: yup.string(),
+    periodeBulan: yup.string(),
+    suratPerintahBayar: yup.boolean(),
+    suratkeKCK: yup.boolean(),
+    anggaranKegiatan: yup.boolean(),
+    rekeningTujuan: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateAAJIWaperd = yup
+  .object()
+  .shape({
+    namaAsuransi: yup.string(),
+    suratPerintahBayar: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateHonorSalaryCreaditing = yup
+  .object()
+  .shape({
+    namaAsuransi: yup.string(),
+    suratPerintahBayar: yup.boolean(),
+    cekLainnnya: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updatePembayaranLainnya = yup
+  .object()
+  .shape({
+    namaPembayaran: yup.string(),
+    invoiceBermaterai: yup.boolean(),
+    cekKesesuaianPembayaran: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateCatering = yup
+  .object()
+  .shape({
+    namaPendidikan: yup.string(),
+    periode: yup.string(),
+    invoiceBermaterai: yup.boolean(),
+    copySPKPKS: yup.boolean(),
+    evaluasiBrismart: yup.boolean(),
+    suratPemesanan: yup.boolean(),
+    prd: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateJasaPendidikan = yup
+  .object()
+  .shape({
+    namaPendidikan: yup.string(),
+    invoiceBermaterai: yup.boolean(),
+    bast: yup.boolean(),
+    laporanPelaksanaanPekerjaan: yup.boolean(),
+    evaluasiBrismart: yup.boolean(),
+    suratKonfirmasiPemanggilan: yup.boolean(),
+    copySPKPKS: yup.boolean(),
+    suratPemesanan: yup.boolean(),
+    prd: yup.boolean(),
+    copyNPWPbagiprovidernonPKP: yup.boolean(),
+    daftarHadir: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateHotel = yup
+  .object()
+  .shape({
+    namaPendidikan: yup.string(),
+    periode: yup.string(),
+    invoiceBermaterai: yup.boolean(),
+    copySPKPKS: yup.boolean(),
+    evaluasiBrismart: yup.boolean(),
+    rekapBiayaHotel: yup.boolean(),
+    suratPemesanan: yup.boolean(),
+    fakturPajak: yup.boolean(),
+    absensiHotel: yup.boolean(),
+    room: yup.boolean(),
+    laundry: yup.boolean(),
+    dinner: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateAkomodasiAsrama = yup
+  .object()
+  .shape({
+    namaPendidikan: yup.string(),
+    periode: yup.string(),
+    invoiceBermaterai: yup.boolean(),
+    copySPKPKS: yup.boolean(),
+    evaluasiBrismart: yup.boolean(),
+    suratPemesanan: yup.boolean(),
+    fakturPajak: yup.boolean(),
+    absensiAkomodasi: yup.boolean(),
+  })
+  .required()
+  .concat(baseUpdate);
+
+export const update: { [key: string]: yup.ObjectSchema<any> } = {
+  Kelogisitikan: updateDataKelogistikan,
+  'Tagihan BBM': updateTagihanBBM,
+  'Tagihan Service Kendaraan': updateTagihanServiceKendaraan,
+  'Tagihan Sewa BUS': updateTagihanSewaBus,
+  'Tagihan Rekreasi Siswa': updateTagihanRekreasiSiswa,
+  'Tagihan Biaya Rohani, Humas, Representasi, dan Rapat': updateTagihanRohaniHumasRepresentasiRapat,
+  'Tagihan Brimedika': updateTagihanBrimedika,
+  'Penihilan PAUK': updatePenihilanPAUK,
+  'Public Course': updatePublicCourse,
+  'Tagihan S2 Luar dan Dalam Negeri': updateTagihanS2,
+  Waperd: updateAAJIWaperd,
+  Honor: updateHonorSalaryCreaditing,
+  'Salary Creaditing': updateHonorSalaryCreaditing,
+  'Pembayaran Lainnya': updatePembayaranLainnya,
+  Catering: updateCatering,
+  'Jasa Pendidikan': updateJasaPendidikan,
+  Hotel: updateHotel,
+  'Akomodasi Asrama': updateAkomodasiAsrama,
+};

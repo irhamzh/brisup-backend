@@ -252,3 +252,13 @@ export const UtilPayment: {
     seksi: Division['Procurement'],
   },
 };
+
+// Kelogistikan;
+// tanggal:2020-10-10;
+// typePayment:Kelogisitikan;
+// information:Aaaaa;
+// kegiatan:Ammar;
+// izinPrinsipPengadaan:true;
+// invoiceBermateraiKwitansi:true;
+// fakturPajak:true;
+// ktpAtauNpwp:true;

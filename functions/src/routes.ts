@@ -168,7 +168,7 @@ apiRouter.use('/ga-driver-assignment', driverAssignmentRouter);
 apiRouter.use('/ga-clinic-evaluations', clinicEvaluationRouter);
 
 apiRouter.use('/fa-cashes', cashFinancialRouter);
-apiRouter.use('/fa-payment', paymentFinancialRouter);
+apiRouter.use('/fa-payments', paymentFinancialRouter);
 
 export default function useApiRouter(app: Application) {
   app.use('/v1', apiRouter);
