@@ -7,6 +7,7 @@
     "build:watch": "tsc --watch",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
+    "dev": "yarn run serve",
     "start": "yarn run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
@@ -16,7 +17,6 @@
   },
   "main": "./lib/index.js",
   "dependencies": {
-    "@types/morgan": "^1.9.2",
     "busboy": "^0.3.1",
     "convert-excel-to-json": "^1.7.0",
     "cors": "^2.8.5",
@@ -41,6 +41,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/lodash": "^4.14.165",
     "@types/module-alias": "^2.0.0",
+    "@types/morgan": "^1.9.2",
     "@types/uuid": "^8.3.0",
     "@types/yup": "^0.29.9",
     "firebase-functions-test": "^0.2.0",
