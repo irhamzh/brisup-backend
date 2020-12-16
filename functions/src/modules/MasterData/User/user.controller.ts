@@ -39,12 +39,15 @@ export const createUser = async (req: Request, res: Response) => {
   };
 
   const userRepository = new UserRepository();
-  const { data, token } = await userRepository.signUp(createParam);
+  const { data, token, refreshToken } = await userRepository.signUp(
+    createParam
+  );
 
   res.json({
     message: 'Successfully Sign Up',
     data,
     token,
+    refreshToken,
   });
 };
 
@@ -53,12 +56,14 @@ export const logIn = async (req: Request, res: Response) => {
   const validatedBody = yupValidate(schema.login, body);
 
   const userRepository = new UserRepository();
-  const token = await userRepository.logIn(validatedBody);
-
+  const { token, refreshToken, decodedToken } = await userRepository.logIn(
+    validatedBody
+  );
   res.json({
     message: 'Successfully Login',
-    data: { email: validatedBody.email },
+    data: decodedToken,
     token,
+    refreshToken,
   });
 };
 
@@ -117,21 +122,26 @@ export const updateUserById = async (req: Request, res: Response) => {
   const data = await userRepository.update(validateParam.uid, validatedBody);
 
   let authData = {};
-  if (validatedBody?.email || validatedBody?.password || validatedBody?.role) {
-    const execute = await userRepository.updateAuth(
-      validateParam.uid,
-      validatedBody
-    );
+  if (validatedBody?.email || validatedBody?.password) {
+    const execute = await userRepository.updateAuth(validateParam.uid, {
+      ...validatedBody,
+      role: data.role,
+      name: data.name,
+    });
     authData = execute.toJSON();
   }
-  const token = await userRepository.logIn({
+
+  const { token, refreshToken, decodedToken } = await userRepository.logIn({
     email: data.email,
     password: data.password,
   });
+
   res.json({
     message: 'Successfully Update User',
     data,
     token,
+    refreshToken,
+    decodedToken,
     authData,
   });
 };

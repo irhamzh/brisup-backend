@@ -29,7 +29,7 @@ export default function firebaseAuthMiddleware(
       if (preCheckFun) {
         preCheckFun(req, res);
       }
-      const decodedToken = await admin.auth().verifyIdToken(token);
+      const decodedToken = await admin.auth().verifyIdToken(token, true);
       res.locals.token = token;
       res.locals.decoded = decodedToken;
       next();
