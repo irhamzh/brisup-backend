@@ -6,6 +6,7 @@ interface IBasePayment {
   typePendidikan: string;
   seksi: string;
   status: string;
+  biaya: number;
   lampiran: string[];
   information: string;
 }
@@ -154,7 +155,7 @@ export interface IAkomodasiAsrama extends IBasePayment {
 }
 
 export enum TypePayment {
-  Kelogisitikan = 'Kelogisitikan',
+  Kelogistikan = 'Kelogistikan',
   'Tagihan BBM' = 'Tagihan BBM',
   'Tagihan Service Kendaraan' = 'Tagihan Service Kendaraan',
   'Tagihan Sewa BUS' = 'Tagihan Sewa BUS',

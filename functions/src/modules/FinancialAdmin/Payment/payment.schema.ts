@@ -19,6 +19,7 @@ export const baseCreate = yup
     information: yup
       .string()
       .required(validationWording.required('information')),
+    biaya: yup.number().required(validationWording.required('biaya')),
   })
   .required();
 
@@ -412,6 +413,7 @@ export const baseUpdate = yup
   .shape({
     tanggal: yup.date(),
     information: yup.string(),
+    biaya: yup.number(),
   })
   .required();
 
