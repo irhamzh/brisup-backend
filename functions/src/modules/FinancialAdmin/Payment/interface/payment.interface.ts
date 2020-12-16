@@ -117,15 +117,15 @@ export interface ICatering extends IBasePayment {
 export interface IJasaPendidikan extends IBasePayment {
   namaPendidikan: string;
   invoiceBermaterai: boolean;
-  bast: string;
-  laporanPelaksanaanPekerjaan: string;
-  evaluasiBrismart: string;
-  suratKonfirmasiPemanggilan: string;
-  copySPKPKS: string;
-  suratPemesanan: string;
-  prd: string;
-  copyNPWPbagiprovidernonPKP: string;
-  daftarHadir: string;
+  bast: boolean;
+  laporanPelaksanaanPekerjaan: boolean;
+  evaluasiBrismart: boolean;
+  suratKonfirmasiPemanggilan: boolean;
+  copySPKPKS: boolean;
+  suratPemesanan: boolean;
+  prd: boolean;
+  copyNPWPbagiprovidernonPKP: boolean;
+  daftarHadir: boolean;
 }
 
 export interface IHotel extends IBasePayment {
