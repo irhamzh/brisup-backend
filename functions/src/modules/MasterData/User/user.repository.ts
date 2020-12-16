@@ -5,6 +5,7 @@ import { db } from '@utils/admin';
 import BaseRepository from '@repositories/baseRepository';
 import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+import removeEmpty from '@utils/removeEmpty';
 
 type loginParam = Omit<IUserBase, 'name' | 'role' | 'profilePicture'>;
 
@@ -19,10 +20,13 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     const execute = await firebase
       .auth()
       .createUserWithEmailAndPassword(object.email, object.password);
-    await admin
-      .auth()
-      .setCustomUserClaims(execute?.user?.uid as string, { role: object.role });
+    await admin.auth().setCustomUserClaims(execute?.user?.uid as string, {
+      name: object.name,
+      role: object.role,
+    });
     const token = await execute?.user?.getIdToken();
+    const refreshToken = execute?.user?.refreshToken;
+
     const ref = this._userModel.doc(execute?.user?.uid as string);
     await ref.set(object, { merge: true });
     const snap = await ref.get();
@@ -37,15 +41,19 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     return {
       data: firestoreTimeStampToDate(data),
       token,
+      refreshToken,
     };
   }
 
   async logIn(object: loginParam) {
-    const data = await firebase
+    const data: firebase.auth.UserCredential = await firebase
       .auth()
       .signInWithEmailAndPassword(object.email, object.password);
-    const token = await data?.user?.getIdToken(true);
-    return token;
+
+    const token = await data?.user?.getIdToken();
+    const decodedToken = await data?.user?.getIdTokenResult(true);
+    const refreshToken = data?.user?.refreshToken;
+    return { token, decodedToken, data, refreshToken };
   }
 
   async deleteSingleAuthUser(uid: string) {
@@ -54,12 +62,18 @@ export default class UserRepository extends BaseRepository<IUserBase> {
 
   async updateAuth(
     uid: string,
-    object: Partial<Omit<IUserBase, 'name' | 'profilePicture'>>
+    object: Partial<Omit<IUserBase, 'profilePicture'>>
   ) {
-    const data = await admin.auth().updateUser(uid, object);
-    if (object?.role) {
-      await admin.auth().setCustomUserClaims(uid, { role: object.role });
+    if (object?.role || object?.name) {
+      const customClaims = {
+        role: object?.role,
+        name: object?.name,
+      };
+      const customUserClaims = removeEmpty(customClaims);
+      console.log('customUserClaims', customUserClaims, 'customUserClaims');
+      await admin.auth().setCustomUserClaims(uid, customUserClaims);
     }
+    const data = await admin.auth().updateUser(uid, object);
     return data;
   }
 }
