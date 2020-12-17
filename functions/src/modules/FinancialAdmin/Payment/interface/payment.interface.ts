@@ -95,7 +95,7 @@ export interface IAAJIWaperd extends IBasePayment {
 export interface IHonorSalaryCreaditing extends IBasePayment {
   namaAsuransi: string;
   suratPerintahBayar: boolean;
-  cekLainnnya: boolean;
+  cekLainnya: boolean;
 }
 
 export interface IPembayaranLainnya extends IBasePayment {
