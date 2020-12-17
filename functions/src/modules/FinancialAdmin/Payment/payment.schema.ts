@@ -239,9 +239,9 @@ const createHonorSalaryCreaditing = yup
     suratPerintahBayar: yup
       .boolean()
       .required(validationWording.required('suratPerintahBayar')),
-    cekLainnnya: yup
+    cekLainnya: yup
       .boolean()
-      .required(validationWording.required('cekLainnnya')),
+      .required(validationWording.required('cekLainnya')),
   })
   .required()
   .concat(baseCreate);
@@ -547,7 +547,7 @@ const updateHonorSalaryCreaditing = yup
   .shape({
     namaAsuransi: yup.string(),
     suratPerintahBayar: yup.boolean(),
-    cekLainnnya: yup.boolean(),
+    cekLainnya: yup.boolean(),
   })
   .required()
   .concat(baseUpdate);

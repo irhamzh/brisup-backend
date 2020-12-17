@@ -5,8 +5,8 @@ export interface IUserBase {
   password: string;
   profilePicture: string;
   role: IRoleBase;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 //improve remove password from userdata

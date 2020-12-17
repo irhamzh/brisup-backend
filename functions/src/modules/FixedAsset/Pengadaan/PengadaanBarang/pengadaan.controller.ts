@@ -750,34 +750,44 @@ export const approveFinish = async (req: Request, res: Response) => {
 };
 
 export const dashboard = async (req: Request, res: Response) => {
+  const { filtered } = req.query;
+  const defaultFiltered = filtered ? JSON.parse(filtered as string) : [];
+
   const pengadaanRepository = new PengadaanRepository();
   const totalBelumBerjalan =
     (await pengadaanRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'status', value: StatusPengadaan['Belum Berjalan'] },
       ])
     )) || 0;
   const totalProsesPersetujuan =
     (await pengadaanRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'status', value: StatusPengadaan['Proses Persetujuan'] },
       ])
     )) || 0;
   const totalApprovedWakabag =
     (await pengadaanRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'status', value: StatusPengadaan['Approved oleh Wakabag'] },
       ])
     )) || 0;
   const totalApprovedKabag =
     (await pengadaanRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'status', value: StatusPengadaan['Approved oleh Kabag'] },
       ])
     )) || 0;
   const totalSelesai =
     (await pengadaanRepository.countDocument(
-      JSON.stringify([{ id: 'status', value: StatusPengadaan['Selesai'] }])
+      JSON.stringify([
+        ...defaultFiltered,
+        { id: 'status', value: StatusPengadaan['Selesai'] },
+      ])
     )) || 0;
   const data = {
     totalBelumBerjalan,

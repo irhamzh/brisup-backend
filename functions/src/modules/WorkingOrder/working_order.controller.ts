@@ -228,10 +228,13 @@ export const approveFinish = async (req: Request, res: Response) => {
 };
 
 export const dashboard = async (req: Request, res: Response) => {
+  const { filtered } = req.query;
+  const defaultFiltered = filtered ? JSON.parse(filtered as string) : [];
   const workingOrderRepository = new WorkingOrderRepository();
   const totalBelumBerjalan =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Belum Berjalan'] },
       ])
@@ -239,6 +242,7 @@ export const dashboard = async (req: Request, res: Response) => {
   const totalProsesPersetujuan =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Proses Persetujuan'] },
       ])
@@ -246,6 +250,7 @@ export const dashboard = async (req: Request, res: Response) => {
   const totalApprovedWakabag =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Approved oleh Wakabag'] },
       ])
@@ -253,6 +258,7 @@ export const dashboard = async (req: Request, res: Response) => {
   const totalApprovedKabag =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Approved oleh Kabag'] },
       ])
@@ -260,6 +266,7 @@ export const dashboard = async (req: Request, res: Response) => {
   const totalSelesai =
     (await workingOrderRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'division', value: 'General Affair' },
         { id: 'status', value: StatusPengadaan['Selesai'] },
       ])
