@@ -264,6 +264,7 @@ export const dashboard = async (req: Request, res: Response) => {
   const totalBelumBerjalan =
     (await pengadaanRepository.countDocument(
       JSON.stringify([
+        ...defaultFiltered,
         { id: 'status', value: StatusPengadaan['Belum Berjalan'] },
       ])
     )) || 0;
