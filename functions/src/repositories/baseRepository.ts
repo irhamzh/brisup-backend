@@ -528,6 +528,7 @@ export default class FirestoreRepository<
     files: IFiles,
     columnToKey: StringKeys,
     schemaValidation: yup.ObjectSchema<any>,
+    additionalColumn = {},
     collectionRef = this._collection
   ) {
     if (!files?.excel) {
@@ -545,7 +546,8 @@ export default class FirestoreRepository<
     const executeData = await writeToFirestore(
       data,
       collectionRef,
-      schemaValidation
+      schemaValidation,
+      additionalColumn
     );
     return executeData;
   }

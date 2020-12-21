@@ -24,7 +24,7 @@ type WhereFilterOp =
   | 'in'
   | 'array-contains-any'
   | 'not-in'
-  | 'between'
+  | 'betweenDate'
   | 'month-year'
   | 'year'
   | 'atDate'
@@ -78,6 +78,9 @@ export default function applyFilterQuery(
         const endDay = endOfDay(new Date(value));
         query = query.where(fieldQuery, '<=', endDay);
       } else if (optQuery === 'afterDate') {
+        const startDay = startOfDay(new Date(value));
+        query = query.where(fieldQuery, '>=', startDay);
+      } else if (optQuery === 'betweenDate') {
         const startDay = startOfDay(new Date(value));
         query = query.where(fieldQuery, '>=', startDay);
       } else if (WhereFilterOperator.includes(optQuery)) {

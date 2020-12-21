@@ -112,6 +112,7 @@ export const importExcel = async (req: any, res: Response) => {
       G: 'type',
     },
     schema.create,
+    {},
     attendanceRepository._collection
       .doc('attendance')
       .collection('ga_attendances')

@@ -28,12 +28,16 @@ import jenisBarangRouter from '@modules/MasterData/JenisBarang/jenis_barang.rout
 import buildingTypeRouter from '@modules/MasterData/BuildingType/building_type.routes';
 import medicineTypeRouter from '@modules/MasterData/MedicineType/medicine_type.routes';
 
+import workingOrderRouter from '@modules/WorkingOrder/working_order.routes';
+
 import monitoringVendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
 import persediaanRouter from '@modules/FixedAsset/Persediaan/persediaan.routes';
 import peralatanITRouter from '@modules/FixedAsset/PeralatanIT/peralatan.routes';
+import investasiAggaranRouter from '@modules/FixedAsset/Anggaran/Investasi/investasi.routes';
 import pengadaanRouter from '@modules/FixedAsset/Pengadaan/PengadaanBarang/pengadaan.routes';
-import workingOrderRouter from '@modules/WorkingOrder/working_order.routes';
 import purchaseOrderRouter from '@modules/FixedAsset/Pengadaan/PurchaseOrder/purchase_order.routes';
+import eksploitasiAggaranRouter from '@modules/FixedAsset/Anggaran/Eksploitasi/eksploitasi.routes';
+
 import evaluasiSuplierRouter from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.routes';
 import tandaTerimaRouter from '@modules/FixedAsset/Pengadaan/TandaTerimaBarang/tanda_terima_barang.routes';
 
@@ -119,6 +123,8 @@ apiRouter.use('/purchase-orders', purchaseOrderRouter);
 apiRouter.use('/tanda-terima-barang', tandaTerimaRouter);
 apiRouter.use('/evaluasi-suppliers', evaluasiSuplierRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
+apiRouter.use('/fa-anggaran-exploitations', eksploitasiAggaranRouter);
+apiRouter.use('/fa-anggaran-investations', investasiAggaranRouter);
 
 apiRouter.use('/pg-it-tools', itToolRouter);
 apiRouter.use('/pg-sanitations', sanitationRouter);

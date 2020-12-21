@@ -10,7 +10,8 @@ interface StringKeys {
 export default function writeToFirestore(
   records: StringKeys[],
   collectionRef: admin.firestore.CollectionReference,
-  schemaValidation: yup.ObjectSchema<any>
+  schemaValidation: yup.ObjectSchema<any>,
+  additionalColumn = {}
 ) {
   const batchCommits = [];
   const invalidRow: number[] = [];
@@ -26,6 +27,7 @@ export default function writeToFirestore(
     }
     batch.set(docRef, {
       ...record,
+      ...additionalColumn,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
