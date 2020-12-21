@@ -116,6 +116,7 @@ export const importExcel = async (req: any, res: Response) => {
       J: 'levelJabatan',
     },
     schema.create,
+    {},
     employeeRepository._collection.doc('employee').collection('ga_employees')
   );
 
