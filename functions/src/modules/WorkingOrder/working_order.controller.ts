@@ -163,7 +163,6 @@ export const approveKabag = async (req: Request, res: Response) => {
   const user: IUserBase = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-  console.log(res.locals.decoded);
   if (!user || user?.role?.name !== 'Kepala Bagian') {
     throw new AccessError('Approve Kepala Bagian');
   }

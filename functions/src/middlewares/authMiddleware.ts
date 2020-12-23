@@ -7,7 +7,7 @@ type GetTokenFun = (req: Request) => any;
 type PreCheckFun = (req: Request, res: Response) => any;
 
 function isFirebaseError(err: any) {
-  console.log(err, '2222');
+  console.log(err, 'Error FIrebase');
   if (err.code && err?.code?.length > 4) {
     return err.code.startsWith('auth/');
   }

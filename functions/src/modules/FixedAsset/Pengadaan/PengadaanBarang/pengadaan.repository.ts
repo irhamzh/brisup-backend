@@ -106,7 +106,6 @@ export default class PengadaanRepository extends BaseRepository<
     jenisPengadaan: string,
     paramProvider?: string
   ) {
-    console.log(typePengadaan, '222');
     let createParam = {
       ...param,
       typePengadaan: TypePengadaan[typePengadaan as TypePengadaan],
@@ -114,7 +113,6 @@ export default class PengadaanRepository extends BaseRepository<
       isDraft: false,
       status: StatusPengadaan['Belum Berjalan'],
     };
-    console.log(createParam, 'sdsds');
     if (paramProvider) {
       const providerRepository = new ProviderRepository();
       const provider: any = await providerRepository.findById(paramProvider);

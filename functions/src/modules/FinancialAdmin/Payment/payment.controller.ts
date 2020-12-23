@@ -58,7 +58,6 @@ export const updatePayment = async (req: any, res: Response) => {
 
   const ref = await paymentRepository.findById(validateParam.uid);
   const typePayment = ref?.typePayment;
-  console.log(typePayment, '22');
   if (!typePayment) {
     throw new InvalidRequestError('Invalid Payment Type', 'typePayment');
   }
