@@ -66,7 +66,7 @@ export const getFormasiPekerjaById = async (req: Request, res: Response) => {
 export const getAllFormasiPekerja = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const formasiRepository = new FormasiPekerjaRepository();
-  const data = await formasiRepository.findAll(
+  const data = await formasiRepository.findAllFormasi(
     page as string,
     limit as string,
     filtered as string,
