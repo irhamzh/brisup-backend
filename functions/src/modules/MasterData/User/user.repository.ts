@@ -60,6 +60,18 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     return admin.auth().deleteUser(uid);
   }
 
+  async getCurrentAuth(uid: string) {
+    return admin.auth().getUser(uid);
+  }
+
+  async revokeRefreshTokens(uid: string) {
+    await admin.auth().revokeRefreshTokens(uid);
+    const userRecord: any = await this.getCurrentAuth(uid);
+    const timeValid =
+      new Date(userRecord.tokensValidAfterTime).getTime() / 1000;
+    return `Tokens revoked at: ${timeValid}`;
+  }
+
   async updateAuth(
     uid: string,
     object: Partial<Omit<IUserBase, 'profilePicture'>>

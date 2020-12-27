@@ -96,6 +96,26 @@ export const getUserById = async (req: Request, res: Response) => {
   });
 };
 
+export const getCurrentAuth = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const userRepository = new UserRepository();
+  const data = await userRepository.getCurrentAuth(user.uid);
+  res.json({
+    message: 'Successfully Get User By Id',
+    data,
+  });
+};
+
+export const revokeToken = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const userRepository = new UserRepository();
+  const data = await userRepository.revokeRefreshTokens(user.uid);
+  res.json({
+    message: 'Successfully Get User By Id',
+    data,
+  });
+};
+
 export const deleteUserById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'userId');

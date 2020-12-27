@@ -8,7 +8,8 @@ const router = Router();
 const errorHandledRoute = withErrorHandlerRoute(router);
 const protectedRouter = withAuthMiddleware(errorHandledRoute);
 
-// errorHandledRoute.get('/me', controller.getUserMe);
+protectedRouter.get('/me', controller.getCurrentAuth);
+protectedRouter.get('/me/revoke-token', controller.revokeToken);
 protectedRouter.get('/', controller.getAllUser);
 protectedRouter.get('/token-data', controller.getTokenData);
 errorHandledRoute.post('/', controller.createUser);
