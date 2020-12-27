@@ -21,7 +21,7 @@ export const createFormasiPekerja = async (req: Request, res: Response) => {
   );
   if (exist || exist?.id) {
     throw new InvalidRequestError(
-      `Formasi dengan Level Jabatan ${validatedBody.levelJabatan}  dan Unit Kerja  ${validatedBody.unitKerja}  telah ada`,
+      `Formasi dengan Level Jabatan "${validatedBody.levelJabatan}" dan Unit Kerja "${validatedBody.unitKerja}"  telah ada`,
       'Formasi Pekerja'
     );
   }

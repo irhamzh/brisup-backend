@@ -7,7 +7,7 @@ interface StringKeys {
   [key: string]: string;
 }
 
-export default function writeToFirestore(
+export default async function writeToFirestore(
   records: StringKeys[],
   collectionRef: admin.firestore.CollectionReference,
   schemaValidation: yup.ObjectSchema<any>,
@@ -38,6 +38,6 @@ export default function writeToFirestore(
     }
   });
   batchCommits.push(batch.commit());
-  Promise.all(batchCommits);
+  await Promise.all(batchCommits);
   return invalidRow;
 }

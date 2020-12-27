@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import validationWording from '@constants/validationWording';
 
-// import { Type } from './interface/employee.interface';
+import { Sex } from './interface/employee.interface';
 
 const create = yup
   .object()
@@ -10,13 +10,15 @@ const create = yup
     name: yup.string().required(validationWording.required('name')),
     nip: yup.string().required(validationWording.required('nip')),
     pernr: yup.string().required(validationWording.required('pernr')),
+    sex: yup.mixed().oneOf(Sex).required(validationWording.required('sex')),
+    dateOfBird: yup.date().required(validationWording.required('dateOfBird')),
     age: yup.number().required(validationWording.required('age')),
     position: yup.string().required(validationWording.required('position')),
     jobgrade: yup.string().required(validationWording.required('jobgrade')),
     mkjg: yup.string().required(validationWording.required('mkjg')),
     pg: yup.string().required(validationWording.required('pg')),
     mkpg: yup.string().required(validationWording.required('mkpg')),
-    levelJabatan: yup.string(),
+    formasi: yup.string().required(validationWording.required('formasi')),
   })
   .required();
 
@@ -27,13 +29,14 @@ const update = yup
     name: yup.string(),
     nip: yup.string(),
     pernr: yup.string(),
+    sex: yup.mixed().oneOf(Sex),
+    dateOfBird: yup.date(),
     age: yup.number(),
     position: yup.string(),
     jobgrade: yup.string(),
     mkjg: yup.string(),
     pg: yup.string(),
     mkpg: yup.string(),
-    levelJabatan: yup.string(),
   })
   .required();
 

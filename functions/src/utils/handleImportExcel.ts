@@ -1,6 +1,6 @@
 const excelToJson = require('convert-excel-to-json');
 
-import removeFileTemporary from '@utils/removeFileTemporary';
+// import removeFileTemporary from '@utils/removeFileTemporary';
 
 interface StringKeys {
   [key: string]: string;
@@ -33,6 +33,6 @@ export default async function handleImportExcel(
     sheets: ['Sheet1'],
     columnToKey: columnToKey,
   });
-  removeFileTemporary(files);
+  // removeFileTemporary(files);
   return dataExcel.Sheet1 || [];
 }

@@ -4,6 +4,7 @@ import { db } from '@utils/admin';
 import BaseRepository from '@repositories/baseRepository';
 import applyFilterQuery from '@utils/applyFilterQuery';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+import validationWording from '@constants/validationWording';
 
 import { IFormasiBase } from './interface/formasi_pekerja.interface';
 
@@ -46,5 +47,38 @@ export default class FormasiRepository extends BaseRepository<IFormasiBase> {
       return data.push(snap);
     });
     return firestoreTimeStampToDate(data);
+  }
+
+  async addPemenuhan(id: string) {
+    const ref: admin.firestore.DocumentReference = this._formasiModel.doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (!snap.exists) {
+      return {
+        error: true,
+        message: validationWording.notFound(this._name),
+      };
+    }
+
+    const oldData = snap.data();
+    const sisaPemenuhan = Number(oldData?.formasi) - Number(oldData?.pemenuhan);
+    if (!sisaPemenuhan || sisaPemenuhan < 1) {
+      return {
+        error: true,
+        message: `Alokasi formasi "unitKerja  ${oldData?.unitKerja}" "levelJabatan ${oldData?.levelJabatan}" tersisa ${sisaPemenuhan}`,
+      };
+    }
+    const createParam = {
+      pemenuhan: Number(oldData?.pemenuhan) + 1,
+      updatedAt: new Date(),
+    };
+    await ref.set(createParam, { merge: true });
+    const updateSnap = await ref.get();
+    return {
+      error: false,
+      data: firestoreTimeStampToDate({
+        id: ref.id,
+        ...updateSnap.data(),
+      }),
+    };
   }
 }

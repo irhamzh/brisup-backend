@@ -1,14 +1,18 @@
+import { IFormasiBase } from '@modules/GeneralAffair/DataPekerja/FormasiPekerja/interface/formasi_pekerja.interface';
+
 export interface IEmployeeBase {
   name: string;
   nip: string;
   pernr: string;
+  sex: string;
+  dateOfBird: Date;
   age: number;
   position: string;
   jobgrade: string;
   mkjg: string;
   pg: string;
   mkpg: string;
-  levelJabatan?: string;
+  formasi: Omit<IFormasiBase, 'formasi' | 'pemenuhan'>;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -19,3 +23,5 @@ export interface IEmployeeBase {
 //   'Security',
 //   'Driver',
 // ];
+
+export const Sex = ['L', 'P'];
