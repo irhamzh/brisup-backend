@@ -54,8 +54,19 @@ export const logIn = async (req: Request, res: Response) => {
   const validatedBody = yupValidate(schema.login, body);
 
   const userRepository = new UserRepository();
+  const currentUser = await userRepository.getCurrentAuthByEmail(
+    validatedBody.email
+  );
+
+  const roleRepository = new RoleRepository();
+  const role = await roleRepository.findById(
+    currentUser?.customClaims?.role?.id
+  );
   const { token, refreshToken, decodedToken } = await userRepository.logIn(
-    validatedBody
+    validatedBody,
+    role,
+    currentUser.uid,
+    currentUser?.customClaims?.name
   );
   res.json({
     message: 'Successfully Login',
@@ -127,41 +138,37 @@ export const deleteUserById = async (req: Request, res: Response) => {
 };
 
 export const updateUserById = async (req: Request, res: Response) => {
-  const { body, params } = req;
-  const validateParam = paramValidation(params, 'userId');
-  let validatedBody = yupValidate(schema.update, body);
-
-  if (validatedBody?.role) {
-    const roleRepository = new RoleRepository();
-    const role = await roleRepository.findById(validatedBody.role);
-    validatedBody = { ...validatedBody, role: role.id };
-  }
-  const userRepository = new UserRepository();
-  const data = await userRepository.update(validateParam.uid, validatedBody);
-
-  let authData = {};
-  if (validatedBody?.email || validatedBody?.password) {
-    const execute = await userRepository.updateAuth(validateParam.uid, {
-      ...validatedBody,
-      role: data.role,
-      name: data.name,
-    });
-    authData = execute.toJSON();
-  }
-
-  const { token, refreshToken, decodedToken } = await userRepository.logIn({
-    email: data.email,
-    password: data.password,
-  });
-
-  res.json({
-    message: 'Successfully Update User',
-    data,
-    token,
-    refreshToken,
-    decodedToken,
-    authData,
-  });
+  // const { body, params } = req;
+  // const validateParam = paramValidation(params, 'userId');
+  // let validatedBody = yupValidate(schema.update, body);
+  // if (validatedBody?.role) {
+  //   const roleRepository = new RoleRepository();
+  //   const role = await roleRepository.findById(validatedBody.role);
+  //   validatedBody = { ...validatedBody, role: role.id };
+  // }
+  // const userRepository = new UserRepository();
+  // const data = await userRepository.update(validateParam.uid, validatedBody);
+  // let authData = {};
+  // if (validatedBody?.email || validatedBody?.password) {
+  //   const execute = await userRepository.updateAuth(validateParam.uid, {
+  //     ...validatedBody,
+  //     role: data.role,
+  //     name: data.name,
+  //   });
+  //   authData = execute.toJSON();
+  // }
+  // const { token, refreshToken, decodedToken } = await userRepository.logIn({
+  //   email: data.email,
+  //   password: data.password,
+  // });
+  // res.json({
+  //   message: 'Successfully Update User',
+  //   data,
+  //   token,
+  //   refreshToken,
+  //   decodedToken,
+  //   authData,
+  // });
 };
 
 export const uploadImage = async (req: Request, res: Response) => {

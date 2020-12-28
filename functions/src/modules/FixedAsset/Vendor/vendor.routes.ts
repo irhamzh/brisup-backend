@@ -1,14 +1,39 @@
-import * as controller from '@modules/FixedAsset/Vendor/vendor.controller';
 import { Router } from 'express';
+
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
-const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+import * as controller from '@modules/FixedAsset/Vendor/vendor.controller';
 
-errorHandledRoute.get('/', controller.getAllVendor);
-errorHandledRoute.post('/', controller.createVendor);
-errorHandledRoute.put('/:uid', controller.updateVendor);
-errorHandledRoute.get('/:uid', controller.getVendorById);
-errorHandledRoute.delete('/:uid', controller.deleteVendorById);
+const router = Router();
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getAllVendor
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('fixedAsset', 'create'),
+  controller.createVendor
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'update'),
+  controller.updateVendor
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getVendorById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'delete'),
+  controller.deleteVendorById
+);
 
 export default router;

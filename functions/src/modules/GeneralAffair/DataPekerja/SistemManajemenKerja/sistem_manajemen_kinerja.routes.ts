@@ -6,7 +6,7 @@ import accessMiddleware from '@middlewares/accessMiddleware';
 import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
-import * as controller from '@modules/FixedAsset/Asset/asset.controller';
+import * as controller from './sistem_manajemen_kinerja.controller';
 
 const router = Router();
 const protectedRouter = withAuthMiddleware(router);
@@ -16,37 +16,32 @@ const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 
 errorHandledRoute.get(
   '/',
-  accessMiddleware('fixedAsset', 'read'),
-  controller.getAllAsset
+  accessMiddleware('generalAffair', 'read'),
+  controller.getAllPerformanceManagement
 );
 errorHandledRoute.get(
   '/:uid',
-  accessMiddleware('fixedAsset', 'read'),
-  controller.getAssetById
+  accessMiddleware('generalAffair', 'read'),
+  controller.getPerformanceManagementById
 );
 errorHandledRoute.post(
   '/',
-  accessMiddleware('fixedAsset', 'create'),
-  controller.createAsset
-);
-errorHandledRoute.post(
-  '/delete',
-  accessMiddleware('fixedAsset', 'delete'),
-  controller.deleteMultipleAsset
+  accessMiddleware('generalAffair', 'create'),
+  controller.createPerformanceManagement
 );
 errorHandledRoute.put(
   '/:uid',
-  accessMiddleware('fixedAsset', 'update'),
-  controller.updateAsset
+  accessMiddleware('generalAffair', 'update'),
+  controller.updatePerformanceManagement
 );
 errorHandledRoute.delete(
   '/:uid',
-  accessMiddleware('fixedAsset', 'delete'),
-  controller.deleteAssetById
+  accessMiddleware('generalAffair', 'delete'),
+  controller.deletePerformanceManagementById
 );
 uploadHandleRouter.post(
   '/excel',
-  accessMiddleware('fixedAsset', 'create'),
+  accessMiddleware('generalAffair', 'create'),
   controller.importExcel
 );
 

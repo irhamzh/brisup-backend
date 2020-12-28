@@ -1,14 +1,39 @@
-import * as controller from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.controller';
 import { Router } from 'express';
+
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
 const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
-errorHandledRoute.get('/', controller.getAllEvaluasiSuplier);
-errorHandledRoute.post('/', controller.createEvaluasiSuplier);
-errorHandledRoute.put('/:uid', controller.updateEvaluasiSuplier);
-errorHandledRoute.get('/:uid', controller.getEvaluasiSuplierById);
-errorHandledRoute.delete('/:uid', controller.deleteEvaluasiSuplierById);
+import * as controller from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.controller';
+
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getAllEvaluasiSuplier
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('fixedAsset', 'create'),
+  controller.createEvaluasiSuplier
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'update'),
+  controller.updateEvaluasiSuplier
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getEvaluasiSuplierById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'delete'),
+  controller.deleteEvaluasiSuplierById
+);
 
 export default router;

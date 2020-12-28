@@ -70,17 +70,19 @@ import activityRouter from '@modules/GeneralAffair/Aktivitas/Security/security.r
 import internshipRouter from '@modules/GeneralAffair/DataPekerja/Magang/internship.routes';
 import fuelRouter from '@modules/GeneralAffair/PengelolaanKendaraan/BahanBakar/fuel.routes';
 import employeeRouter from '@modules/GeneralAffair/DataPekerja/DataPekerja/employee.routes';
-import formasiPekerjaRouter from '@modules/GeneralAffair/DataPekerja/FormasiPekerja/formasi_pekerja.routes';
 import rekreasiRouter from '@modules/GeneralAffair/KegiatanLainnya/Rekreasi/rekreasi.routes';
 import attendanceRouter from '@modules/GeneralAffair/DataPekerja/Kehadiran/attendance.routes';
 import monitoringCCTVRouter from '@modules/GeneralAffair/MonitoringCCTV/monitoring_cctv.routes';
 import clinicEvaluationRouter from '@modules/GeneralAffair/EvaluasiKlinik/evaluasi_klinik.routes';
+import OutsourcingRouter from '@modules/GeneralAffair/DataPekerja/Outsourcing/outsourcing.routes';
 import taxVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Tax/tax.routes';
 import kirVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Kir/kir.routes';
+import formasiPekerjaRouter from '@modules/GeneralAffair/DataPekerja/FormasiPekerja/formasi_pekerja.routes';
 import serviceVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Service/service.routes';
 import consumptionRouter from '@modules/GeneralAffair/PengeloaanKonsumsi/KonsumsiKegiatanRapat/consumption.routes';
 import driverAssignmentRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PenugasanDriver/driver_assignment.routes';
 import accessoriesVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/Kendaraan/Accessories/accessories.routes';
+import sistemManajemenKinerjaRouter from '@modules/GeneralAffair/DataPekerja/SistemManajemenKerja/sistem_manajemen_kinerja.routes';
 import externalVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PemesananDiluarKendaraanDinas/external_vehicle.routes';
 
 import cashFinancialRouter from '@modules/FinancialAdmin/Cash/cash.routes';
@@ -160,6 +162,11 @@ apiRouter.use('/ga-employees', employeeRouter);
 apiRouter.use('/ga-employees', attendanceRouter);
 apiRouter.use('/ga-employees', internshipRouter);
 apiRouter.use('/ga-employees/formation', formasiPekerjaRouter);
+apiRouter.use('/ga-employees/outsourcing', OutsourcingRouter);
+apiRouter.use(
+  '/ga-employees/performance-management',
+  sistemManajemenKinerjaRouter
+);
 apiRouter.use('/ga-activities', driverRouter); // /driver
 apiRouter.use('/ga-activities', courierRouter); // /courier
 apiRouter.use('/ga-activities', activityRouter); // security

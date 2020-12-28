@@ -47,7 +47,11 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     };
   }
 
-  async logIn(object: loginParam) {
+  async logIn(object: loginParam, role: IRoleBase, uid: string, name: string) {
+    await admin.auth().setCustomUserClaims(uid, {
+      name,
+      role,
+    });
     const data: firebase.auth.UserCredential = await firebase
       .auth()
       .signInWithEmailAndPassword(object.email, object.password);
@@ -64,6 +68,10 @@ export default class UserRepository extends BaseRepository<IUserBase> {
 
   async getCurrentAuth(uid: string) {
     return admin.auth().getUser(uid);
+  }
+
+  async getCurrentAuthByEmail(email: string) {
+    return admin.auth().getUserByEmail(email);
   }
 
   async revokeRefreshTokens(uid: string) {
