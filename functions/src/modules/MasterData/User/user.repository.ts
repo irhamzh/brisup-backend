@@ -6,6 +6,7 @@ import BaseRepository from '@repositories/baseRepository';
 import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 import removeEmpty from '@utils/removeEmpty';
+import { IRoleBase } from '@modules/MasterData/Role/interface/role.interface';
 
 type loginParam = Omit<IUserBase, 'name' | 'role' | 'profilePicture'>;
 
@@ -16,16 +17,16 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     this._userModel = db.collection('users');
   }
 
-  async signUp(object: IUserBase) {
+  async signUp(object: IUserBase, role: IRoleBase) {
     const execute = await firebase
       .auth()
       .createUserWithEmailAndPassword(object.email, object.password);
     await admin.auth().setCustomUserClaims(execute?.user?.uid as string, {
       name: object.name,
-      role: object.role,
+      role,
     });
-    const token = await execute?.user?.getIdToken();
-    const refreshToken = execute?.user?.refreshToken;
+    // const token = await execute?.user?.getIdToken();
+    // const refreshToken = execute?.user?.refreshToken;
 
     const ref = this._userModel.doc(execute?.user?.uid as string);
     await ref.set(object, { merge: true });
@@ -34,14 +35,15 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     const data: admin.firestore.DocumentData = {
       id: ref.id,
       ...snap.data(),
+      role,
     };
     if (data?.password) {
       delete data.password;
     }
     return {
       data: firestoreTimeStampToDate(data),
-      token,
-      refreshToken,
+      // token,
+      // refreshToken,
     };
   }
 
