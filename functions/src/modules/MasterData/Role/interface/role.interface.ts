@@ -1,8 +1,11 @@
-interface IRoleAcceess {
+interface IAccessBase {
   create: boolean;
   update: boolean;
   delete: boolean;
   read: boolean;
+}
+
+interface IRoleAccess extends IAccessBase {
   dashboard: boolean;
   approvalKabag: boolean;
   approvalWakabag: boolean;
@@ -10,10 +13,11 @@ interface IRoleAcceess {
 
 export interface IRoleBase {
   name: string;
-  fixedAsset: IRoleAcceess;
-  procurement: IRoleAcceess;
-  generalAffair: IRoleAcceess;
-  financialAdmin: IRoleAcceess;
+  fixedAsset: IRoleAccess;
+  procurement: IRoleAccess;
+  generalAffair: IRoleAccess;
+  financialAdmin: IRoleAccess;
+  masterData: IAccessBase;
   createdAt?: Date;
   updatedAt?: Date;
 }
