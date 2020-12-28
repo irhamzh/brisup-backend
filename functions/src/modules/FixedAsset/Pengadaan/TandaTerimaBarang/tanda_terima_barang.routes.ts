@@ -1,14 +1,39 @@
-import * as controller from '@modules/FixedAsset/Pengadaan/TandaTerimaBarang/tanda_terima_barang.controller';
 import { Router } from 'express';
+
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
 const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
-errorHandledRoute.get('/', controller.getAllTandaTerimaBarang);
-errorHandledRoute.post('/', controller.createTandaTerimaBarang);
-errorHandledRoute.put('/:uid', controller.updateTandaTerimaBarang);
-errorHandledRoute.get('/:uid', controller.getTandaTerimaBarangById);
-errorHandledRoute.delete('/:uid', controller.deleteTandaTerimaBarangById);
+import * as controller from '@modules/FixedAsset/Pengadaan/TandaTerimaBarang/tanda_terima_barang.controller';
+
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getAllTandaTerimaBarang
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('fixedAsset', 'create'),
+  controller.createTandaTerimaBarang
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'update'),
+  controller.updateTandaTerimaBarang
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getTandaTerimaBarangById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'delete'),
+  controller.deleteTandaTerimaBarangById
+);
 
 export default router;

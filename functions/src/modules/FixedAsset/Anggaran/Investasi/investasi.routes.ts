@@ -1,22 +1,33 @@
 import { Router } from 'express';
 import { withMiddleware } from 'express-kun';
 
-import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 import fileParser from '@middlewares/fileParserMiddleware';
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
+import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
 import * as controller from './investasi.controller';
 
 const router = Router();
-const uploadRouter = withMiddleware(router, fileParser);
-const errorHandledRoute = withErrorHandlerRoute(router);
+const protectedRouter = withAuthMiddleware(router);
+const uploadRouter = withMiddleware(protectedRouter, fileParser);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 
-errorHandledRoute.get('/', controller.getAllInvestasiAnggaran);
-errorHandledRoute.get('/:uid', controller.getInvestasiAnggaranById);
-// errorHandledRoute.post('/', controller.createAsset);
-// errorHandledRoute.post('/delete', controller.deleteMultipleAsset);
-// errorHandledRoute.put('/:uid', controller.updateAsset);
-// errorHandledRoute.delete('/:uid', controller.deleteAssetById);
-uploadHandleRouter.post('/excel', controller.importExcel);
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getAllInvestasiAnggaran
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getInvestasiAnggaranById
+);
+uploadHandleRouter.post(
+  '/excel',
+  accessMiddleware('fixedAsset', 'create'),
+  controller.importExcel
+);
 
 export default router;

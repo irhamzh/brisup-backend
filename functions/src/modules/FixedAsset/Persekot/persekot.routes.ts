@@ -1,9 +1,13 @@
-import * as controller from '@modules/FixedAsset/Persekot/persekot.controller';
 import { Router } from 'express';
+
+import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
+import * as controller from '@modules/FixedAsset/Persekot/persekot.controller';
+
 const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
 errorHandledRoute.get('/', controller.getAllPersekot);
 errorHandledRoute.get('/:uid', controller.getPersekotById);
