@@ -69,7 +69,8 @@ import overtimeRouter from '@modules/GeneralAffair/DataPekerja/Lembur/overtime.r
 import activityRouter from '@modules/GeneralAffair/Aktivitas/Security/security.routes';
 import internshipRouter from '@modules/GeneralAffair/DataPekerja/Magang/internship.routes';
 import fuelRouter from '@modules/GeneralAffair/PengelolaanKendaraan/BahanBakar/fuel.routes';
-import employeepRouter from '@modules/GeneralAffair/DataPekerja/DataPekerja/employee.routes';
+import employeeRouter from '@modules/GeneralAffair/DataPekerja/DataPekerja/employee.routes';
+import formasiPekerjaRouter from '@modules/GeneralAffair/DataPekerja/FormasiPekerja/formasi_pekerja.routes';
 import rekreasiRouter from '@modules/GeneralAffair/KegiatanLainnya/Rekreasi/rekreasi.routes';
 import attendanceRouter from '@modules/GeneralAffair/DataPekerja/Kehadiran/attendance.routes';
 import monitoringCCTVRouter from '@modules/GeneralAffair/MonitoringCCTV/monitoring_cctv.routes';
@@ -155,9 +156,10 @@ apiRouter.use('/ga-fuel', fuelRouter);
 apiRouter.use('/ga-employees', apsRouter);
 apiRouter.use('/ga-employees', pgspjsRouter);
 apiRouter.use('/ga-employees', overtimeRouter);
-apiRouter.use('/ga-employees', employeepRouter);
+apiRouter.use('/ga-employees', employeeRouter);
 apiRouter.use('/ga-employees', attendanceRouter);
 apiRouter.use('/ga-employees', internshipRouter);
+apiRouter.use('/ga-employees/formation', formasiPekerjaRouter);
 apiRouter.use('/ga-activities', driverRouter); // /driver
 apiRouter.use('/ga-activities', courierRouter); // /courier
 apiRouter.use('/ga-activities', activityRouter); // security

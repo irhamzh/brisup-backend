@@ -6,9 +6,9 @@ const create = yup
   .shape({
     levelJabatan: yup
       .string()
-      .required(validationWording.required('levelJabatan')),
-    unitKerja: yup.string().required(validationWording.required('unitKerja')),
-    formasi: yup.number().required(validationWording.required('formasi')),
+      .required(validationWording.required('Level Jabatan')),
+    unitKerja: yup.string().required(validationWording.required('Unit Kerja')),
+    formasi: yup.number().required(validationWording.required('Formasi')),
   })
   .required();
 export default { create };

@@ -8,7 +8,7 @@ import { StatusPengadaan } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
-import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
+// import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 
 import { create, baseCreate, update } from './payment.schema';
 import PaymentRepository from './payment.repository';
@@ -58,7 +58,6 @@ export const updatePayment = async (req: any, res: Response) => {
 
   const ref = await paymentRepository.findById(validateParam.uid);
   const typePayment = ref?.typePayment;
-  console.log(typePayment, '22');
   if (!typePayment) {
     throw new InvalidRequestError('Invalid Payment Type', 'typePayment');
   }
@@ -154,7 +153,7 @@ export const approveProcess = async (req: Request, res: Response) => {
 };
 
 export const approveWabag = async (req: Request, res: Response) => {
-  const user: IUserBase = res.locals.decoded;
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
@@ -183,7 +182,7 @@ export const approveWabag = async (req: Request, res: Response) => {
 };
 
 export const approveKabag = async (req: Request, res: Response) => {
-  const user: IUserBase = res.locals.decoded;
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 

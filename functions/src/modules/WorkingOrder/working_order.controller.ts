@@ -9,7 +9,7 @@ import { StatusPengadaan } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 import schema from '@modules/WorkingOrder/working_order.schema';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
-import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
+// import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 import WorkingOrderRepository from '@modules/WorkingOrder/working_order.repository';
 
 import MappingBodyByType from './helpers/MappingBodyByType';
@@ -123,7 +123,7 @@ export const approveProcess = async (req: Request, res: Response) => {
 };
 
 export const approveWabag = async (req: Request, res: Response) => {
-  const user: IUserBase = res.locals.decoded;
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
@@ -160,10 +160,9 @@ export const approveWabag = async (req: Request, res: Response) => {
 };
 
 export const approveKabag = async (req: Request, res: Response) => {
-  const user: IUserBase = res.locals.decoded;
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-  console.log(res.locals.decoded);
   if (!user || user?.role?.name !== 'Kepala Bagian') {
     throw new AccessError('Approve Kepala Bagian');
   }

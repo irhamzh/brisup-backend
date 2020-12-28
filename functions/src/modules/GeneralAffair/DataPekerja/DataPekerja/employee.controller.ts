@@ -1,8 +1,8 @@
-import * as admin from 'firebase-admin';
 import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
+import FormasiRepository from '@modules/GeneralAffair/DataPekerja/FormasiPekerja/formasi_pekerja.repository';
 
 import schema from './employee.schema';
 import EmployeeRepository from './employee.repository';
@@ -12,10 +12,13 @@ export const createEmployee = async (req: any, res: Response) => {
   const validatedBody = yupValidate(schema.create, body);
 
   const employeeRepository = new EmployeeRepository();
+  const formasiRepository = new FormasiRepository();
+  const formasi = await formasiRepository.findById(validatedBody.formasi);
 
-  const data: admin.firestore.DocumentData = await employeeRepository.createEmployee(
-    validatedBody
-  );
+  const data = await employeeRepository.createEmployee({
+    ...validatedBody,
+    formasi,
+  });
 
   res.json({
     message: 'Successfully Create Aktivitas Employee',
@@ -30,7 +33,7 @@ export const updateEmployee = async (req: any, res: Response) => {
 
   const employeeRepository = new EmployeeRepository();
 
-  const data: admin.firestore.DocumentData = await employeeRepository.updateEmployee(
+  const data = await employeeRepository.updateEmployee(
     validateParam.uid,
     validatedBody
   );
@@ -61,7 +64,7 @@ export const getEmployeeById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const employeeRepository = new EmployeeRepository();
-  const data: admin.firestore.DocumentData = await employeeRepository.findSubdocumentById(
+  const data = await employeeRepository.findSubdocumentById(
     validateParam.uid,
     'employee',
     'ga_employees'
@@ -101,27 +104,27 @@ export const importExcel = async (req: any, res: Response) => {
   const { files } = req;
 
   const employeeRepository = new EmployeeRepository();
-  const invalidRow = await employeeRepository.importExcel(
+  const data = await employeeRepository.importExcelEmployee(
     files,
     {
       A: 'name',
       B: 'nip',
       C: 'pernr',
-      D: 'age',
-      E: 'position',
-      F: 'jobgrade',
-      G: 'mkjg',
-      H: 'pg',
-      I: 'mkpg',
-      J: 'levelJabatan',
+      D: 'sex',
+      E: 'dateOfBird',
+      F: 'age',
+      G: 'unitKerja',
+      H: 'position',
+      I: 'jobgrade',
+      J: 'mkjg',
+      K: 'pg',
+      L: 'mkpg',
+      M: 'levelJabatan',
     },
-    schema.create,
-    {},
-    employeeRepository._collection.doc('employee').collection('ga_employees')
+    schema.create
   );
-
   res.json({
     message: 'Successfully Create Employee',
-    invalidRow,
+    data,
   });
 };

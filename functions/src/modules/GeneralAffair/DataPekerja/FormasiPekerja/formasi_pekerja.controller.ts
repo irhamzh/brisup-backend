@@ -21,7 +21,7 @@ export const createFormasiPekerja = async (req: Request, res: Response) => {
   );
   if (exist || exist?.id) {
     throw new InvalidRequestError(
-      `Formasi dengan Level Jabatan ${validatedBody.levelJabatan}  dan Unit Kerja  ${validatedBody.unitKerja}  telah ada`,
+      `Formasi dengan Level Jabatan "${validatedBody.levelJabatan}" dan Unit Kerja "${validatedBody.unitKerja}"  telah ada`,
       'Formasi Pekerja'
     );
   }
@@ -66,7 +66,7 @@ export const getFormasiPekerjaById = async (req: Request, res: Response) => {
 export const getAllFormasiPekerja = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const formasiRepository = new FormasiPekerjaRepository();
-  const data = await formasiRepository.findAll(
+  const data = await formasiRepository.findAllFormasi(
     page as string,
     limit as string,
     filtered as string,

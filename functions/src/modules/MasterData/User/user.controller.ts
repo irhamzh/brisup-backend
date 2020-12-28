@@ -28,26 +28,24 @@ export const createUser = async (req: Request, res: Response) => {
   const validatedBody = yupValidate(schema.create, body);
 
   const roleRepository = new RoleRepository();
-  const role: any = await roleRepository.findById(validatedBody.role);
+  const role = await roleRepository.findById(validatedBody.role);
 
   const createParam = {
     ...validatedBody,
-    role,
+    role: role.id,
     profilePicture: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultImg}?alt=media`,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
 
   const userRepository = new UserRepository();
-  const { data, token, refreshToken } = await userRepository.signUp(
-    createParam
-  );
+  const { data } = await userRepository.signUp(createParam, role);
 
   res.json({
     message: 'Successfully Sign Up',
     data,
-    token,
-    refreshToken,
+    // token,
+    // refreshToken,
   });
 };
 
@@ -96,6 +94,26 @@ export const getUserById = async (req: Request, res: Response) => {
   });
 };
 
+export const getCurrentAuth = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const userRepository = new UserRepository();
+  const data = await userRepository.getCurrentAuth(user.uid);
+  res.json({
+    message: 'Successfully Get User By Id',
+    data,
+  });
+};
+
+export const revokeToken = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const userRepository = new UserRepository();
+  const data = await userRepository.revokeRefreshTokens(user.uid);
+  res.json({
+    message: 'Successfully Get User By Id',
+    data,
+  });
+};
+
 export const deleteUserById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'userId');
@@ -115,8 +133,8 @@ export const updateUserById = async (req: Request, res: Response) => {
 
   if (validatedBody?.role) {
     const roleRepository = new RoleRepository();
-    const role: any = await roleRepository.findById(validatedBody.role);
-    validatedBody = { ...validatedBody, role };
+    const role = await roleRepository.findById(validatedBody.role);
+    validatedBody = { ...validatedBody, role: role.id };
   }
   const userRepository = new UserRepository();
   const data = await userRepository.update(validateParam.uid, validatedBody);

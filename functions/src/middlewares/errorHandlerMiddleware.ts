@@ -1,9 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { ValidationError } from 'yup';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import NotFoundError from '@interfaces/NotFoundError';
 import AccessError from '@interfaces/AccessError';
 import ExtensionError from '@interfaces/ExtensionError';
+import removeFileTemporary from '@utils/removeFileTemporary';
 
 //improve meneh Bruh!!!
 function isFirebaseError(err: any) {
@@ -15,7 +16,7 @@ function isFirebaseError(err: any) {
 
 export default function errorHandlerMiddleware(
   err: any,
-  req: Request,
+  req: any,
   res: Response,
   next: NextFunction
 ) {
@@ -23,6 +24,7 @@ export default function errorHandlerMiddleware(
     next();
     return;
   }
+  removeFileTemporary(req?.files);
   if (isFirebaseError(err)) {
     res.status(400).json({
       message: err.message,

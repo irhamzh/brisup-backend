@@ -8,7 +8,7 @@ import ProviderRepository from '@modules/MasterData/Provider/provider.repository
 import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
 import EducationRepository from '@modules/MasterData/Education/education.repository';
 import { IEducationBase } from '@modules/MasterData/Education/interface/education.interface';
-import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
+// import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 import AccessError from '@interfaces/AccessError';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import validationWording from '@constants/validationWording';
@@ -174,7 +174,7 @@ export const approveProcess = async (req: Request, res: Response) => {
 };
 
 export const approveWabag = async (req: Request, res: Response) => {
-  const user: IUserBase = res.locals.decoded;
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
@@ -203,7 +203,7 @@ export const approveWabag = async (req: Request, res: Response) => {
 };
 
 export const approveKabag = async (req: Request, res: Response) => {
-  const user: IUserBase = res.locals.decoded;
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
