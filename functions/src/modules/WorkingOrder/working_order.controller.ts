@@ -127,7 +127,10 @@ export const approveWabag = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
-  if (!user || user?.role?.name !== 'Wakil Kepala Bagian') {
+  if (
+    !user ||
+    (user?.role?.name !== 'Wakil Kepala Bagian' && user?.role?.name !== 'Admin')
+  ) {
     throw new AccessError('Approve Wakil Kepala Bagian');
   }
 
@@ -163,7 +166,10 @@ export const approveKabag = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-  if (!user || user?.role?.name !== 'Kepala Bagian') {
+  if (
+    !user ||
+    (user?.role?.name !== 'Kepala Bagian' && user?.role?.name !== 'Admin')
+  ) {
     throw new AccessError('Approve Kepala Bagian');
   }
 

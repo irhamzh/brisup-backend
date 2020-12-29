@@ -20,6 +20,11 @@ errorHandledRoute.get(
   controller.getAllOutsourcing
 );
 errorHandledRoute.get(
+  '/formated',
+  accessMiddleware('generalAffair', 'read'),
+  controller.getAllOutsourcingFormated
+);
+errorHandledRoute.get(
   '/:uid',
   accessMiddleware('generalAffair', 'read'),
   controller.getOutsourcingById

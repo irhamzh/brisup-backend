@@ -20,6 +20,11 @@ errorHandledRoute.get(
   controller.getAllPerformanceManagement
 );
 errorHandledRoute.get(
+  '/formated',
+  accessMiddleware('generalAffair', 'read'),
+  controller.getAllPerformanceManagementFormated
+);
+errorHandledRoute.get(
   '/:uid',
   accessMiddleware('generalAffair', 'read'),
   controller.getPerformanceManagementById
