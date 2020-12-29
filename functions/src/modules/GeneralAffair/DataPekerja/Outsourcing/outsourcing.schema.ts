@@ -21,4 +21,25 @@ const update = yup
   })
   .required();
 
-export default { create, update };
+const createPenilaian = {
+  value: yup.string().required(validationWording.required('value')),
+  year: yup.string().required(validationWording.required('year')),
+};
+
+const createExcel = yup
+  .object()
+  .shape({
+    name: yup.string().required(validationWording.required('name')),
+    pn: yup.number().required(validationWording.required('pn')),
+    penilaian: yup
+      .array()
+      .of(
+        yup
+          .object()
+          .shape(createPenilaian)
+          .required(validationWording.required('year and value'))
+      ),
+  })
+  .required();
+
+export default { create, update, createExcel };

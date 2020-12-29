@@ -160,24 +160,17 @@ export const deleteOutsourcingById = async (req: Request, res: Response) => {
 };
 
 export const importExcel = async (req: any, res: Response) => {
-  // const { files } = req;
-  // const outsourcingRepository = new OutsourcingRepository();
-  // const invalidRow = await outsourcingRepository.importExcel(
-  //   files,
-  //   {
-  //     B: 'name',
-  //     C: 'pn',
-  //     D: 'value',
-  //     E: 'year',
-  //   },
-  //   schema.create,
-  //   {},
-  //   outsourcingRepository._collection
-  //     .doc('outsourcing')
-  //     .collection('ga_outsourcings')
-  // );
-  // res.json({
-  //   message: 'Successfully Import Outsourcing',
-  //   invalidRow,
-  // });
+  const { files } = req;
+  const outsourcingRepository = new OutsourcingRepository();
+  const invalidRow = await outsourcingRepository.importExcelOutsourcing(
+    files,
+    {
+      '*': '{{columnHeader}}',
+    },
+    schema.createExcel
+  );
+  res.json({
+    message: 'Successfully Import Outsourcing',
+    invalidRow,
+  });
 };
