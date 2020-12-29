@@ -61,6 +61,7 @@ import procurementTandaTerimaRouter from '@modules/Procurement/Pengadaan/TandaTe
 import pengadaanPurchaseOrderRouter from '@modules/Procurement/Pengadaan/PengadaanBarang/pengadaan_barang_jasa.routes';
 
 import apsRouter from '@modules/GeneralAffair/DataPekerja/APS/aps.routes';
+import budgetRouter from '@modules/GeneralAffair/Anggaran/anggaran.routes';
 import driverRouter from '@modules/GeneralAffair/Aktivitas/Driver/driver.routes';
 import pgspjsRouter from '@modules/GeneralAffair/DataPekerja/PGSPJS/pgspjs.routes';
 import firstAidRouter from '@modules/GeneralAffair/KegiatanLainnya/P3K/p3k.routes';
@@ -177,6 +178,7 @@ apiRouter.use('/ga-vehicles', taxVehicleRouter);
 apiRouter.use('/ga-vehicles', serviceVehicleRouter);
 apiRouter.use('/ga-vehicles', accessoriesVehicleRouter);
 apiRouter.use('/ga-consumption', consumptionRouter);
+apiRouter.use('/ga-budgets', budgetRouter);
 apiRouter.use('/ga-monitoring-cctvs', monitoringCCTVRouter);
 apiRouter.use('/ga-external-vehicles', externalVehicleRouter);
 apiRouter.use('/ga-driver-assignment', driverAssignmentRouter);
