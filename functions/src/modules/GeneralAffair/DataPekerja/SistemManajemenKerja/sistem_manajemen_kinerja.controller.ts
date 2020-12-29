@@ -1,3 +1,4 @@
+import * as admin from 'firebase-admin';
 import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
@@ -85,6 +86,77 @@ export const getAllPerformanceManagement = async (
   });
 };
 
+export const getAllPerformanceManagementFormated = async (
+  req: Request,
+  res: Response
+) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const currentYear = new Date().getFullYear();
+  const performanceManagementRepository = new PerformanceManagementRepository();
+  const data = await performanceManagementRepository.findAllSubDocument(
+    page as string,
+    limit as string,
+    'performance_management',
+    'ga_performance_managements',
+    filtered as string,
+    sorted as string
+  );
+
+  const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let current = {
+      year: Number(currentYear),
+      value: 0,
+    };
+    let previous = {
+      year: Number(currentYear) - 1,
+      value: 0,
+    };
+    let next = {
+      year: Number(currentYear) + 1,
+      value: 0,
+    };
+
+    const currentData = item.penilaian.findIndex(
+      ({ year }: { [key: string]: string }) =>
+        Number(year) === Number(currentYear)
+    );
+    if (currentData > -1) {
+      current = item.penilaian[currentData];
+    }
+    const nextData = item.penilaian.findIndex(
+      ({ year }: { [key: string]: string }) =>
+        Number(year) === Number(currentYear) + 1
+    );
+    if (nextData > -1) {
+      next = item.penilaian[nextData];
+    }
+    const previousData = item.penilaian.findIndex(
+      ({ year }: { [key: string]: string }) =>
+        Number(year) === Number(currentYear) - 1
+    );
+    console.log(previousData, '22');
+    if (previousData > -1) {
+      previous = item.penilaian[previousData];
+    }
+    return {
+      ...item,
+      current,
+      previous,
+      next,
+    };
+  });
+  const totalCount = await performanceManagementRepository.countSubDocument(
+    'performance_management',
+    'ga_performance_managements',
+    filtered as string
+  );
+  res.json({
+    message: 'Successfully Get All Performance Management',
+    data: formatedData,
+    totalCount,
+  });
+};
+
 export const deletePerformanceManagementById = async (
   req: Request,
   res: Response
@@ -104,26 +176,24 @@ export const deletePerformanceManagementById = async (
 };
 
 export const importExcel = async (req: any, res: Response) => {
-  const { files } = req;
-
-  const performanceManagementRepository = new PerformanceManagementRepository();
-  const invalidRow = await performanceManagementRepository.importExcel(
-    files,
-    {
-      B: 'name',
-      C: 'pn',
-      D: 'value',
-      E: 'year',
-    },
-    schema.create,
-    {},
-    performanceManagementRepository._collection
-      .doc('performance_management')
-      .collection('ga_performance_managements')
-  );
-
-  res.json({
-    message: 'Successfully Import Performance Management',
-    invalidRow,
-  });
+  // const { files } = req;
+  // const performanceManagementRepository = new PerformanceManagementRepository();
+  // const invalidRow = await performanceManagementRepository.importExcel(
+  //   files,
+  //   {
+  //     B: 'name',
+  //     C: 'pn',
+  //     D: 'value',
+  //     E: 'year',
+  //   },
+  //   schema.create,
+  //   {},
+  //   performanceManagementRepository._collection
+  //     .doc('performance_management')
+  //     .collection('ga_performance_managements')
+  // );
+  // res.json({
+  //   message: 'Successfully Import Performance Management',
+  //   invalidRow,
+  // });
 };

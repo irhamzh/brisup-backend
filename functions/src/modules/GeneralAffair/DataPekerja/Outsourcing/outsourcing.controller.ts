@@ -1,3 +1,4 @@
+import * as admin from 'firebase-admin';
 import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
@@ -71,6 +72,78 @@ export const getAllOutsourcing = async (req: Request, res: Response) => {
   });
 };
 
+export const getAllOutsourcingFormated = async (
+  req: Request,
+  res: Response
+) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const currentYear = new Date().getFullYear();
+  const outsourcingRepository = new OutsourcingRepository();
+  const data = await outsourcingRepository.findAllSubDocument(
+    page as string,
+    limit as string,
+    'outsourcing',
+    'ga_outsourcings',
+    filtered as string,
+    sorted as string
+  );
+
+  const formatedData = data.map((item: admin.firestore.DocumentData) => {
+    let current = {
+      year: Number(currentYear),
+      value: 0,
+    };
+    let previous = {
+      year: Number(currentYear) - 1,
+      value: 0,
+    };
+    let next = {
+      year: Number(currentYear) + 1,
+      value: 0,
+    };
+
+    const currentData = item.penilaian.findIndex(
+      ({ year }: { [key: string]: string }) =>
+        Number(year) === Number(currentYear)
+    );
+    if (currentData > -1) {
+      current = item.penilaian[currentData];
+    }
+    const nextData = item.penilaian.findIndex(
+      ({ year }: { [key: string]: string }) =>
+        Number(year) === Number(currentYear) + 1
+    );
+    if (nextData > -1) {
+      next = item.penilaian[nextData];
+    }
+    const previousData = item.penilaian.findIndex(
+      ({ year }: { [key: string]: string }) =>
+        Number(year) === Number(currentYear) - 1
+    );
+    console.log(previousData, '22');
+    if (previousData > -1) {
+      previous = item.penilaian[previousData];
+    }
+    return {
+      ...item,
+      current,
+      previous,
+      next,
+    };
+  });
+
+  const totalCount = await outsourcingRepository.countSubDocument(
+    'outsourcing',
+    'ga_outsourcings',
+    filtered as string
+  );
+  res.json({
+    message: 'Successfully Get All Outsourcing',
+    data: formatedData,
+    totalCount,
+  });
+};
+
 export const deleteOutsourcingById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'outsourcingId');
@@ -87,26 +160,24 @@ export const deleteOutsourcingById = async (req: Request, res: Response) => {
 };
 
 export const importExcel = async (req: any, res: Response) => {
-  const { files } = req;
-
-  const outsourcingRepository = new OutsourcingRepository();
-  const invalidRow = await outsourcingRepository.importExcel(
-    files,
-    {
-      B: 'name',
-      C: 'pn',
-      D: 'value',
-      E: 'year',
-    },
-    schema.create,
-    {},
-    outsourcingRepository._collection
-      .doc('outsourcing')
-      .collection('ga_outsourcings')
-  );
-
-  res.json({
-    message: 'Successfully Import Outsourcing',
-    invalidRow,
-  });
+  // const { files } = req;
+  // const outsourcingRepository = new OutsourcingRepository();
+  // const invalidRow = await outsourcingRepository.importExcel(
+  //   files,
+  //   {
+  //     B: 'name',
+  //     C: 'pn',
+  //     D: 'value',
+  //     E: 'year',
+  //   },
+  //   schema.create,
+  //   {},
+  //   outsourcingRepository._collection
+  //     .doc('outsourcing')
+  //     .collection('ga_outsourcings')
+  // );
+  // res.json({
+  //   message: 'Successfully Import Outsourcing',
+  //   invalidRow,
+  // });
 };
