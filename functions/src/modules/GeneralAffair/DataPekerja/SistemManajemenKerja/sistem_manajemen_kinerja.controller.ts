@@ -176,24 +176,17 @@ export const deletePerformanceManagementById = async (
 };
 
 export const importExcel = async (req: any, res: Response) => {
-  // const { files } = req;
-  // const performanceManagementRepository = new PerformanceManagementRepository();
-  // const invalidRow = await performanceManagementRepository.importExcel(
-  //   files,
-  //   {
-  //     B: 'name',
-  //     C: 'pn',
-  //     D: 'value',
-  //     E: 'year',
-  //   },
-  //   schema.create,
-  //   {},
-  //   performanceManagementRepository._collection
-  //     .doc('performance_management')
-  //     .collection('ga_performance_managements')
-  // );
-  // res.json({
-  //   message: 'Successfully Import Performance Management',
-  //   invalidRow,
-  // });
+  const { files } = req;
+  const performanceManagementRepository = new PerformanceManagementRepository();
+  const invalidRow = await performanceManagementRepository.importExcelPerformanceManagement(
+    files,
+    {
+      '*': '{{columnHeader}}',
+    },
+    schema.createExcel
+  );
+  res.json({
+    message: 'Successfully Import Performance Management',
+    invalidRow,
+  });
 };
