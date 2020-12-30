@@ -1,31 +1,17 @@
-import * as yup from 'yup';
 import { db } from '@utils/admin';
 import * as admin from 'firebase-admin';
-// import NotFoundError from '@interfaces/NotFoundError';
+import { v4 as generateId } from 'uuid';
+import NotFoundError from '@interfaces/NotFoundError';
 import BaseRepository from '@repositories/baseRepository';
-// import validationWording from '@constants/validationWording';
+import validationWording from '@constants/validationWording';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
+import { StatusPengadaan } from '@constants/BaseCondition';
 
-import { IAnggaranBase } from './interface/anggaran.interface';
-
-const excelToJson = require('convert-excel-to-json');
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface StringKeys {
-  [key: string]: string;
-}
-interface IFiles {
-  [key: string]: IFile;
-}
+import {
+  IAnggaranBase,
+  IAnggaran,
+  TypeAnggaran,
+} from './interface/anggaran.interface';
 
 export default class AnggaranRepository extends BaseRepository<IAnggaranBase> {
   _budgetModel: admin.firestore.CollectionReference;
@@ -34,241 +20,175 @@ export default class AnggaranRepository extends BaseRepository<IAnggaranBase> {
     this._budgetModel = db.collection('ga_budgets');
   }
 
-  async handleExcel(files: IFiles, columnToKey: StringKeys) {
-    if (!files?.excel) {
-      throw new InvalidRequestError('Please upload xlsx, xls file', 'excel');
-    }
-    const { path } = files.excel;
-
-    const data = excelToJson({
-      sourceFile: path,
-      header: {
-        rows: 1,
-      },
-      sheets: ['Humas', 'Representatif', 'Rapat'],
-      columnToKey: columnToKey,
-    });
-    const humas = data?.Humas || [];
-    const representatif = data?.Representatif || [];
-    const rapat = data?.Rapat || [];
-
-    if (humas.length < 1 && representatif.length < 1 && rapat.length < 1) {
-      throw new InvalidRequestError(
-        'Data dalam Sheet kosong, pastikan data berada dalam sheet "Humas", "Representatif", "Rapat"',
-        this._name
-      );
-    }
-
-    return { humas, representatif, rapat };
-  }
-
-  async writeToFirestoreAnggaaran(records: IAnggaranBase[]) {
-    const batchCommits = [];
-    let batch = db.batch();
-    for (let i = 0; i < records.length; i++) {
-      //defined docref
-      const docRef = this._budgetModel;
-
-      //check exist
-      const exist = await this.findOne(
-        '',
-        this._budgetModel
-          .where('typeAnggaran', '==', records[i]?.typeAnggaran)
-          .where('year', '==', records[i]?.year)
-          .where('month', '==', records[i]?.month)
-      );
-      //update if exist
-      if (exist && exist.id) {
-        // const penilaian = Object.values(
-        //   []
-        //     .concat(exist.penilaian, records[i].penilaian as any)
-        //     .reduce((r: any, c: any) => {
-        //       return (r[c.year] = Object.assign(r[c.year] || {}, c)), r;
-        //     }, {})
-        // );
-        // const updateParam = {
-        //   ...exist,
-        //   penilaian,
-        // };
-        batch.update(docRef.doc(exist.id), {
-          ...records[i],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        });
-      } else {
-        //create
-        batch.set(docRef.doc(), {
-          ...records[i],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        });
-      }
-
-      if ((i + 1) % 500 === 0) {
-        console.log(`Writing records[i] ${i + 1}`);
-        batchCommits.push(batch.commit());
-        batch = db.batch();
-      }
-    }
-    batchCommits.push(batch.commit());
-    await Promise.all(batchCommits);
-  }
-
-  async importExcelAnggaran(
-    files: IFiles,
-    columnToKey: StringKeys,
-    schemaValidation: yup.ObjectSchema<any>,
-    additionalColumn: { year: number; month: number }
-  ) {
-    const { humas, representatif, rapat } = await this.handleExcel(
-      files,
-      columnToKey
+  async createAnggaran(object: IAnggaran) {
+    const exist = await this.findOne(
+      '',
+      this._budgetModel
+        .where('categoryAnggaran', '==', object.categoryAnggaran)
+        .where('year', '==', object.year)
+        .where('month', '==', object.month)
     );
-    const data = [];
-    const invalidRow: StringKeys[] = [];
-
-    if (humas.length > 0) {
-      // const humasBreakdownIndex = humas.findIndex(
-      //   ({ tipe }: { [key: string]: string }) =>
-      //     tipe.toLowerCase() === 'breakdown'
-      // );
-      let breakdown = 0;
-      let sisaAnggaran = breakdown;
-      const penggunaan = [];
-      for (let i = 0; i < humas.length; i++) {
-        if (humas[i].tipe.toLowerCase() === 'breakdown') {
-          breakdown = Number(humas[i].nilai);
-          sisaAnggaran = breakdown;
-          continue;
+    if (exist && exist.id) {
+      let penggunaan = undefined;
+      let totalBreakdown = exist.totalBreakdown;
+      let sisaAnggaran = exist.sisaAnggaran;
+      if (object.type === TypeAnggaran['Breakdown']) {
+        totalBreakdown = Number(totalBreakdown) + Number(object.nilai);
+        sisaAnggaran = Number(sisaAnggaran) + Number(object.nilai);
+        penggunaan = {
+          id: generateId(),
+          type: object.type,
+          nilai: object.nilai,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+      } else {
+        sisaAnggaran = Number(sisaAnggaran) - Number(object.nilai);
+        if (sisaAnggaran < 0) {
+          throw new InvalidRequestError(
+            `Penggunaan terlalu besar melebihi sisa Anggaran. Sisa Anggaran sekarang = ${
+              Number(sisaAnggaran) + Number(object.nilai)
+            }. Penggunaan yang akan datang = ${object.nilai}`,
+            'humas'
+          );
         }
-        if (humas[i].tipe.toLowerCase() === 'penggunaan') {
-          const validateYup = schemaValidation.isValidSync(humas[i]);
-          if (!validateYup) {
-            invalidRow.push({
-              sheet: 'humas',
-              row: `${Number(i) + 2}`,
-              error: 'error validation',
-            });
-            continue;
-          }
-          penggunaan.push({
-            nilai: humas[i].nilai,
-            tanggalPembukuan: humas[i].tanggalPembukuan,
-            keperluan: humas[i].keperluan,
-            pelimpahan: humas[i].pelimpahan,
-            tanggalPelimpahan: humas[i].tanggalPelimpahan,
-          });
-          sisaAnggaran = sisaAnggaran - Number(humas[i].nilai);
-        }
+        penggunaan = {
+          id: generateId(),
+          type: object.type,
+          nilai: object.nilai,
+          tanggalPembukuan: object.tanggalPembukuan,
+          keperluan: object.keperluan,
+          pelimpahan: object.pelimpahan,
+          tanggalPelimpahan: object.tanggalPelimpahan,
+          status: StatusPengadaan['Belum Berjalan'],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
       }
-      if (sisaAnggaran < 0) {
+      console.log(penggunaan);
+      const createParam = {
+        year: exist.year,
+        month: exist.month,
+        totalBreakdown,
+        sisaAnggaran,
+        categoryAnggaran: exist.categoryAnggaran,
+        detail: [...exist.detail, penggunaan],
+      };
+
+      const data = await this.update(exist.id, createParam);
+      return data;
+    } else {
+      if (object.type === TypeAnggaran['Penggunaan']) {
         throw new InvalidRequestError(
-          'Sisa Anggaran Humas negatif. Sisa Anggaran Humas sekarang = ' +
-            sisaAnggaran,
-          'humas'
+          `Breakdown ${object.year}-${object.month} belum ditetapkan`,
+          'anggaran'
         );
       }
-      data.push({
-        ...additionalColumn,
-        breakdown,
-        sisaAnggaran,
-        typeAnggaran: 'Humas',
-        penggunaan,
-      });
+      const penggunaan = {
+        id: generateId(),
+        type: object.type,
+        nilai: object.nilai,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const createParam = {
+        year: object.year,
+        month: object.month,
+        totalBreakdown: object.nilai,
+        sisaAnggaran: object.nilai,
+        categoryAnggaran: object.categoryAnggaran,
+        detail: [penggunaan],
+      };
+      const data = await this.create(createParam);
+      return data;
     }
-    if (representatif.length > 0) {
-      let breakdown = 0;
-      let sisaAnggaran = breakdown;
-      const penggunaan = [];
-      for (let i = 0; i < representatif.length; i++) {
-        if (representatif[i].tipe.toLowerCase() === 'breakdown') {
-          breakdown = Number(representatif[i].nilai);
-          sisaAnggaran = breakdown;
-          continue;
-        }
-        if (representatif[i].tipe.toLowerCase() === 'penggunaan') {
-          const validateYup = schemaValidation.isValidSync(representatif[i]);
-          if (!validateYup) {
-            invalidRow.push({
-              sheet: 'representatif',
-              row: `${Number(i) + 2}`,
-              error: 'error validation',
-            });
-            continue;
-          }
-          penggunaan.push({
-            nilai: representatif[i].nilai,
-            tanggalPembukuan: representatif[i].tanggalPembukuan,
-            keperluan: representatif[i].keperluan,
-            pelimpahan: representatif[i].pelimpahan,
-            tanggalPelimpahan: representatif[i].tanggalPelimpahan,
-          });
-          sisaAnggaran = sisaAnggaran - Number(representatif[i].nilai);
-        }
-      }
-      if (sisaAnggaran < 0) {
-        throw new InvalidRequestError(
-          'Sisa Anggaran Representatif negatif. Sisa Anggaran Representatif sekarang = ' +
-            sisaAnggaran,
-          'representatif'
-        );
-      }
-      data.push({
-        ...additionalColumn,
-        breakdown,
-        sisaAnggaran,
-        typeAnggaran: 'Representatif',
-        penggunaan,
-      });
+  }
+
+  async updateAnggaran(id: string, object: Partial<IAnggaran>) {
+    const exist = await this.findById(id);
+    const currentData = exist.detail.findIndex(
+      ({ id }: { [key: string]: string }) => id === object.id
+    );
+    if (currentData < 0) {
+      throw new NotFoundError(
+        validationWording.notFound('Anggaran'),
+        'Anggaran'
+      );
     }
 
-    if (rapat.length > 0) {
-      let breakdown = 0;
-      let sisaAnggaran = breakdown;
-      const penggunaan = [];
-      for (let i = 0; i < rapat.length; i++) {
-        if (rapat[i].tipe.toLowerCase() === 'breakdown') {
-          breakdown = Number(rapat[i].nilai);
-          sisaAnggaran = breakdown;
-          continue;
-        }
-        if (rapat[i].tipe.toLowerCase() === 'penggunaan') {
-          const validateYup = schemaValidation.isValidSync(rapat[i]);
-          if (!validateYup) {
-            invalidRow.push({
-              sheet: 'rapat',
-              row: `${Number(i) + 2}`,
-              error: 'error validation',
-            });
-            continue;
-          }
-          penggunaan.push({
-            nilai: rapat[i].nilai,
-            tanggalPembukuan: rapat[i].tanggalPembukuan,
-            keperluan: rapat[i].keperluan,
-            pelimpahan: rapat[i].pelimpahan,
-            tanggalPelimpahan: rapat[i].tanggalPelimpahan,
-          });
-          sisaAnggaran = sisaAnggaran - Number(rapat[i].nilai);
-        }
-      }
-      if (sisaAnggaran < 0) {
-        throw new InvalidRequestError(
-          'Sisa Anggaran Rapat negatif. Sisa Anggaran Rapat sekarang = ' +
-            sisaAnggaran,
-          'rapat'
-        );
-      }
-      data.push({
-        ...additionalColumn,
-        breakdown,
-        sisaAnggaran,
-        typeAnggaran: 'Rapat',
-        penggunaan,
-      });
+    let penggunaan = undefined;
+    if (exist.detail[currentData].type === TypeAnggaran['Breakdown']) {
+      penggunaan = {
+        id: exist.detail[currentData].id,
+        type: exist.detail[currentData].type,
+        nilai: object.nilai || exist.detail[currentData].nilai,
+        createdAt: exist.detail[currentData].createdAt,
+        updatedAt: new Date(),
+      };
+    } else {
+      penggunaan = {
+        id: exist.detail[currentData].id,
+        type: exist.detail[currentData].type,
+        nilai: object.nilai || exist.detail[currentData].nilai,
+        tanggalPembukuan:
+          object.tanggalPembukuan || exist.detail[currentData].tanggalPembukuan,
+        keperluan: object.keperluan || exist.detail[currentData].keperluan,
+        pelimpahan: object.pelimpahan || exist.detail[currentData].pelimpahan,
+        tanggalPelimpahan:
+          object.tanggalPelimpahan ||
+          exist.detail[currentData].tanggalPelimpahan,
+        status: exist.detail[currentData].status,
+        createdAt: exist.detail[currentData].createdAt,
+        updatedAt: new Date(),
+      };
     }
 
-    await this.writeToFirestoreAnggaaran(data);
-    return invalidRow;
+    const detail: any = Object.values(
+      [].concat(exist.detail, penggunaan as any).reduce((r: any, c: any) => {
+        return (r[c.id] = Object.assign(r[c.id] || {}, c)), r;
+      }, {})
+    );
+    const totalBreakdown = detail.reduce(
+      (sum: any, x: any) =>
+        Number(sum) +
+        (x.type === TypeAnggaran['Breakdown'] ? Number(x.nilai) : 0),
+      0
+    );
+    const totalPenggunaan = detail.reduce(
+      (sum: any, x: any) =>
+        Number(sum) +
+        (x.type === TypeAnggaran['Penggunaan'] ? Number(x.nilai) : 0),
+      0
+    );
+    if (
+      exist.detail[currentData].type === TypeAnggaran['Breakdown'] &&
+      Number(totalBreakdown) < Number(totalPenggunaan)
+    ) {
+      throw new InvalidRequestError(
+        `Brakdown yang Anda masukan terlalu kecil. Total Breakdown sekarang = ${totalBreakdown}. Total Penggunaan sekarang = ${totalPenggunaan}`,
+        'humas'
+      );
+    }
+    const sisaAnggaran = Number(totalBreakdown) - Number(totalPenggunaan);
+    if (sisaAnggaran < 0) {
+      throw new InvalidRequestError(
+        `Penggunaan terlalu besar melebihi sisa Anggaran. Sisa Anggaran sekarang = ${
+          Number(sisaAnggaran) + Number(object.nilai)
+        }. Penggunaan yang akan data = ${object.nilai}`,
+        'humas'
+      );
+    }
+
+    const createParam = {
+      year: exist.year,
+      month: exist.month,
+      totalBreakdown,
+      sisaAnggaran,
+      categoryAnggaran: exist.categoryAnggaran,
+      detail,
+    };
+
+    const data = await this.update(exist.id, createParam);
+    return data;
   }
 }

@@ -1,13 +1,36 @@
 import * as yup from 'yup';
-import validationWording from '@constants/validationWording';
 
-import { Perlimpahan } from './interface/anggaran.interface';
+import getAllEnumKey from '@utils/getAllEnumKeys';
+import validationWording from '@constants/validationWording';
+import {
+  Pelimpahan,
+  CategoryAnggaran,
+  TypeAnggaran,
+} from './interface/anggaran.interface';
 
 const create = yup
   .object()
   .shape({
-    tipe: yup.string().required(validationWording.required('tipe')),
+    year: yup.number().required(validationWording.required('year')),
+    month: yup.number().required(validationWording.required('month')),
+    categoryAnggaran: yup
+      .mixed()
+      .oneOf(CategoryAnggaran)
+      .required(validationWording.required('Pelimpahan')),
+    type: yup
+      .mixed<keyof typeof TypeAnggaran>()
+      .oneOf(
+        getAllEnumKey(TypeAnggaran),
+        validationWording.oneOf('type', ...getAllEnumKey(TypeAnggaran))
+      )
+      .required(validationWording.required('Tipe Anggaran')),
     nilai: yup.number().required(validationWording.required('nilai')),
+  })
+  .required();
+
+const createPenggunaan = yup
+  .object()
+  .shape({
     tanggalPembukuan: yup
       .date()
       .required(validationWording.required('tanggalPembukuan')),
@@ -17,48 +40,22 @@ const create = yup
       .required(validationWording.required('tanggalPelimpahan')),
     pelimpahan: yup
       .mixed()
-      .oneOf(Perlimpahan)
-      .required(validationWording.required('Perlimpahan')),
+      .oneOf(Pelimpahan)
+      .required(validationWording.required('Pelimpahan')),
   })
+  .concat(create)
   .required();
 
-const createPenggunaan = {
-  nilai: yup.number().required(validationWording.required('nilai')),
-  tanggalPembukuan: yup
-    .date()
-    .required(validationWording.required('tanggalPembukuan')),
-  keperluan: yup.string().required(validationWording.required('keperluan')),
-  tanggalPelimpahan: yup
-    .date()
-    .required(validationWording.required('tanggalPelimpahan')),
-  pelimpahan: yup
-    .mixed()
-    .oneOf(Perlimpahan)
-    .required(validationWording.required('Perlimpahan')),
-};
-
-const createYearMonth = yup
+const update = yup
   .object()
   .shape({
-    year: yup.number().required(validationWording.required('year')),
-    month: yup.number().required(validationWording.required('month')),
+    id: yup.string().required(validationWording.required('id')),
+    nilai: yup.number(),
+    tanggalPembukuan: yup.date(),
+    keperluan: yup.string(),
+    tanggalPelimpahan: yup.date(),
+    pelimpahan: yup.mixed().oneOf(Pelimpahan),
   })
   .required();
 
-const createExcel = yup
-  .object()
-  .shape({
-    breakdown: yup.number().required(validationWording.required('breakdown')),
-    penggunaan: yup
-      .array()
-      .of(
-        yup
-          .object()
-          .shape(createPenggunaan)
-          .required(validationWording.required('penggunaan'))
-      ),
-  })
-  .concat(createYearMonth)
-  .required();
-
-export default { create, createYearMonth, createExcel };
+export default { create, createPenggunaan, update };
