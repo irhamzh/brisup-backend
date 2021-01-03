@@ -27,9 +27,7 @@ const create = yup
         validationWording.oneOf('condition', ...getAllEnumKey(BaseCondition))
       )
       .required(validationWording.required('condition')),
-    information: yup
-      .string()
-      .required(validationWording.required('information')),
+    information: yup.string(),
     model: yup.string().required(validationWording.required('model')),
   })
   .required();
@@ -84,9 +82,7 @@ const createInfocus = yup
         validationWording.oneOf('condition', ...getAllEnumKey(BaseCondition))
       )
       .required(validationWording.required('condition')),
-    information: yup
-      .string()
-      .required(validationWording.required('information')),
+    information: yup.string(),
     model: yup.string().required(validationWording.required('model')),
     tanggal: yup.date().required(validationWording.required('tanggal')),
     lampTimer: yup.string().required(validationWording.required('lamp Timer')),
@@ -152,9 +148,7 @@ const createPc = yup
     sn: yup.string().required(validationWording.required('sn')),
     ruangan: yup.string().required(validationWording.required('ruangan')),
     condition: yup.string().required(validationWording.required('condition')),
-    information: yup
-      .string()
-      .required(validationWording.required('information')),
+    information: yup.string(),
     namaPengguna: yup
       .string()
       .required(validationWording.required('namaPengguna')),
