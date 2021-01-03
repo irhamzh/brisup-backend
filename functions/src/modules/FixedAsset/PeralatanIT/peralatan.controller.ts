@@ -137,3 +137,38 @@ export const deletePeralatanById = async (req: Request, res: Response) => {
     data,
   });
 };
+
+export const importExcel = async (req: any, res: Response) => {
+  const { files, body } = req;
+  const validatedBody = yupValidate(schema.checkJenisBarang, body);
+  const peralatanRepository = new PeralatanRepository();
+
+  let schemaValid = undefined;
+  if (
+    validatedBody.jenisPeralatan?.toLowerCase() ===
+    JenisPeralatan['Infocus']?.toLowerCase()
+  ) {
+    schemaValid = schema.createInfocus;
+  } else if (
+    validatedBody.jenisPeralatan?.toLowerCase() ===
+    JenisPeralatan['PC']?.toLowerCase()
+  ) {
+    schemaValid = schema.createPc;
+  } else {
+    schemaValid = schema.create;
+  }
+
+  const invalidRow = await peralatanRepository.importExcelPeralatan(
+    files,
+    {
+      '*': '{{columnHeader}}',
+    },
+    schemaValid,
+    validatedBody
+  );
+
+  res.json({
+    message: 'Successfully Import Peralatan IT',
+    invalidRow,
+  });
+};

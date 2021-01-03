@@ -6,7 +6,7 @@ interface IPeralatan {
   sn: string;
   ruangan: IRuanganBase;
   condition: string;
-  information: string;
+  information?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

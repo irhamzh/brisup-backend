@@ -1,5 +1,7 @@
 import { Router } from 'express';
+import { withMiddleware } from 'express-kun';
 
+import fileParser from '@middlewares/fileParserMiddleware';
 import accessMiddleware from '@middlewares/accessMiddleware';
 import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
@@ -7,6 +9,8 @@ import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 const router = Router();
 const protectedRouter = withAuthMiddleware(router);
 const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+const uploadRouter = withMiddleware(protectedRouter, fileParser);
+const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 
 import * as controller from './peralatan.controller';
 
@@ -36,4 +40,9 @@ errorHandledRoute.delete(
   controller.deletePeralatanById
 );
 
+uploadHandleRouter.post(
+  '/excel',
+  accessMiddleware('fixedAsset', 'create'),
+  controller.importExcel
+);
 export default router;
