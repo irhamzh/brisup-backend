@@ -153,14 +153,18 @@ export default class FirestoreRepository<
       : this._collection;
 
     //get skipbatch
-    const first = await query.limit(skip).get();
+    const first = await query.orderBy('createdAt', 'desc').limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
     //getData
-    const ref = await query.startAt(last).limit(parsedLimit).get();
+    const ref = await query
+      .orderBy('createdAt', 'desc')
+      .startAt(last)
+      .limit(parsedLimit)
+      .get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
@@ -254,13 +258,17 @@ export default class FirestoreRepository<
         )
       : this._collection.doc(parentId).collection(collectionName);
 
-    const first = await query.limit(skip).get();
+    const first = await query.orderBy('createdAt', 'desc').limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
-    const ref = await query.startAt(last).limit(parsedLimit).get();
+    const ref = await query
+      .orderBy('createdAt', 'desc')
+      .startAt(last)
+      .limit(parsedLimit)
+      .get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
@@ -405,13 +413,17 @@ export default class FirestoreRepository<
           .doc(secondParentId)
           .collection(secondCollectionName);
 
-    const first = await query.limit(skip).get();
+    const first = await query.orderBy('createdAt', 'desc').limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
-    const ref = await query.startAt(last).limit(parsedLimit).get();
+    const ref = await query
+      .orderBy('createdAt', 'desc')
+      .startAt(last)
+      .limit(parsedLimit)
+      .get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
