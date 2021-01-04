@@ -78,7 +78,7 @@ export default class PeralatanITRepository extends BaseRepository<
       const validateYup = schemaValidation.isValidSync(currentData);
       if (!validateYup) {
         invalidRow.push({
-          name: currentData.name || i + 1,
+          name: currentData.name || i + 2,
           error: 'error validation',
         });
         continue;
