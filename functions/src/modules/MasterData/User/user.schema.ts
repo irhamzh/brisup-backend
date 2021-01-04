@@ -41,7 +41,10 @@ const update = yup
   .object()
   .shape({
     email: yup.string().email(validationWording.invalid('email')),
-    password: yup.string().min(8, validationWording.minLength(8)),
+    password: yup
+      .string()
+      .min(8, validationWording.minLength(8))
+      .required(validationWording.required('password')),
     name: yup.string(),
     role: yup.string(),
   })
