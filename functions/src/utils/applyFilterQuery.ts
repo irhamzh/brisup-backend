@@ -24,6 +24,7 @@ type WhereFilterOp =
   | 'in'
   | 'array-contains-any'
   | 'not-in'
+  | 'pref' //preffix
   | 'betweenDate'
   | 'month-year'
   | 'year'
@@ -81,15 +82,26 @@ export default function applyFilterQuery(
         const startDay = startOfDay(new Date(value));
         query = query.where(fieldQuery, '>=', startDay);
       } else if (optQuery === 'betweenDate') {
-        const startDay = startOfDay(new Date(value));
-        query = query.where(fieldQuery, '>=', startDay);
+        const dateParam = JSON.parse(value.replace(/'/g, '"'));
+        const startDay = startOfDay(new Date(dateParam[0]));
+        const endDay = endOfDay(new Date(dateParam[1]));
+        query = query
+          .where(fieldQuery, '>=', startDay)
+          .where(fieldQuery, '<=', endDay);
+      } else if (optQuery === 'pref') {
+        query = query
+          .where(fieldQuery, '>=', value)
+          .where(fieldQuery, '<=', value + '\uf8ff')
+          .orderBy(fieldQuery);
+        // query = query
+        //   .orderBy(fieldQuery)
+        //   .startAt(value)
+        //   .endAt(value + '\uf8ff');
       } else if (WhereFilterOperator.includes(optQuery)) {
         query = query.where(fieldQuery, optQuery, value);
       }
     } else {
-      // query=query.startAt(name).endAt(name+'\uf8ff')
       query = query.where(id, '==', value);
-      // query = query.where(id, '>=', value).where(id, '<=', value+ '\uf8ff')
     }
   }
   return query;
