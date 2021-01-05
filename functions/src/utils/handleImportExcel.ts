@@ -1,24 +1,7 @@
 const excelToJson = require('convert-excel-to-json');
 
 // import removeFileTemporary from '@utils/removeFileTemporary';
-
-interface StringKeys {
-  [key: string]: string;
-}
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface IFiles {
-  [key: string]: IFile;
-}
+import { StringKeys, IFiles } from '@interfaces/BaseInterface';
 
 export default async function handleImportExcel(
   path: string,

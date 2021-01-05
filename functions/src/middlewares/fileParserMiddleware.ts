@@ -2,27 +2,12 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import * as BusBoy from 'busboy';
-
 import { Response, NextFunction } from 'express';
+
+import { IFiles, StringKeys } from '@interfaces/BaseInterface';
+
 // import ExtensionError from '@interfaces/ExtensionError';
 const allowedMethods: string[] = ['POST', 'PUT'];
-interface StringKeys {
-  [key: string]: string;
-}
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface IFiles {
-  [key: string]: IFile;
-}
 
 export default function fileParser(
   req: any,

@@ -2,10 +2,7 @@ import * as yup from 'yup';
 import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
-
-interface StringKeys {
-  [key: string]: string;
-}
+import { StringKeys } from '@interfaces/BaseInterface';
 
 export default async function writeToFirestore(
   records: StringKeys[],

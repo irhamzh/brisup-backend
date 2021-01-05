@@ -3,21 +3,8 @@ import * as admin from 'firebase-admin';
 const { v4: uuidv4 } = require('uuid');
 
 import config from '@utils/config';
+import { IFiles } from '@interfaces/BaseInterface';
 import removeFileTemporary from '@utils/removeFileTemporary';
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface IFiles {
-  [key: string]: IFile;
-}
 
 export default async function handleFirebaseUpload(
   pathFile: string,

@@ -5,28 +5,13 @@ import * as admin from 'firebase-admin';
 import { db } from '@utils/admin';
 import NotFoundError from '@interfaces/NotFoundError';
 import applyFilterQuery from '@utils/applyFilterQuery';
+import writeToFirestore from '@utils/writeToFirestore';
 import handleImportExcel from '@utils/handleImportExcel';
 import validationWording from '@constants/validationWording';
+import { StringKeys, IFiles } from '@interfaces/BaseInterface';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
-import writeToFirestore from '@utils/writeToFirestore';
 
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface StringKeys {
-  [key: string]: string;
-}
-interface IFiles {
-  [key: string]: IFile;
-}
 export default class FirestoreRepository<
   CreateParam,
   ConditionParam = {},
@@ -34,16 +19,9 @@ export default class FirestoreRepository<
 > {
   _collection: admin.firestore.CollectionReference;
   _name: string;
-  // _defaultPopulate: string[];
-  constructor(
-    // db: admin.firestore.Firestore,
-    collectionName: string,
-    name: string
-    // defaultPopulate: string[] = []
-  ) {
+  constructor(collectionName: string, name: string) {
     this._collection = db.collection(collectionName);
     this._name = name;
-    // this._defaultPopulate = defaultPopulate;
   }
 
   //cadangan

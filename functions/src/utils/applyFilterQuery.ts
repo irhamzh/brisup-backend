@@ -8,10 +8,7 @@ import {
   endOfDay,
 } from 'date-fns';
 
-interface filterParamAttributes {
-  id: string;
-  value: string;
-}
+import { filterParamAttributes } from '@interfaces/BaseInterface';
 
 type WhereFilterOp =
   | '<'
