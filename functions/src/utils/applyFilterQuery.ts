@@ -84,7 +84,8 @@ export default function applyFilterQuery(
         const endDay = endOfDay(new Date(dateParam[1]));
         query = query
           .where(fieldQuery, '>=', startDay)
-          .where(fieldQuery, '<=', endDay);
+          .where(fieldQuery, '<=', endDay)
+          .orderBy(fieldQuery);
       } else if (optQuery === 'pref') {
         query = query
           .where(fieldQuery, '>=', value)
