@@ -3,30 +3,16 @@ import * as firebase from 'firebase';
 import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
+import applySortQuery from '@utils/applySortQuery';
 import NotFoundError from '@interfaces/NotFoundError';
 import applyFilterQuery from '@utils/applyFilterQuery';
+import writeToFirestore from '@utils/writeToFirestore';
 import handleImportExcel from '@utils/handleImportExcel';
 import validationWording from '@constants/validationWording';
+import { StringKeys, IFiles } from '@interfaces/BaseInterface';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
-import writeToFirestore from '@utils/writeToFirestore';
 
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface StringKeys {
-  [key: string]: string;
-}
-interface IFiles {
-  [key: string]: IFile;
-}
 export default class FirestoreRepository<
   CreateParam,
   ConditionParam = {},
@@ -34,16 +20,9 @@ export default class FirestoreRepository<
 > {
   _collection: admin.firestore.CollectionReference;
   _name: string;
-  // _defaultPopulate: string[];
-  constructor(
-    // db: admin.firestore.Firestore,
-    collectionName: string,
-    name: string
-    // defaultPopulate: string[] = []
-  ) {
+  constructor(collectionName: string, name: string) {
     this._collection = db.collection(collectionName);
     this._name = name;
-    // this._defaultPopulate = defaultPopulate;
   }
 
   //cadangan
@@ -151,20 +130,17 @@ export default class FirestoreRepository<
     let query = filtered
       ? applyFilterQuery(this._collection, JSON.parse(filtered))
       : this._collection;
+    query = sorted ? applySortQuery(query, JSON.parse(sorted)) : query;
 
     //get skipbatch
-    const first = await query.orderBy('createdAt', 'desc').limit(skip).get();
+    const first = await query.limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
     //getData
-    const ref = await query
-      .orderBy('createdAt', 'desc')
-      .startAt(last)
-      .limit(parsedLimit)
-      .get();
+    const ref = await query.startAt(last).limit(parsedLimit).get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
@@ -257,18 +233,15 @@ export default class FirestoreRepository<
           JSON.parse(filtered)
         )
       : this._collection.doc(parentId).collection(collectionName);
+    query = sorted ? applySortQuery(query, JSON.parse(sorted)) : query;
 
-    const first = await query.orderBy('createdAt', 'desc').limit(skip).get();
+    const first = await query.limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
-    const ref = await query
-      .orderBy('createdAt', 'desc')
-      .startAt(last)
-      .limit(parsedLimit)
-      .get();
+    const ref = await query.startAt(last).limit(parsedLimit).get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };
@@ -412,18 +385,15 @@ export default class FirestoreRepository<
           .collection(collectionName)
           .doc(secondParentId)
           .collection(secondCollectionName);
+    query = sorted ? applySortQuery(query, JSON.parse(sorted)) : query;
 
-    const first = await query.orderBy('createdAt', 'desc').limit(skip).get();
+    const first = await query.limit(skip).get();
     if (first.docs.length <= 0 || first.docs.length < skip) {
       return [];
     }
     const last = first.docs[first.docs.length - 1];
 
-    const ref = await query
-      .orderBy('createdAt', 'desc')
-      .startAt(last)
-      .limit(parsedLimit)
-      .get();
+    const ref = await query.startAt(last).limit(parsedLimit).get();
     const data: admin.firestore.DocumentData = [];
     ref.forEach((doc: firebase.firestore.DocumentData) => {
       const snap = { id: doc.id, ...doc.data() };

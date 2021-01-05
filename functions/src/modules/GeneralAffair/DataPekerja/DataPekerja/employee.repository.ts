@@ -8,24 +8,7 @@ import InvalidRequestError from '@interfaces/InvalidRequestError';
 import FormasiRepository from '@modules/GeneralAffair/DataPekerja/FormasiPekerja/formasi_pekerja.repository';
 
 import { IEmployeeBase } from './interface/employee.interface';
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface StringKeys {
-  [key: string]: string;
-}
-
-interface IFiles {
-  [key: string]: IFile;
-}
+import { IFiles, StringKeys } from '@interfaces/BaseInterface';
 
 interface EmployeExcel {
   unitKerja: string;

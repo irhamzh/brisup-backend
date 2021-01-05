@@ -6,28 +6,12 @@ import handleImportExcel from '@utils/handleImportExcel';
 import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
+import { IFiles, StringKeys } from '@interfaces/BaseInterface';
 
 import {
   ISistemManajemenKinerjaBase,
   IPenilaian,
 } from './interface/sistem_manajemen_kinerja.interface';
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface StringKeys {
-  [key: string]: string;
-}
-interface IFiles {
-  [key: string]: IFile;
-}
 
 export interface ISistemManajemenKinerja {
   name: string;

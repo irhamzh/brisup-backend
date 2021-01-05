@@ -4,6 +4,7 @@ import * as admin from 'firebase-admin';
 import { db } from '@utils/admin';
 import handleImportExcel from '@utils/handleImportExcel';
 import BaseRepository from '@repositories/baseRepository';
+import { StringKeys, IFiles } from '@interfaces/BaseInterface';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import RuanganRepository from '@modules/MasterData/Ruangan/ruangan.repository';
 import JenisPcRepostiory from '@modules/MasterData/JenisPC/jenis_pc.repository';
@@ -13,24 +14,6 @@ import {
   IPeralatanPC,
   IPeralatanInfocus,
 } from './interface/peralatan.interface';
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface StringKeys {
-  [key: string]: string;
-}
-
-interface IFiles {
-  [key: string]: IFile;
-}
 
 export default class PeralatanITRepository extends BaseRepository<
   // IPeralatanBase

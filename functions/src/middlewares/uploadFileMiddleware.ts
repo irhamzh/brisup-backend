@@ -5,24 +5,10 @@ import * as BusBoy from 'busboy';
 
 import { Response, NextFunction } from 'express';
 import ExtensionError from '@interfaces/ExtensionError';
+
+import { IFile, IFiles, StringKeys } from '@interfaces/BaseInterface';
+
 const allowedMethods: string[] = ['POST', 'PUT'];
-interface StringKeys {
-  [key: string]: string;
-}
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface IFiles {
-  [key: string]: IFile;
-}
 
 export default function uploadFileMiddleware(
   extension: string[],

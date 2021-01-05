@@ -6,23 +6,7 @@ import handleImportExcel from '@utils/handleImportExcel';
 import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
-
-interface IFile {
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  path: string;
-  size: number;
-  buffer: Buffer;
-}
-
-interface StringKeys {
-  [key: string]: string;
-}
-interface IFiles {
-  [key: string]: IFile;
-}
+import { IFiles, StringKeys } from '@interfaces/BaseInterface';
 
 import {
   IOutsourcingBase,
