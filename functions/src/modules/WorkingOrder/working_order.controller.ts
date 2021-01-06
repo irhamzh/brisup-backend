@@ -87,7 +87,7 @@ export const deleteWorkingOrderById = async (req: Request, res: Response) => {
   const workingOrderRepository = new WorkingOrderRepository();
   const data = await workingOrderRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Wokring Order By Id',
     data,
   });
 };
