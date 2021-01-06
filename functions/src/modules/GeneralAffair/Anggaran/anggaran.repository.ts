@@ -65,7 +65,6 @@ export default class AnggaranRepository extends BaseRepository<IAnggaranBase> {
           updatedAt: new Date(),
         };
       }
-      console.log(penggunaan);
       const createParam = {
         year: exist.year,
         month: exist.month,
