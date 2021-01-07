@@ -30,7 +30,7 @@ export const createHotelClasification = async (req: Request, res: Response) => {
   const data = await hotelClasificationRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create HotelClasification',
+    message: 'Successfully Create Hotel Clasification',
     data,
   });
 };
@@ -63,7 +63,7 @@ export const updateHotelClasification = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update HotelClasification',
+    message: 'Successfully Update Hotel Clasification',
     data,
   });
 };
@@ -78,7 +78,7 @@ export const getHotelClasificationById = async (
   const data = await hotelClasificationRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get HotelClasification By Id',
+    message: 'Successfully Get Hotel Clasification By Id',
     data,
   });
 };
@@ -97,7 +97,7 @@ export const getAllHotelClasification = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get HotelClasification',
+    message: 'Successfully Get Hotel Clasification',
     data,
     totalCount,
   });
@@ -113,7 +113,7 @@ export const deleteHotelClasificationById = async (
   const data = await hotelClasificationRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Hotel Clasification By Id',
     data,
   });
 };
