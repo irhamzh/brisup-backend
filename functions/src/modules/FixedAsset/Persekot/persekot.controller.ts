@@ -185,12 +185,20 @@ export const approval = async (req: Request, res: Response) => {
 
 export const pengajuanPenihilan = async (req: Request, res: Response) => {
   const { body } = req;
+  const user = res.locals.decoded;
   const validatedBody = yupValidate(schema.deleteArrayIds, body);
 
+  // -> validate role
+  if (user?.role?.name !== 'Supervisor') {
+    throw new AccessError('Approve Supervisor');
+  }
   const persekotRepository = new PersekotRepository();
-  await persekotRepository.deleteMultiple(validatedBody.persekotIds);
+  const invalidRow = await persekotRepository.pengajuanPenihilan(
+    validatedBody.persekotIds,
+    user
+  );
   res.json({
-    message: 'Successfully Delete Multiple Persekot',
-    deletedPersekot: validatedBody.persekotIds,
+    message: 'Successfully Update Persekot',
+    invalidRow,
   });
 };
