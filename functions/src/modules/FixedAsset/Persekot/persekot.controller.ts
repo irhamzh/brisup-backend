@@ -10,10 +10,7 @@ import InvalidRequestError from '@interfaces/InvalidRequestError';
 import schema from './persekot.schema';
 import PersekotRepository from './persekot.repository';
 import MappingBodyByType from './helpers/MappingBodyByType';
-import {
-  ApprovalStatus,
-  ApprovalNextStatus,
-} from './interface/persekot.interface';
+import { ApprovalStatus, ApprovalNextStatus } from '@constants/BaseCondition';
 
 export const createPersekot = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
@@ -146,7 +143,7 @@ export const approval = async (req: Request, res: Response) => {
   if (
     (status === ApprovalStatus['Approved oleh Supervisor I'] ||
       status === ApprovalStatus['Approved oleh Supervisor II']) &&
-    user?.role?.name !== 'Supervisor'
+    !user?.role?.name.incldes('Supervisor')
   ) {
     throw new AccessError('Approve Supervisor');
   } else if (ref.status === ApprovalStatus['Approved oleh Supervisor II']) {
@@ -189,7 +186,7 @@ export const pengajuanPenihilan = async (req: Request, res: Response) => {
   const validatedBody = yupValidate(schema.deleteArrayIds, body);
 
   // -> validate role
-  if (user?.role?.name !== 'Supervisor') {
+  if (!user?.role?.name.incldes('Supervisor')) {
     throw new AccessError('Approve Supervisor');
   }
   const persekotRepository = new PersekotRepository();
