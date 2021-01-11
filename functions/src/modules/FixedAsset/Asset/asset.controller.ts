@@ -157,7 +157,7 @@ export const approval = async (req: Request, res: Response) => {
   if (
     (status === ApprovalStatusAsset['Approved oleh Supervisor I'] ||
       status === ApprovalStatusAsset['Approved oleh Supervisor II']) &&
-    !user?.role?.name.incldes('Supervisor')
+    !user?.role?.name.includes('Supervisor')
   ) {
     throw new AccessError('Approve Supervisor');
   } else if (
@@ -201,10 +201,6 @@ export const pengajuanPenghapusbukuan = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const validatedBody = yupValidate(schema.deleteArrayIds, body);
 
-  // -> validate role
-  if (!user?.role?.name.incldes('Supervisor')) {
-    throw new AccessError('Approve Supervisor');
-  }
   const persekotRepository = new AssetRepository();
   const invalidRow = await persekotRepository.pengajuanPenghapusbukuan(
     validatedBody.assetIds,
