@@ -1,26 +1,82 @@
 import { Request, Response } from 'express';
-import * as os from 'os';
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import * as BusBoy from 'busboy';
+import * as jwt from 'jsonwebtoken';
 import * as admin from 'firebase-admin';
 
 import config from '@utils/config';
 import yupValidate from '@utils/yupValidate';
+import { REFRESH_TOKEN_KEY } from '@constants/keys';
 import paramValidation from '@utils/paramValidation';
+import NotFoundError from '@interfaces/NotFoundError';
+import { DivisionUser } from '@constants/BaseCondition';
 import ExtensionError from '@interfaces/ExtensionError';
 import schema from '@modules/MasterData/User/user.schema';
+import validationWording from '@constants/validationWording';
 import RoleRepository from '@modules/MasterData/Role/role.repository';
 import UserRepository from '@modules/MasterData/User/user.repository';
+import { decryptAES } from '@utils/cryptoJS';
 
 const { v4: uuidv4 } = require('uuid');
 const defaultImg = 'no-user-pic.png';
+
+const RoleAllDivision = ['Admin', 'Kepala Bagian', 'Wakil Kepala Bagian'];
 
 export const getTokenData = async (req: Request, res: Response) => {
   res.json({
     message: 'Successfully Decode Token',
     data: res.locals.decoded,
   });
+};
+
+export const refreshToken = async (req: Request, res: Response) => {
+  const { query } = req;
+  if (!query.token) {
+    throw new NotFoundError(
+      validationWording.notFound('token in query'),
+      'token'
+    );
+  }
+  try {
+    const decoded: any = jwt.verify(query.token as string, REFRESH_TOKEN_KEY);
+    const email = decoded.email;
+    const password = decryptAES(decoded.secretKey);
+
+    const userRepository = new UserRepository();
+    const currentUser = await userRepository.getCurrentAuthByEmail(email);
+
+    //-> role data
+    const roleRepository = new RoleRepository();
+    const role = await roleRepository.findById(
+      currentUser?.customClaims?.role?.id
+    );
+
+    //-> execute login
+    const { token, decodedToken } = await userRepository.logIn(
+      { email: decoded.email, password: password },
+      role,
+      currentUser.uid,
+      currentUser?.customClaims?.name,
+      currentUser?.customClaims?.division
+    );
+    res.json({
+      message: 'Successfully Re-Auth',
+      token,
+      refreshTokenJWT: query.token,
+      data: decodedToken,
+    });
+  } catch (error) {
+    if (error instanceof jwt.JsonWebTokenError) {
+      res.status(400).send({
+        message: 'Invalid Refresh Token',
+        error: true,
+      });
+    } else {
+      throw error;
+    }
+  }
 };
 
 export const getCurrentAuth = async (req: Request, res: Response) => {
@@ -111,17 +167,24 @@ export const logIn = async (req: Request, res: Response) => {
   );
 
   //-> execute login
-  const { token, refreshToken, decodedToken } = await userRepository.logIn(
+  const {
+    token,
+    refreshToken,
+    refreshTokenJWT,
+    decodedToken,
+  } = await userRepository.logIn(
     validatedBody,
     role,
     currentUser.uid,
-    currentUser?.customClaims?.name
+    currentUser?.customClaims?.name,
+    currentUser?.customClaims?.division
   );
   res.json({
     message: 'Successfully Login',
     data: decodedToken,
     token,
     refreshToken,
+    refreshTokenJWT,
   });
 };
 
@@ -132,6 +195,9 @@ export const createUser = async (req: Request, res: Response) => {
   const roleRepository = new RoleRepository();
   const role = await roleRepository.findById(validatedBody.role);
 
+  if (RoleAllDivision.includes(role.name)) {
+    validatedBody.division = DivisionUser['All'];
+  }
   const createParam = {
     ...validatedBody,
     role: role.id,
@@ -146,8 +212,6 @@ export const createUser = async (req: Request, res: Response) => {
   res.json({
     message: 'Successfully Sign Up',
     data,
-    // token,
-    // refreshToken,
   });
 };
 
@@ -175,22 +239,23 @@ export const updateUserById = async (req: Request, res: Response) => {
   const roleRepository = new RoleRepository();
   const role = await roleRepository.findById(data.role);
 
-  const { token, refreshToken, decodedToken } = await userRepository.updateAuth(
+  const {
+    token,
+    refreshToken,
+    refreshTokenJWT,
+    decodedToken,
+  } = await userRepository.updateAuth(
     validateParam.uid,
     { ...data, password: validatedBody.password },
     role
   );
-
-  // const { token, refreshToken, decodedToken } = await userRepository.logIn({
-  //   email: data.email,
-  //   password: data.password,
-  // });
 
   res.json({
     message: 'Successfully Update User',
     data: { ...data, role },
     token,
     refreshToken,
+    refreshTokenJWT,
     decodedToken,
   });
 };
