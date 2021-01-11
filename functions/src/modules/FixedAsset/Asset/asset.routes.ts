@@ -35,9 +35,9 @@ errorHandledRoute.post(
   controller.deleteMultipleAsset
 );
 errorHandledRoute.post(
-  '/penihilan',
+  '/penghapusbukuan',
   accessMiddleware('fixedAsset', 'approvalSupervisor'),
-  controller.pengajuanPenihilan
+  controller.pengajuanPenghapusbukuan
 );
 errorHandledRoute.put('/:uid/approve', controller.approval);
 errorHandledRoute.put(

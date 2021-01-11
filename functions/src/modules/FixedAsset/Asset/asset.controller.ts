@@ -6,7 +6,10 @@ import paramValidation from '@utils/paramValidation';
 import schema from '@modules/FixedAsset/Asset/asset.schema';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import AssetRepository from '@modules/FixedAsset/Asset/asset.repository';
-import { ApprovalStatus, ApprovalNextStatus } from '@constants/BaseCondition';
+import {
+  ApprovalStatusAsset,
+  ApprovalNextStatusAsset,
+} from './interface/asset.interface';
 
 export const createAsset = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
@@ -23,11 +26,11 @@ export const createAsset = async (req: Request, res: Response) => {
     userId: user.uid,
     name: user.name,
     role: user.role.name,
-    status: ApprovalStatus['Unapproved'],
+    status: ApprovalStatusAsset['Unapproved'],
   };
   const data = await assetRepository.create({
     ...validatedBody,
-    status: ApprovalStatus['Unapproved'],
+    status: ApprovalStatusAsset['Unapproved'],
     approvalLog: [log],
   });
 
@@ -132,37 +135,39 @@ export const approval = async (req: Request, res: Response) => {
   const currentStatus:
     | 'Unapproved'
     | 'Approved oleh Supervisor I'
-    | 'Diajukan Penihilan' = ref.status;
+    | 'Diajukan Penghapusbukuan' = ref.status;
 
   let status:
     | 'Unapproved'
     | 'Approved oleh Supervisor I'
-    | 'Diajukan Penihilan'
+    | 'Diajukan Penghapusbukuan'
     | 'Approved oleh Supervisor II'
     | 'Approved oleh Wakabag'
-    | 'Approved oleh Kabag' = ApprovalNextStatus[currentStatus];
+    | 'Approved oleh Kabag' = ApprovalNextStatusAsset[currentStatus];
 
   // -> cek status sudah di posisi terkahir atau belum
   if (
-    ref.status === ApprovalStatus['Approved oleh Wakabag'] ||
-    ref.status === ApprovalStatus['Approved oleh Kabag']
+    ref.status === ApprovalStatusAsset['Approved oleh Wakabag'] ||
+    ref.status === ApprovalStatusAsset['Approved oleh Kabag']
   ) {
     throw new InvalidRequestError('Persetujuan telah selesai', 'Persekot');
   }
 
   //validate role
   if (
-    (status === ApprovalStatus['Approved oleh Supervisor I'] ||
-      status === ApprovalStatus['Approved oleh Supervisor II']) &&
+    (status === ApprovalStatusAsset['Approved oleh Supervisor I'] ||
+      status === ApprovalStatusAsset['Approved oleh Supervisor II']) &&
     !user?.role?.name.incldes('Supervisor')
   ) {
     throw new AccessError('Approve Supervisor');
-  } else if (ref.status === ApprovalStatus['Approved oleh Supervisor II']) {
+  } else if (
+    ref.status === ApprovalStatusAsset['Approved oleh Supervisor II']
+  ) {
     // -> set next status Approved oleh Supervisor II
     if (user?.role?.name !== 'Kepala Bagian') {
-      status = ApprovalStatus['Approved oleh Kabag'];
+      status = ApprovalStatusAsset['Approved oleh Kabag'];
     } else if (user?.role?.name !== 'Wakil Kepala Bagian') {
-      status = ApprovalStatus['Approved oleh Wakabag'];
+      status = ApprovalStatusAsset['Approved oleh Wakabag'];
     } else {
       throw new AccessError(
         'Approve Wakil Kepala Bagian | Approve Kepala Bagian'
@@ -191,7 +196,7 @@ export const approval = async (req: Request, res: Response) => {
   });
 };
 
-export const pengajuanPenihilan = async (req: Request, res: Response) => {
+export const pengajuanPenghapusbukuan = async (req: Request, res: Response) => {
   const { body } = req;
   const user = res.locals.decoded;
   const validatedBody = yupValidate(schema.deleteArrayIds, body);
@@ -201,7 +206,7 @@ export const pengajuanPenihilan = async (req: Request, res: Response) => {
     throw new AccessError('Approve Supervisor');
   }
   const persekotRepository = new AssetRepository();
-  const invalidRow = await persekotRepository.pengajuanPenihilan(
+  const invalidRow = await persekotRepository.pengajuanPenghapusbukuan(
     validatedBody.assetIds,
     user
   );

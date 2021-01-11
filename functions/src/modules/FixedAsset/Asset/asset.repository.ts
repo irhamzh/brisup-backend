@@ -3,10 +3,10 @@ import * as admin from 'firebase-admin';
 import { db } from '@utils/admin';
 import { StringKeys } from '@interfaces/BaseInterface';
 import BaseRepository from '@repositories/baseRepository';
-import { ApprovalStatus } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 import { IUserDecoded } from '@modules/MasterData/User/interface/user.interface';
 import { IAssetBase } from '@modules/FixedAsset/Asset/interface/asset.interface';
+import { ApprovalStatusAsset } from './interface/asset.interface';
 export default class AssetRepository extends BaseRepository<IAssetBase> {
   _assetModel: admin.firestore.CollectionReference;
   constructor() {
@@ -28,7 +28,7 @@ export default class AssetRepository extends BaseRepository<IAssetBase> {
     return batch.commit();
   }
 
-  async pengajuanPenihilan(persekotIds: string[], user: IUserDecoded) {
+  async pengajuanPenghapusbukuan(persekotIds: string[], user: IUserDecoded) {
     const batchCommits = [];
     const invalidRow: StringKeys[] = [];
 
@@ -51,20 +51,20 @@ export default class AssetRepository extends BaseRepository<IAssetBase> {
       // -> get data
       const data = snap.data();
       if (
-        ApprovalStatus['Approved oleh Supervisor I'].toLowerCase() !==
+        ApprovalStatusAsset['Approved oleh Supervisor I'].toLowerCase() !==
         data?.status?.toLowerCase()
       ) {
         invalidRow.push({
           id: persekotIds[i],
           name: data?.name,
-          error: `Untuk diajukan ke Penihilan, Persekot harus berada dalam status "${ApprovalStatus['Approved oleh Supervisor I']}". Status sekarang "${data?.status}"`,
+          error: `Untuk diajukan ke Penghapusbukuan, Persekot harus berada dalam status "${ApprovalStatusAsset['Approved oleh Supervisor I']}". Status sekarang "${data?.status}"`,
         });
         continue;
       }
 
       // -> Update Data
       const log = {
-        status: ApprovalStatus['Diajukan Penihilan'],
+        status: ApprovalStatusAsset['Diajukan Penghapusbukuan'],
         date: new Date(),
         userId: user.uid,
         name: user.name,
@@ -75,7 +75,10 @@ export default class AssetRepository extends BaseRepository<IAssetBase> {
       // -> execute update data
       batch.set(
         docRef,
-        { status: ApprovalStatus['Diajukan Penihilan'], approvalLog },
+        {
+          status: ApprovalStatusAsset['Diajukan Penghapusbukuan'],
+          approvalLog,
+        },
         { merge: true }
       );
       if ((i + 1) % 500 === 0) {
