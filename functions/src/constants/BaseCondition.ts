@@ -26,6 +26,14 @@ export enum Division {
   'Financial Admin' = 'Financial Admin',
 }
 
+export enum DivisionUser {
+  'Fixed Asset' = 'Fixed Asset',
+  'Procurement' = 'Procurement',
+  'General Affair' = 'General Affair',
+  'Financial Admin' = 'Financial Admin',
+  'All' = 'All',
+}
+
 export enum StatusPengadaan {
   'Belum Berjalan' = 'Belum Berjalan',
   'Proses Persetujuan' = 'Proses Persetujuan',

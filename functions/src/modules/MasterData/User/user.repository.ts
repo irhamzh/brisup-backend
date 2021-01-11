@@ -1,7 +1,10 @@
+import * as jwt from 'jsonwebtoken';
 import * as firebase from 'firebase';
 import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
+import { encryptAES } from '@utils/cryptoJS';
+import { REFRESH_TOKEN_KEY } from '@constants/keys';
 import BaseRepository from '@repositories/baseRepository';
 import {
   IUserBase,
@@ -10,7 +13,10 @@ import {
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 import { IRoleBase } from '@modules/MasterData/Role/interface/role.interface';
 
-type loginParam = Omit<IUserExtended, 'name' | 'role' | 'profilePicture'>;
+type loginParam = Omit<
+  IUserExtended,
+  'name' | 'role' | 'profilePicture' | 'division'
+>;
 
 export default class UserRepository extends BaseRepository<IUserBase> {
   _userModel: admin.firestore.CollectionReference;
@@ -29,10 +35,8 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     await admin.auth().setCustomUserClaims(execute?.user?.uid as string, {
       name: object.name,
       role,
+      division: object.division,
     });
-
-    // const token = await execute?.user?.getIdToken();
-    // const refreshToken = execute?.user?.refreshToken;
 
     //-> delete password
     const createParam = JSON.parse(JSON.stringify(object));
@@ -52,16 +56,21 @@ export default class UserRepository extends BaseRepository<IUserBase> {
 
     return {
       data: firestoreTimeStampToDate(data),
-      // token,
-      // refreshToken,
     };
   }
 
-  async logIn(object: loginParam, role: IRoleBase, uid: string, name: string) {
+  async logIn(
+    object: loginParam,
+    role: IRoleBase,
+    uid: string,
+    name: string,
+    division: string
+  ) {
     //-> set customClaims
     await admin.auth().setCustomUserClaims(uid, {
       name,
       role,
+      division,
     });
 
     //-> exceute signIn
@@ -69,11 +78,26 @@ export default class UserRepository extends BaseRepository<IUserBase> {
       .auth()
       .signInWithEmailAndPassword(object.email, object.password);
 
+    // -> handle refreshToken
+    const secretKey = encryptAES(object.password);
+    console.log(secretKey, 'secretKey');
+    const refreshTokenJWT = jwt.sign(
+      {
+        email: object.email,
+        id: uid,
+        secretKey,
+      },
+      REFRESH_TOKEN_KEY,
+      {
+        expiresIn: '7d',
+      }
+    );
+
     //-> handle token
     const token = await data?.user?.getIdToken();
     const decodedToken = await data?.user?.getIdTokenResult(true);
     const refreshToken = data?.user?.refreshToken;
-    return { token, decodedToken, data, refreshToken };
+    return { token, decodedToken, data, refreshToken, refreshTokenJWT };
   }
 
   async deleteSingleAuthUser(uid: string) {
@@ -106,12 +130,12 @@ export default class UserRepository extends BaseRepository<IUserBase> {
       .updateUser(uid, { email: object.email, password: object.password });
 
     //-> login user
-    const { token, refreshToken, decodedToken } = await this.logIn(
-      object,
-      role,
-      uid,
-      object.name
-    );
-    return { token, refreshToken, decodedToken };
+    const {
+      token,
+      refreshToken,
+      decodedToken,
+      refreshTokenJWT,
+    } = await this.logIn(object, role, uid, object.name, object.division);
+    return { token, refreshToken, decodedToken, refreshTokenJWT };
   }
 }

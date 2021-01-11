@@ -1,4 +1,7 @@
 import * as yup from 'yup';
+
+import getAllEnumKey from '@utils/getAllEnumKeys';
+import { DivisionUser } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 
 const create = yup
@@ -14,6 +17,13 @@ const create = yup
       .required(validationWording.required('password')),
     name: yup.string().required(validationWording.required('name')),
     role: yup.string().required(validationWording.required('role')),
+    division: yup
+      .mixed<keyof typeof DivisionUser>()
+      .oneOf(
+        getAllEnumKey(DivisionUser),
+        validationWording.oneOf('Type Payment', ...getAllEnumKey(DivisionUser))
+      )
+      .required(validationWording.required('Division')),
     // role: yup
     //   .mixed()
     //   .oneOf(
@@ -47,6 +57,12 @@ const update = yup
       .required(validationWording.required('password')),
     name: yup.string(),
     role: yup.string(),
+    // division: yup
+    //   .mixed<keyof typeof DivisionUser>()
+    //   .oneOf(
+    //     getAllEnumKey(DivisionUser),
+    //     validationWording.oneOf('Type Payment', ...getAllEnumKey(DivisionUser))
+    //   ),
   })
   .required();
 
