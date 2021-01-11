@@ -14,7 +14,8 @@ export default function accessMiddleware(
     | 'read'
     | 'dashboard'
     | 'approvalKabag'
-    | 'approvalWakabag',
+    | 'approvalWakabag'
+    | 'approvalSupervisor',
   errorHandler?: ErrorRequestHandler
 ) {
   return async function middleware(

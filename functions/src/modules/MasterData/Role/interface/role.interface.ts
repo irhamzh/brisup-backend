@@ -9,6 +9,7 @@ interface IRoleAccess extends IAccessBase {
   dashboard: boolean;
   approvalKabag: boolean;
   approvalWakabag: boolean;
+  approvalSupervisor: boolean;
 }
 
 export interface IRoleBase {

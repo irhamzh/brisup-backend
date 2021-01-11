@@ -16,6 +16,9 @@ const createRoleAccess = {
   approvalWakabag: yup
     .boolean()
     .required(validationWording.required('approvalWakabag')),
+  approvalSupervisor: yup
+    .boolean()
+    .required(validationWording.required('approvalSupervisor')),
 };
 
 const create = yup
