@@ -4,6 +4,13 @@ export interface FilterQueryAttributes {
   filtered: string;
   sorted: string;
 }
+export interface IApprovalLog {
+  date: Date;
+  userId: string;
+  name: string;
+  role: string;
+  status: string;
+}
 
 export interface IFile {
   fieldname: string;

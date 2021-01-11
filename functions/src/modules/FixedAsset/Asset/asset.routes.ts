@@ -34,6 +34,12 @@ errorHandledRoute.post(
   accessMiddleware('fixedAsset', 'delete'),
   controller.deleteMultipleAsset
 );
+errorHandledRoute.post(
+  '/penihilan',
+  accessMiddleware('fixedAsset', 'approvalSupervisor'),
+  controller.pengajuanPenihilan
+);
+errorHandledRoute.put('/:uid/approve', controller.approval);
 errorHandledRoute.put(
   '/:uid',
   accessMiddleware('fixedAsset', 'update'),

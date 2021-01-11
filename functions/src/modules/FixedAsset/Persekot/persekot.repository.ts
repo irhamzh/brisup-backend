@@ -5,10 +5,9 @@ import { StringKeys } from '@interfaces/BaseInterface';
 import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
 import { IUserDecoded } from '@modules/MasterData/User/interface/user.interface';
-
+import { ApprovalStatus } from '@constants/BaseCondition';
 import {
   IPersekotBase,
-  ApprovalStatus,
   IPersekotFinancialAdmin,
 } from './interface/persekot.interface';
 

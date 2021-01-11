@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 
-import paramValidation from '@utils/paramValidation';
-import AssetRepository from '@modules/FixedAsset/Asset/asset.repository';
-import schema from '@modules/FixedAsset/Asset/asset.schema';
 import yupValidate from '@utils/yupValidate';
+import AccessError from '@interfaces/AccessError';
+import paramValidation from '@utils/paramValidation';
+import schema from '@modules/FixedAsset/Asset/asset.schema';
+import InvalidRequestError from '@interfaces/InvalidRequestError';
+import AssetRepository from '@modules/FixedAsset/Asset/asset.repository';
+import { ApprovalStatus, ApprovalNextStatus } from '@constants/BaseCondition';
 
 export const createAsset = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
   const assetRepository = new AssetRepository();
@@ -13,7 +17,20 @@ export const createAsset = async (req: Request, res: Response) => {
   if (!validatedBody.condition) {
     createParam.condition = 'Belum Ditentukan';
   }
-  const data = await assetRepository.create(createParam);
+
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status: ApprovalStatus['Unapproved'],
+  };
+  const data = await assetRepository.create({
+    ...validatedBody,
+    status: ApprovalStatus['Unapproved'],
+    approvalLog: [log],
+  });
+
   res.json({
     message: 'Successfully Create Asset',
     data,
@@ -98,6 +115,98 @@ export const importExcel = async (req: any, res: Response) => {
 
   res.json({
     message: 'Successfully Import Asset',
+    invalidRow,
+  });
+};
+
+export const approval = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+
+  // -> get getPersekotById
+  const assetRepository = new AssetRepository();
+  const ref = await assetRepository.findById(validateParam.uid);
+
+  // -> get next status
+  const currentStatus:
+    | 'Unapproved'
+    | 'Approved oleh Supervisor I'
+    | 'Diajukan Penihilan' = ref.status;
+
+  let status:
+    | 'Unapproved'
+    | 'Approved oleh Supervisor I'
+    | 'Diajukan Penihilan'
+    | 'Approved oleh Supervisor II'
+    | 'Approved oleh Wakabag'
+    | 'Approved oleh Kabag' = ApprovalNextStatus[currentStatus];
+
+  // -> cek status sudah di posisi terkahir atau belum
+  if (
+    ref.status === ApprovalStatus['Approved oleh Wakabag'] ||
+    ref.status === ApprovalStatus['Approved oleh Kabag']
+  ) {
+    throw new InvalidRequestError('Persetujuan telah selesai', 'Persekot');
+  }
+
+  //validate role
+  if (
+    (status === ApprovalStatus['Approved oleh Supervisor I'] ||
+      status === ApprovalStatus['Approved oleh Supervisor II']) &&
+    !user?.role?.name.incldes('Supervisor')
+  ) {
+    throw new AccessError('Approve Supervisor');
+  } else if (ref.status === ApprovalStatus['Approved oleh Supervisor II']) {
+    // -> set next status Approved oleh Supervisor II
+    if (user?.role?.name !== 'Kepala Bagian') {
+      status = ApprovalStatus['Approved oleh Kabag'];
+    } else if (user?.role?.name !== 'Wakil Kepala Bagian') {
+      status = ApprovalStatus['Approved oleh Wakabag'];
+    } else {
+      throw new AccessError(
+        'Approve Wakil Kepala Bagian | Approve Kepala Bagian'
+      );
+    }
+  }
+
+  // -> set log
+  const log = {
+    status,
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+  };
+  const approvalLog = [...ref.approvalLog, log];
+
+  //update status
+  const data = await assetRepository.update(validateParam.uid, {
+    status,
+    approvalLog,
+  });
+  res.json({
+    message: 'Successfully Update Data',
+    data,
+  });
+};
+
+export const pengajuanPenihilan = async (req: Request, res: Response) => {
+  const { body } = req;
+  const user = res.locals.decoded;
+  const validatedBody = yupValidate(schema.deleteArrayIds, body);
+
+  // -> validate role
+  if (!user?.role?.name.incldes('Supervisor')) {
+    throw new AccessError('Approve Supervisor');
+  }
+  const persekotRepository = new AssetRepository();
+  const invalidRow = await persekotRepository.pengajuanPenihilan(
+    validatedBody.assetIds,
+    user
+  );
+  res.json({
+    message: 'Successfully Update Persekot',
     invalidRow,
   });
 };
