@@ -25,7 +25,7 @@ uploadHandleRouter.put('/:uid', controller.updatePayment);
 errorHandledRoute.get('/:uid', controller.getPaymentById);
 errorHandledRoute.delete('/:uid', controller.deletePaymentById);
 errorHandledRoute.post('/penihilan', controller.pengajuanPenihilan);
-errorHandledRoute.put('/:uid/approve-penihilan', controller.approvalPenihilan);
+errorHandledRoute.put('/penihilan/:uid/approve', controller.approvalPenihilan); //flow penihilan
 errorHandledRoute.put('/:uid/approve-process', controller.approveProcess);
 errorHandledRoute.put('/:uid/approve-wabag', controller.approveWabag);
 errorHandledRoute.put('/:uid/approve-kabag', controller.approveKabag);

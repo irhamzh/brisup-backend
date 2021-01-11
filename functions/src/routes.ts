@@ -87,6 +87,7 @@ import sistemManajemenKinerjaRouter from '@modules/GeneralAffair/DataPekerja/Sis
 import externalVehicleRouter from '@modules/GeneralAffair/PengelolaanKendaraan/PemesananDiluarKendaraanDinas/external_vehicle.routes';
 
 import cashFinancialRouter from '@modules/FinancialAdmin/Cash/cash.routes';
+import uploadFinancialRouter from '@modules/FinancialAdmin/Upload/upload.routes';
 import paymentFinancialRouter from '@modules/FinancialAdmin/Payment/payment.routes';
 
 const apiRouter = Router();
@@ -185,6 +186,7 @@ apiRouter.use('/ga-driver-assignment', driverAssignmentRouter);
 apiRouter.use('/ga-clinic-evaluations', clinicEvaluationRouter);
 
 apiRouter.use('/fa-cashes', cashFinancialRouter);
+apiRouter.use('/fa-uploads', uploadFinancialRouter);
 apiRouter.use('/fa-payments', paymentFinancialRouter);
 
 export default function useApiRouter(app: Application) {
