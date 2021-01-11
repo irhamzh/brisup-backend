@@ -13,7 +13,7 @@ const defaultBucket = 'images/fa-upload';
 export const createUpload = async (req: any, res: Response) => {
   const { body, files } = req;
   const validatedBody = yupValidate(schema.create, body);
-  if (!files.lampiran) {
+  if (!files?.lampiran) {
     throw new InvalidRequestError('No files were uploaded', 'lampiran');
   }
   const { filename, path, mimetype } = files.lampiran;

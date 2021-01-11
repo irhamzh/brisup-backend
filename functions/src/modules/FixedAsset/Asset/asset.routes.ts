@@ -39,7 +39,7 @@ errorHandledRoute.post(
   accessMiddleware('fixedAsset', 'approvalSupervisor'),
   controller.pengajuanPenghapusbukuan
 );
-errorHandledRoute.put('/:uid/approve', controller.approval);
+errorHandledRoute.put('penghapusbukuan/:uid/approve', controller.approval);
 errorHandledRoute.put(
   '/:uid',
   accessMiddleware('fixedAsset', 'update'),
