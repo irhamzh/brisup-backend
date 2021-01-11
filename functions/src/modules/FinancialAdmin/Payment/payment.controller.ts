@@ -8,15 +8,24 @@ import { StatusPengadaan } from '@constants/BaseCondition';
 import validationWording from '@constants/validationWording';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
+import NotFoundError from '@interfaces/NotFoundError';
+
 // import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 
-import { create, baseCreate, update } from './payment.schema';
+import {
+  create,
+  update,
+  baseCreate,
+  multiplePenihilan,
+} from './payment.schema';
 import PaymentRepository from './payment.repository';
-import { UtilPayment } from './interface/payment.interface';
+import { TypePayment, UtilPayment } from './interface/payment.interface';
+import { ApprovalStatus, ApprovalNextStatus } from '@constants/BaseCondition';
 
 const defaultBucket = 'images/fa-payment/';
 
 export const createPayment = async (req: any, res: Response) => {
+  const user = res.locals.decoded;
   const { arrayFiles, body } = req;
   const masterValidate = yupValidate(baseCreate, body);
   const typePayment = masterValidate.typePayment;
@@ -36,13 +45,28 @@ export const createPayment = async (req: any, res: Response) => {
     lampiran.push(upload);
   }
   const paymentRepository = new PaymentRepository();
-  const createParam = {
+
+  let createParam = {
     ...validatedBody,
     ...utilPayment,
     status: StatusPengadaan['Belum Berjalan'],
     lampiran,
   };
 
+  if (validatedBody.typePayment === TypePayment['Penihilan PAUK']) {
+    const log = {
+      date: new Date(),
+      userId: user.uid,
+      name: user.name,
+      role: user.role.name,
+      statusPenihilan: ApprovalStatus['Unapproved'],
+    };
+    createParam = {
+      ...createParam,
+      approvalLogPenihilan: [log],
+      statusPenihilan: ApprovalStatus['Unapproved'],
+    };
+  }
   const data = await paymentRepository.create(createParam);
 
   res.json({
@@ -294,5 +318,99 @@ export const dashboard = async (req: Request, res: Response) => {
   res.json({
     message: 'Successfully getDashboard',
     data,
+  });
+};
+
+export const approvalPenihilan = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+
+  // -> get getPAUKById
+  const paymentRepository = new PaymentRepository();
+  const ref = await paymentRepository.findById(validateParam.uid);
+
+  if (ref.typePayment !== TypePayment['Penihilan PAUK']) {
+    throw new NotFoundError(validationWording.notFound('PAUK'), 'PAUK');
+  }
+
+  // -> get next statusPenihilan
+  const currentStatus:
+    | 'Unapproved'
+    | 'Approved oleh Supervisor I'
+    | 'Diajukan Penihilan' = ref.statusPenihilan;
+
+  let statusPenihilan:
+    | 'Unapproved'
+    | 'Approved oleh Supervisor I'
+    | 'Diajukan Penihilan'
+    | 'Approved oleh Supervisor II'
+    | 'Approved oleh Wakabag'
+    | 'Approved oleh Kabag' = ApprovalNextStatus[currentStatus];
+
+  // -> cek statusPenihilan sudah di posisi terkahir atau belum
+  if (
+    ref.statusPenihilan === ApprovalStatus['Approved oleh Wakabag'] ||
+    ref.statusPenihilan === ApprovalStatus['Approved oleh Kabag']
+  ) {
+    throw new InvalidRequestError('Persetujuan telah selesai', 'PAUK');
+  }
+
+  //validate role
+  if (
+    (statusPenihilan === ApprovalStatus['Approved oleh Supervisor I'] ||
+      statusPenihilan === ApprovalStatus['Approved oleh Supervisor II']) &&
+    !user?.role?.name.includes('Supervisor')
+  ) {
+    throw new AccessError('Approve Supervisor');
+  } else if (
+    ref.statusPenihilan === ApprovalStatus['Approved oleh Supervisor II']
+  ) {
+    // -> set next statusPenihilan Approved oleh Supervisor II
+    if (user?.role?.name !== 'Kepala Bagian') {
+      statusPenihilan = ApprovalStatus['Approved oleh Kabag'];
+    } else if (user?.role?.name !== 'Wakil Kepala Bagian') {
+      statusPenihilan = ApprovalStatus['Approved oleh Wakabag'];
+    } else {
+      throw new AccessError(
+        'Approve Wakil Kepala Bagian | Approve Kepala Bagian'
+      );
+    }
+  }
+
+  // -> set log
+  const log = {
+    statusPenihilan,
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+  };
+  const approvalLogPenihilan = [...ref.approvalLogPenihilan, log];
+
+  //update statusPenihilan
+  const data = await paymentRepository.update(validateParam.uid, {
+    statusPenihilan,
+    approvalLogPenihilan,
+  });
+  res.json({
+    message: 'Successfully Update Data',
+    data,
+  });
+};
+
+export const pengajuanPenihilan = async (req: Request, res: Response) => {
+  const { body } = req;
+  const user = res.locals.decoded;
+  const validatedBody = yupValidate(multiplePenihilan, body);
+
+  const persekotRepository = new PaymentRepository();
+  const invalidRow = await persekotRepository.pengajuanPenihilan(
+    validatedBody.paukIds,
+    user
+  );
+  res.json({
+    message: 'Successfully Update Persekot',
+    invalidRow,
   });
 };

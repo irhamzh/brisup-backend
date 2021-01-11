@@ -1,4 +1,5 @@
 import { Division } from '@constants/BaseCondition';
+import { IApprovalLog } from '@interfaces/BaseInterface';
 
 interface IBasePayment {
   tanggal: Date;
@@ -66,6 +67,8 @@ export interface IPenihilanPAUK extends IBasePayment {
   namaPAUK: string;
   printPAUK: boolean;
   kodePelatihan: boolean;
+  statusPenihilan: string;
+  approvalLogPenihilan: IApprovalLog[];
 }
 
 export interface IPublicCourse extends IBasePayment {

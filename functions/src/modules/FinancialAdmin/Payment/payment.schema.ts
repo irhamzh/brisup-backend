@@ -648,3 +648,13 @@ export const update: { [key: string]: yup.ObjectSchema<any> } = {
   Hotel: updateHotel,
   'Akomodasi Asrama': updateAkomodasiAsrama,
 };
+
+export const multiplePenihilan = yup
+  .object()
+  .shape({
+    paukIds: yup
+      .array()
+      .of(yup.string().required())
+      .required(validationWording.required('Array paukIds')),
+  })
+  .required();
