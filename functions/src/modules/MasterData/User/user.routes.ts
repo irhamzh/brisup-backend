@@ -30,6 +30,7 @@ protectedRouter.get(
   accessMiddleware('masterData', 'read'),
   controller.getTokenData
 );
+errorHandledRoute.get('/refresh-token', controller.refreshToken);
 errorHandledRoute.post('/', controller.createUser);
 errorHandledRoute.post('/login', controller.logIn);
 protectedRouter.get(
