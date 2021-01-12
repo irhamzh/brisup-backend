@@ -55,14 +55,15 @@ export interface ITagihanRekreasiSiswa extends IBasePayment {
 
 export interface ITagihanRohaniHumasRepresentasiRapat extends IBasePayment {
   namaPembayaran: string;
-  invoice: boolean;
   notaPembukuan: boolean;
+  jenisBiaya: string;
+  invoice: boolean;
 }
 
 export interface ITagihanBrimedika extends IBasePayment {
   invoiceBermaterai: boolean;
-  copySPK: boolean;
   notaPembukuan: boolean;
+  copySPK: boolean;
 }
 
 export interface IPenihilanPAUK extends IBasePayment {
@@ -258,6 +259,8 @@ export const UtilPayment: {
     seksi: Division['Procurement'],
   },
 };
+
+export const JenisBiaya = ['Rohani', 'Humas', 'Representasi', 'Rapat'];
 
 // Kelogistikan;
 // tanggal:2020-10-10;

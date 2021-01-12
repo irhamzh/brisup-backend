@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import validationWording from '@constants/validationWording';
 
-import { TypePayment } from './interface/payment.interface';
+import { TypePayment, JenisBiaya } from './interface/payment.interface';
 
 export const baseCreate = yup
   .object()
@@ -137,6 +137,10 @@ const createTagihanRohaniHumasRepresentasiRapat = yup
     notaPembukuan: yup
       .boolean()
       .required(validationWording.required('notaPembukuan')),
+    jenisBiaya: yup
+      .mixed()
+      .oneOf(JenisBiaya)
+      .required(validationWording.required('Jenis Biaya')),
   })
   .required()
   .concat(baseCreate);
@@ -484,6 +488,7 @@ const updateTagihanRohaniHumasRepresentasiRapat = yup
     namaPembayaran: yup.string(),
     invoice: yup.boolean(),
     notaPembukuan: yup.boolean(),
+    jenisBiaya: yup.mixed().oneOf(JenisBiaya),
   })
   .required()
   .concat(baseUpdate);
