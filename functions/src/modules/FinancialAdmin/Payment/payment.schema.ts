@@ -80,6 +80,7 @@ const createTagihanServiceKendaraan = yup
     notaPembukuan: yup
       .boolean()
       .required(validationWording.required('notaPembukuan')),
+    vehicle: yup.string().required(validationWording.required('vehicle')),
   })
   .required()
   .concat(baseCreate);
@@ -448,6 +449,7 @@ const updateTagihanServiceKendaraan = yup
     invoiceBermaterai: yup.boolean(),
     fakturPajak: yup.boolean(),
     notaPembukuan: yup.boolean(),
+    vehicle: yup.string(),
   })
   .required()
   .concat(baseUpdate);
