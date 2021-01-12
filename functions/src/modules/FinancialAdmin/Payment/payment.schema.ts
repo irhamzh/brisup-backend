@@ -258,9 +258,10 @@ const createHonorSalaryCreaditing = yup
 const createPembayaranLainnya = yup
   .object()
   .shape({
-    namaPembayaran: yup
+    namaSertifikasi: yup
       .string()
-      .required(validationWording.required('namaPembayaran')),
+      .required(validationWording.required('namaSertifikasi')),
+    provider: yup.string().required(validationWording.required('provider')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -573,7 +574,8 @@ const updateHonorSalaryCreaditing = yup
 const updatePembayaranLainnya = yup
   .object()
   .shape({
-    namaPembayaran: yup.string(),
+    namaSertifikasi: yup.string(),
+    provider: yup.string(),
     invoiceBermaterai: yup.boolean(),
     cekKesesuaianPembayaran: yup.boolean(),
   })

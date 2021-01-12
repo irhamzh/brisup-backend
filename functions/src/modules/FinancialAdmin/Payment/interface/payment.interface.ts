@@ -112,7 +112,8 @@ export interface IHonorSalaryCreaditing extends IBasePayment {
 }
 
 export interface IPembayaranLainnya extends IBasePayment {
-  namaPembayaran: string;
+  namaSertifikasi: string;
+  provider: IProviderBase;
   invoiceBermaterai: boolean;
   cekKesesuaianPembayaran: boolean;
 }
@@ -198,6 +199,7 @@ export const WithProvider = [
   TypePayment['Waperd'],
   TypePayment['Honor'],
   TypePayment['Salary Creaditing'],
+  TypePayment['Pembayaran Lainnya'],
 ];
 
 export const UtilPayment: {
