@@ -99,13 +99,14 @@ export interface ITagihanS2 extends IBasePayment {
 }
 
 export interface IAAJIWaperd extends IBasePayment {
-  provider: IProviderBase;
   namaSertifikasi: string;
+  provider: IProviderBase;
   suratPerintahBayar: boolean;
 }
 
 export interface IHonorSalaryCreaditing extends IBasePayment {
-  namaAsuransi: string;
+  namaSertifikasi: string;
+  provider: IProviderBase;
   suratPerintahBayar: boolean;
   cekLainnya: boolean;
 }
@@ -195,6 +196,8 @@ export const WithProvider = [
   TypePayment['Public Course'],
   TypePayment['Tagihan S2 Luar dan Dalam Negeri'],
   TypePayment['Waperd'],
+  TypePayment['Honor'],
+  TypePayment['Salary Creaditing'],
 ];
 
 export const UtilPayment: {
