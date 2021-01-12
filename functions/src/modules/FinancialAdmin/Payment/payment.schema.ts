@@ -227,9 +227,10 @@ const createTagihanS2 = yup
 const createAAJIWaperd = yup
   .object()
   .shape({
-    namaAsuransi: yup
+    namaSertifikasi: yup
       .string()
-      .required(validationWording.required('namaAsuransi')),
+      .required(validationWording.required('namaSertifikasi')),
+    provider: yup.string().required(validationWording.required('provider')),
     suratPerintahBayar: yup
       .boolean()
       .required(validationWording.required('suratPerintahBayar')),
@@ -550,7 +551,8 @@ const updateTagihanS2 = yup
 const updateAAJIWaperd = yup
   .object()
   .shape({
-    namaAsuransi: yup.string(),
+    namaSertifikasi: yup.string(),
+    provider: yup.string(),
     suratPerintahBayar: yup.boolean(),
   })
   .required()
