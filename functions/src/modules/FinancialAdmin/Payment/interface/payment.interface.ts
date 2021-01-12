@@ -80,6 +80,7 @@ export interface IPenihilanPAUK extends IBasePayment {
 export interface IPublicCourse extends IBasePayment {
   namaPendidikan: string;
   periode: string;
+  provider: IProviderBase;
   invoiceBermaterai: boolean;
   suratPemanggilan: boolean;
   dataBrismart: boolean;
@@ -89,6 +90,7 @@ export interface IPublicCourse extends IBasePayment {
 
 export interface ITagihanS2 extends IBasePayment {
   namaPendidikan: string;
+  provider: IProviderBase;
   periodeBulan: string;
   suratPerintahBayar: boolean;
   suratkeKCK: boolean;
@@ -186,6 +188,12 @@ export enum TypePayment {
   Hotel = 'Hotel',
   'Akomodasi Asrama' = 'Akomodasi Asrama',
 }
+
+export const WithProvider = [
+  TypePayment['Jasa Pendidikan'],
+  TypePayment['Public Course'],
+  TypePayment['Tagihan S2 Luar dan Dalam Negeri'],
+];
 
 export const UtilPayment: {
   [key: string]: {

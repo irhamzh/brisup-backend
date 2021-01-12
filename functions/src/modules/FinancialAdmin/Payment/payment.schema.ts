@@ -166,6 +166,7 @@ const createPublicCourse = yup
       .string()
       .required(validationWording.required('namaPendidikan')),
     periode: yup.string().required(validationWording.required('periode')),
+    provider: yup.string().required(validationWording.required('provider')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -203,6 +204,7 @@ const createTagihanS2 = yup
     namaPendidikan: yup
       .string()
       .required(validationWording.required('namaPendidikan')),
+    provider: yup.string().required(validationWording.required('provider')),
     periodeBulan: yup
       .string()
       .required(validationWording.required('periodeBulan')),
@@ -511,6 +513,7 @@ const updatePublicCourse = yup
   .shape({
     namaPendidikan: yup.string(),
     periode: yup.string(),
+    provider: yup.string(),
     invoiceBermaterai: yup.boolean(),
     suratPemanggilan: yup.boolean(),
     dataBrismart: yup.boolean(),
@@ -534,6 +537,7 @@ const updateTagihanS2 = yup
   .object()
   .shape({
     namaPendidikan: yup.string(),
+    provider: yup.string(),
     periodeBulan: yup.string(),
     suratPerintahBayar: yup.boolean(),
     suratkeKCK: yup.boolean(),
