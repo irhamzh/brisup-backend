@@ -4,12 +4,13 @@ import { Request, Response } from 'express';
 import yupValidate from '@utils/yupValidate';
 import AccessError from '@interfaces/AccessError';
 import paramValidation from '@utils/paramValidation';
-import { StatusPengadaan } from '@constants/BaseCondition';
+import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
-import NotFoundError from '@interfaces/NotFoundError';
+import VehicleRepository from '@modules/MasterData/Vehicle/vehicle.repository';
 
+import { StatusPengadaan } from '@constants/BaseCondition';
 // import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 
 import {
@@ -66,7 +67,17 @@ export const createPayment = async (req: any, res: Response) => {
       approvalLogPenihilan: [log],
       statusPenihilan: ApprovalStatus['Unapproved'],
     };
+  } else if (
+    validatedBody.typePayment === TypePayment['Tagihan Service Kendaraan']
+  ) {
+    const vehicleRepository = new VehicleRepository();
+    const vehicle = await vehicleRepository.findById(validatedBody.vehicle);
+    createParam = {
+      ...validatedBody,
+      vehicle,
+    };
   }
+
   const data = await paymentRepository.create(createParam);
 
   res.json({
@@ -78,9 +89,12 @@ export const createPayment = async (req: any, res: Response) => {
 export const updatePayment = async (req: any, res: Response) => {
   const { body, params, arrayFiles } = req;
   const validateParam = paramValidation(params, 'id');
-  const paymentRepository = new PaymentRepository();
 
+  // -> get payment by id
+  const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
+
+  // -> validate payment type
   const typePayment = ref?.typePayment;
   if (!typePayment) {
     throw new InvalidRequestError('Invalid Payment Type', 'typePayment');
@@ -99,6 +113,19 @@ export const updatePayment = async (req: any, res: Response) => {
     }
     validatedBody = { ...validatedBody, lampiran };
   }
+
+  if (
+    typePayment === TypePayment['Tagihan Service Kendaraan'] &&
+    validatedBody.vehicle
+  ) {
+    const vehicleRepository = new VehicleRepository();
+    const vehicle = await vehicleRepository.findById(validatedBody.vehicle);
+    validatedBody = {
+      ...validatedBody,
+      vehicle,
+    };
+  }
+
   const data: admin.firestore.DocumentData = await paymentRepository.update(
     validateParam.uid,
     validatedBody

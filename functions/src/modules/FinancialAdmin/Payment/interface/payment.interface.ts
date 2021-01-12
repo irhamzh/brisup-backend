@@ -1,5 +1,6 @@
 import { Division } from '@constants/BaseCondition';
 import { IApprovalLog } from '@interfaces/BaseInterface';
+import { IVehicleBase } from '@modules/MasterData/Vehicle/interface/vehicle.interface';
 
 interface IBasePayment {
   tanggal: Date;
@@ -29,6 +30,7 @@ export interface ITagihanBBM extends IBasePayment {
 }
 
 export interface ITagihanServiceKendaraan extends IBasePayment {
+  vehicle: IVehicleBase;
   namaPembayaran: string;
   invoiceBermaterai: boolean;
   fakturPajak: boolean;
