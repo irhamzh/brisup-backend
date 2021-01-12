@@ -10,6 +10,7 @@ import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import VehicleRepository from '@modules/MasterData/Vehicle/vehicle.repository';
 import CateringRepository from '@modules/MasterData/Catering/catering.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 
 import { StatusPengadaan } from '@constants/BaseCondition';
 // import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
@@ -84,6 +85,13 @@ export const createPayment = async (req: any, res: Response) => {
       ...validatedBody,
       catering,
     };
+  } else if (validatedBody.typePayment === TypePayment['Jasa Pendidikan']) {
+    const providerRepository = new ProviderRepository();
+    const provider = await providerRepository.findById(validatedBody.provider);
+    createParam = {
+      ...validatedBody,
+      provider,
+    };
   }
 
   const data = await paymentRepository.create(createParam);
@@ -133,7 +141,7 @@ export const updatePayment = async (req: any, res: Response) => {
       vehicle,
     };
   } else if (
-    validatedBody.typePayment === TypePayment['Catering'] &&
+    typePayment === TypePayment['Catering'] &&
     validatedBody?.catering
   ) {
     const cateringRepository = new CateringRepository();
@@ -141,6 +149,16 @@ export const updatePayment = async (req: any, res: Response) => {
     validatedBody = {
       ...validatedBody,
       catering,
+    };
+  } else if (
+    typePayment === TypePayment['Jasa Pendidikan'] &&
+    validatedBody?.provider
+  ) {
+    const providerRepository = new ProviderRepository();
+    const provider = await providerRepository.findById(validatedBody.provider);
+    validatedBody = {
+      ...validatedBody,
+      provider,
     };
   }
 

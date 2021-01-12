@@ -298,6 +298,7 @@ const createJasaPendidikan = yup
     namaPendidikan: yup
       .string()
       .required(validationWording.required('namaPendidikan')),
+    provider: yup.string().required(validationWording.required('provider')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -589,6 +590,7 @@ const updateJasaPendidikan = yup
   .object()
   .shape({
     namaPendidikan: yup.string(),
+    provider: yup.string(),
     invoiceBermaterai: yup.boolean(),
     bast: yup.boolean(),
     laporanPelaksanaanPekerjaan: yup.boolean(),

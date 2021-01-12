@@ -2,6 +2,7 @@ import { Division } from '@constants/BaseCondition';
 import { IApprovalLog } from '@interfaces/BaseInterface';
 import { IVehicleBase } from '@modules/MasterData/Vehicle/interface/vehicle.interface';
 import { ICateringBase } from '@modules/MasterData/Catering/interface/catering.interface';
+import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
 
 interface IBasePayment {
   tanggal: Date;
@@ -124,6 +125,7 @@ export interface ICatering extends IBasePayment {
 
 export interface IJasaPendidikan extends IBasePayment {
   namaPendidikan: string;
+  provider: IProviderBase;
   invoiceBermaterai: boolean;
   bast: boolean;
   laporanPelaksanaanPekerjaan: boolean;
