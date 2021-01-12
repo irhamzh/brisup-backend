@@ -1,6 +1,9 @@
 import { Division } from '@constants/BaseCondition';
 import { IApprovalLog } from '@interfaces/BaseInterface';
+import { IHotelBase } from '@modules/MasterData/Hotel/interface/hotel.interface';
 import { IVehicleBase } from '@modules/MasterData/Vehicle/interface/vehicle.interface';
+import { ICateringBase } from '@modules/MasterData/Catering/interface/catering.interface';
+import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
 
 interface IBasePayment {
   tanggal: Date;
@@ -55,14 +58,15 @@ export interface ITagihanRekreasiSiswa extends IBasePayment {
 
 export interface ITagihanRohaniHumasRepresentasiRapat extends IBasePayment {
   namaPembayaran: string;
-  invoice: boolean;
   notaPembukuan: boolean;
+  jenisBiaya: string;
+  invoice: boolean;
 }
 
 export interface ITagihanBrimedika extends IBasePayment {
   invoiceBermaterai: boolean;
-  copySPK: boolean;
   notaPembukuan: boolean;
+  copySPK: boolean;
 }
 
 export interface IPenihilanPAUK extends IBasePayment {
@@ -76,6 +80,7 @@ export interface IPenihilanPAUK extends IBasePayment {
 export interface IPublicCourse extends IBasePayment {
   namaPendidikan: string;
   periode: string;
+  provider: IProviderBase;
   invoiceBermaterai: boolean;
   suratPemanggilan: boolean;
   dataBrismart: boolean;
@@ -85,6 +90,7 @@ export interface IPublicCourse extends IBasePayment {
 
 export interface ITagihanS2 extends IBasePayment {
   namaPendidikan: string;
+  provider: IProviderBase;
   periodeBulan: string;
   suratPerintahBayar: boolean;
   suratkeKCK: boolean;
@@ -93,18 +99,21 @@ export interface ITagihanS2 extends IBasePayment {
 }
 
 export interface IAAJIWaperd extends IBasePayment {
-  namaAsuransi: string;
+  namaSertifikasi: string;
+  provider: IProviderBase;
   suratPerintahBayar: boolean;
 }
 
 export interface IHonorSalaryCreaditing extends IBasePayment {
-  namaAsuransi: string;
+  namaSertifikasi: string;
+  provider: IProviderBase;
   suratPerintahBayar: boolean;
   cekLainnya: boolean;
 }
 
 export interface IPembayaranLainnya extends IBasePayment {
-  namaPembayaran: string;
+  namaSertifikasi: string;
+  provider: IProviderBase;
   invoiceBermaterai: boolean;
   cekKesesuaianPembayaran: boolean;
 }
@@ -112,6 +121,7 @@ export interface IPembayaranLainnya extends IBasePayment {
 export interface ICatering extends IBasePayment {
   namaPendidikan: string;
   periode: string;
+  catering: ICateringBase;
   invoiceBermaterai: boolean;
   copySPKPKS: boolean;
   evaluasiBrismart: boolean;
@@ -121,6 +131,7 @@ export interface ICatering extends IBasePayment {
 
 export interface IJasaPendidikan extends IBasePayment {
   namaPendidikan: string;
+  provider: IProviderBase;
   invoiceBermaterai: boolean;
   bast: boolean;
   laporanPelaksanaanPekerjaan: boolean;
@@ -136,6 +147,7 @@ export interface IJasaPendidikan extends IBasePayment {
 export interface IHotel extends IBasePayment {
   namaPendidikan: string;
   periode: string;
+  hotel: IHotelBase;
   invoiceBermaterai: boolean;
   copySPKPKS: boolean;
   evaluasiBrismart: boolean;
@@ -179,6 +191,16 @@ export enum TypePayment {
   Hotel = 'Hotel',
   'Akomodasi Asrama' = 'Akomodasi Asrama',
 }
+
+export const WithProvider = [
+  TypePayment['Jasa Pendidikan'],
+  TypePayment['Public Course'],
+  TypePayment['Tagihan S2 Luar dan Dalam Negeri'],
+  TypePayment['Waperd'],
+  TypePayment['Honor'],
+  TypePayment['Salary Creaditing'],
+  TypePayment['Pembayaran Lainnya'],
+];
 
 export const UtilPayment: {
   [key: string]: {
@@ -258,6 +280,8 @@ export const UtilPayment: {
     seksi: Division['Procurement'],
   },
 };
+
+export const JenisBiaya = ['Rohani', 'Humas', 'Representasi', 'Rapat'];
 
 // Kelogistikan;
 // tanggal:2020-10-10;

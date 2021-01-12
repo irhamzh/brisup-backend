@@ -8,7 +8,10 @@ import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
+import HotelRepository from '@modules/MasterData/Hotel/hotel.repository';
 import VehicleRepository from '@modules/MasterData/Vehicle/vehicle.repository';
+import CateringRepository from '@modules/MasterData/Catering/catering.repository';
+import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 
 import { StatusPengadaan } from '@constants/BaseCondition';
 // import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
@@ -20,7 +23,11 @@ import {
   multiplePenihilan,
 } from './payment.schema';
 import PaymentRepository from './payment.repository';
-import { TypePayment, UtilPayment } from './interface/payment.interface';
+import {
+  TypePayment,
+  UtilPayment,
+  WithProvider,
+} from './interface/payment.interface';
 import { ApprovalStatus, ApprovalNextStatus } from '@constants/BaseCondition';
 
 const defaultBucket = 'images/fa-payment/';
@@ -67,6 +74,7 @@ export const createPayment = async (req: any, res: Response) => {
       approvalLogPenihilan: [log],
       statusPenihilan: ApprovalStatus['Unapproved'],
     };
+    //-> vehicle
   } else if (
     validatedBody.typePayment === TypePayment['Tagihan Service Kendaraan']
   ) {
@@ -75,6 +83,30 @@ export const createPayment = async (req: any, res: Response) => {
     createParam = {
       ...validatedBody,
       vehicle,
+    };
+    // ->catering
+  } else if (validatedBody.typePayment === TypePayment['Catering']) {
+    const cateringRepository = new CateringRepository();
+    const catering = await cateringRepository.findById(validatedBody.catering);
+    createParam = {
+      ...validatedBody,
+      catering,
+    };
+    // -> provider
+  } else if (WithProvider.includes(validatedBody.typePayment)) {
+    const providerRepository = new ProviderRepository();
+    const provider = await providerRepository.findById(validatedBody.provider);
+    createParam = {
+      ...validatedBody,
+      provider,
+    };
+    // -> hotel
+  } else if (validatedBody.typePayment === TypePayment['Hotel']) {
+    const hotelRepository = new HotelRepository();
+    const hotel = await hotelRepository.findById(validatedBody.hotel);
+    createParam = {
+      ...validatedBody,
+      hotel,
     };
   }
 
@@ -114,15 +146,43 @@ export const updatePayment = async (req: any, res: Response) => {
     validatedBody = { ...validatedBody, lampiran };
   }
 
+  // -> vehicle
   if (
     typePayment === TypePayment['Tagihan Service Kendaraan'] &&
-    validatedBody.vehicle
+    validatedBody?.vehicle
   ) {
     const vehicleRepository = new VehicleRepository();
     const vehicle = await vehicleRepository.findById(validatedBody.vehicle);
     validatedBody = {
       ...validatedBody,
       vehicle,
+    };
+    // -> catering
+  } else if (
+    typePayment === TypePayment['Catering'] &&
+    validatedBody?.catering
+  ) {
+    const cateringRepository = new CateringRepository();
+    const catering = await cateringRepository.findById(validatedBody.catering);
+    validatedBody = {
+      ...validatedBody,
+      catering,
+    };
+    // -> Provider
+  } else if (WithProvider.includes(typePayment) && validatedBody?.provider) {
+    const providerRepository = new ProviderRepository();
+    const provider = await providerRepository.findById(validatedBody.provider);
+    validatedBody = {
+      ...validatedBody,
+      provider,
+    };
+    // -> Hotel
+  } else if (typePayment === TypePayment['Hotel'] && validatedBody?.hotel) {
+    const hotelRepository = new HotelRepository();
+    const hotel = await hotelRepository.findById(validatedBody.hotel);
+    validatedBody = {
+      ...validatedBody,
+      hotel,
     };
   }
 

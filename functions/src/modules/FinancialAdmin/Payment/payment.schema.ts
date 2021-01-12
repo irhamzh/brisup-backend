@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import getAllEnumKey from '@utils/getAllEnumKeys';
 import validationWording from '@constants/validationWording';
 
-import { TypePayment } from './interface/payment.interface';
+import { TypePayment, JenisBiaya } from './interface/payment.interface';
 
 export const baseCreate = yup
   .object()
@@ -137,6 +137,10 @@ const createTagihanRohaniHumasRepresentasiRapat = yup
     notaPembukuan: yup
       .boolean()
       .required(validationWording.required('notaPembukuan')),
+    jenisBiaya: yup
+      .mixed()
+      .oneOf(JenisBiaya)
+      .required(validationWording.required('Jenis Biaya')),
   })
   .required()
   .concat(baseCreate);
@@ -162,6 +166,7 @@ const createPublicCourse = yup
       .string()
       .required(validationWording.required('namaPendidikan')),
     periode: yup.string().required(validationWording.required('periode')),
+    provider: yup.string().required(validationWording.required('provider')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -199,6 +204,7 @@ const createTagihanS2 = yup
     namaPendidikan: yup
       .string()
       .required(validationWording.required('namaPendidikan')),
+    provider: yup.string().required(validationWording.required('provider')),
     periodeBulan: yup
       .string()
       .required(validationWording.required('periodeBulan')),
@@ -221,9 +227,10 @@ const createTagihanS2 = yup
 const createAAJIWaperd = yup
   .object()
   .shape({
-    namaAsuransi: yup
+    namaSertifikasi: yup
       .string()
-      .required(validationWording.required('namaAsuransi')),
+      .required(validationWording.required('namaSertifikasi')),
+    provider: yup.string().required(validationWording.required('provider')),
     suratPerintahBayar: yup
       .boolean()
       .required(validationWording.required('suratPerintahBayar')),
@@ -234,9 +241,10 @@ const createAAJIWaperd = yup
 const createHonorSalaryCreaditing = yup
   .object()
   .shape({
-    namaAsuransi: yup
+    provider: yup.string().required(validationWording.required('provider')),
+    namaSertifikasi: yup
       .string()
-      .required(validationWording.required('namaAsuransi')),
+      .required(validationWording.required('namaSertifikasi')),
     suratPerintahBayar: yup
       .boolean()
       .required(validationWording.required('suratPerintahBayar')),
@@ -250,9 +258,10 @@ const createHonorSalaryCreaditing = yup
 const createPembayaranLainnya = yup
   .object()
   .shape({
-    namaPembayaran: yup
+    namaSertifikasi: yup
       .string()
-      .required(validationWording.required('namaPembayaran')),
+      .required(validationWording.required('namaSertifikasi')),
+    provider: yup.string().required(validationWording.required('provider')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -270,6 +279,7 @@ const createCatering = yup
       .string()
       .required(validationWording.required('namaPendidikan')),
     periode: yup.string().required(validationWording.required('periode')),
+    catering: yup.string().required(validationWording.required('catering')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -293,6 +303,7 @@ const createJasaPendidikan = yup
     namaPendidikan: yup
       .string()
       .required(validationWording.required('namaPendidikan')),
+    provider: yup.string().required(validationWording.required('provider')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -330,6 +341,7 @@ const createHotel = yup
       .string()
       .required(validationWording.required('namaPendidikan')),
     periode: yup.string().required(validationWording.required('periode')),
+    hotel: yup.string().required(validationWording.required('hotel')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -484,6 +496,7 @@ const updateTagihanRohaniHumasRepresentasiRapat = yup
     namaPembayaran: yup.string(),
     invoice: yup.boolean(),
     notaPembukuan: yup.boolean(),
+    jenisBiaya: yup.mixed().oneOf(JenisBiaya),
   })
   .required()
   .concat(baseUpdate);
@@ -503,6 +516,7 @@ const updatePublicCourse = yup
   .shape({
     namaPendidikan: yup.string(),
     periode: yup.string(),
+    provider: yup.string(),
     invoiceBermaterai: yup.boolean(),
     suratPemanggilan: yup.boolean(),
     dataBrismart: yup.boolean(),
@@ -526,6 +540,7 @@ const updateTagihanS2 = yup
   .object()
   .shape({
     namaPendidikan: yup.string(),
+    provider: yup.string(),
     periodeBulan: yup.string(),
     suratPerintahBayar: yup.boolean(),
     suratkeKCK: yup.boolean(),
@@ -538,7 +553,8 @@ const updateTagihanS2 = yup
 const updateAAJIWaperd = yup
   .object()
   .shape({
-    namaAsuransi: yup.string(),
+    namaSertifikasi: yup.string(),
+    provider: yup.string(),
     suratPerintahBayar: yup.boolean(),
   })
   .required()
@@ -547,7 +563,8 @@ const updateAAJIWaperd = yup
 const updateHonorSalaryCreaditing = yup
   .object()
   .shape({
-    namaAsuransi: yup.string(),
+    namaSertifikasi: yup.string(),
+    provider: yup.string(),
     suratPerintahBayar: yup.boolean(),
     cekLainnya: yup.boolean(),
   })
@@ -557,7 +574,8 @@ const updateHonorSalaryCreaditing = yup
 const updatePembayaranLainnya = yup
   .object()
   .shape({
-    namaPembayaran: yup.string(),
+    namaSertifikasi: yup.string(),
+    provider: yup.string(),
     invoiceBermaterai: yup.boolean(),
     cekKesesuaianPembayaran: yup.boolean(),
   })
@@ -569,6 +587,7 @@ const updateCatering = yup
   .shape({
     namaPendidikan: yup.string(),
     periode: yup.string(),
+    catering: yup.string(),
     invoiceBermaterai: yup.boolean(),
     copySPKPKS: yup.boolean(),
     evaluasiBrismart: yup.boolean(),
@@ -582,6 +601,7 @@ const updateJasaPendidikan = yup
   .object()
   .shape({
     namaPendidikan: yup.string(),
+    provider: yup.string(),
     invoiceBermaterai: yup.boolean(),
     bast: yup.boolean(),
     laporanPelaksanaanPekerjaan: yup.boolean(),
@@ -601,6 +621,7 @@ const updateHotel = yup
   .shape({
     namaPendidikan: yup.string(),
     periode: yup.string(),
+    hotel: yup.string(),
     invoiceBermaterai: yup.boolean(),
     copySPKPKS: yup.boolean(),
     evaluasiBrismart: yup.boolean(),
