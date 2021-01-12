@@ -1,5 +1,6 @@
 import { Division } from '@constants/BaseCondition';
 import { IApprovalLog } from '@interfaces/BaseInterface';
+import { IHotelBase } from '@modules/MasterData/Hotel/interface/hotel.interface';
 import { IVehicleBase } from '@modules/MasterData/Vehicle/interface/vehicle.interface';
 import { ICateringBase } from '@modules/MasterData/Catering/interface/catering.interface';
 import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
@@ -141,6 +142,7 @@ export interface IJasaPendidikan extends IBasePayment {
 export interface IHotel extends IBasePayment {
   namaPendidikan: string;
   periode: string;
+  hotel: IHotelBase;
   invoiceBermaterai: boolean;
   copySPKPKS: boolean;
   evaluasiBrismart: boolean;

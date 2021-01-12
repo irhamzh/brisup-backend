@@ -8,6 +8,7 @@ import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
+import HotelRepository from '@modules/MasterData/Hotel/hotel.repository';
 import VehicleRepository from '@modules/MasterData/Vehicle/vehicle.repository';
 import CateringRepository from '@modules/MasterData/Catering/catering.repository';
 import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
@@ -92,6 +93,13 @@ export const createPayment = async (req: any, res: Response) => {
       ...validatedBody,
       provider,
     };
+  } else if (validatedBody.typePayment === TypePayment['Hotel']) {
+    const hotelRepository = new HotelRepository();
+    const hotel = await hotelRepository.findById(validatedBody.hotel);
+    createParam = {
+      ...validatedBody,
+      hotel,
+    };
   }
 
   const data = await paymentRepository.create(createParam);
@@ -159,6 +167,13 @@ export const updatePayment = async (req: any, res: Response) => {
     validatedBody = {
       ...validatedBody,
       provider,
+    };
+  } else if (typePayment === TypePayment['Hotel'] && validatedBody?.hotel) {
+    const hotelRepository = new HotelRepository();
+    const hotel = await hotelRepository.findById(validatedBody.hotel);
+    createParam = {
+      ...validatedBody,
+      hotel,
     };
   }
 

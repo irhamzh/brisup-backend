@@ -336,6 +336,7 @@ const createHotel = yup
       .string()
       .required(validationWording.required('namaPendidikan')),
     periode: yup.string().required(validationWording.required('periode')),
+    hotel: yup.string().required(validationWording.required('hotel')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -610,6 +611,7 @@ const updateHotel = yup
   .shape({
     namaPendidikan: yup.string(),
     periode: yup.string(),
+    hotel: yup.string(),
     invoiceBermaterai: yup.boolean(),
     copySPKPKS: yup.boolean(),
     evaluasiBrismart: yup.boolean(),
