@@ -1,6 +1,7 @@
 import { Division } from '@constants/BaseCondition';
 import { IApprovalLog } from '@interfaces/BaseInterface';
 import { IVehicleBase } from '@modules/MasterData/Vehicle/interface/vehicle.interface';
+import { ICateringBase } from '@modules/MasterData/Catering/interface/catering.interface';
 
 interface IBasePayment {
   tanggal: Date;
@@ -113,6 +114,7 @@ export interface IPembayaranLainnya extends IBasePayment {
 export interface ICatering extends IBasePayment {
   namaPendidikan: string;
   periode: string;
+  catering: ICateringBase;
   invoiceBermaterai: boolean;
   copySPKPKS: boolean;
   evaluasiBrismart: boolean;

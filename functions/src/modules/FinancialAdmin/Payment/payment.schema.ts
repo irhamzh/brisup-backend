@@ -274,6 +274,7 @@ const createCatering = yup
       .string()
       .required(validationWording.required('namaPendidikan')),
     periode: yup.string().required(validationWording.required('periode')),
+    catering: yup.string().required(validationWording.required('catering')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
@@ -574,6 +575,7 @@ const updateCatering = yup
   .shape({
     namaPendidikan: yup.string(),
     periode: yup.string(),
+    catering: yup.string(),
     invoiceBermaterai: yup.boolean(),
     copySPKPKS: yup.boolean(),
     evaluasiBrismart: yup.boolean(),

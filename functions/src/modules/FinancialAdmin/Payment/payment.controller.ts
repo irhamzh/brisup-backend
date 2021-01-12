@@ -9,6 +9,7 @@ import validationWording from '@constants/validationWording';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import VehicleRepository from '@modules/MasterData/Vehicle/vehicle.repository';
+import CateringRepository from '@modules/MasterData/Catering/catering.repository';
 
 import { StatusPengadaan } from '@constants/BaseCondition';
 // import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
@@ -76,6 +77,13 @@ export const createPayment = async (req: any, res: Response) => {
       ...validatedBody,
       vehicle,
     };
+  } else if (validatedBody.typePayment === TypePayment['Catering']) {
+    const cateringRepository = new CateringRepository();
+    const catering = await cateringRepository.findById(validatedBody.catering);
+    createParam = {
+      ...validatedBody,
+      catering,
+    };
   }
 
   const data = await paymentRepository.create(createParam);
@@ -116,13 +124,23 @@ export const updatePayment = async (req: any, res: Response) => {
 
   if (
     typePayment === TypePayment['Tagihan Service Kendaraan'] &&
-    validatedBody.vehicle
+    validatedBody?.vehicle
   ) {
     const vehicleRepository = new VehicleRepository();
     const vehicle = await vehicleRepository.findById(validatedBody.vehicle);
     validatedBody = {
       ...validatedBody,
       vehicle,
+    };
+  } else if (
+    validatedBody.typePayment === TypePayment['Catering'] &&
+    validatedBody?.catering
+  ) {
+    const cateringRepository = new CateringRepository();
+    const catering = await cateringRepository.findById(validatedBody.catering);
+    validatedBody = {
+      ...validatedBody,
+      catering,
     };
   }
 
