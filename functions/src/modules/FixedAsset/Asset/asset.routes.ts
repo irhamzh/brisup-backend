@@ -36,7 +36,7 @@ errorHandledRoute.post(
 );
 errorHandledRoute.post(
   '/penghapusbukuan',
-  accessMiddleware('fixedAsset', 'approvalSupervisor'),
+  accessMiddleware('fixedAsset', 'create'),
   controller.pengajuanPenghapusbukuan
 );
 errorHandledRoute.put('/penghapusbukuan/:uid/approve', controller.approval);
