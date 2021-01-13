@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import accessMiddleware from '@middlewares/accessMiddleware';
 import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
@@ -9,15 +10,60 @@ const router = Router();
 const protectedRouter = withAuthMiddleware(router);
 const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
-errorHandledRoute.get('/', controller.getAllWorkingOrder);
-errorHandledRoute.get('/dashboard', controller.dashboard);
-errorHandledRoute.post('/', controller.createWorkingOrder);
-errorHandledRoute.put('/:uid', controller.updateWorkingOrder);
-errorHandledRoute.get('/:uid', controller.getWorkingOrderById);
-errorHandledRoute.delete('/:uid', controller.deleteWorkingOrderById);
-errorHandledRoute.put('/:uid/approve-process', controller.approveProcess);
-errorHandledRoute.put('/:uid/approve-wabag', controller.approveWabag);
-errorHandledRoute.put('/:uid/approve-kabag', controller.approveKabag);
-errorHandledRoute.put('/:uid/finish', controller.approveFinish);
+errorHandledRoute.get(
+  '/',
+  accessMiddleware(['fixedAsset', 'procurement', 'generalAffair'], 'read'),
+  controller.getAllWorkingOrder
+);
+errorHandledRoute.get(
+  '/dashboard',
+  accessMiddleware(['fixedAsset', 'procurement', 'generalAffair'], 'dashboard'),
+  controller.dashboard
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware(['fixedAsset', 'procurement', 'generalAffair'], 'create'),
+  controller.createWorkingOrder
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware(['fixedAsset', 'procurement', 'generalAffair'], 'update'),
+  controller.updateWorkingOrder
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware(['fixedAsset', 'procurement', 'generalAffair'], 'read'),
+  controller.getWorkingOrderById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware(['fixedAsset', 'procurement', 'generalAffair'], 'delete'),
+  controller.deleteWorkingOrderById
+);
+errorHandledRoute.put(
+  '/:uid/approve-process',
+  accessMiddleware('generalAffair', 'create'),
+  controller.approveProcess
+);
+errorHandledRoute.put(
+  '/:uid/approve-supervisor',
+  accessMiddleware('generalAffair', 'approvalSupervisor'),
+  controller.approveWakabag
+);
+errorHandledRoute.put(
+  '/:uid/approve-wabag',
+  accessMiddleware('generalAffair', 'approvalWakabag'),
+  controller.approveWakabag
+);
+errorHandledRoute.put(
+  '/:uid/approve-kabag',
+  accessMiddleware('generalAffair', 'approvalKabag'),
+  controller.approveKabag
+);
+errorHandledRoute.put(
+  '/:uid/finish',
+  accessMiddleware('generalAffair', 'create'),
+  controller.approveFinish
+);
 
 export default router;
