@@ -11,6 +11,7 @@ interface IBasePayment {
   typePendidikan: string;
   seksi: string;
   status: string;
+  approvalLog: IApprovalLog[];
   biaya: number;
   lampiran: string[];
   information: string;

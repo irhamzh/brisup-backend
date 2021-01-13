@@ -61,9 +61,14 @@ errorHandledRoute.put(
   controller.approveProcess
 );
 errorHandledRoute.put(
+  '/:uid/approve-supervisor',
+  accessMiddleware('generalAffair', 'approvalSupervisor'),
+  controller.approveSupervisor
+);
+errorHandledRoute.put(
   '/:uid/approve-wabag',
   accessMiddleware('financialAdmin', 'approvalWakabag'),
-  controller.approveWabag
+  controller.approveWakabag
 );
 errorHandledRoute.put(
   '/:uid/approve-kabag',

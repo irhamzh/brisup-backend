@@ -48,7 +48,7 @@ errorHandledRoute.put(
 errorHandledRoute.put(
   '/:uid/approve-supervisor',
   accessMiddleware('generalAffair', 'approvalSupervisor'),
-  controller.approveWakabag
+  controller.approveSupervisor
 );
 errorHandledRoute.put(
   '/:uid/approve-wabag',
