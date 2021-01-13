@@ -3,12 +3,14 @@ const aprroveStatusDashboard: {
 } = {
   'Proses Persetujuan':
     'Untuk mengubah status ke "Proses Persetujuan" pastikan kegiatan sedang dalam Proses "Belum Berjalan"',
+  'Approved oleh Supervisor':
+    'Untuk mengubah status ke "Approved oleh Supervisor" pastikan kegiatan sedang dalam Proses "Proses Persetujuan"',
   'Approved oleh Wakabag':
-    'Untuk mengubah status ke "Approved oleh Wakabag" pastikan kegiatan sedang dalam Proses "Proses Persetujuan"',
+    'Untuk mengubah status ke "Approved oleh Wakabag" pastikan kegiatan sedang dalam Proses "Approved oleh Supervisor"',
   'Approved oleh Kabag':
-    'Untuk mengubah status ke "Approved oleh Kabag" pastikan kegiatan sedang dalam Proses "Approved oleh Wakabag"',
+    'Untuk mengubah status ke "Approved oleh Kabag" pastikan kegiatan sedang dalam Proses "Approved oleh Supervisor"',
   Selesai:
-    'Untuk mengubah status ke "Selesai" pastikan kegiatan sedang dalam Proses "Approved oleh Kabag"',
+    'Untuk mengubah status ke "Selesai" pastikan kegiatan sedang dalam Proses "Approved oleh Kabag" atau "Approved oleh Wakabag"',
 };
 
 export default {

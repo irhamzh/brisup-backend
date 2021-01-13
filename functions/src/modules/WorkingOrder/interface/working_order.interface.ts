@@ -1,11 +1,14 @@
+import { IApprovalLog } from '@interfaces/BaseInterface';
+
 export interface IWorkingOrderBase {
   division: string;
   kodeWorkingOrder: string;
-  namaKegiatan: string;
-  typeKegiatan: string;
+  // namaKegiatan: string;
+  // typeKegiatan: string;
   kodePelatihan: string;
   tanggalTerima: Date;
   status: string;
+  approvalLog: IApprovalLog[];
   tanggalRevisi?: Date;
   tanggalKonfirmasi?: Date;
   catering?: string;
