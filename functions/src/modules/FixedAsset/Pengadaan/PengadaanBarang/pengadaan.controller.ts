@@ -7,7 +7,6 @@ import paramValidation from '@utils/paramValidation';
 import PengadaanRepository from './pengadaan.repository';
 import { StatusPengadaan } from '@constants/BaseCondition';
 // import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
-import AccessError from '@interfaces/AccessError';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import validationWording from '@constants/validationWording';
 
@@ -37,6 +36,7 @@ export const createKonsultanSeleksiLangsung = async (
   req: Request,
   res: Response
 ) => {
+  const user = res.locals.decoded;
   const { body } = req;
   const validatedBody = yupValidate(
     schema.createKonsultanSeleksiLangsung,
@@ -47,6 +47,7 @@ export const createKonsultanSeleksiLangsung = async (
     validatedBody,
     'konsultan',
     'Seleksi Langsung',
+    user,
     validatedBody.provider
   );
 
@@ -128,6 +129,7 @@ export const createKonsultanPenunjukanLangsung = async (
   req: Request,
   res: Response
 ) => {
+  const user = res.locals.decoded;
   const { body } = req;
   const validatedBody = yupValidate(
     schema.createKonsultanPenunjukanLangsung,
@@ -138,6 +140,7 @@ export const createKonsultanPenunjukanLangsung = async (
     validatedBody,
     'konsultan',
     'Penunjukan Langsung',
+    user,
     validatedBody.provider
   );
   res.json({
@@ -216,6 +219,7 @@ export const getAllPengadaanKonsultanPenunjukanLangsung = async (
 
 //Pengadaan Barang dan/atau Jasa (IT & Non IT) - Swakelola
 export const createBarangSwakelola = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
   const { body } = req;
   const validatedBody = yupValidate(schema.createSwakelolaPembelian, body);
   const pengadaanRepository = new PengadaanRepository();
@@ -223,6 +227,7 @@ export const createBarangSwakelola = async (req: Request, res: Response) => {
     validatedBody,
     'barang',
     'Swakelola',
+    user,
     validatedBody.provider
   );
   res.json({
@@ -297,6 +302,7 @@ export const createBarangPembelianLangsung = async (
   req: Request,
   res: Response
 ) => {
+  const user = res.locals.decoded;
   const { body } = req;
   const validatedBody = yupValidate(schema.createSwakelolaPembelian, body);
   const pengadaanRepository = new PengadaanRepository();
@@ -304,6 +310,7 @@ export const createBarangPembelianLangsung = async (
     validatedBody,
     'barang',
     'Pembelian Langsung',
+    user,
     validatedBody.provider
   );
   res.json({
@@ -381,6 +388,7 @@ export const createBarangPenunjukanLangsung = async (
   req: Request,
   res: Response
 ) => {
+  const user = res.locals.decoded;
   const { body } = req;
   const validatedBody = yupValidate(
     schema.createBarangPenunjukanLangsung,
@@ -391,6 +399,7 @@ export const createBarangPenunjukanLangsung = async (
     validatedBody,
     'barang',
     'Penunjukan Langsung',
+    user,
     validatedBody.provider
   );
   res.json({
@@ -472,6 +481,7 @@ export const createBarangPemilihanLangsung = async (
   req: Request,
   res: Response
 ) => {
+  const user = res.locals.decoded;
   const { body } = req;
   const validatedBody = yupValidate(schema.createBarangPemilihanLangsung, body);
   const pengadaanRepository = new PengadaanRepository();
@@ -479,6 +489,7 @@ export const createBarangPemilihanLangsung = async (
     validatedBody,
     'barang',
     'Pemilihan Langsung',
+    user,
     validatedBody.provider
   );
   res.json({
@@ -553,6 +564,7 @@ export const getAllPengadaanBarangPemilihanLangsung = async (
 
 //Pengadaan Barang dan/atau Jasa (IT & Non IT) - Lelang
 export const createBarangLelang = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
   const { body } = req;
   const validatedBody = yupValidate(schema.createBarangLelang, body);
   const pengadaanRepository = new PengadaanRepository();
@@ -560,6 +572,7 @@ export const createBarangLelang = async (req: Request, res: Response) => {
     validatedBody,
     'barang',
     'Lelang',
+    user,
     validatedBody.provider
   );
   res.json({
@@ -641,24 +654,67 @@ export const deletePengadaanById = async (req: Request, res: Response) => {
 };
 
 export const approveProcess = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
+  const status = StatusPengadaan['Proses Persetujuan'];
 
   const pengadaanRepository = new PengadaanRepository();
   const ref = await pengadaanRepository.findById(validateParam.uid);
   if (ref.status !== StatusPengadaan['Belum Berjalan']) {
     throw new InvalidRequestError(
-      validationWording.invalidNextStatus(
-        ref.status,
-        StatusPengadaan['Proses Persetujuan']
-      ),
+      validationWording.invalidNextStatus(ref.status, status),
       'Pengadaan'
     );
   }
 
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
   const data = await pengadaanRepository.update(validateParam.uid, {
-    status: StatusPengadaan['Proses Persetujuan'],
+    status,
+    approvalLog: [...ref.approvalLog, log],
   });
+  res.json({
+    message: 'Successfully Update Data',
+    data,
+  });
+};
+
+export const approveSupervisor = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const status = StatusPengadaan['Approved oleh Supervisor'];
+
+  const pengadaanRepository = new PengadaanRepository();
+
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Proses Persetujuan']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(ref.status, status),
+      'Pengadaan'
+    );
+  }
+
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
+  const data = await pengadaanRepository.update(validateParam.uid, {
+    status,
+    approvalLog: [...ref.approvalLog, log],
+  });
+
   res.json({
     message: 'Successfully Update Data',
     data,
@@ -669,29 +725,31 @@ export const approveWabag = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-
-  if (
-    !user ||
-    (user?.role?.name !== 'Wakil Kepala Bagian' && user?.role?.name !== 'Admin')
-  ) {
-    throw new AccessError('Approve Wakil Kepala Bagian');
-  }
+  const status = StatusPengadaan['Approved oleh Wakabag'];
 
   const pengadaanRepository = new PengadaanRepository();
 
   const ref = await pengadaanRepository.findById(validateParam.uid);
-  if (ref.status !== StatusPengadaan['Proses Persetujuan']) {
+  if (ref.status !== StatusPengadaan['Approved oleh Supervisor']) {
     throw new InvalidRequestError(
-      validationWording.invalidNextStatus(
-        ref.status,
-        StatusPengadaan['Approved oleh Wakabag']
-      ),
+      validationWording.invalidNextStatus(ref.status, status),
       'Pengadaan'
     );
   }
+
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
   const data = await pengadaanRepository.update(validateParam.uid, {
-    status: StatusPengadaan['Approved oleh Wakabag'],
+    status,
+    approvalLog: [...ref.approvalLog, log],
   });
+
   res.json({
     message: 'Successfully Update Data',
     data,
@@ -702,18 +760,12 @@ export const approveKabag = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-
-  if (
-    !user ||
-    (user?.role?.name !== 'Kepala Bagian' && user?.role?.name !== 'Admin')
-  ) {
-    throw new AccessError('Approve Kepala Bagian');
-  }
+  const status = StatusPengadaan['Approved oleh Kabag'];
 
   const pengadaanRepository = new PengadaanRepository();
 
   const ref = await pengadaanRepository.findById(validateParam.uid);
-  if (ref.status !== StatusPengadaan['Approved oleh Wakabag']) {
+  if (ref.status !== StatusPengadaan['Approved oleh Supervisor']) {
     throw new InvalidRequestError(
       validationWording.invalidNextStatus(
         ref.status,
@@ -722,9 +774,20 @@ export const approveKabag = async (req: Request, res: Response) => {
       'Pengadaan'
     );
   }
+
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
   const data = await pengadaanRepository.update(validateParam.uid, {
-    status: StatusPengadaan['Approved oleh Kabag'],
+    status,
+    approvalLog: [...ref.approvalLog, log],
   });
+
   res.json({
     message: 'Successfully Update Data',
     data,
@@ -732,23 +795,36 @@ export const approveKabag = async (req: Request, res: Response) => {
 };
 
 export const approveFinish = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
+  const status = StatusPengadaan['Selesai'];
 
   const pengadaanRepository = new PengadaanRepository();
   const ref = await pengadaanRepository.findById(validateParam.uid);
-  if (ref.status !== StatusPengadaan['Approved oleh Kabag']) {
+  if (
+    ref.status !== StatusPengadaan['Approved oleh Kabag'] ||
+    ref.status !== StatusPengadaan['Approved oleh Wakabag']
+  ) {
     throw new InvalidRequestError(
-      validationWording.invalidNextStatus(
-        ref.status,
-        StatusPengadaan['Selesai']
-      ),
+      validationWording.invalidNextStatus(ref.status, status),
       'Pengadaan'
     );
   }
+
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
   const data = await pengadaanRepository.update(validateParam.uid, {
-    status: StatusPengadaan['Selesai'],
+    status,
+    approvalLog: [...ref.approvalLog, log],
   });
+
   res.json({
     message: 'Successfully Update Data',
     data,

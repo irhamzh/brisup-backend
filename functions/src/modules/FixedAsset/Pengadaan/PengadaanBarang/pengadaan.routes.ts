@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import accessMiddleware from '@middlewares/accessMiddleware';
 import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
@@ -146,13 +147,51 @@ errorHandledRoute.delete(
   '/konsultan/seleksi-langsung/:uid',
   controller.deletePengadaanById
 );
-errorHandledRoute.delete('/:uid', controller.deletePengadaanById);
-errorHandledRoute.get('/', controller.getAllPengadaan);
-errorHandledRoute.get('/full', controller.getAllPengadaanFull);
-errorHandledRoute.get('/dashboard', controller.dashboard);
-errorHandledRoute.put('/:uid/approve-process', controller.approveProcess);
-errorHandledRoute.put('/:uid/approve-wabag', controller.approveWabag);
-errorHandledRoute.put('/:uid/approve-kabag', controller.approveKabag);
-errorHandledRoute.put('/:uid/finish', controller.approveFinish);
+
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'delete'),
+  controller.deletePengadaanById
+);
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getAllPengadaan
+);
+errorHandledRoute.get(
+  '/full',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getAllPengadaanFull
+);
+errorHandledRoute.get(
+  '/dashboard',
+  accessMiddleware('fixedAsset', 'dashboard'),
+  controller.dashboard
+);
+errorHandledRoute.put(
+  '/:uid/approve-process',
+  accessMiddleware('fixedAsset', 'create'),
+  controller.approveProcess
+);
+errorHandledRoute.put(
+  '/:uid/approve-supervisor',
+  accessMiddleware('fixedAsset', 'approvalSupervisor'),
+  controller.approveSupervisor
+);
+errorHandledRoute.put(
+  '/:uid/approve-wabag',
+  accessMiddleware('fixedAsset', 'approvalWakabag'),
+  controller.approveWabag
+);
+errorHandledRoute.put(
+  '/:uid/approve-kabag',
+  accessMiddleware('fixedAsset', 'approvalKabag'),
+  controller.approveKabag
+);
+errorHandledRoute.put(
+  '/:uid/finish',
+  accessMiddleware('fixedAsset', 'create'),
+  controller.approveFinish
+);
 
 export default router;

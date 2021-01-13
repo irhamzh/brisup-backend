@@ -1,18 +1,21 @@
-import BaseRepository from '@repositories/baseRepository';
+import * as admin from 'firebase-admin';
+
+import { db } from '@utils/admin';
+import { StatusPengadaan } from '@constants/BaseCondition';
+import { IUserDecoded } from '@modules/MasterData/User/interface/user.interface';
+
 import {
-  IPengadaanSwakelolaPembelian,
+  TypePengadaan,
+  JenisPengadaan,
   IPengadaanBarangdanJasa,
   IPengadaanJasaKonsultan,
-  JenisPengadaan,
-  TypePengadaan,
-  // JenisPengadaanBarang,
+  IPengadaanSwakelolaPembelian,
 } from './interface/pengadaan.interface';
-import { db } from '@utils/admin';
-import * as admin from 'firebase-admin';
+
 import NotFoundError from '@interfaces/NotFoundError';
+import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
 import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
-import { StatusPengadaan } from '@constants/BaseCondition';
 
 import PurchaseOrderRepository from '@modules/FixedAsset/Pengadaan/PurchaseOrder/purchase_order.repository';
 import EvaluasiSuplierRepository from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.repository';
@@ -104,14 +107,24 @@ export default class PengadaanRepository extends BaseRepository<
     param: any,
     typePengadaan: string,
     jenisPengadaan: string,
+    user: IUserDecoded,
     paramProvider?: string
   ) {
+    const log = {
+      date: new Date(),
+      userId: user.uid,
+      name: user.name,
+      role: user.role.name,
+      status,
+    };
+
     let createParam = {
       ...param,
       typePengadaan: TypePengadaan[typePengadaan as TypePengadaan],
       jenisPengadaan: JenisPengadaan[jenisPengadaan as JenisPengadaan],
       isDraft: false,
       status: StatusPengadaan['Belum Berjalan'],
+      approvalLog: [log],
     };
     if (paramProvider) {
       const providerRepository = new ProviderRepository();

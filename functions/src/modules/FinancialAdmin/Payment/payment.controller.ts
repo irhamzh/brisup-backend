@@ -64,17 +64,26 @@ export const createPayment = async (req: any, res: Response) => {
     });
     lampiran.push(upload);
   }
-  const paymentRepository = new PaymentRepository();
 
+  const paymentRepository = new PaymentRepository();
+  const status = StatusPengadaan['Belum Berjalan'];
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
   let createParam = {
     ...validatedBody,
     ...utilPayment,
-    status: StatusPengadaan['Belum Berjalan'],
+    status,
+    approvalLog: [log],
     lampiran,
   };
 
   if (validatedBody.typePayment === TypePayment['Penihilan PAUK']) {
-    const log = {
+    const logPenihilan = {
       date: new Date(),
       userId: user.uid,
       name: user.name,
@@ -83,7 +92,7 @@ export const createPayment = async (req: any, res: Response) => {
     };
     createParam = {
       ...createParam,
-      approvalLogPenihilan: [log],
+      approvalLogPenihilan: [logPenihilan],
       statusPenihilan: ApprovalStatus['Unapproved'],
     };
     //-> vehicle
@@ -123,7 +132,6 @@ export const createPayment = async (req: any, res: Response) => {
   }
 
   const data = await paymentRepository.create(createParam);
-
   res.json({
     message: 'Successfully Create Aktivitas Payment',
     data,
@@ -251,23 +259,30 @@ export const getAllPayment = async (req: Request, res: Response) => {
 };
 
 export const approveProcess = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
+  const status = StatusPengadaan['Proses Persetujuan'];
 
   const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
   if (ref.status !== StatusPengadaan['Belum Berjalan']) {
     throw new InvalidRequestError(
-      validationWording.invalidNextStatus(
-        ref.status,
-        StatusPengadaan['Proses Persetujuan']
-      ),
+      validationWording.invalidNextStatus(ref.status, status),
       'Payment'
     );
   }
 
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
   const data = await paymentRepository.update(validateParam.uid, {
-    status: StatusPengadaan['Proses Persetujuan'],
+    status,
+    approvalLog: [...ref.approvalLog, log],
   });
   res.json({
     message: 'Successfully Update Data',
@@ -275,32 +290,66 @@ export const approveProcess = async (req: Request, res: Response) => {
   });
 };
 
-export const approveWabag = async (req: Request, res: Response) => {
+export const approveSupervisor = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-
-  if (
-    !user ||
-    (user?.role?.name !== 'Wakil Kepala Bagian' && user?.role?.name !== 'Admin')
-  ) {
-    throw new AccessError('Approve Wakil Kepala Bagian');
-  }
+  const status = StatusPengadaan['Approved oleh Supervisor'];
 
   const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
   if (ref.status !== StatusPengadaan['Proses Persetujuan']) {
     throw new InvalidRequestError(
-      validationWording.invalidNextStatus(
-        ref.status,
-        StatusPengadaan['Approved oleh Wakabag']
-      ),
+      validationWording.invalidNextStatus(ref.status, status),
       'Payment'
     );
   }
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
   const data = await paymentRepository.update(validateParam.uid, {
-    status: StatusPengadaan['Approved oleh Wakabag'],
+    status,
+    approvalLog: [...ref.approvalLog, log],
   });
+
+  res.json({
+    message: 'Successfully Update Data',
+    data,
+  });
+};
+
+export const approveWakabag = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const status = StatusPengadaan['Approved oleh Wakabag'];
+
+  const paymentRepository = new PaymentRepository();
+  const ref = await paymentRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Approved oleh Supervisor']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(ref.status, status),
+      'Payment'
+    );
+  }
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
+  const data = await paymentRepository.update(validateParam.uid, {
+    status,
+    approvalLog: [...ref.approvalLog, log],
+  });
+
   res.json({
     message: 'Successfully Update Data',
     data,
@@ -311,29 +360,30 @@ export const approveKabag = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
-
-  if (
-    !user ||
-    (user?.role?.name !== 'Kepala Bagian' && user?.role?.name !== 'Admin')
-  ) {
-    throw new AccessError('Approve Kepala Bagian');
-  }
+  const status = StatusPengadaan['Approved oleh Kabag'];
 
   const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
-  if (ref.status !== StatusPengadaan['Approved oleh Wakabag']) {
+  if (ref.status !== StatusPengadaan['Approved oleh Supervisor']) {
     throw new InvalidRequestError(
-      validationWording.invalidNextStatus(
-        ref.status,
-        StatusPengadaan['Approved oleh Kabag']
-      ),
+      validationWording.invalidNextStatus(ref.status, status),
       'Payment'
     );
   }
 
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
   const data = await paymentRepository.update(validateParam.uid, {
-    status: StatusPengadaan['Approved oleh Kabag'],
+    status,
+    approvalLog: [...ref.approvalLog, log],
   });
+
   res.json({
     message: 'Successfully Update Data',
     data,
@@ -341,24 +391,36 @@ export const approveKabag = async (req: Request, res: Response) => {
 };
 
 export const approveFinish = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
+  const status = StatusPengadaan['Selesai'];
 
   const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
-  if (ref.status !== StatusPengadaan['Approved oleh Kabag']) {
+  if (
+    ref.status !== StatusPengadaan['Approved oleh Kabag'] ||
+    ref.status !== StatusPengadaan['Approved oleh Wakabag']
+  ) {
     throw new InvalidRequestError(
-      validationWording.invalidNextStatus(
-        ref.status,
-        StatusPengadaan['Selesai']
-      ),
+      validationWording.invalidNextStatus(ref.status, status),
       'Payment'
     );
   }
 
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status,
+  };
+
   const data = await paymentRepository.update(validateParam.uid, {
-    status: StatusPengadaan['Selesai'],
+    status,
+    approvalLog: [...ref.approvalLog, log],
   });
+
   res.json({
     message: 'Successfully Update Data',
     data,
