@@ -194,7 +194,7 @@ export const approval = async (req: Request, res: Response) => {
     approvalLog,
   });
   res.json({
-    message: 'Successfully Update Data',
+    message: 'Sukses Approve Persekot',
     data,
   });
 };
@@ -210,7 +210,7 @@ export const pengajuanPenghapusbukuan = async (req: Request, res: Response) => {
     user
   );
   res.json({
-    message: 'Successfully Update Persekot',
+    message: 'Sukses Approve Persekot',
     invalidRow,
   });
 };

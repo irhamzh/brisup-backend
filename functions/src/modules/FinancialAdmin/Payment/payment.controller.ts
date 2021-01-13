@@ -32,6 +32,18 @@ import { ApprovalStatus, ApprovalNextStatus } from '@constants/BaseCondition';
 
 const defaultBucket = 'images/fa-payment/';
 
+type CurrentStatusType =
+  | 'Unapproved'
+  | 'Approved oleh Supervisor I'
+  | 'Diajukan Penihilan';
+type StatusApprovalType =
+  | 'Unapproved'
+  | 'Approved oleh Supervisor I'
+  | 'Diajukan Penihilan'
+  | 'Approved oleh Supervisor II'
+  | 'Approved oleh Wakabag'
+  | 'Approved oleh Kabag';
+
 export const createPayment = async (req: any, res: Response) => {
   const user = res.locals.decoded;
   const { arrayFiles, body } = req;
@@ -410,6 +422,7 @@ export const dashboard = async (req: Request, res: Response) => {
 
 export const approvalPenihilan = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
+  const role = user?.role;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
@@ -421,20 +434,6 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
     throw new NotFoundError(validationWording.notFound('PAUK'), 'PAUK');
   }
 
-  // -> get next statusPenihilan
-  const currentStatus:
-    | 'Unapproved'
-    | 'Approved oleh Supervisor I'
-    | 'Diajukan Penihilan' = ref.statusPenihilan;
-
-  let statusPenihilan:
-    | 'Unapproved'
-    | 'Approved oleh Supervisor I'
-    | 'Diajukan Penihilan'
-    | 'Approved oleh Supervisor II'
-    | 'Approved oleh Wakabag'
-    | 'Approved oleh Kabag' = ApprovalNextStatus[currentStatus];
-
   // -> cek statusPenihilan sudah di posisi terkahir atau belum
   if (
     ref.statusPenihilan === ApprovalStatus['Approved oleh Wakabag'] ||
@@ -443,24 +442,28 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
     throw new InvalidRequestError('Persetujuan telah selesai', 'PAUK');
   }
 
+  // -> get next statusPenihilan
+  const currentStatus: CurrentStatusType = ref.statusPenihilan;
+  let statusPenihilan: StatusApprovalType = ApprovalNextStatus[currentStatus];
+
   //validate role
   if (
     (statusPenihilan === ApprovalStatus['Approved oleh Supervisor I'] ||
       statusPenihilan === ApprovalStatus['Approved oleh Supervisor II']) &&
-    !user?.role?.name.includes('Supervisor')
+    !role['financialAdmin']['approvalSupervisor']
   ) {
     throw new AccessError('Approve Supervisor');
   } else if (
     ref.statusPenihilan === ApprovalStatus['Approved oleh Supervisor II']
   ) {
     // -> set next statusPenihilan Approved oleh Supervisor II
-    if (user?.role?.name !== 'Kepala Bagian') {
-      statusPenihilan = ApprovalStatus['Approved oleh Kabag'];
-    } else if (user?.role?.name !== 'Wakil Kepala Bagian') {
-      statusPenihilan = ApprovalStatus['Approved oleh Wakabag'];
+    if (role['financialAdmin']['approvalKabag']) {
+      status = ApprovalStatus['Approved oleh Kabag'];
+    } else if (role['financialAdmin']['approvalWakabag']) {
+      status = ApprovalStatus['Approved oleh Wakabag'];
     } else {
       throw new AccessError(
-        'Approve Wakil Kepala Bagian | Approve Kepala Bagian'
+        'Approve Wakil Kepala Bagian | Approve Kepala Bagian Financial'
       );
     }
   }
@@ -471,7 +474,7 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
     date: new Date(),
     userId: user.uid,
     name: user.name,
-    role: user.role.name,
+    role: role.name,
   };
   const approvalLogPenihilan = [...ref.approvalLogPenihilan, log];
 
@@ -481,7 +484,7 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
     approvalLogPenihilan,
   });
   res.json({
-    message: 'Successfully Update Data',
+    message: 'Sukses Approve Persekot',
     data,
   });
 };

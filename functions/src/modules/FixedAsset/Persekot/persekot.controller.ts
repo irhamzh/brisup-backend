@@ -201,7 +201,7 @@ export const pengajuanPenihilan = async (req: Request, res: Response) => {
     user
   );
   res.json({
-    message: 'Successfully Update Persekot',
+    message: 'Sukses Approve Persekot',
     invalidRow,
   });
 };
