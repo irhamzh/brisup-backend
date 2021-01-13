@@ -405,6 +405,16 @@ export const approveFinish = async (req: Request, res: Response) => {
     );
   }
 
+  if (
+    ref.status !== StatusPengadaan['Approved oleh Kabag'] ||
+    ref.status !== StatusPengadaan['Approved oleh Wakabag']
+  ) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(ref.status, status),
+      'Payment'
+    );
+  }
+
   const log = {
     date: new Date(),
     userId: user.uid,
