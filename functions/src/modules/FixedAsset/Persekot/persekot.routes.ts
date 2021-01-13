@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import accessMiddleware from '@middlewares/accessMiddleware';
 import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
@@ -9,13 +10,62 @@ const router = Router();
 const protectedRouter = withAuthMiddleware(router);
 const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
-errorHandledRoute.get('/', controller.getAllPersekot);
-errorHandledRoute.get('/:uid', controller.getPersekotById);
-errorHandledRoute.post('/', controller.createPersekot);
-errorHandledRoute.post('/delete', controller.deleteMultiplePersekot);
-errorHandledRoute.post('/penihilan', controller.pengajuanPenihilan);
+errorHandledRoute.get(
+  '/',
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'read'
+  ),
+  controller.getAllPersekot
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'read'
+  ),
+  controller.getPersekotById
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'create'
+  ),
+  controller.createPersekot
+);
+errorHandledRoute.post(
+  '/delete',
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'delete'
+  ),
+  controller.deleteMultiplePersekot
+);
+errorHandledRoute.post(
+  '/penihilan',
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'create'
+  ),
+  controller.pengajuanPenihilan
+);
 errorHandledRoute.put('/:uid/approve', controller.approval);
-errorHandledRoute.put('/:uid', controller.updatePersekot);
-errorHandledRoute.delete('/:uid', controller.deletePersekotById);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'update'
+  ),
+  controller.updatePersekot
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'delete'
+  ),
+  controller.deletePersekotById
+);
 
 export default router;

@@ -10,26 +10,14 @@ const router = Router();
 const errorHandledRoute = withErrorHandlerRoute(router);
 const protectedRouter = withAuthMiddleware(errorHandledRoute);
 
-protectedRouter.get(
-  '/me',
-  accessMiddleware('masterData', 'read'),
-  controller.getCurrentAuth
-);
-protectedRouter.get(
-  '/me/revoke-token',
-  accessMiddleware('masterData', 'read'),
-  controller.revokeToken
-);
+protectedRouter.get('/me', controller.getCurrentAuth);
+protectedRouter.get('/me/revoke-token', controller.revokeToken);
 protectedRouter.get(
   '/',
   accessMiddleware('masterData', 'read'),
   controller.getAllUser
 );
-protectedRouter.get(
-  '/token-data',
-  accessMiddleware('masterData', 'read'),
-  controller.getTokenData
-);
+protectedRouter.get('/token-data', controller.getTokenData);
 errorHandledRoute.get('/refresh-token', controller.refreshToken);
 errorHandledRoute.post('/', controller.createUser);
 errorHandledRoute.post('/login', controller.logIn);

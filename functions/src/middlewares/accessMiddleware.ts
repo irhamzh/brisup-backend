@@ -1,12 +1,14 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 
+type DivisionType =
+  | 'fixedAsset'
+  | 'procurement'
+  | 'generalAffair'
+  | 'financialAdmin'
+  | 'masterData';
+
 export default function accessMiddleware(
-  division:
-    | 'fixedAsset'
-    | 'procurement'
-    | 'generalAffair'
-    | 'financialAdmin'
-    | 'masterData',
+  division: DivisionType | DivisionType[],
   permisisonDivision:
     | 'create'
     | 'update'
@@ -31,8 +33,27 @@ export default function accessMiddleware(
       });
       return;
     }
-    if (role[division][permisisonDivision] === true) {
+    if (
+      !(division instanceof Array) &&
+      role[division][permisisonDivision] === true
+    ) {
       return next();
+    }
+    if (division instanceof Array) {
+      let countAccess = 0;
+      for (const divisi of division) {
+        const checkAccess = role[divisi][permisisonDivision] || 0;
+        countAccess = countAccess + checkAccess;
+      }
+      if (countAccess > 0) {
+        return next();
+      } else {
+        res.status(403).json({
+          message: 'Access denied,You dont have permission!',
+          error: true,
+        });
+        return;
+      }
     }
     res.status(403).json({
       message:

@@ -34,6 +34,13 @@ export enum DivisionUser {
   'All' = 'All',
 }
 
+export enum GetAccessRoleDivision {
+  'Fixed Asset' = 'fixedAsset',
+  'Procurement' = 'procurement',
+  'General Affair' = 'generalAffair',
+  'Financial Admin' = 'financialAdmin',
+}
+
 export enum StatusPengadaan {
   'Belum Berjalan' = 'Belum Berjalan',
   'Proses Persetujuan' = 'Proses Persetujuan',

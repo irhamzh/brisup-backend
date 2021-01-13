@@ -1,16 +1,33 @@
 import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
-import paramValidation from '@utils/paramValidation';
-// import validationWording from '@constants/validationWording';
-// import NotFoundError from '@interfaces/NotFoundError';
 import AccessError from '@interfaces/AccessError';
+import paramValidation from '@utils/paramValidation';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 
 import schema from './persekot.schema';
 import PersekotRepository from './persekot.repository';
 import MappingBodyByType from './helpers/MappingBodyByType';
+
+import { GetAccessRoleDivision, Division } from '@constants/BaseCondition';
 import { ApprovalStatus, ApprovalNextStatus } from '@constants/BaseCondition';
+
+type CurrentStatusType =
+  | 'Unapproved'
+  | 'Approved oleh Supervisor I'
+  | 'Diajukan Penihilan';
+type StatusApprovalType =
+  | 'Unapproved'
+  | 'Approved oleh Supervisor I'
+  | 'Diajukan Penihilan'
+  | 'Approved oleh Supervisor II'
+  | 'Approved oleh Wakabag'
+  | 'Approved oleh Kabag';
+// type DivisionType =
+//   | 'Fixed Asset'
+//   | 'Procurement'
+//   | 'General Affair'
+//   | 'Financial Admin';
 
 export const createPersekot = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
@@ -110,26 +127,13 @@ export const deleteMultiplePersekot = async (req: Request, res: Response) => {
 
 export const approval = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
+  const role = user?.role;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
   // -> get getPersekotById
   const persekotRepository = new PersekotRepository();
   const ref = await persekotRepository.findById(validateParam.uid);
-
-  // -> get next status
-  const currentStatus:
-    | 'Unapproved'
-    | 'Approved oleh Supervisor I'
-    | 'Diajukan Penihilan' = ref.status;
-
-  let status:
-    | 'Unapproved'
-    | 'Approved oleh Supervisor I'
-    | 'Diajukan Penihilan'
-    | 'Approved oleh Supervisor II'
-    | 'Approved oleh Wakabag'
-    | 'Approved oleh Kabag' = ApprovalNextStatus[currentStatus];
 
   // -> cek status sudah di posisi terkahir atau belum
   if (
@@ -139,22 +143,28 @@ export const approval = async (req: Request, res: Response) => {
     throw new InvalidRequestError('Persetujuan telah selesai', 'Persekot');
   }
 
+  // -> get next status
+  const currentStatus: CurrentStatusType = ref.status;
+  let status: StatusApprovalType = ApprovalNextStatus[currentStatus];
+
   //validate role
+  const userDivision = ref.division;
+  const accessRoleDivision = GetAccessRoleDivision[userDivision as Division];
   if (
     (status === ApprovalStatus['Approved oleh Supervisor I'] ||
       status === ApprovalStatus['Approved oleh Supervisor II']) &&
-    !user?.role?.name.includes('Supervisor')
+    !role[accessRoleDivision]['approvalSupervisor']
   ) {
-    throw new AccessError('Approve Supervisor');
+    throw new AccessError('Approve Supervisor ' + userDivision);
   } else if (ref.status === ApprovalStatus['Approved oleh Supervisor II']) {
     // -> set next status Approved oleh Supervisor II
-    if (user?.role?.name !== 'Kepala Bagian') {
+    if (role[accessRoleDivision]['approvalKabag']) {
       status = ApprovalStatus['Approved oleh Kabag'];
-    } else if (user?.role?.name !== 'Wakil Kepala Bagian') {
+    } else if (role[accessRoleDivision]['approvalWakabag']) {
       status = ApprovalStatus['Approved oleh Wakabag'];
     } else {
       throw new AccessError(
-        'Approve Wakil Kepala Bagian | Approve Kepala Bagian'
+        'Approve Wakil Kepala Bagian | Approve Kepala Bagian ' + userDivision
       );
     }
   }
@@ -165,7 +175,7 @@ export const approval = async (req: Request, res: Response) => {
     date: new Date(),
     userId: user.uid,
     name: user.name,
-    role: user.role.name,
+    role: role.name,
   };
   const approvalLog = [...ref.approvalLog, log];
 
@@ -175,7 +185,7 @@ export const approval = async (req: Request, res: Response) => {
     approvalLog,
   });
   res.json({
-    message: 'Successfully Update Data',
+    message: 'Sukses Approve Persekot',
     data,
   });
 };
@@ -191,7 +201,7 @@ export const pengajuanPenihilan = async (req: Request, res: Response) => {
     user
   );
   res.json({
-    message: 'Successfully Update Persekot',
+    message: 'Sukses Approve Persekot',
     invalidRow,
   });
 };
