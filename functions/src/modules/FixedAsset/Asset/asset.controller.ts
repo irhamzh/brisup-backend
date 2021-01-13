@@ -11,6 +11,18 @@ import {
   ApprovalNextStatusAsset,
 } from './interface/asset.interface';
 
+type CurrentStatusType =
+  | 'Unapproved'
+  | 'Approved oleh Supervisor I'
+  | 'Diajukan Penghapusbukuan';
+type StatusApprovalType =
+  | 'Unapproved'
+  | 'Approved oleh Supervisor I'
+  | 'Diajukan Penghapusbukuan'
+  | 'Approved oleh Supervisor II'
+  | 'Approved oleh Wakabag'
+  | 'Approved oleh Kabag';
+
 export const createAsset = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { body } = req;
@@ -124,26 +136,13 @@ export const importExcel = async (req: any, res: Response) => {
 
 export const approval = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
+  const role = user?.role;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
 
   // -> get getPersekotById
   const assetRepository = new AssetRepository();
   const ref = await assetRepository.findById(validateParam.uid);
-
-  // -> get next status
-  const currentStatus:
-    | 'Unapproved'
-    | 'Approved oleh Supervisor I'
-    | 'Diajukan Penghapusbukuan' = ref.status;
-
-  let status:
-    | 'Unapproved'
-    | 'Approved oleh Supervisor I'
-    | 'Diajukan Penghapusbukuan'
-    | 'Approved oleh Supervisor II'
-    | 'Approved oleh Wakabag'
-    | 'Approved oleh Kabag' = ApprovalNextStatusAsset[currentStatus];
 
   // -> cek status sudah di posisi terkahir atau belum
   if (
@@ -153,24 +152,28 @@ export const approval = async (req: Request, res: Response) => {
     throw new InvalidRequestError('Persetujuan telah selesai', 'Persekot');
   }
 
+  // -> get next status
+  const currentStatus: CurrentStatusType = ref.status;
+  let status: StatusApprovalType = ApprovalNextStatusAsset[currentStatus];
+
   //validate role
   if (
     (status === ApprovalStatusAsset['Approved oleh Supervisor I'] ||
       status === ApprovalStatusAsset['Approved oleh Supervisor II']) &&
-    !user?.role?.name.includes('Supervisor')
+    !role['fixedAsset']['approvalSupervisor']
   ) {
-    throw new AccessError('Approve Supervisor');
+    throw new AccessError('Approve Supervisor Fixed Asset');
   } else if (
     ref.status === ApprovalStatusAsset['Approved oleh Supervisor II']
   ) {
     // -> set next status Approved oleh Supervisor II
-    if (user?.role?.name !== 'Kepala Bagian') {
+    if (role['fixedAsset']['approvalKabag']) {
       status = ApprovalStatusAsset['Approved oleh Kabag'];
-    } else if (user?.role?.name !== 'Wakil Kepala Bagian') {
+    } else if (role['fixedAsset']['approvalWakabag']) {
       status = ApprovalStatusAsset['Approved oleh Wakabag'];
     } else {
       throw new AccessError(
-        'Approve Wakil Kepala Bagian | Approve Kepala Bagian'
+        'Approve Wakil Kepala Bagian | Approve Kepala Bagian Fixed Asset'
       );
     }
   }
