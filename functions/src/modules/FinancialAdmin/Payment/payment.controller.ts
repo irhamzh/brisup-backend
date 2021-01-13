@@ -331,7 +331,7 @@ export const approveWakabag = async (req: Request, res: Response) => {
 
   const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
-  if (ref.status !== StatusPengadaan['Proses Persetujuan']) {
+  if (ref.status !== StatusPengadaan['Approved oleh Supervisor']) {
     throw new InvalidRequestError(
       validationWording.invalidNextStatus(ref.status, status),
       'Payment'
@@ -364,7 +364,7 @@ export const approveKabag = async (req: Request, res: Response) => {
 
   const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
-  if (ref.status !== StatusPengadaan['Approved oleh Wakabag']) {
+  if (ref.status !== StatusPengadaan['Approved oleh Supervisor']) {
     throw new InvalidRequestError(
       validationWording.invalidNextStatus(ref.status, status),
       'Payment'
@@ -398,13 +398,6 @@ export const approveFinish = async (req: Request, res: Response) => {
 
   const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
-  if (ref.status !== StatusPengadaan['Approved oleh Kabag']) {
-    throw new InvalidRequestError(
-      validationWording.invalidNextStatus(ref.status, status),
-      'Payment'
-    );
-  }
-
   if (
     ref.status !== StatusPengadaan['Approved oleh Kabag'] ||
     ref.status !== StatusPengadaan['Approved oleh Wakabag']

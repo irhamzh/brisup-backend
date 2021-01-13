@@ -1,3 +1,4 @@
+import { IApprovalLog } from '@interfaces/BaseInterface';
 import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
 
 interface IPengadaan {
@@ -6,6 +7,7 @@ interface IPengadaan {
   tanggalPengadaan: Date;
   namaPengadaan: string;
   status: string;
+  approvalLog: IApprovalLog[];
   isDraft: boolean;
   jenisAnggaran: string;
   izinPrinsipUser?: boolean;
