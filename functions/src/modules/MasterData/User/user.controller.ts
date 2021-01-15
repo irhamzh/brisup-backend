@@ -99,6 +99,23 @@ export const revokeToken = async (req: Request, res: Response) => {
   });
 };
 
+export const getAllUserElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const userRepository = new UserRepository();
+  const { data, totalCount } = await userRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+
+  res.json({
+    message: 'Successfully Get User',
+    totalCount,
+    data,
+  });
+};
+
 export const getAllUser = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const userRepository = new UserRepository();
@@ -128,13 +145,13 @@ export const getUserById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'userId');
   const userRepository = new UserRepository();
-  const data = await userRepository.findById(validateParam.uid);
-  const roleRepository = new RoleRepository();
-  const role = await roleRepository.findById(data.role);
+  const data = await userRepository.findByIdElastic(validateParam.uid);
+  // const roleRepository = new RoleRepository();
+  // const role = await roleRepository.findById(data.role);
 
   res.json({
     message: 'Successfully Get User By Id',
-    data: { ...data, role },
+    data: data,
   });
 };
 

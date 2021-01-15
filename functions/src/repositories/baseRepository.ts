@@ -2,16 +2,18 @@ import * as yup from 'yup';
 import * as firebase from 'firebase';
 import * as admin from 'firebase-admin';
 
-import { db } from '@utils/admin';
 import applySortQuery from '@utils/applySortQuery';
 import NotFoundError from '@interfaces/NotFoundError';
 import applyFilterQuery from '@utils/applyFilterQuery';
 import writeToFirestore from '@utils/writeToFirestore';
 import handleImportExcel from '@utils/handleImportExcel';
 import validationWording from '@constants/validationWording';
-import { StringKeys, IFiles } from '@interfaces/BaseInterface';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+// import elasticClient from '@utils/elasticSearchConfig';
+
+import { db } from '@utils/admin';
+import { StringKeys, IFiles } from '@interfaces/BaseInterface';
 
 export default class FirestoreRepository<
   CreateParam,
@@ -20,12 +22,62 @@ export default class FirestoreRepository<
 > {
   _collection: admin.firestore.CollectionReference;
   _name: string;
-  constructor(collectionName: string, name: string) {
+  _elasticIndex: string;
+  constructor(collectionName: string, name: string, elasticIndexName?: string) {
     this._collection = db.collection(collectionName);
     this._name = name;
+    this._elasticIndex = elasticIndexName || 'bri_corpu_all';
   }
 
-  //cadangan
+  // _____elasticSearch_____>
+  async findByIdElastic(id: string) {
+    // const data = await elasticClient.get({
+    //   index: this._elasticIndex,
+    //   type: '_doc',
+    //   id,
+    //   ignore: [404],
+    // });
+    // if (!data?.found || !data?._source) {
+    //   throw new NotFoundError(
+    //     validationWording.notFound(this._name),
+    //     this._name
+    //   );
+    // }
+    // const source = data._source as CreateParam;
+    // return {
+    //   id: data._id,
+    //   ...source,
+    // };
+    return {};
+  }
+
+  async findAllElastic(
+    page: number | string = 1,
+    limit: number | string = 10,
+    filtered: string,
+    sorted: string
+  ) {
+    return { data: [], totalCount: 0 };
+
+    // const parsedPage = parseInt(page as string);
+    // const parsedLimit = parseInt(limit as string);
+    // const skip = (parsedPage - 1) * parsedLimit;
+    // const body = {
+    //   size: parsedLimit,
+    //   from: skip,
+    // };
+    // const elsticData = await elasticClient.search({
+    //   index: this._elasticIndex,
+    //   body,
+    //   ignore: [404],
+    // });
+    // if (!elsticData?.hits?.hits || elsticData?.hits?.hits?.length < 0) {
+    //   return { data: [], totalCount: 0 };
+    // }
+    // return { data: elsticData, totalCount: elsticData.hits.total.value };
+  }
+
+  // _____firestore_____>
   async countDocument(filtered: string) {
     const query = filtered
       ? applyFilterQuery(this._collection, JSON.parse(filtered))
