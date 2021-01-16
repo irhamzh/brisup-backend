@@ -8,17 +8,18 @@ import * as functions from 'firebase-functions';
 import * as logger from 'morgan';
 
 import config from '@utils/config';
-// import elasticClient, { verify } from '@utils/elasticsearchConfig';
+import elasticClient from '@utils/elasticsearchConfig';
 import useApiRouter from './routes';
 firebase.initializeApp(config);
 
-// elasticClient.ping({ requestTimeout: 30000 }, function (error) {
-//   if (error) {
-//     console.error('elasticsearch cluster is down!');
-//   } else {
-//     console.log('Elasticsearch Database connected...');
-//   }
-// });
+elasticClient.ping({}, function (error) {
+  if (error) {
+    console.error('elasticsearch cluster is down!');
+    // verify();
+  } else {
+    console.log('Elasticsearch Database connected...');
+  }
+});
 
 const app = express();
 app.use(cors());
@@ -29,5 +30,3 @@ useApiRouter(app);
 
 const api = functions.region('asia-southeast2').https.onRequest(app);
 export { api };
-
-// verify();
