@@ -27,9 +27,10 @@ export default function applyFilterElasticSearch(
     if (id.includes('$')) {
       const [operatorQuery, fieldQuery] = id.split('$');
       if (operatorQuery.toLocaleLowerCase() === 'in') {
+        const fieldName = fieldQuery + '.keyword';
         filterBody.push({
           terms: {
-            [fieldQuery]: value,
+            [fieldName]: value,
           },
         });
       } else if (operatorQuery === 'month-year') {
