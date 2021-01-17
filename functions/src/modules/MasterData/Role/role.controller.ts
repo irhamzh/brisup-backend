@@ -58,7 +58,7 @@ export const getRoleById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'roleId');
   const roleRepository = new RoleRepository();
-  const data = await roleRepository.findById(validateParam.uid);
+  const data = await roleRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Role By Id',
     data,
@@ -68,13 +68,13 @@ export const getRoleById = async (req: Request, res: Response) => {
 export const getAllRole = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const roleRepository = new RoleRepository();
-  const data = await roleRepository.findAll(
+  const { data, totalCount } = await roleRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await roleRepository.countDocument(filtered as string);
+  // const totalCount = await roleRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Role',
