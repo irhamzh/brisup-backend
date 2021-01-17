@@ -33,6 +33,7 @@ import workingOrderRouter from '@modules/WorkingOrder/working_order.routes';
 import monitoringVendorRouter from '@modules/FixedAsset/Vendor/vendor.routes';
 import persediaanRouter from '@modules/FixedAsset/Persediaan/persediaan.routes';
 import peralatanITRouter from '@modules/FixedAsset/PeralatanIT/peralatan.routes';
+import fixedAssetAnggaranRouter from '@modules/FixedAsset/Anggaran/anggaran.routes';
 import investasiAggaranRouter from '@modules/FixedAsset/Anggaran/Investasi/investasi.routes';
 import pengadaanRouter from '@modules/FixedAsset/Pengadaan/PengadaanBarang/pengadaan.routes';
 import purchaseOrderRouter from '@modules/FixedAsset/Pengadaan/PurchaseOrder/purchase_order.routes';
@@ -130,6 +131,7 @@ apiRouter.use('/evaluasi-suppliers', evaluasiSuplierRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
 apiRouter.use('/fa-anggaran-exploitations', eksploitasiAggaranRouter);
 apiRouter.use('/fa-anggaran-investations', investasiAggaranRouter);
+apiRouter.use('/fx-budgets', fixedAssetAnggaranRouter);
 
 apiRouter.use('/pg-it-tools', itToolRouter);
 apiRouter.use('/pg-sanitations', sanitationRouter);
