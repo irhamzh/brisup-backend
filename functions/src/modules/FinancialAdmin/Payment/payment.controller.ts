@@ -102,7 +102,7 @@ export const createPayment = async (req: any, res: Response) => {
     const vehicleRepository = new VehicleRepository();
     const vehicle = await vehicleRepository.findById(validatedBody.vehicle);
     createParam = {
-      ...validatedBody,
+      ...createParam,
       vehicle,
     };
     // ->catering
@@ -110,7 +110,7 @@ export const createPayment = async (req: any, res: Response) => {
     const cateringRepository = new CateringRepository();
     const catering = await cateringRepository.findById(validatedBody.catering);
     createParam = {
-      ...validatedBody,
+      ...createParam,
       catering,
     };
     // -> provider
@@ -118,7 +118,7 @@ export const createPayment = async (req: any, res: Response) => {
     const providerRepository = new ProviderRepository();
     const provider = await providerRepository.findById(validatedBody.provider);
     createParam = {
-      ...validatedBody,
+      ...createParam,
       provider,
     };
     // -> hotel
@@ -126,7 +126,7 @@ export const createPayment = async (req: any, res: Response) => {
     const hotelRepository = new HotelRepository();
     const hotel = await hotelRepository.findById(validatedBody.hotel);
     createParam = {
-      ...validatedBody,
+      ...createParam,
       hotel,
     };
   }
@@ -232,7 +232,7 @@ export const getPaymentById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const paymentRepository = new PaymentRepository();
-  const data: admin.firestore.DocumentData = await paymentRepository.findById(
+  const data: admin.firestore.DocumentData = await paymentRepository.findByIdElastic(
     validateParam.uid
   );
   res.json({
@@ -244,13 +244,13 @@ export const getPaymentById = async (req: Request, res: Response) => {
 export const getAllPayment = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const paymentRepository = new PaymentRepository();
-  const data = await paymentRepository.findAll(
+  const { data, totalCount } = await paymentRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await paymentRepository.countDocument(filtered as string);
+  // const totalCount = await paymentRepository.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get Payment',
     data,
