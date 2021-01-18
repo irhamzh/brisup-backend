@@ -15,7 +15,7 @@ protectedRouter.get('/me/revoke-token', controller.revokeToken);
 protectedRouter.get(
   '/',
   accessMiddleware('masterData', 'read'),
-  controller.getAllUser
+  controller.getAllUserElastic
 );
 protectedRouter.get('/token-data', controller.getTokenData);
 errorHandledRoute.get('/refresh-token', controller.refreshToken);

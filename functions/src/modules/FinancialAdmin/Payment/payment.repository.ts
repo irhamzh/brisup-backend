@@ -50,7 +50,7 @@ export default class PaymentRepositoryRepository extends BaseRepository<
 > {
   _paymentModel: admin.firestore.CollectionReference;
   constructor() {
-    super('fa_payments', 'fa_payment');
+    super('fa_payments', 'fa_payment', 'bri_corpu_fa_payments');
     this._paymentModel = db.collection('fa_payments');
   }
 

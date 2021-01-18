@@ -3,6 +3,6 @@ import { IRoleBase } from '@modules/MasterData/Role/interface/role.interface';
 
 export default class RoleRepository extends BaseRepository<IRoleBase> {
   constructor() {
-    super('roles', 'role');
+    super('roles', 'role', 'bri_corpu_roles');
   }
 }

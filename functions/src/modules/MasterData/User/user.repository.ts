@@ -21,7 +21,7 @@ type loginParam = Omit<
 export default class UserRepository extends BaseRepository<IUserBase> {
   _userModel: admin.firestore.CollectionReference;
   constructor() {
-    super('users', 'user');
+    super('users', 'user', 'bri_corpu_users');
     this._userModel = db.collection('users');
   }
 

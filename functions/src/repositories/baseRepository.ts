@@ -2,17 +2,31 @@ import * as yup from 'yup';
 import * as firebase from 'firebase';
 import * as admin from 'firebase-admin';
 
-import { db } from '@utils/admin';
 import applySortQuery from '@utils/applySortQuery';
+import applySortElasticSearch from '@utils/applySortElasticSearch';
+
 import NotFoundError from '@interfaces/NotFoundError';
 import applyFilterQuery from '@utils/applyFilterQuery';
 import writeToFirestore from '@utils/writeToFirestore';
 import handleImportExcel from '@utils/handleImportExcel';
 import validationWording from '@constants/validationWording';
-import { StringKeys, IFiles } from '@interfaces/BaseInterface';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+import elasticClient from '@utils/elasticSearchConfig';
+import applyFilterElasticSearch from '@utils/applyFIlterElasticSearch';
 
+import { db } from '@utils/admin';
+import { StringKeys, IFiles } from '@interfaces/BaseInterface';
+import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
+
+interface ISearch<T = RequestBody> {
+  index?: string | string[];
+  type?: string | string[];
+  from?: number;
+  size?: number;
+  sort?: StringKeys[];
+  query?: T;
+}
 export default class FirestoreRepository<
   CreateParam,
   ConditionParam = {},
@@ -20,12 +34,94 @@ export default class FirestoreRepository<
 > {
   _collection: admin.firestore.CollectionReference;
   _name: string;
-  constructor(collectionName: string, name: string) {
+  _elasticIndex: string;
+  constructor(collectionName: string, name: string, elasticIndexName?: string) {
     this._collection = db.collection(collectionName);
     this._name = name;
+    this._elasticIndex = elasticIndexName || 'bri_corpu_all';
   }
 
-  //cadangan
+  // _____elasticSearch_____>
+  async findByIdElastic(id: string) {
+    const data = await elasticClient.get(
+      {
+        index: this._elasticIndex,
+        id,
+      },
+      { ignore: [404] }
+    );
+    if (!data.body.found || data.statusCode === 404) {
+      throw new NotFoundError(
+        validationWording.notFound(this._name),
+        this._name
+      );
+    }
+
+    const source = data.body._source;
+    return {
+      id: data.body._id,
+      ...source,
+    };
+  }
+
+  async findAllElastic(
+    page: number | string = 1,
+    limit: number | string = 10,
+    filtered: string = JSON.stringify([]),
+    sorted: string = JSON.stringify([]),
+    elasticIndexName?: string
+  ) {
+    const parsedPage = parseInt(page as string);
+    const parsedLimit = parseInt(limit as string);
+    const skip = (parsedPage - 1) * parsedLimit;
+    const bodyParam: ISearch = {
+      size: parsedLimit,
+      from: skip,
+    };
+
+    //sort
+    try {
+      const sortParam = JSON.parse(sorted);
+      bodyParam.sort = applySortElasticSearch(sortParam);
+    } catch (error) {
+      throw new InvalidRequestError('Invalid sort param', 'sort');
+    }
+
+    //filter
+    try {
+      const filterParam = JSON.parse(filtered);
+      bodyParam.query = applyFilterElasticSearch(filterParam);
+    } catch (error) {
+      throw new InvalidRequestError('Invalid filter param', 'filter');
+    }
+
+    const { body, statusCode } = await elasticClient.search(
+      {
+        index: elasticIndexName || this._elasticIndex,
+        body: bodyParam,
+      },
+      {
+        ignore: [404],
+      }
+    );
+    if (
+      statusCode === 404 ||
+      !body?.hits?.total?.value ||
+      body?.hits?.total?.value < 1
+    ) {
+      return { data: [], totalCount: 0 };
+    }
+
+    const data: CreateParam[] = [];
+    body.hits.hits.forEach((doc: { _id: string; _source: CreateParam }) => {
+      const snap = { id: doc._id, ...doc._source };
+      return data.push(snap);
+    });
+
+    return { data, totalCount: body.hits.total.value };
+  }
+
+  // _____firestore_____>
   async countDocument(filtered: string) {
     const query = filtered
       ? applyFilterQuery(this._collection, JSON.parse(filtered))

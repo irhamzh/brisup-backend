@@ -6,32 +6,21 @@ import * as express from 'express';
 import * as firebase from 'firebase';
 import * as functions from 'firebase-functions';
 import * as logger from 'morgan';
-// import * as elasticsearch from 'elasticsearch';
 
 import config from '@utils/config';
+// import elasticClient from '@utils/elasticsearchConfig';
 import useApiRouter from './routes';
 firebase.initializeApp(config);
 
-// const client = new elasticsearch.Client({
-//   host: '127.0.0.1:9200',
-//   log: 'error',
-// });
-
-// client.ping({ requestTimeout: 30000 }, function (error) {
+// elasticClient.ping({}, function (error) {
 //   if (error) {
 //     console.error('elasticsearch cluster is down!');
+//     // verify();
 //   } else {
-//     console.log('Everything is ok');
+//     console.log('Elasticsearch Database connected...');
 //   }
 // });
 
-// function indices() {
-//   return client.cat
-//     .indices({ v: true } as any)
-//     .then(console.log)
-//     .catch((err) => console.error(`Error connecting to the es client: ${err}`));
-// }
-// indices();
 const app = express();
 app.use(cors());
 app.use(express.json());

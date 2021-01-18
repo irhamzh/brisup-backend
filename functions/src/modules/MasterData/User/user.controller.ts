@@ -99,6 +99,30 @@ export const revokeToken = async (req: Request, res: Response) => {
   });
 };
 
+export const getAllUserElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const userRepository = new UserRepository();
+  const { data, totalCount } = await userRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+
+  const roleRepository = new RoleRepository();
+  const dataWithRole = [];
+  for (const user of data) {
+    const role = await roleRepository.findByIdElastic(user.role);
+    dataWithRole.push({ ...user, role });
+  }
+
+  res.json({
+    message: 'Successfully Get User',
+    data: dataWithRole,
+    totalCount,
+  });
+};
+
 export const getAllUser = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const userRepository = new UserRepository();
@@ -127,10 +151,12 @@ export const getAllUser = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'userId');
+
   const userRepository = new UserRepository();
-  const data = await userRepository.findById(validateParam.uid);
+  const data = await userRepository.findByIdElastic(validateParam.uid);
+
   const roleRepository = new RoleRepository();
-  const role = await roleRepository.findById(data.role);
+  const role = await roleRepository.findByIdElastic(data.role);
 
   res.json({
     message: 'Successfully Get User By Id',

@@ -48,7 +48,9 @@ export const createPayment = async (req: any, res: Response) => {
   const user = res.locals.decoded;
   const { arrayFiles, body } = req;
   const masterValidate = yupValidate(baseCreate, body);
+
   const typePayment = masterValidate.typePayment;
+
   const validatedBody = yupValidate(create[typePayment], body);
   const utilPayment = UtilPayment[typePayment];
   if (!arrayFiles?.lampiran || arrayFiles?.lampiran?.length < 1) {
@@ -102,7 +104,7 @@ export const createPayment = async (req: any, res: Response) => {
     const vehicleRepository = new VehicleRepository();
     const vehicle = await vehicleRepository.findById(validatedBody.vehicle);
     createParam = {
-      ...validatedBody,
+      ...createParam,
       vehicle,
     };
     // ->catering
@@ -110,7 +112,7 @@ export const createPayment = async (req: any, res: Response) => {
     const cateringRepository = new CateringRepository();
     const catering = await cateringRepository.findById(validatedBody.catering);
     createParam = {
-      ...validatedBody,
+      ...createParam,
       catering,
     };
     // -> provider
@@ -118,7 +120,7 @@ export const createPayment = async (req: any, res: Response) => {
     const providerRepository = new ProviderRepository();
     const provider = await providerRepository.findById(validatedBody.provider);
     createParam = {
-      ...validatedBody,
+      ...createParam,
       provider,
     };
     // -> hotel
@@ -126,7 +128,7 @@ export const createPayment = async (req: any, res: Response) => {
     const hotelRepository = new HotelRepository();
     const hotel = await hotelRepository.findById(validatedBody.hotel);
     createParam = {
-      ...validatedBody,
+      ...createParam,
       hotel,
     };
   }

@@ -208,7 +208,7 @@ export const UtilPayment: {
     [key: string]: string;
   };
 } = {
-  Kelogisitikan: {
+  Kelogistikan: {
     typePendidikan: 'Non Pendidikan',
     seksi: Division['Fixed Asset'],
   },
@@ -286,7 +286,7 @@ export const JenisBiaya = ['Rohani', 'Humas', 'Representasi', 'Rapat'];
 
 // Kelogistikan;
 // tanggal:2020-10-10;
-// typePayment:Kelogisitikan;
+// typePayment:Kelogistikan;
 // information:Aaaaa;
 // kegiatan:Ammar;
 // izinPrinsipPengadaan:true;
