@@ -21,7 +21,7 @@ export const createCatering = async (req: Request, res: Response) => {
 export const updateCatering = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'cateringId');
-  const validatedBody = yupValidate(schema.create, body);
+  const validatedBody = yupValidate(schema.update, body);
 
   const cateringRepository = new CateringRepository();
   const data = await cateringRepository.update(
