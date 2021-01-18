@@ -33,7 +33,7 @@ export const createP3k = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create Aktivitas P3k',
+    message: 'Successfully Create "Kegiatan P3k"',
     data,
   });
 };
@@ -64,7 +64,7 @@ export const updateP3k = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Aktivitas P3k',
+    message: 'Successfully Update "Kegiatan P3k"',
     data,
   });
 };
@@ -80,7 +80,7 @@ export const deleteP3kById = async (req: Request, res: Response) => {
     'ga_first_aid_kits'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Kegiatan P3k" By Id',
     data,
   });
 };
@@ -96,7 +96,7 @@ export const getP3kById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get P3k By Id',
+    message: 'Successfully Get "Kegiatan P3k" By Id',
     data,
   });
 };
@@ -119,7 +119,7 @@ export const getAllP3k = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get P3k',
+    message: 'Successfully Get "Kegiatan P3k"',
     data,
     totalCount,
   });

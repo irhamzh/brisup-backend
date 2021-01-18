@@ -26,7 +26,7 @@ export const createService = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create Aktivitas Service',
+    message: 'Successfully Create "Pengelolaan Service Kendaran"',
     data,
   });
 };
@@ -52,7 +52,7 @@ export const updateService = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Aktivitas Service',
+    message: 'Successfully Update "Pengelolaan Service Kendaran"',
     data,
   });
 };
@@ -68,7 +68,7 @@ export const deleteServiceById = async (req: Request, res: Response) => {
     'ga_services'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Pengelolaan Service Kendaran" By Id',
     data,
   });
 };
@@ -84,7 +84,7 @@ export const getServiceById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Service By Id',
+    message: 'Successfully Get "Pengelolaan Service Kendaran" By Id',
     data,
   });
 };
@@ -107,7 +107,7 @@ export const getAllService = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Service',
+    message: 'Successfully Get "Pengelolaan Service Kendaran"',
     data,
     totalCount,
   });

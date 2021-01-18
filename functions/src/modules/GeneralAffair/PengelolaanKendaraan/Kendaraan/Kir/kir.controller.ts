@@ -26,7 +26,7 @@ export const createKIR = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create Aktivitas KIR',
+    message: 'Successfully Create "Pengelolaan Kendaraan KIR"',
     data,
   });
 };
@@ -52,7 +52,7 @@ export const updateKIR = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Aktivitas KIR',
+    message: 'Successfully Update "Pengelolaan Kendaraan KIR"',
     data,
   });
 };
@@ -68,7 +68,7 @@ export const deleteKIRById = async (req: Request, res: Response) => {
     'ga_kirs'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Pengelolaan Kendaraan KIR" By Id',
     data,
   });
 };
@@ -84,7 +84,7 @@ export const getKIRById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get KIR By Id',
+    message: 'Successfully Get "Pengelolaan Kendaraan KIR" By Id',
     data,
   });
 };
@@ -107,7 +107,7 @@ export const getAllKIR = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get KIR',
+    message: 'Successfully Get "Pengelolaan Kendaraan KIR"',
     data,
     totalCount,
   });

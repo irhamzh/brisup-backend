@@ -26,7 +26,7 @@ export const createTax = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create Aktivitas Tax',
+    message: 'Successfully Create "Pengalolaan Pajak Kendaraan"',
     data,
   });
 };
@@ -52,7 +52,7 @@ export const updateTax = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Aktivitas Tax',
+    message: 'Successfully Update "Pengalolaan Pajak Kendaraan"',
     data,
   });
 };
@@ -68,7 +68,7 @@ export const deleteTaxById = async (req: Request, res: Response) => {
     'ga_taxes'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Pengalolaan Pajak Kendaraan" By Id',
     data,
   });
 };
@@ -84,7 +84,7 @@ export const getTaxById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Tax By Id',
+    message: 'Successfully Get "Pengalolaan Pajak Kendaraan" By Id',
     data,
   });
 };
@@ -107,7 +107,7 @@ export const getAllTax = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Tax',
+    message: 'Successfully Get "Pengalolaan Pajak Kendaraan"',
     data,
     totalCount,
   });

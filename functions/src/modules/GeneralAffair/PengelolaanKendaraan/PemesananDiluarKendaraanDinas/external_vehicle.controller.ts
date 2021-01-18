@@ -24,7 +24,8 @@ export const createExternalVehicle = async (req: Request, res: Response) => {
   const externalVehicleRepository = new ExternalVehicleRepository();
   const data = await externalVehicleRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create ExternalVehicle',
+    message:
+      'Successfully Create "Pemesanan Kendaraan di Luar Kendaaraan Dinas"',
     data,
   });
 };
@@ -53,7 +54,8 @@ export const updateExternalVehicle = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update ExternalVehicle',
+    message:
+      'Successfully Update "Pemesanan Kendaraan di Luar Kendaaraan Dinas"',
     data,
   });
 };
@@ -64,7 +66,8 @@ export const getExternalVehicleById = async (req: Request, res: Response) => {
   const externalVehicleRepository = new ExternalVehicleRepository();
   const data = await externalVehicleRepository.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get ExternalVehicleBy Id',
+    message:
+      'Successfully Get "Pemesanan Kendaraan di Luar Kendaaraan Dinas" By Id',
     data,
   });
 };
@@ -83,7 +86,7 @@ export const getAllExternalVehicle = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get ExternalVehicle',
+    message: 'Successfully Get "Pemesanan Kendaraan di Luar Kendaaraan Dinas"',
     data,
     totalCount,
   });
@@ -98,7 +101,8 @@ export const deleteExternalVehicleById = async (
   const externalVehicleRepository = new ExternalVehicleRepository();
   const data = await externalVehicleRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message:
+      'Successfully Delete "Pemesanan Kendaraan di Luar Kendaaraan Dinas" By Id',
     data,
   });
 };

@@ -13,7 +13,7 @@ export const createMonitoringCCTV = async (req: Request, res: Response) => {
   const createMonitoringRepository = new MonitoringCCTVRepository();
   const data = await createMonitoringRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create MonitoringCCTV',
+    message: 'Successfully Create "Monitoring CCTV"',
     data,
   });
 };
@@ -29,7 +29,7 @@ export const updateMonitoringCCTV = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update MonitoringCCTV',
+    message: 'Successfully Update "Monitoring CCTV"',
     data,
   });
 };
@@ -40,7 +40,7 @@ export const getMonitoringCCTVById = async (req: Request, res: Response) => {
   const createMonitoringRepository = new MonitoringCCTVRepository();
   const data = await createMonitoringRepository.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get MonitoringCCTV By Id',
+    message: 'Successfully Get "Monitoring CCTV" By Id',
     data,
   });
 };
@@ -59,7 +59,7 @@ export const getAllMonitoringCCTV = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get MonitoringCCTV',
+    message: 'Successfully Get "Monitoring CCTV"',
     data,
     totalCount,
   });
@@ -71,7 +71,7 @@ export const deleteMonitoringCCTVById = async (req: Request, res: Response) => {
   const createMonitoringRepository = new MonitoringCCTVRepository();
   const data = await createMonitoringRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Monitoring CCTV" By Id',
     data,
   });
 };
