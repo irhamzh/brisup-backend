@@ -400,7 +400,7 @@ const createAkomodasiAsrama = yup
   .concat(baseCreate);
 
 export const create: { [key: string]: yup.ObjectSchema<any> } = {
-  Kelogisitikan: createDataKelogistikan,
+  Kelogistikan: createDataKelogistikan,
   'Tagihan BBM': createTagihanBBM,
   'Tagihan Service Kendaraan': createTagihanServiceKendaraan,
   'Tagihan Sewa BUS': createTagihanSewaBus,
@@ -652,7 +652,7 @@ const updateAkomodasiAsrama = yup
   .concat(baseUpdate);
 
 export const update: { [key: string]: yup.ObjectSchema<any> } = {
-  Kelogisitikan: updateDataKelogistikan,
+  Kelogistikan: updateDataKelogistikan,
   'Tagihan BBM': updateTagihanBBM,
   'Tagihan Service Kendaraan': updateTagihanServiceKendaraan,
   'Tagihan Sewa BUS': updateTagihanSewaBus,
