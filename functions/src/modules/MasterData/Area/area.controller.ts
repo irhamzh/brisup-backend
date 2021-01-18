@@ -35,7 +35,7 @@ export const getAreaById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'areaId');
   const areaRepository = new AreaRepository();
-  const data = await areaRepository.findById(validateParam.uid);
+  const data = await areaRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Area By Id',
     data,
@@ -45,13 +45,13 @@ export const getAreaById = async (req: Request, res: Response) => {
 export const getAllArea = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const areaRepository = new AreaRepository();
-  const data = await areaRepository.findAll(
+  const { data, totalCount } = await areaRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await areaRepository.countDocument(filtered as string);
+  // const totalCount = await areaRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Area',

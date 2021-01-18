@@ -4,6 +4,6 @@ import { IAreaBase } from './interface/area.interface';
 
 export default class LocationRepository extends BaseRepository<IAreaBase> {
   constructor() {
-    super('areas', 'area');
+    super('areas', 'area', 'bri_corpu_areas');
   }
 }
