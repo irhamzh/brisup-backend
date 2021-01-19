@@ -14,7 +14,7 @@ export interface IConsumptionBase {
 }
 
 interface ICateringMenu {
-  name: string;
+  nama: string; // digati karena masalah fe
   price: number;
 }
 

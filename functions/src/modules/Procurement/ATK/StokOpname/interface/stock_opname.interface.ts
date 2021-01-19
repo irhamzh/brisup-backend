@@ -11,7 +11,7 @@ export interface IStokOpnameATKBase {
 }
 
 interface IBarang {
-  name: string;
+  nama: string; // digati karena masalah fe
   stockAwal: number;
   jumlahMasuk: number;
   jumlahKeluar: number;

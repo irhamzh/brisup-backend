@@ -13,7 +13,7 @@ export const createClinikEvalution = async (req: Request, res: Response) => {
   const clinicEvaluationRepository = new ClinikEvalutionRepository();
   const data = await clinicEvaluationRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create ClinikEvalution',
+    message: 'Successfully Create "Evaluasi Klinik"',
     data,
   });
 };
@@ -29,7 +29,7 @@ export const updateClinikEvalution = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update ClinikEvalution',
+    message: 'Successfully Update "Evaluasi Klinik"',
     data,
   });
 };
@@ -40,7 +40,7 @@ export const getClinikEvalutionById = async (req: Request, res: Response) => {
   const clinicEvaluationRepository = new ClinikEvalutionRepository();
   const data = await clinicEvaluationRepository.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get ClinikEvalution By Id',
+    message: 'Successfully Get "Evaluasi Klinik" By Id',
     data,
   });
 };
@@ -59,7 +59,7 @@ export const getAllClinikEvalution = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get ClinikEvalution',
+    message: 'Successfully Get "Evaluasi Klinik"',
     data,
     totalCount,
   });
@@ -74,7 +74,7 @@ export const deleteClinikEvalutionById = async (
   const clinicEvaluationRepository = new ClinikEvalutionRepository();
   const data = await clinicEvaluationRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Evaluasi Klinik" By Id',
     data,
   });
 };

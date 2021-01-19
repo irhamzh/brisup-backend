@@ -17,7 +17,7 @@ export const createRekreasi = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create Aktivitas Rekreasi',
+    message: 'Successfully Create "Kegiatan Rekreasi"',
     data,
   });
 };
@@ -35,7 +35,7 @@ export const updateRekreasi = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Aktivitas Rekreasi',
+    message: 'Successfully Update "Kegiatan Rekreasi"',
     data,
   });
 };
@@ -51,7 +51,7 @@ export const deleteRekreasiById = async (req: Request, res: Response) => {
     'ga_recreations'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Kegiatan Rekreasi" By Id',
     data,
   });
 };
@@ -67,7 +67,7 @@ export const getRekreasiById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Rekreasi By Id',
+    message: 'Successfully Get "Kegiatan Rekreasi" By Id',
     data,
   });
 };
@@ -90,7 +90,7 @@ export const getAllRekreasi = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Rekreasi',
+    message: 'Successfully Get "Kegiatan Rekreasi"',
     data,
     totalCount,
   });

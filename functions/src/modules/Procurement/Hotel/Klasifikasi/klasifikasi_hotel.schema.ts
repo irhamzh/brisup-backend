@@ -46,10 +46,10 @@ const create = yup
         yup
           .object()
           .shape({
-            name: yup
+            nama: yup
               .mixed()
               .oneOf(ListFacilitas)
-              .required(validationWording.required('name')),
+              .required(validationWording.required('nama')),
             price: yup.number().required(validationWording.required('price')),
           })
           .required()
@@ -71,10 +71,10 @@ const update = yup
       yup
         .object()
         .shape({
-          name: yup
+          nama: yup
             .mixed()
             .oneOf(ListFacilitas)
-            .required(validationWording.required('name')),
+            .required(validationWording.required('nama')),
           price: yup.number().required(validationWording.required('price')),
         })
         .required()

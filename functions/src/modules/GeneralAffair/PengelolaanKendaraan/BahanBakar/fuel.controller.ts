@@ -30,7 +30,7 @@ export const createFuel = async (req: any, res: Response) => {
   });
 
   res.json({
-    message: 'Successfully Create Fuel',
+    message: 'Successfully Create "Pengelolaan Bahan Bakar Kendaraan"',
     data,
   });
 };
@@ -56,7 +56,7 @@ export const updateFuel = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Fuel',
+    message: 'Successfully Update "Pengelolaan Bahan Bakar Kendaraan"',
     data,
   });
 };
@@ -68,7 +68,7 @@ export const deleteFuelById = async (req: Request, res: Response) => {
 
   const data = await fuelRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfull Delete "Pengelolaan Bahan Bakar Kendaraan" By Id',
     data,
   });
 };
@@ -82,7 +82,7 @@ export const getFuelById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Fuel By Id',
+    message: 'Successfully Get "Pengelolaan Bahan Bakar Kendaraan" By Id',
     data,
   });
 };
@@ -99,7 +99,7 @@ export const getAllFuel = async (req: Request, res: Response) => {
   const totalCount = await fuelRepository.countDocument(filtered as string);
 
   res.json({
-    message: 'Successfully Get Fuel',
+    message: 'Successfully Get "Pengelolaan Bahan Bakar Kendaraan"',
     data,
     totalCount,
   });

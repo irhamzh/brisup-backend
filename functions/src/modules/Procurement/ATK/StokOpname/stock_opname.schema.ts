@@ -16,10 +16,10 @@ const create = yup
         yup
           .object()
           .shape({
-            name: yup
+            nama: yup
               .mixed()
               .oneOf(ListBarang)
-              .required(validationWording.required('name')),
+              .required(validationWording.required('nama')),
             stockAwal: yup
               .number()
               .required(validationWording.required('stockAwal')),
@@ -46,7 +46,7 @@ const update = yup
       yup
         .object()
         .shape({
-          name: yup.mixed().oneOf(ListBarang),
+          nama: yup.mixed().oneOf(ListBarang),
           stockAwal: yup.number(),
           jumlahMasuk: yup.number(),
           jumlahKeluar: yup.number(),

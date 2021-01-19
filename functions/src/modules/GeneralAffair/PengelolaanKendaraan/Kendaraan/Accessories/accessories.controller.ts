@@ -26,7 +26,7 @@ export const createAccessories = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create Aktivitas Accessories',
+    message: 'Successfully Create "Pengelolaan Kelengkapan Kendaraan"',
     data,
   });
 };
@@ -52,7 +52,7 @@ export const updateAccessories = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Aktivitas Accessories',
+    message: 'Successfully Update "Pengelolaan Kelengkapan Kendaraan"',
     data,
   });
 };
@@ -68,7 +68,7 @@ export const deleteAccessoriesById = async (req: Request, res: Response) => {
     'ga_accessories'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Pengelolaan Kelengkapan Kendaraan" By Id',
     data,
   });
 };
@@ -84,7 +84,7 @@ export const getAccessoriesById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Accessories By Id',
+    message: 'Successfully Get "Pengelolaan Kelengkapan Kendaraan" By Id',
     data,
   });
 };
@@ -107,7 +107,7 @@ export const getAllAccessories = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Accessories',
+    message: 'Successfully Get "Pengelolaan Kelengkapan Kendaraan"',
     data,
     totalCount,
   });

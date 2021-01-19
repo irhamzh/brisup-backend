@@ -3,6 +3,6 @@ import { IRuanganBase } from '@modules/MasterData/Ruangan/interface/ruangan.inte
 
 export default class RoleRepository extends BaseRepository<IRuanganBase> {
   constructor() {
-    super('ruangans', 'ruangan');
+    super('ruangans', 'ruangan', 'bri_corpu_rooms');
   }
 }

@@ -30,7 +30,7 @@ export const createConsumption = async (req: Request, res: Response) => {
   const data = await consumptionRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create Consumption',
+    message: 'Successfully Create "Konsumsi Rapat"',
     data,
   });
 };
@@ -63,7 +63,7 @@ export const updateConsumption = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Consumption',
+    message: 'Successfully Update "Konsumsi Rapat"',
     data,
   });
 };
@@ -75,7 +75,7 @@ export const getConsumptionById = async (req: Request, res: Response) => {
   const data = await consumptionRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get Consumption By Id',
+    message: 'Successfully Get "Konsumsi Rapat" By Id',
     data,
   });
 };
@@ -94,7 +94,7 @@ export const getAllConsumption = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Consumption',
+    message: 'Successfully Get "Konsumsi Rapat"',
     data,
     totalCount,
   });
@@ -107,7 +107,7 @@ export const deleteConsumptionById = async (req: Request, res: Response) => {
   const data = await consumptionRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Konsumsi Rapat" By Id',
     data,
   });
 };

@@ -13,7 +13,7 @@ export interface IKlasifikasiATKBase {
 }
 
 interface IBarang {
-  name: string;
+  nama: string; // digati karena masalah fe
   price: number;
 }
 

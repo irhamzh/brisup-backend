@@ -69,12 +69,17 @@ export const refreshToken = async (req: Request, res: Response) => {
     });
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-      res.status(400).send({
-        message: 'Invalid Refresh Token',
+      res.status(401).send({
+        message: error?.message || 'Invalid Refresh Token',
         error: true,
+        canRefresh: false,
       });
     } else {
-      throw error;
+      res.status(401).send({
+        message: 'Invalid Refresh Token',
+        error: true,
+        canRefresh: false,
+      });
     }
   }
 };

@@ -26,7 +26,7 @@ export const createDriverAssignment = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create DriverAssignment',
+    message: 'Successfully Create "Penugasan Driver"',
     data,
   });
 };
@@ -52,7 +52,7 @@ export const updateDriverAssignment = async (req: any, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update DriverAssignment',
+    message: 'Successfully Update "Penugasan Driver"',
     data,
   });
 };
@@ -67,7 +67,7 @@ export const deleteDriverAssignmentById = async (
 
   const data = await driverAssignmentRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete "Penugasan Driver" By Id',
     data,
   });
 };
@@ -81,7 +81,7 @@ export const getDriverAssignmentById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get DriverAssignment By Id',
+    message: 'Successfully Get "Penugasan Driver" By Id',
     data,
   });
 };
@@ -100,7 +100,7 @@ export const getAllDriverAssignment = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get DriverAssignment',
+    message: 'Successfully Get "Penugasan Driver"',
     data,
     totalCount,
   });

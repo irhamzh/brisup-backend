@@ -34,7 +34,7 @@ export const getRuanganById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'ruanganId');
   const ruanganRepository = new RuanganRepository();
-  const data = await ruanganRepository.findById(validateParam.uid);
+  const data = await ruanganRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Ruangan By Id',
     data,
@@ -44,13 +44,13 @@ export const getRuanganById = async (req: Request, res: Response) => {
 export const getAllRuangan = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const ruanganRepository = new RuanganRepository();
-  const data = await ruanganRepository.findAll(
+  const { data, totalCount } = await ruanganRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await ruanganRepository.countDocument(filtered as string);
+  // const totalCount = await ruanganRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Ruangan',

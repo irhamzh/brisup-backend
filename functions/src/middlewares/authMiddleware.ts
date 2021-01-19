@@ -43,12 +43,14 @@ export default function firebaseAuthMiddleware(
           res.status(401).json({
             message: 'Session expired, please login again',
             error: true,
+            canRefresh: true,
           });
           return;
         } else {
           res.status(401).json({
             message: e.message,
             error: true,
+            canRefresh: true,
           });
           return;
         }
@@ -57,6 +59,7 @@ export default function firebaseAuthMiddleware(
         res.status(401).json({
           message: 'Invalid Token',
           error: e.message,
+          canRefresh: true,
         });
         return;
       }
