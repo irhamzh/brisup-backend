@@ -27,8 +27,10 @@ export const updateInternship = async (req: any, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'id');
   const internshipRepository = new InternshipRepository();
-  const ref: admin.firestore.DocumentData = await internshipRepository.findById(
-    validateParam.uid
+  const ref: admin.firestore.DocumentData = await internshipRepository.findSubdocumentById(
+    validateParam.uid,
+    'internship',
+    'ga_internship'
   );
   const validatedBody: any = MappingBodyByType(ref?.type, body, 'update');
 
