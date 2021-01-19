@@ -142,6 +142,7 @@ export default function errorHandlerMiddleware(
     res.status(401).json({
       message: err.message,
       error: true,
+      canRefresh: true,
     });
     return;
   }

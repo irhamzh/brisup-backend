@@ -30,6 +30,7 @@ export default function accessMiddleware(
       res.status(401).json({
         message: '...Unauthorised',
         error: true,
+        canRefresh: false,
       });
       return;
     }
