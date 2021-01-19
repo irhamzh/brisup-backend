@@ -27,7 +27,8 @@ type WhereFilterOp =
   | 'year'
   | 'atDate'
   | 'beforeDate'
-  | 'afterDate';
+  | 'afterDate'
+  | 'match';
 
 const WhereFilterOperator = [
   '<',
@@ -95,8 +96,13 @@ export default function applyFilterQuery(
         //   .orderBy(fieldQuery)
         //   .startAt(value)
         //   .endAt(value + '\uf8ff');
+      } else if (optQuery === 'match') {
+        query = query.where(fieldQuery, '==', value);
       } else if (WhereFilterOperator.includes(optQuery)) {
         query = query.where(fieldQuery, optQuery, value);
+      } else {
+        //next throw errro
+        query = query;
       }
     } else {
       query = query.where(id, '==', value);

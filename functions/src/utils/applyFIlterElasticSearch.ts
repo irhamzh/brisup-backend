@@ -79,6 +79,12 @@ export default function applyFilterElasticSearch(
             [fieldQuery]: { gte: startDay, lte: endDay },
           },
         });
+      } else if (operatorQuery === '==') {
+        filterBody.push({
+          match: {
+            [fieldQuery]: value,
+          },
+        });
       } else {
         filterBody.push({
           [operatorQuery]: {
