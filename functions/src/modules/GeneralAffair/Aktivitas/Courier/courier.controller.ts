@@ -1,10 +1,12 @@
 import * as admin from 'firebase-admin';
+
 import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
+import getPathStorageFromUrl from '@utils/getPathStorageFromUrl';
 
 import schema from './courier.schema';
 import CourierRepository from './courier.repository';
@@ -75,6 +77,14 @@ export const deleteCourierById = async (req: Request, res: Response) => {
     'courier',
     'ga_couriers'
   );
+
+  try {
+    const filePath = getPathStorageFromUrl(data.foto);
+    const storageBucket = admin.storage().bucket();
+    await storageBucket.file(filePath + 'dd').delete();
+  } catch (error) {
+    console.log(error);
+  }
   res.json({
     message: 'Successfully Delete Aktivitas Courier By Id',
     data,
