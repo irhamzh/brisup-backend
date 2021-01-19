@@ -21,7 +21,7 @@ const create = yup
         yup
           .object()
           .shape({
-            name: yup.string().required(validationWording.required('name')),
+            nama: yup.string().required(validationWording.required('nama')),
             price: yup.number().required(validationWording.required('price')),
           })
           .required()
@@ -46,7 +46,7 @@ const update = yup
       yup
         .object()
         .shape({
-          name: yup.string().required(validationWording.required('name')),
+          nama: yup.string().required(validationWording.required('nama')),
           price: yup.number().required(validationWording.required('price')),
         })
         .required()

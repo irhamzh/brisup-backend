@@ -14,7 +14,7 @@ export interface IKlasifikasiHotelBase {
 }
 
 interface IFacilities {
-  name: string;
+  nama: string; // digati karena masalah fe
   price: number;
 }
 
