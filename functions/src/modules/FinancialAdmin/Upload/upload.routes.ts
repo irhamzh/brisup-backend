@@ -10,11 +10,12 @@ import * as controller from './upload.controller';
 
 const router = Router();
 const protectedRouter = withAuthMiddleware(router);
-const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
-const uploadHandleRouter = withMiddleware(
-  errorHandledRoute,
+const uploadRouter = withMiddleware(
+  protectedRouter,
   uploadFile(['.pdf'], 'lampiran', false)
 );
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 
 errorHandledRoute.get(
   '/',
