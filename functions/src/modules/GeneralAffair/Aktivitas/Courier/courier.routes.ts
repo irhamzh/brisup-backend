@@ -1,18 +1,43 @@
 import { Router } from 'express';
 import { withMiddleware } from 'express-kun';
-import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
+
 import fileParser from '@middlewares/fileParserMiddleware';
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
+import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
+
 import * as controller from './courier.controller';
 
 const router = Router();
-const uploadRouter = withMiddleware(router, fileParser);
-const errorHandledRoute = withErrorHandlerRoute(router);
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+const uploadRouter = withMiddleware(protectedRouter, fileParser);
 const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 
-errorHandledRoute.get('/courier', controller.getAllCourier);
-uploadHandleRouter.post('/courier', controller.createCourier);
-uploadHandleRouter.put('/courier/:uid', controller.updateCourier);
-errorHandledRoute.get('/courier/:uid', controller.getCourierById);
-errorHandledRoute.delete('/courier/:uid', controller.deleteCourierById);
+errorHandledRoute.get(
+  '/courier',
+  accessMiddleware('generalAffair', 'read'),
+  controller.getAllCourier
+);
+uploadHandleRouter.post(
+  '/courier',
+  accessMiddleware('generalAffair', 'create'),
+  controller.createCourier
+);
+uploadHandleRouter.put(
+  '/courier/:uid',
+  accessMiddleware('generalAffair', 'update'),
+  controller.updateCourier
+);
+errorHandledRoute.get(
+  '/courier/:uid',
+  accessMiddleware('generalAffair', 'read'),
+  controller.getCourierById
+);
+errorHandledRoute.delete(
+  '/courier/:uid',
+  accessMiddleware('generalAffair', 'delete'),
+  controller.deleteCourierById
+);
 
 export default router;

@@ -62,7 +62,7 @@ errorHandledRoute.put(
 );
 errorHandledRoute.put(
   '/:uid/approve-supervisor',
-  accessMiddleware('generalAffair', 'approvalSupervisor'),
+  accessMiddleware('financialAdmin', 'approvalSupervisor'),
   controller.approveSupervisor
 );
 errorHandledRoute.put(

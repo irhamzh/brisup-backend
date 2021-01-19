@@ -79,6 +79,12 @@ export default function applyFilterElasticSearch(
             [fieldQuery]: { gte: startDay, lte: endDay },
           },
         });
+      } else if (operatorQuery === '==') {
+        filterBody.push({
+          match: {
+            [fieldQuery]: value,
+          },
+        });
       } else {
         filterBody.push({
           [operatorQuery]: {
@@ -87,11 +93,22 @@ export default function applyFilterElasticSearch(
         });
       }
     } else {
-      filterBody.push({
-        wildcard: {
-          [id]: `*${value}*`,
-        },
-      });
+      if (value && value?.length > 0) {
+        const arrayValue = value.split(/\s+/);
+        for (const stringValue of arrayValue) {
+          filterBody.push({
+            wildcard: {
+              [id]: `*${stringValue}*`,
+            },
+          });
+        }
+      } else {
+        filterBody.push({
+          wildcard: {
+            [id]: `*${value}*`,
+          },
+        });
+      }
     }
   }
   const queryParam = {
