@@ -19,12 +19,17 @@ export default class CourierRepository extends BaseRepository<ICourierBase> {
     );
     return data;
   }
-  async updateCourier(id: string, object: Partial<ICourierBase>) {
+  async updateCourier(
+    id: string,
+    object: Partial<ICourierBase>,
+    fileFieldName: string
+  ) {
     const data = await this.updateSubDocument(
       id,
       object,
       'courier',
-      'ga_couriers'
+      'ga_couriers',
+      fileFieldName
     );
     return data;
   }

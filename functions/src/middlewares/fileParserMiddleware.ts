@@ -45,6 +45,7 @@ export default function fileParser(
       //  if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
       //    throw new ExtensionError(['png', 'jpeg']);
       //  }
+      filename = `${Date.now()}-${filename}`;
       const filepath = path.join(tmpdir, filename);
       console.log(
         `Handling file upload field ${fieldname}: ${filename} (${filepath})`

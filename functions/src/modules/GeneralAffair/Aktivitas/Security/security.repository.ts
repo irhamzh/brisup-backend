@@ -21,12 +21,17 @@ export default class EngineerBasementRepository extends BaseRepository<
     );
     return data;
   }
-  async updateSecurity(id: string, object: Partial<IBasementBase>) {
+  async updateSecurity(
+    id: string,
+    object: Partial<IBasementBase>,
+    fileFieldName: string
+  ) {
     const data = await this.updateSubDocument(
       id,
       object,
       'security',
-      'ga_securities'
+      'ga_securities',
+      fileFieldName
     );
     return data;
   }

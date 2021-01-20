@@ -62,7 +62,8 @@ export const updateCash = async (req: any, res: Response) => {
   }
   const data: admin.firestore.DocumentData = await cashRepository.update(
     validateParam.uid,
-    validatedBody
+    validatedBody,
+    'lampiran'
   );
   res.json({
     message: 'Successfully Update Aktivitas Cash',

@@ -70,7 +70,8 @@ export const updateSecurity = async (req: any, res: Response) => {
 
   const data: admin.firestore.DocumentData = await securityRepository.updateSecurity(
     validateParam.uid,
-    validatedBody
+    validatedBody,
+    'foto'
   );
 
   res.json({
@@ -87,7 +88,8 @@ export const deleteSecurityById = async (req: Request, res: Response) => {
   const data = await securityRepository.deleteSubDocument(
     validateParam.uid,
     'security',
-    'ga_securities'
+    'ga_securities',
+    'foto'
   );
   res.json({
     message: 'Successfully Delete Aktivitas Security By Id',

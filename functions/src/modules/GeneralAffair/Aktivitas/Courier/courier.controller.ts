@@ -6,7 +6,6 @@ import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
-import getPathStorageFromUrl from '@utils/getPathStorageFromUrl';
 
 import schema from './courier.schema';
 import CourierRepository from './courier.repository';
@@ -58,7 +57,8 @@ export const updateCourier = async (req: any, res: Response) => {
 
   const data: admin.firestore.DocumentData = await courierRepository.updateCourier(
     validateParam.uid,
-    validatedBody
+    validatedBody,
+    'foto'
   );
 
   res.json({
@@ -75,16 +75,10 @@ export const deleteCourierById = async (req: Request, res: Response) => {
   const data = await courierRepository.deleteSubDocument(
     validateParam.uid,
     'courier',
-    'ga_couriers'
+    'ga_couriers',
+    'foto'
   );
 
-  try {
-    const filePath = getPathStorageFromUrl(data.foto);
-    const storageBucket = admin.storage().bucket();
-    await storageBucket.file(filePath + 'dd').delete();
-  } catch (error) {
-    console.log(error);
-  }
   res.json({
     message: 'Successfully Delete Aktivitas Courier By Id',
     data,

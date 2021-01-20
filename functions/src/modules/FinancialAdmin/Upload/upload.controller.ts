@@ -53,7 +53,11 @@ export const updateUpload = async (req: any, res: Response) => {
   }
 
   const uploadRepository = new UploadRepository();
-  const data = await uploadRepository.update(validateParam.uid, validatedBody);
+  const data = await uploadRepository.update(
+    validateParam.uid,
+    validatedBody,
+    'lampiran'
+  );
   res.json({
     message: 'Successfully Update Upload',
     data,
