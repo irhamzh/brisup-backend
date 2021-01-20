@@ -19,12 +19,17 @@ export default class DriverRepository extends BaseRepository<IDriverBase> {
     );
     return data;
   }
-  async updateDriver(id: string, object: Partial<IDriverBase>) {
+  async updateDriver(
+    id: string,
+    object: Partial<IDriverBase>,
+    fileFieldName: string
+  ) {
     const data = await this.updateSubDocument(
       id,
       object,
       'driver',
-      'ga_drivers'
+      'ga_drivers',
+      fileFieldName
     );
     return data;
   }

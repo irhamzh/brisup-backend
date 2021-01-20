@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+
 import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
@@ -56,7 +57,8 @@ export const updateCourier = async (req: any, res: Response) => {
 
   const data: admin.firestore.DocumentData = await courierRepository.updateCourier(
     validateParam.uid,
-    validatedBody
+    validatedBody,
+    'foto'
   );
 
   res.json({
@@ -73,8 +75,10 @@ export const deleteCourierById = async (req: Request, res: Response) => {
   const data = await courierRepository.deleteSubDocument(
     validateParam.uid,
     'courier',
-    'ga_couriers'
+    'ga_couriers',
+    'foto'
   );
+
   res.json({
     message: 'Successfully Delete Aktivitas Courier By Id',
     data,

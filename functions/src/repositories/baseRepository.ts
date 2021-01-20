@@ -6,14 +6,16 @@ import applySortQuery from '@utils/applySortQuery';
 import applySortElasticSearch from '@utils/applySortElasticSearch';
 
 import NotFoundError from '@interfaces/NotFoundError';
+import elasticClient from '@utils/elasticSearchConfig';
 import applyFilterQuery from '@utils/applyFilterQuery';
 import writeToFirestore from '@utils/writeToFirestore';
 import handleImportExcel from '@utils/handleImportExcel';
 import validationWording from '@constants/validationWording';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
-import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
-import elasticClient from '@utils/elasticSearchConfig';
+import getPathStorageFromUrl from '@utils/getPathStorageFromUrl';
 import applyFilterElasticSearch from '@utils/applyFIlterElasticSearch';
+import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+import handleDeleteFirebaseStorage from '@utils/handleDeleteFirebaseStorage';
 
 import { db } from '@utils/admin';
 import { StringKeys, IFiles } from '@interfaces/BaseInterface';
@@ -245,7 +247,11 @@ export default class FirestoreRepository<
     return firestoreTimeStampToDate(data);
   }
 
-  async update(id: string, object: Partial<CreateParam>) {
+  async update(
+    id: string,
+    object: Partial<CreateParam>,
+    fileFieldName?: string
+  ) {
     const ref: admin.firestore.DocumentReference = this._collection.doc(id);
     const snap: admin.firestore.DocumentSnapshot = await ref.get();
     if (!snap.exists) {
@@ -254,19 +260,40 @@ export default class FirestoreRepository<
         this._name
       );
     }
+    const oldData = snap.data();
+
     const createParam = {
       ...object,
       updatedAt: new Date(),
     };
     await ref.set(createParam, { merge: true });
     const updateSnap = await ref.get();
+
+    // -> delete file
+    const objectNew: any = object;
+    if (
+      fileFieldName &&
+      oldData?.[fileFieldName] &&
+      objectNew?.[fileFieldName]
+    ) {
+      const url = oldData?.[fileFieldName];
+      const filePath = getPathStorageFromUrl(url);
+      handleDeleteFirebaseStorage(filePath)
+        .then((result) => {
+          console.log('Sukses delete ' + filePath);
+        })
+        .catch((err) => {
+          console.log('Error delete file ', err?.message);
+        });
+    }
+
     return firestoreTimeStampToDate({
       id: ref.id,
       ...updateSnap.data(),
     });
   }
 
-  async delete(id: string) {
+  async delete(id: string, fileFieldName?: string) {
     const ref: admin.firestore.DocumentReference = this._collection.doc(id);
     const snap: admin.firestore.DocumentSnapshot = await ref.get();
     if (!snap.exists) {
@@ -276,10 +303,24 @@ export default class FirestoreRepository<
       );
     }
     await ref.delete();
-    return firestoreTimeStampToDate({
+    const data = firestoreTimeStampToDate({
       id: ref.id,
       ...snap.data(),
     });
+    if (fileFieldName) {
+      if (data?.[fileFieldName]) {
+        const url = data?.[fileFieldName];
+        const filePath = getPathStorageFromUrl(url);
+        handleDeleteFirebaseStorage(filePath)
+          .then((result) => {
+            console.log('Sukses delete ' + filePath);
+          })
+          .catch((err) => {
+            console.log('Error delete file ', err?.message);
+          });
+      }
+    }
+    return data;
   }
 
   async createWithSubdocument(
@@ -369,7 +410,8 @@ export default class FirestoreRepository<
     id: string,
     object: SubCreateParam,
     parentId: string,
-    collectionName: string
+    collectionName: string,
+    fileFieldName?: string
   ) {
     const ref: admin.firestore.DocumentReference = this._collection
       .doc(parentId)
@@ -382,19 +424,40 @@ export default class FirestoreRepository<
         this._name
       );
     }
+    const oldData = snap.data();
+
     const createParam = {
       ...object,
       updatedAt: new Date(),
     };
     await ref.set(createParam, { merge: true });
     const updateSnap = await ref.get();
+
+    // -> delete file
+    const objectNew: any = object;
+    if (
+      fileFieldName &&
+      oldData?.[fileFieldName] &&
+      objectNew?.[fileFieldName]
+    ) {
+      const url = oldData?.[fileFieldName];
+      const filePath = getPathStorageFromUrl(url);
+      handleDeleteFirebaseStorage(filePath)
+        .then((result) => {
+          console.log('Sukses delete ' + filePath);
+        })
+        .catch((err) => {
+          console.log('Error delete file ', err?.message);
+        });
+    }
     return firestoreTimeStampToDate({ id: ref.id, ...updateSnap.data() });
   }
 
   async deleteSubDocument(
     id: string,
     parentId: string,
-    collectionName: string
+    collectionName: string,
+    fileFieldName?: string
   ) {
     const ref: admin.firestore.DocumentReference = this._collection
       .doc(parentId)
@@ -408,7 +471,22 @@ export default class FirestoreRepository<
       );
     }
     await ref.delete();
-    return firestoreTimeStampToDate({ id: ref.id, ...snap.data() });
+    const data = firestoreTimeStampToDate({ id: ref.id, ...snap.data() });
+    if (fileFieldName) {
+      if (data?.[fileFieldName]) {
+        const url = data?.[fileFieldName];
+        const filePath = getPathStorageFromUrl(url);
+        handleDeleteFirebaseStorage(filePath)
+          .then((result) => {
+            console.log('Sukses delete ' + filePath);
+          })
+          .catch((err) => {
+            console.log('Error delete file ', err?.message);
+          });
+      }
+    }
+
+    return data;
   }
 
   async countSubDocument(
@@ -528,7 +606,8 @@ export default class FirestoreRepository<
     parentId: string,
     collectionName: string,
     secondParentId: string,
-    secondCollectionName: string
+    secondCollectionName: string,
+    fileFieldName?: string
   ) {
     const ref: admin.firestore.DocumentReference = this._collection
       .doc(parentId)
@@ -543,12 +622,31 @@ export default class FirestoreRepository<
         this._name
       );
     }
+    const oldData = snap.data();
     const createParam = {
       ...object,
       updatedAt: new Date(),
     };
     await ref.set(createParam, { merge: true });
     const updateSnap = await ref.get();
+
+    // -> delete file
+    const objectNew: any = object;
+    if (
+      fileFieldName &&
+      oldData?.[fileFieldName] &&
+      objectNew?.[fileFieldName]
+    ) {
+      const url = oldData?.[fileFieldName];
+      const filePath = getPathStorageFromUrl(url);
+      handleDeleteFirebaseStorage(filePath)
+        .then((result) => {
+          console.log('Sukses delete ' + filePath);
+        })
+        .catch((err) => {
+          console.log('Error delete file ', err?.message);
+        });
+    }
     return firestoreTimeStampToDate({ id: ref.id, ...updateSnap.data() });
   }
 
@@ -557,7 +655,8 @@ export default class FirestoreRepository<
     parentId: string,
     collectionName: string,
     secondParentId: string,
-    secondCollectionName: string
+    secondCollectionName: string,
+    fileFieldName?: string
   ) {
     const ref: admin.firestore.DocumentReference = this._collection
       .doc(parentId)
@@ -573,7 +672,24 @@ export default class FirestoreRepository<
       );
     }
     await ref.delete();
-    return firestoreTimeStampToDate({ id: ref.id, ...snap.data() });
+    const data = firestoreTimeStampToDate({
+      id: ref.id,
+      ...snap.data(),
+    });
+    if (fileFieldName) {
+      if (data?.[fileFieldName]) {
+        const url = data?.[fileFieldName];
+        const filePath = getPathStorageFromUrl(url);
+        handleDeleteFirebaseStorage(filePath)
+          .then((result) => {
+            console.log('Sukses delete ' + filePath);
+          })
+          .catch((err) => {
+            console.log('Error delete file ', err?.message);
+          });
+      }
+    }
+    return data;
   }
 
   async count2LevelSubDocument(

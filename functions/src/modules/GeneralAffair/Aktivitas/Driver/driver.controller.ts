@@ -56,7 +56,8 @@ export const updateDriver = async (req: any, res: Response) => {
 
   const data: admin.firestore.DocumentData = await driverRepository.updateDriver(
     validateParam.uid,
-    validatedBody
+    validatedBody,
+    'foto'
   );
 
   res.json({
