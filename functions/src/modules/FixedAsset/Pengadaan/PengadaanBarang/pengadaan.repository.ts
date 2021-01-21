@@ -115,7 +115,7 @@ export default class PengadaanRepository extends BaseRepository<
       userId: user.uid,
       name: user.name,
       role: user.role.name,
-      status,
+      status: StatusPengadaan['Belum Berjalan'],
     };
 
     let createParam = {
