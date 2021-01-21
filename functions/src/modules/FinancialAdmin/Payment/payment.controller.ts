@@ -235,7 +235,7 @@ export const getPaymentById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const paymentRepository = new PaymentRepository();
-  const data: admin.firestore.DocumentData = await paymentRepository.findByIdElastic(
+  const data: admin.firestore.DocumentData = await paymentRepository.findById(
     validateParam.uid
   );
   res.json({
@@ -247,13 +247,13 @@ export const getPaymentById = async (req: Request, res: Response) => {
 export const getAllPayment = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const paymentRepository = new PaymentRepository();
-  const { data, totalCount } = await paymentRepository.findAllElastic(
+  const data = await paymentRepository.findAll(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  // const totalCount = await paymentRepository.countDocument(filtered as string);
+  const totalCount = await paymentRepository.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get Payment',
     data,

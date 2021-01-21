@@ -20,9 +20,7 @@ const baseCreate = yup
     namaKegiatan: yup
       .string()
       .required(validationWording.required('namaKegiatan')),
-    kodePelatihan: yup
-      .string()
-      .required(validationWording.required('kodePelatihan')),
+    kodePelatihan: yup.string(),
     tanggalTerima: yup
       .date()
       .required(validationWording.required('tanggalTerima')),
