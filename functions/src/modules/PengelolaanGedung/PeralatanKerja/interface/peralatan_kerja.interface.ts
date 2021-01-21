@@ -24,6 +24,7 @@ interface IInformation extends IBasePGPeralatanKerja {
 export interface IPeralatanTeknis extends IPekerjaan {
   pelindungKepala?: boolean;
   pelindungMata?: boolean;
+  pelindungTangan?: boolean;
   pelindungPernafasan?: boolean;
   pelindungBadan?: boolean;
   pelindungKaki?: boolean;
