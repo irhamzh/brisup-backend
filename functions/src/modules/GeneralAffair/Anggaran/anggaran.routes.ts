@@ -25,6 +25,11 @@ errorHandledRoute.post(
   accessMiddleware('generalAffair', 'create'),
   controller.createAnggaran
 );
+errorHandledRoute.post(
+  '/penggunaan/delete/:uid',
+  accessMiddleware('generalAffair', 'delete'),
+  controller.deletePenggunaanAnggaranById
+);
 errorHandledRoute.put(
   '/:uid',
   accessMiddleware('generalAffair', 'update'),

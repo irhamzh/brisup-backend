@@ -57,6 +57,7 @@ export const getAnggaranById = async (req: Request, res: Response) => {
 export const getAllAnggaran = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const anggaranRepository = new AnggaranRepository();
+
   const data = await anggaranRepository.findAll(
     page as string,
     limit as string,
@@ -78,6 +79,24 @@ export const deleteAnggaranById = async (req: Request, res: Response) => {
   const data = await anggaranRepository.delete(validateParam.uid);
   res.json({
     message: 'Successfully Delete Anggaran By Id',
+    data,
+  });
+};
+
+export const deletePenggunaanAnggaranById = async (
+  req: Request,
+  res: Response
+) => {
+  const { body, params } = req;
+  const validateParam = paramValidation(params, 'anggaranId');
+  const validatedBody = yupValidate(schema.update, body);
+  const anggaranRepository = new AnggaranRepository();
+  const data = await anggaranRepository.deletePenggunaanAnggaran(
+    validateParam.uid,
+    validatedBody.id
+  );
+  res.json({
+    message: 'Successfully Delete Penggunaan Anggaran',
     data,
   });
 };

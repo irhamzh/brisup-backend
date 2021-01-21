@@ -58,4 +58,11 @@ const update = yup
   })
   .required();
 
-export default { create, createPenggunaan, update };
+const deletePenggunaan = yup
+  .object()
+  .shape({
+    id: yup.string().required(validationWording.required('id')),
+  })
+  .required();
+
+export default { create, createPenggunaan, update, deletePenggunaan };
