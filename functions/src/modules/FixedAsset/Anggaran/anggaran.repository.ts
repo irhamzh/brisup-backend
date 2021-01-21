@@ -36,20 +36,24 @@ export default class AnggaranRepository extends BaseRepository<IAnggaranBase> {
       let totalBreakdown = exist.totalBreakdown;
       let sisaAnggaran = exist.sisaAnggaran;
       if (object.type === TypeAnggaran['Breakdown']) {
-        totalBreakdown = Number(totalBreakdown) + Number(object.nilai);
-        sisaAnggaran = Number(sisaAnggaran) + Number(object.nilai);
-        penggunaan = {
-          id: generateId(),
-          type: object.type,
-          nilai: object.nilai,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
+        // totalBreakdown = Number(totalBreakdown) + Number(object.nilai);
+        // sisaAnggaran = Number(sisaAnggaran) + Number(object.nilai);
+        // penggunaan = {
+        //   id: generateId(),
+        //   type: object.type,
+        //   nilai: object.nilai,
+        //   createdAt: new Date(),
+        //   updatedAt: new Date(),
+        // };
+        throw new InvalidRequestError(
+          `Breakdown ${object.year}-${object.month} sudah ditetapkan`,
+          'anggaran'
+        );
       } else {
         sisaAnggaran = Number(sisaAnggaran) - Number(object.nilai);
         if (sisaAnggaran < 0) {
           throw new InvalidRequestError(
-            `Penggunaan terlalu besar melebihi sisa Anggaran. Sisa Anggaran sekarang = ${
+            `Penggunaan melebihi sisa Anggaran. Sisa Anggaran sekarang = ${
               Number(sisaAnggaran) + Number(object.nilai)
             }. Penggunaan yang akan datang = ${object.nilai}`,
             'humas'
@@ -174,12 +178,60 @@ export default class AnggaranRepository extends BaseRepository<IAnggaranBase> {
     const sisaAnggaran = Number(totalBreakdown) - Number(totalPenggunaan);
     if (sisaAnggaran < 0) {
       throw new InvalidRequestError(
-        `Penggunaan terlalu besar melebihi sisa Anggaran. Sisa Anggaran sekarang = ${
+        `Penggunaan melebihi sisa Anggaran. Sisa Anggaran sekarang = ${
           Number(sisaAnggaran) + Number(object.nilai)
         }. Penggunaan yang akan data = ${object.nilai}`,
         'humas'
       );
     }
+
+    const createParam = {
+      year: exist.year,
+      month: exist.month,
+      totalBreakdown,
+      sisaAnggaran,
+      categoryAnggaran: exist.categoryAnggaran,
+      detail,
+    };
+
+    const data = await this.update(exist.id, createParam);
+    return data;
+  }
+  async deletePenggunaanAnggaran(id: string, childId: string) {
+    const exist = await this.findById(id);
+    const currentData = exist.detail.findIndex(
+      ({ id }: { [key: string]: string }) => id === childId
+    );
+    if (currentData < 0) {
+      throw new NotFoundError(
+        validationWording.notFound('Anggaran'),
+        'Anggaran'
+      );
+    }
+
+    if (exist.detail[currentData].type === TypeAnggaran['Breakdown']) {
+      throw new InvalidRequestError(
+        'Tidak diperbolehkan menghapus Anggaran',
+        'Anggaran'
+      );
+    }
+
+    const detail = exist.detail;
+    detail.splice(currentData, 1);
+    const totalBreakdown = detail.reduce(
+      (sum: any, x: any) =>
+        Number(sum) +
+        (x.type === TypeAnggaran['Breakdown'] ? Number(x.nilai) : 0),
+      0
+    );
+    const totalPenggunaan = detail.reduce(
+      (sum: any, x: any) =>
+        Number(sum) +
+        (x.type === TypeAnggaran['Penggunaan'] ? Number(x.nilai) : 0),
+      0
+    );
+
+    const sisaAnggaran = Number(totalBreakdown) - Number(totalPenggunaan);
 
     const createParam = {
       year: exist.year,

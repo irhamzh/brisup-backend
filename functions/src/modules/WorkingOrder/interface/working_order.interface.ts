@@ -5,7 +5,7 @@ export interface IWorkingOrderBase {
   kodeWorkingOrder: string;
   // namaKegiatan: string;
   // typeKegiatan: string;
-  kodePelatihan: string;
+  kodePelatihan?: string;
   tanggalTerima: Date;
   status: string;
   approvalLog: IApprovalLog[];

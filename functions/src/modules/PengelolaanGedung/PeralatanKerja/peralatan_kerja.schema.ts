@@ -56,6 +56,7 @@ const peralatanTekis = yup
   .shape({
     pelindungKepala: yup.boolean(),
     pelindungMata: yup.boolean(),
+    pelindungTangan: yup.boolean(),
     pelindungPernafasan: yup.boolean(),
     pelindungBadan: yup.boolean(),
     pelindungKaki: yup.boolean(),
