@@ -25,6 +25,11 @@ errorHandledRoute.post(
   accessMiddleware('fixedAsset', 'create'),
   controller.createAnggaran
 );
+errorHandledRoute.post(
+  '/penggunaan/delete/:uid',
+  accessMiddleware('fixedAsset', 'delete'),
+  controller.deletePenggunaanAnggaranById
+);
 errorHandledRoute.put(
   '/:uid',
   accessMiddleware('fixedAsset', 'update'),

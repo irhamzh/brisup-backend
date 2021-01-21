@@ -81,3 +81,20 @@ export const deleteAnggaranById = async (req: Request, res: Response) => {
     data,
   });
 };
+export const deletePenggunaanAnggaranById = async (
+  req: Request,
+  res: Response
+) => {
+  const { body, params } = req;
+  const validateParam = paramValidation(params, 'anggaranId');
+  const validatedBody = yupValidate(schema.update, body);
+  const anggaranRepository = new AnggaranRepository();
+  const data = await anggaranRepository.deletePenggunaanAnggaran(
+    validateParam.uid,
+    validatedBody.id
+  );
+  res.json({
+    message: 'Successfully Delete Penggunaan Anggaran',
+    data,
+  });
+};
