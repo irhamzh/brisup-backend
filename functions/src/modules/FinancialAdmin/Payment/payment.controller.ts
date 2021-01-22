@@ -115,7 +115,7 @@ export const createPayment = async (req: any, res: Response) => {
       ...createParam,
       catering,
     };
-    // -> provider
+    // -> Provider
   } else if (WithProvider.includes(validatedBody.typePayment)) {
     const providerRepository = new ProviderRepository();
     const provider = await providerRepository.findById(validatedBody.provider);

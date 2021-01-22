@@ -241,7 +241,6 @@ const createAAJIWaperd = yup
 const createHonorSalaryCreaditing = yup
   .object()
   .shape({
-    provider: yup.string().required(validationWording.required('provider')),
     namaSertifikasi: yup
       .string()
       .required(validationWording.required('namaSertifikasi')),
@@ -564,7 +563,6 @@ const updateHonorSalaryCreaditing = yup
   .object()
   .shape({
     namaSertifikasi: yup.string(),
-    provider: yup.string(),
     suratPerintahBayar: yup.boolean(),
     cekLainnya: yup.boolean(),
   })
