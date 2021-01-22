@@ -129,8 +129,8 @@ apiRouter.use('/purchase-orders', purchaseOrderRouter);
 apiRouter.use('/tanda-terima-barang', tandaTerimaRouter);
 apiRouter.use('/evaluasi-suppliers', evaluasiSuplierRouter);
 apiRouter.use('/monitoring-vendors', monitoringVendorRouter);
-apiRouter.use('/fa-anggaran-exploitations', eksploitasiAggaranRouter);
-apiRouter.use('/fa-anggaran-investations', investasiAggaranRouter);
+apiRouter.use('/fx-anggaran-exploitations', eksploitasiAggaranRouter);
+apiRouter.use('/fx-anggaran-investations', investasiAggaranRouter);
 apiRouter.use('/fx-budgets', fixedAssetAnggaranRouter);
 
 apiRouter.use('/pg-it-tools', itToolRouter);
