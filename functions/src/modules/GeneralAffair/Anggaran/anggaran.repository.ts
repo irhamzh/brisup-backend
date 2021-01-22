@@ -98,6 +98,7 @@ export default class AnggaranRepository extends BaseRepository<IAnggaranBase> {
         year: object.year,
         month: object.month,
         totalBreakdown: object.nilai,
+        previousBreakdown: 0,
         sisaAnggaran: object.nilai,
         categoryAnggaran: object.categoryAnggaran,
         detail: [penggunaan],

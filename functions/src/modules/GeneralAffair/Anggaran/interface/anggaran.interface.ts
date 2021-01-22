@@ -2,6 +2,7 @@ export interface IAnggaranBase {
   year: number;
   month: number;
   totalBreakdown: number;
+  previousBreakdown: number;
   sisaAnggaran: number;
   categoryAnggaran: string;
   detail: IPenggunaan[];

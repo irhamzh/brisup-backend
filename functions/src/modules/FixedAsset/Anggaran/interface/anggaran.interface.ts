@@ -1,6 +1,7 @@
 export interface IAnggaranBase {
   year: number;
   month: number;
+  previousBreakdown: number;
   totalBreakdown: number;
   sisaAnggaran: number;
   categoryAnggaran: string;

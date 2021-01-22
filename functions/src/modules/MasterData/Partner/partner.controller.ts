@@ -12,7 +12,7 @@ export const createPartner = async (req: Request, res: Response) => {
   const partnerRepository = new PartnerRepository();
   const data = await partnerRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create Partner',
+    message: 'Successfully Create "Partner"',
     data,
   });
 };
@@ -24,7 +24,7 @@ export const updatePartner = async (req: Request, res: Response) => {
   const partnerRepository = new PartnerRepository();
   const data = await partnerRepository.update(validateParam.uid, validatedBody);
   res.json({
-    message: 'Successfully Update Partner',
+    message: 'Successfully Update "Partner"',
     data,
   });
 };
@@ -35,7 +35,7 @@ export const getPartnerById = async (req: Request, res: Response) => {
   const partnerRepository = new PartnerRepository();
   const data = await partnerRepository.findById(validateParam.uid);
   res.json({
-    message: 'Successfully Get Partner By Id',
+    message: 'Successfully Get "Partner" By Id',
     data,
   });
 };
@@ -53,7 +53,7 @@ export const getAllPartner = async (req: Request, res: Response) => {
   const totalCount = await partnerRepository.countDocument(filtered as string);
 
   res.json({
-    message: 'Successfully Get Partner',
+    message: 'Successfully Get "Partner"',
     data,
     totalCount,
   });
@@ -65,7 +65,7 @@ export const deletePartnerById = async (req: Request, res: Response) => {
   const partnerRepository = new PartnerRepository();
   const data = await partnerRepository.delete(validateParam.uid);
   res.json({
-    message: 'Successfully Delete Partner By Id',
+    message: 'Successfully Delete "Partner" By Id',
     data,
   });
 };

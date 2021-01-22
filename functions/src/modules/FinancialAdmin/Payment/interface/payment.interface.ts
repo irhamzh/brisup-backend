@@ -107,7 +107,6 @@ export interface IAAJIWaperd extends IBasePayment {
 
 export interface IHonorSalaryCreaditing extends IBasePayment {
   namaSertifikasi: string;
-  provider: IProviderBase;
   suratPerintahBayar: boolean;
   cekLainnya: boolean;
 }
@@ -198,8 +197,6 @@ export const WithProvider = [
   TypePayment['Public Course'],
   TypePayment['Tagihan S2 Luar dan Dalam Negeri'],
   TypePayment['Waperd'],
-  TypePayment['Honor'],
-  TypePayment['Salary Creaditing'],
   TypePayment['Pembayaran Lainnya'],
 ];
 
