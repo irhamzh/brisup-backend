@@ -1,5 +1,7 @@
 import { Router } from 'express';
+import { withMiddleware } from 'express-kun';
 
+import fileParser from '@middlewares/fileParserMiddleware';
 import accessMiddleware from '@middlewares/accessMiddleware';
 import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
@@ -7,33 +9,40 @@ import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 import * as controller from '@modules/MasterData/Provider/provider.controller';
 
 const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
-const protectedRouter = withAuthMiddleware(errorHandledRoute);
+const protectedRouter = withAuthMiddleware(router);
+const uploadRouter = withMiddleware(protectedRouter, fileParser);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 
-protectedRouter.get(
+errorHandledRoute.get(
   '/',
   accessMiddleware('masterData', 'read'),
   controller.getAllProvider
 );
-protectedRouter.post(
+errorHandledRoute.post(
   '/',
   accessMiddleware('masterData', 'create'),
   controller.createProvider
 );
-protectedRouter.put(
+errorHandledRoute.put(
   '/:uid',
   accessMiddleware('masterData', 'update'),
   controller.updateProvider
 );
-protectedRouter.get(
+errorHandledRoute.get(
   '/:uid',
   accessMiddleware('masterData', 'read'),
   controller.getProviderById
 );
-protectedRouter.delete(
+errorHandledRoute.delete(
   '/:uid',
   accessMiddleware('masterData', 'delete'),
   controller.deleteProviderById
+);
+uploadHandleRouter.post(
+  '/excel',
+  accessMiddleware('masterData', 'create'),
+  controller.importExcel
 );
 
 export default router;

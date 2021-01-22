@@ -104,7 +104,7 @@ apiRouter.use('/floors', floorRouter);
 apiRouter.use('/rooms', ruanganRouter);
 apiRouter.use('/type-pc', jenisPcRouter); //jenis pc
 apiRouter.use('/vehicles', vehicleRouter);
-apiRouter.use('/partners', partnerRouter);
+apiRouter.use('/partners', partnerRouter); //rekanan
 apiRouter.use('/locations', locationRouter);
 apiRouter.use('/caterings', cateringRouter);
 apiRouter.use('/providers', providerRouter); //vendor
