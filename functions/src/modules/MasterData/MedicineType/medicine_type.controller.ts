@@ -38,7 +38,7 @@ export const getMedicineTypeById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'medicineTypeId');
   const medicineTypeRepository = new MedicineTypeRepository();
-  const data = await medicineTypeRepository.findById(validateParam.uid);
+  const data = await medicineTypeRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get MedicineType By Id',
     data,
@@ -48,15 +48,15 @@ export const getMedicineTypeById = async (req: Request, res: Response) => {
 export const getAllMedicineType = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const medicineTypeRepository = new MedicineTypeRepository();
-  const data = await medicineTypeRepository.findAll(
+  const { data, totalCount } = await medicineTypeRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await medicineTypeRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await medicineTypeRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get MedicineType',

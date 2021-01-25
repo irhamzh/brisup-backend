@@ -6,6 +6,6 @@ export default class EducationRepository extends BaseRepository<
   IEducationBase
 > {
   constructor() {
-    super('educations', 'education');
+    super('educations', 'education', 'bri_corpu_educations');
   }
 }

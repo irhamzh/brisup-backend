@@ -4,6 +4,6 @@ import { ICateringBase } from './interface/catering.interface';
 
 export default class CateringRepository extends BaseRepository<ICateringBase> {
   constructor() {
-    super('caterings', 'catering');
+    super('caterings', 'catering', 'bri_corpu_caterings');
   }
 }

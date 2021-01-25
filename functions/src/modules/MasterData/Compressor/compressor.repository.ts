@@ -6,6 +6,6 @@ export default class CompressorRepository extends BaseRepository<
   ICompressorBase
 > {
   constructor() {
-    super('compressors', 'compressor');
+    super('compressors', 'compressor', 'bri_corpu_compressors');
   }
 }

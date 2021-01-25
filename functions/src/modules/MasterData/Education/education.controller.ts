@@ -38,7 +38,7 @@ export const getEducationById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'educatioId');
   const educatioRepository = new EducationRepository();
-  const data = await educatioRepository.findById(validateParam.uid);
+  const data = await educatioRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Education By Id',
     data,
@@ -48,13 +48,13 @@ export const getEducationById = async (req: Request, res: Response) => {
 export const getAllEducation = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const educatioRepository = new EducationRepository();
-  const data = await educatioRepository.findAll(
+  const { data, totalCount } = await educatioRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await educatioRepository.countDocument(filtered as string);
+  // const totalCount = await educatioRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Education',

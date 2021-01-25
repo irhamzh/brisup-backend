@@ -3,6 +3,6 @@ import { IPartnerBase } from '@modules/MasterData/Partner/interface/partner.inte
 
 export default class PartnerRepository extends BaseRepository<IPartnerBase> {
   constructor() {
-    super('partners', 'partner');
+    super('partners', 'partner', 'bri_corpu_partners');
   }
 }

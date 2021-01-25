@@ -37,7 +37,7 @@ export const getBuildingTypeById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'buildingTypeId');
   const buildingTypeRepository = new BuildingTypeRepository();
-  const data = await buildingTypeRepository.findById(validateParam.uid);
+  const data = await buildingTypeRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get BuildingType By Id',
     data,
@@ -47,15 +47,15 @@ export const getBuildingTypeById = async (req: Request, res: Response) => {
 export const getAllBuildingType = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const buildingTypeRepository = new BuildingTypeRepository();
-  const data = await buildingTypeRepository.findAll(
+  const { data, totalCount } = await buildingTypeRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await buildingTypeRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await buildingTypeRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get BuildingType',

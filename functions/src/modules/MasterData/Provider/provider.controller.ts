@@ -36,7 +36,7 @@ export const getProviderById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'providerId');
   const providerRepository = new ProviderRepository();
-  const data = await providerRepository.findById(validateParam.uid);
+  const data = await providerRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get "Provider" By Id',
     data,
@@ -46,13 +46,13 @@ export const getProviderById = async (req: Request, res: Response) => {
 export const getAllProvider = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const providerRepository = new ProviderRepository();
-  const data = await providerRepository.findAll(
+  const { data, totalCount } = await providerRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await providerRepository.countDocument(filtered as string);
+  // const totalCount = await providerRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get "Provider"',

@@ -38,7 +38,7 @@ export const getCateringById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'cateringId');
   const cateringRepository = new CateringRepository();
-  const data = await cateringRepository.findById(validateParam.uid);
+  const data = await cateringRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Catering By Id',
     data,
@@ -48,13 +48,13 @@ export const getCateringById = async (req: Request, res: Response) => {
 export const getAllCatering = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const cateringRepository = new CateringRepository();
-  const data = await cateringRepository.findAll(
+  const { data, totalCount } = await cateringRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await cateringRepository.countDocument(filtered as string);
+  // const totalCount = await cateringRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Catering',

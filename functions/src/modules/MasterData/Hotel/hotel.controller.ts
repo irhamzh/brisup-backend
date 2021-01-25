@@ -35,7 +35,7 @@ export const getHotelById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'hotelId');
   const hotelRepository = new HotelRepository();
-  const data = await hotelRepository.findById(validateParam.uid);
+  const data = await hotelRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Hotel By Id',
     data,
@@ -45,13 +45,13 @@ export const getHotelById = async (req: Request, res: Response) => {
 export const getAllHotel = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const hotelRepository = new HotelRepository();
-  const data = await hotelRepository.findAll(
+  const { data, totalCount } = await hotelRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await hotelRepository.countDocument(filtered as string);
+  // const totalCount = await hotelRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Hotel',

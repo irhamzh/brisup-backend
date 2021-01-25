@@ -4,6 +4,6 @@ import { IUkerBase } from './interface/uker.interface';
 
 export default class UkerRepository extends BaseRepository<IUkerBase> {
   constructor() {
-    super('ukers', 'uker');
+    super('ukers', 'uker', 'bri_corpu_ukers');
   }
 }

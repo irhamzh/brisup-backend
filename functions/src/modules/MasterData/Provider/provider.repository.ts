@@ -3,6 +3,6 @@ import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.i
 
 export default class ProviderRepository extends BaseRepository<IProviderBase> {
   constructor() {
-    super('providers', 'provider');
+    super('providers', 'provider', 'bri_corpu_providers');
   }
 }

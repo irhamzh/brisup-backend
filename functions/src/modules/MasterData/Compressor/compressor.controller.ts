@@ -38,7 +38,7 @@ export const getCompressorById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'compressorId');
   const compressorRepository = new CompressorRepository();
-  const data = await compressorRepository.findById(validateParam.uid);
+  const data = await compressorRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Compressor By Id',
     data,
@@ -48,15 +48,15 @@ export const getCompressorById = async (req: Request, res: Response) => {
 export const getAllCompressor = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const compressorRepository = new CompressorRepository();
-  const data = await compressorRepository.findAll(
+  const { data, totalCount } = await compressorRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await compressorRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await compressorRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Compressor',

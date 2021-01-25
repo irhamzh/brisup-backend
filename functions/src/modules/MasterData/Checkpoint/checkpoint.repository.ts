@@ -6,6 +6,6 @@ export default class CheckpointRepository extends BaseRepository<
   ICheckpointBase
 > {
   constructor() {
-    super('checkpoints', 'checkpoint');
+    super('checkpoints', 'checkpoint', 'bri_corpu_checkpoints');
   }
 }

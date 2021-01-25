@@ -35,7 +35,7 @@ export const getPumpById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'pumpId');
   const pumpRepository = new PumpRepository();
-  const data = await pumpRepository.findById(validateParam.uid);
+  const data = await pumpRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Pump By Id',
     data,
@@ -45,13 +45,13 @@ export const getPumpById = async (req: Request, res: Response) => {
 export const getAllPump = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const pumpRepository = new PumpRepository();
-  const data = await pumpRepository.findAll(
+  const { data, totalCount } = await pumpRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await pumpRepository.countDocument(filtered as string);
+  // const totalCount = await pumpRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Pump',

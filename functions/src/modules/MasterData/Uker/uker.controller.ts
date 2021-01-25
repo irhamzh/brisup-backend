@@ -35,7 +35,7 @@ export const getUkerById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'ukerId');
   const ukerRepository = new UkerRepository();
-  const data = await ukerRepository.findById(validateParam.uid);
+  const data = await ukerRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Uker By Id',
     data,
@@ -45,13 +45,13 @@ export const getUkerById = async (req: Request, res: Response) => {
 export const getAllUker = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const ukerRepository = new UkerRepository();
-  const data = await ukerRepository.findAll(
+  const { data, totalCount } = await ukerRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await ukerRepository.countDocument(filtered as string);
+  // const totalCount = await ukerRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Uker',

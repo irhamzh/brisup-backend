@@ -34,7 +34,7 @@ export const getItemById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'itemId');
   const itemRepository = new ItemRepository();
-  const data = await itemRepository.findById(validateParam.uid);
+  const data = await itemRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Item By Id',
     data,
@@ -44,13 +44,13 @@ export const getItemById = async (req: Request, res: Response) => {
 export const getAllItem = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const itemRepository = new ItemRepository();
-  const data = await itemRepository.findAll(
+  const { data, totalCount } = await itemRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await itemRepository.countDocument(filtered as string);
+  // const totalCount = await itemRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Item',
