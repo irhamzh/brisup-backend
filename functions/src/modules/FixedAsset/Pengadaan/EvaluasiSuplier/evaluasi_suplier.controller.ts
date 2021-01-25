@@ -1,30 +1,33 @@
 import { Request, Response } from 'express';
-import schema from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.schema';
 
-import EvaluasiSuplierRepository from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.repository';
+import yupValidate from '@utils/yupValidate';
+import paramValidation from '@utils/paramValidation';
 import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 import PengadaanRepository from '@modules/FixedAsset/Pengadaan/PengadaanBarang/pengadaan.repository';
 
-import paramValidation from '@utils/paramValidation';
-import yupValidate from '@utils/yupValidate';
+import schema from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.schema';
+import EvaluasiSuplierRepository from '@modules/FixedAsset/Pengadaan/EvaluasiSuplier/evaluasi_suplier.repository';
 
 export const createEvaluasiSuplier = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
-  const providerRepository = new ProviderRepository();
-  const provider: any = await providerRepository.findById(
-    validatedBody.provider
-  );
+
   const pengadaanRepository = new PengadaanRepository();
-  const pengadaan: any = await pengadaanRepository.findById(
-    validatedBody.pengadaan
-  );
-  const createParam = {
+  const pengadaan = await pengadaanRepository.findById(validatedBody.pengadaan);
+  let createParam = {
     ...validatedBody,
-    provider,
     pengadaan,
   };
+
+  if (validatedBody?.provider) {
+    const providerRepository = new ProviderRepository();
+    const provider = await providerRepository.findById(validatedBody.provider);
+    createParam = {
+      ...createParam,
+      provider,
+    };
+  }
 
   const data = await evaluasiSuplierRepository.create(createParam);
   res.json({
@@ -39,17 +42,14 @@ export const updateEvaluasiSuplier = async (req: Request, res: Response) => {
   const validatedBody = yupValidate(schema.update, body);
 
   let createParam = validatedBody;
-  // delete createParam.provider;
-  if (validatedBody.provider) {
+  if (validatedBody?.provider) {
     const providerRepository = new ProviderRepository();
-    const provider: any = await providerRepository.findById(
-      validatedBody.provider
-    );
+    const provider = await providerRepository.findById(validatedBody.provider);
     createParam = { ...createParam, provider };
   }
-  if (validatedBody.pengadaan) {
+  if (validatedBody?.pengadaan) {
     const pengadaanRepository = new PengadaanRepository();
-    const pengadaan: any = await pengadaanRepository.findById(
+    const pengadaan = await pengadaanRepository.findById(
       validatedBody.pengadaan
     );
     createParam = { ...createParam, pengadaan };

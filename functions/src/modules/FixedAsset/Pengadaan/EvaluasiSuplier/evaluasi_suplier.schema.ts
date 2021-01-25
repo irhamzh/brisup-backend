@@ -7,9 +7,7 @@ const create = yup
     pengadaan: yup
       .string()
       .required(validationWording.required('Nama Pengadaan')),
-    provider: yup
-      .string()
-      .required(validationWording.required('Nama Provider')),
+    provider: yup.string(),
     nilai: yup.number().required(validationWording.required('nilai')),
   })
   .required();
