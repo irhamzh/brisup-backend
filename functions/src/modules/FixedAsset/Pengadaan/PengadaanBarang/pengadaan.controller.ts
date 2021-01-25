@@ -48,7 +48,7 @@ export const createKonsultanSeleksiLangsung = async (
     'konsultan',
     'Seleksi Langsung',
     user,
-    validatedBody.provider
+    validatedBody?.provider
   );
 
   res.json({
@@ -73,7 +73,7 @@ export const updateKonsultanSeleksiLangsung = async (
     validatedBody,
     'konsultan',
     'Seleksi Langsung',
-    validatedBody.provider
+    validatedBody?.provider
   );
 
   res.json({
@@ -141,7 +141,7 @@ export const createKonsultanPenunjukanLangsung = async (
     'konsultan',
     'Penunjukan Langsung',
     user,
-    validatedBody.provider
+    validatedBody?.provider
   );
   res.json({
     message:
@@ -166,7 +166,7 @@ export const updateKonsultanPenunjukanLangsung = async (
     validatedBody,
     'konsultan',
     'Penunjukan Langsung',
-    validatedBody.provider
+    validatedBody?.provider
   );
 
   res.json({
@@ -228,7 +228,7 @@ export const createBarangSwakelola = async (req: Request, res: Response) => {
     'barang',
     'Swakelola',
     user,
-    validatedBody.provider
+    validatedBody?.provider
   );
   res.json({
     message: 'Successfully Create Pengadaan Jasa Barang Swakelola',
@@ -246,7 +246,7 @@ export const updateBarangSwakelola = async (req: Request, res: Response) => {
     validatedBody,
     'barang',
     'Swakelola',
-    validatedBody.provider
+    validatedBody?.provider
   );
 
   res.json({
@@ -311,7 +311,7 @@ export const createBarangPembelianLangsung = async (
     'barang',
     'Pembelian Langsung',
     user,
-    validatedBody.provider
+    validatedBody?.provider
   );
   res.json({
     message: 'Successfully Create Pengadaan Jasa Barang Pembelian Langsung',
@@ -332,7 +332,7 @@ export const updateBarangPembelianLangsung = async (
     validatedBody,
     'barang',
     'Pembelian Langsung',
-    validatedBody.provider
+    validatedBody?.provider
   );
 
   res.json({
@@ -400,7 +400,7 @@ export const createBarangPenunjukanLangsung = async (
     'barang',
     'Penunjukan Langsung',
     user,
-    validatedBody.provider
+    validatedBody?.provider
   );
   res.json({
     message:
@@ -425,7 +425,7 @@ export const updateBarangPenunjukanLangsung = async (
     validatedBody,
     'barang',
     'Penunjukan Langsung',
-    validatedBody.provider
+    validatedBody?.provider
   );
 
   res.json({
@@ -490,7 +490,7 @@ export const createBarangPemilihanLangsung = async (
     'barang',
     'Pemilihan Langsung',
     user,
-    validatedBody.provider
+    validatedBody?.provider
   );
   res.json({
     message: 'Successfully Create Pengadaan Jasa Barang Pemilihan Langsung',
@@ -511,7 +511,7 @@ export const updateBarangPemilihanLangsung = async (
     validatedBody,
     'barang',
     'Pemilihan Langsung',
-    validatedBody.provider
+    validatedBody?.provider
   );
 
   res.json({
@@ -573,7 +573,7 @@ export const createBarangLelang = async (req: Request, res: Response) => {
     'barang',
     'Lelang',
     user,
-    validatedBody.provider
+    validatedBody?.provider
   );
   res.json({
     message: 'Successfully Create Pengadaan Jasa Barang Lelang',
@@ -591,7 +591,7 @@ export const updateBarangLelang = async (req: Request, res: Response) => {
     validatedBody,
     'barang',
     'Lelang',
-    validatedBody.provider
+    validatedBody?.provider
   );
 
   res.json({

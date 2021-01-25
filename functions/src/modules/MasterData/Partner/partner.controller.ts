@@ -33,7 +33,7 @@ export const getPartnerById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'partnerId');
   const partnerRepository = new PartnerRepository();
-  const data = await partnerRepository.findById(validateParam.uid);
+  const data = await partnerRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get "Partner" By Id',
     data,
@@ -44,13 +44,13 @@ export const getAllPartner = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
 
   const partnerRepository = new PartnerRepository();
-  const data = await partnerRepository.findAll(
+  const { data, totalCount } = await partnerRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await partnerRepository.countDocument(filtered as string);
+  // const totalCount = await partnerRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get "Partner"',

@@ -40,7 +40,7 @@ const createSPK = yup
   .shape({
     tanggalSPK: yup.date().required(validationWording.required('Tanggal SPK')),
     nomorSPK: yup.string().required(validationWording.required('nomor SPK')),
-    provider: yup.string().required(validationWording.required('provider')),
+    provider: yup.string(),
     jenisPekerjaan: yup
       .string()
       .required(validationWording.required('Jenis Pekerjaan')),

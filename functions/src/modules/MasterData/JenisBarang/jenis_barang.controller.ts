@@ -34,7 +34,7 @@ export const getJenisBarangById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'jenisBarangId');
   const jenisBarangRepository = new JenisBarangRepository();
-  const data = await jenisBarangRepository.findById(validateParam.uid);
+  const data = await jenisBarangRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get JenisBarang By Id',
     data,
@@ -44,15 +44,15 @@ export const getJenisBarangById = async (req: Request, res: Response) => {
 export const getAllJenisBarang = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const jenisBarangRepository = new JenisBarangRepository();
-  const data = await jenisBarangRepository.findAll(
+  const { data, totalCount } = await jenisBarangRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await jenisBarangRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await jenisBarangRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get JenisBarang',

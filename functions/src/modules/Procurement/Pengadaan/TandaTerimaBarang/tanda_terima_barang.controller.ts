@@ -13,8 +13,8 @@ export const createTandaTerimaBarang = async (req: Request, res: Response) => {
 
   const data = await tandaTerimaBarang.createWithValidatePengadaan(
     validatedBody,
-    validatedBody.provider,
-    validatedBody.pengadaan
+    validatedBody.pengadaan,
+    validatedBody?.provider
   );
   res.json({
     message: 'Successfully Create Tanda Terima Barang',
@@ -32,8 +32,8 @@ export const updateTandaTerimaBarang = async (req: Request, res: Response) => {
   const data = await tandaTerimaBarang.updateWithValidatePengadaan(
     validateParam.uid,
     validatedBody,
-    validatedBody?.provider || undefined,
-    validatedBody?.pengadaan || undefined
+    validatedBody?.pengadaan || undefined,
+    validatedBody?.provider || undefined
   );
 
   res.json({

@@ -8,9 +8,8 @@ const create = yup
     pengadaan: yup
       .string()
       .required(validationWording.required('Nama Pengadaan')),
-    provider: yup
-      .string()
-      .required(validationWording.required('Nama Provider')),
+    provider: yup.string(),
+
     jumlah: yup.number().required(validationWording.required('jumlah')),
     hargaSatuan: yup
       .number()

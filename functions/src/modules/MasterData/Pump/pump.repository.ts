@@ -4,6 +4,6 @@ import { IPumpBase } from './interface/pump.interface';
 
 export default class PumpRepository extends BaseRepository<IPumpBase> {
   constructor() {
-    super('pumps', 'pump');
+    super('pumps', 'pump', 'bri_corpu_pumps');
   }
 }

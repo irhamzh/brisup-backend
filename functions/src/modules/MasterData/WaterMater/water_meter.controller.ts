@@ -38,7 +38,7 @@ export const getWaterMeterById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'waterMeterId');
   const waterMeterRepository = new WaterMeterRepository();
-  const data = await waterMeterRepository.findById(validateParam.uid);
+  const data = await waterMeterRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get WaterMeter By Id',
     data,
@@ -48,15 +48,15 @@ export const getWaterMeterById = async (req: Request, res: Response) => {
 export const getAllWaterMeter = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const waterMeterRepository = new WaterMeterRepository();
-  const data = await waterMeterRepository.findAll(
+  const { data, totalCount } = await waterMeterRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await waterMeterRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await waterMeterRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get WaterMeter',

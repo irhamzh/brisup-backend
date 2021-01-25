@@ -87,7 +87,7 @@ export const getCashById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const cashRepository = new CashRepository();
-  const data: admin.firestore.DocumentData = await cashRepository.findById(
+  const data: admin.firestore.DocumentData = await cashRepository.findByIdElastic(
     validateParam.uid
   );
   res.json({
@@ -99,13 +99,13 @@ export const getCashById = async (req: Request, res: Response) => {
 export const getAllCash = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const cashRepository = new CashRepository();
-  const data = await cashRepository.findAll(
+  const { data, totalCount } = await cashRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await cashRepository.countDocument(filtered as string);
+  // const totalCount = await cashRepository.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get Cash',
     data,

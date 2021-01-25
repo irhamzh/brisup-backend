@@ -38,7 +38,7 @@ export const getCheckpointById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'checkpointId');
   const checkpointRepository = new CheckpointRepository();
-  const data = await checkpointRepository.findById(validateParam.uid);
+  const data = await checkpointRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Checkpoint By Id',
     data,
@@ -48,15 +48,15 @@ export const getCheckpointById = async (req: Request, res: Response) => {
 export const getAllCheckpoint = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const checkpointRepository = new CheckpointRepository();
-  const data = await checkpointRepository.findAll(
+  const { data, totalCount } = await checkpointRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await checkpointRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await checkpointRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Checkpoint',

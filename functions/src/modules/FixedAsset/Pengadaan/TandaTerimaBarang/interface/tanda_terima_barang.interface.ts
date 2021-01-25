@@ -9,7 +9,7 @@ export interface ITerimaBarangBase {
     | IPengadaanBarangdanJasa
     | IPengadaanJasaKonsultan
     | IPengadaanSwakelolaPembelian;
-  provider: IProviderBase;
+  provider?: IProviderBase;
   jumlah: number;
   createdAt?: Date;
   updatedAt?: Date;

@@ -6,6 +6,6 @@ export default class CashRepositoryRepository extends BaseRepository<
   ICashBase
 > {
   constructor() {
-    super('fa_cashes', 'fa_cash');
+    super('fa_cashes', 'fa_cash', 'bri_corpu_fa_cashes');
   }
 }

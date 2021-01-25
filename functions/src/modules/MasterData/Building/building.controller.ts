@@ -38,7 +38,7 @@ export const getBuildingById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'buildingId');
   const buildingRepository = new BuildingRepository();
-  const data = await buildingRepository.findById(validateParam.uid);
+  const data = await buildingRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Building By Id',
     data,
@@ -48,13 +48,13 @@ export const getBuildingById = async (req: Request, res: Response) => {
 export const getAllBuilding = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const buildingRepository = new BuildingRepository();
-  const data = await buildingRepository.findAll(
+  const { data, totalCount } = await buildingRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await buildingRepository.countDocument(filtered as string);
+  // const totalCount = await buildingRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Building',

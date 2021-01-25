@@ -34,7 +34,7 @@ export const getFloorById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'floorId');
   const floorRepository = new FloorRepository();
-  const data = await floorRepository.findById(validateParam.uid);
+  const data = await floorRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Floor By Id',
     data,
@@ -44,13 +44,13 @@ export const getFloorById = async (req: Request, res: Response) => {
 export const getAllFloor = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const floorRepository = new FloorRepository();
-  const data = await floorRepository.findAll(
+  const { data, totalCount } = await floorRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await floorRepository.countDocument(filtered as string);
+  // const totalCount = await floorRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Floor',

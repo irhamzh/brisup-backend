@@ -12,8 +12,8 @@ export const createPurchaseOrder = async (req: Request, res: Response) => {
   const purchaseOrder = new PurchaseOrderRepository();
   const data = await purchaseOrder.createWithValidatePengadaan(
     validatedBody,
-    validatedBody.provider,
-    validatedBody.pengadaan
+    validatedBody.pengadaan,
+    validatedBody?.provider
   );
   res.json({
     message: 'Successfully Create Purchase Order',
@@ -29,8 +29,8 @@ export const updatePurchaseOrder = async (req: Request, res: Response) => {
   const data = await purchaseOrder.updateWithValidatePengadaan(
     validateParam.uid,
     validatedBody,
-    validatedBody?.provider || undefined,
-    validatedBody?.pengadaan || undefined
+    validatedBody?.pengadaan || undefined,
+    validatedBody?.provider || undefined
   );
   res.json({
     message: 'Successfully Update Purchase Order',

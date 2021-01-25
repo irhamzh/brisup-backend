@@ -13,8 +13,8 @@ export const createEvaluasiSuplier = async (req: Request, res: Response) => {
   const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
   const data = await evaluasiSuplierRepository.createWithValidatePengadaan(
     validatedBody,
-    validatedBody.provider,
-    validatedBody.pengadaan
+    validatedBody.pengadaan,
+    validatedBody?.provider
   );
   res.json({
     message: 'Successfully Create Evaluasi Suplier',
@@ -31,8 +31,8 @@ export const updateEvaluasiSuplier = async (req: Request, res: Response) => {
   const data = await evaluasiSuplierRepository.updateWithValidatePengadaan(
     validateParam.uid,
     validatedBody,
-    validatedBody?.provider || undefined,
-    validatedBody?.pengadaan || undefined
+    validatedBody?.pengadaan || undefined,
+    validatedBody?.provider || undefined
   );
 
   res.json({

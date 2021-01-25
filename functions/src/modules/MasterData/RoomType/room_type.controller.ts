@@ -38,7 +38,7 @@ export const getRoomTypeById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'roomTypeId');
   const roomTypeRepository = new RoomTypeRepository();
-  const data = await roomTypeRepository.findById(validateParam.uid);
+  const data = await roomTypeRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get RoomType By Id',
     data,
@@ -48,13 +48,13 @@ export const getRoomTypeById = async (req: Request, res: Response) => {
 export const getAllRoomType = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const roomTypeRepository = new RoomTypeRepository();
-  const data = await roomTypeRepository.findAll(
+  const { data, totalCount } = await roomTypeRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await roomTypeRepository.countDocument(filtered as string);
+  // const totalCount = await roomTypeRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get RoomType',

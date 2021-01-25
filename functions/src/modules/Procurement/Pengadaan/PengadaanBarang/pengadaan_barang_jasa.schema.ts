@@ -33,7 +33,7 @@ const baseCreate = yup
     namaPengadaan: yup
       .string()
       .required(validationWording.required('nama Pengadaan')),
-    provider: yup.string().required(validationWording.required('provider')),
+    provider: yup.string(),
     izinPrinsipPengadaan: yup
       .boolean()
       .required(validationWording.required('Izin Prinsip Pengadaan')),

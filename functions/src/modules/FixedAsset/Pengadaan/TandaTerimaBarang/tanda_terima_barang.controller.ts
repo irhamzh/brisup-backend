@@ -12,21 +12,20 @@ export const createTandaTerimaBarang = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
 
-  const tandaTerimaBarang = new TandaTerimaBarangRepository();
-  const providerRepository = new ProviderRepository();
-  const provider: any = await providerRepository.findById(
-    validatedBody.provider
-  );
   const pengadaanRepository = new PengadaanRepository();
-  const pengadaan: any = await pengadaanRepository.findById(
-    validatedBody.pengadaan
-  );
-  const createParam = {
+  const pengadaan = await pengadaanRepository.findById(validatedBody.pengadaan);
+  let createParam = {
     ...validatedBody,
-    provider,
     pengadaan,
   };
 
+  if (validatedBody?.provider) {
+    const providerRepository = new ProviderRepository();
+    const provider = await providerRepository.findById(validatedBody.provider);
+    createParam = { ...createParam, provider };
+  }
+
+  const tandaTerimaBarang = new TandaTerimaBarangRepository();
   const data = await tandaTerimaBarang.create(createParam);
   res.json({
     message: 'Successfully Create Tanda Terima Barang',
@@ -38,18 +37,16 @@ export const updateTandaTerimaBarang = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'tandaTerimaBarangId');
   const validatedBody = yupValidate(schema.update, body);
-  let createParam: any = validatedBody;
-  // delete createParam.provider;
-  if (validatedBody.provider) {
+
+  let createParam = validatedBody;
+  if (validatedBody?.provider) {
     const providerRepository = new ProviderRepository();
-    const provider: any = await providerRepository.findById(
-      validatedBody.provider
-    );
+    const provider = await providerRepository.findById(validatedBody.provider);
     createParam = { ...createParam, provider };
   }
-  if (validatedBody.pengadaan) {
+  if (validatedBody?.pengadaan) {
     const pengadaanRepository = new PengadaanRepository();
-    const pengadaan: any = await pengadaanRepository.findById(
+    const pengadaan = await pengadaanRepository.findById(
       validatedBody.pengadaan
     );
     createParam = { ...createParam, pengadaan };
