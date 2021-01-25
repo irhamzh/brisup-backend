@@ -68,7 +68,7 @@ export const getUploadById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const uploadRepository = new UploadRepository();
-  const data = await uploadRepository.findById(validateParam.uid);
+  const data = await uploadRepository.findByIdElastic(validateParam.uid);
   res.json({
     message: 'Successfully Get Upload By Id',
     data,
@@ -78,13 +78,13 @@ export const getUploadById = async (req: Request, res: Response) => {
 export const getAllUpload = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const uploadRepository = new UploadRepository();
-  const data = await uploadRepository.findAll(
+  const { data, totalCount } = await uploadRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await uploadRepository.countDocument(filtered as string);
+  // const totalCount = await uploadRepository.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get All Upload',
     data,
