@@ -27,7 +27,7 @@ interface IPengadaan {
 interface IPengadaanSPK extends IPengadaan {
   tanggalSPK: Date;
   nomorSPK: string;
-  provider: IProviderBase;
+  provider?: IProviderBase;
   jenisPekerjaan: string;
   jumlahBiaya: number;
   jenisBarang: string;

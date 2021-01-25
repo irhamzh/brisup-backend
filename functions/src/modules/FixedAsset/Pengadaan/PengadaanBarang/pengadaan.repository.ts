@@ -89,7 +89,7 @@ export default class PengadaanRepository extends BaseRepository<
     };
     if (paramProvider) {
       const providerRepository = new ProviderRepository();
-      const provider: any = await providerRepository.findById(paramProvider);
+      const provider = await providerRepository.findById(paramProvider);
       createParam = {
         ...createParam,
         provider,
@@ -128,7 +128,7 @@ export default class PengadaanRepository extends BaseRepository<
     };
     if (paramProvider) {
       const providerRepository = new ProviderRepository();
-      const provider: any = await providerRepository.findById(paramProvider);
+      const provider = await providerRepository.findById(paramProvider);
       createParam = {
         ...createParam,
         provider,
