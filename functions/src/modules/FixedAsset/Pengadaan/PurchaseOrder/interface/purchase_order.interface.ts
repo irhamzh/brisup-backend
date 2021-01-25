@@ -9,7 +9,7 @@ export interface IPurchaseOrderBase {
     | IPengadaanBarangdanJasa
     | IPengadaanJasaKonsultan
     | IPengadaanSwakelolaPembelian;
-  provider: IProviderBase;
+  provider?: IProviderBase;
   jumlah: number;
   hargaSatuan: number;
   totalHarga: number;

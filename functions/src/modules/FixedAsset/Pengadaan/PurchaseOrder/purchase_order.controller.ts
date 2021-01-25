@@ -12,21 +12,23 @@ export const createPurchaseOrder = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
 
-  const purchaseOrder = new PurchaseOrderRepository();
-  const providerRepository = new ProviderRepository();
-  const provider: any = await providerRepository.findById(
-    validatedBody.provider
-  );
   const pengadaanRepository = new PengadaanRepository();
-  const pengadaan: any = await pengadaanRepository.findById(
-    validatedBody.pengadaan
-  );
-  const createParam = {
+  const pengadaan = await pengadaanRepository.findById(validatedBody.pengadaan);
+  let createParam = {
     ...validatedBody,
-    provider,
     pengadaan,
   };
 
+  if (validatedBody?.provider) {
+    const providerRepository = new ProviderRepository();
+    const provider = await providerRepository.findById(validatedBody.provider);
+    createParam = {
+      ...createParam,
+      provider,
+    };
+  }
+
+  const purchaseOrder = new PurchaseOrderRepository();
   const data = await purchaseOrder.create(createParam);
   res.json({
     message: 'Successfully Create Purchase Order',
@@ -39,18 +41,15 @@ export const updatePurchaseOrder = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'purchaseOrderId');
   const validatedBody = yupValidate(schema.update, body);
 
-  let createParam: any = validatedBody;
-  // delete createParam.provider;
-  if (validatedBody.provider) {
+  let createParam = validatedBody;
+  if (validatedBody?.provider) {
     const providerRepository = new ProviderRepository();
-    const provider: any = await providerRepository.findById(
-      validatedBody.provider
-    );
+    const provider = await providerRepository.findById(validatedBody.provider);
     createParam = { ...createParam, provider };
   }
-  if (validatedBody.pengadaan) {
+  if (validatedBody?.pengadaan) {
     const pengadaanRepository = new PengadaanRepository();
-    const pengadaan: any = await pengadaanRepository.findById(
+    const pengadaan = await pengadaanRepository.findById(
       validatedBody.pengadaan
     );
     createParam = { ...createParam, pengadaan };
@@ -95,6 +94,7 @@ export const getAllPurchaseOrder = async (req: Request, res: Response) => {
 export const deletePurchaseOrderById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'purchaseOrderId');
+
   const purchaseOrder = new PurchaseOrderRepository();
   const data = await purchaseOrder.delete(validateParam.uid);
   res.json({
