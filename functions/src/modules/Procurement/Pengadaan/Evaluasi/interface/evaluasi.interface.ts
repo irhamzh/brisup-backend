@@ -11,7 +11,7 @@ export interface IEvaluasiSuplierBase {
     | IPengadaanBarangdanJasa
     | IPengadaanJasaKonsultan
     | IPengadaanSwakelolaPembelian;
-  provider: IProviderBase;
+  provider?: IProviderBase;
   nilai: number;
   information: string;
   createdAt?: Date;

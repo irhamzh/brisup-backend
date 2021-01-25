@@ -28,13 +28,6 @@ export const createPengadaan = async (req: Request, res: Response) => {
     body
   );
 
-  const providerRepository = new ProviderRepository();
-  const educationRepository = new EducationRepository();
-  const pengadaanRepository = new PengadaanRepository();
-  const provider: IProviderBase = await providerRepository.findById(
-    validatedBody.provider
-  );
-
   const status = StatusPengadaan['Belum Berjalan'];
   const log = {
     date: new Date(),
@@ -47,17 +40,27 @@ export const createPengadaan = async (req: Request, res: Response) => {
   let createParam = undefined;
   createParam = {
     ...validatedBody,
-    provider,
     isDraft: false,
     status,
   };
 
+  if (createParam?.provider) {
+    const providerRepository = new ProviderRepository();
+    const provider: IProviderBase = await providerRepository.findById(
+      createParam.provider
+    );
+    createParam = { ...createParam, provider };
+  }
+
   if (createParam?.namaPendidikan) {
+    const educationRepository = new EducationRepository();
     const namaPendidikan: IEducationBase = await educationRepository.findById(
       createParam.namaPendidikan
     );
     createParam = { ...createParam, namaPendidikan };
   }
+
+  const pengadaanRepository = new PengadaanRepository();
   const data = await pengadaanRepository.create({
     ...createParam,
     status,
@@ -83,13 +86,13 @@ export const updatePengadaan = async (req: Request, res: Response) => {
   // @ts-ignore
   createParam = { ...validatedBody };
 
-  if (createParam.provider) {
+  if (createParam?.provider) {
     const provider: IProviderBase = await providerRepository.findById(
       createParam.provider
     );
     createParam = { ...createParam, provider };
   }
-  if (createParam.namaPendidikan) {
+  if (createParam?.namaPendidikan) {
     const namaPendidikan: IEducationBase = await educationRepository.findById(
       createParam.namaPendidikan
     );

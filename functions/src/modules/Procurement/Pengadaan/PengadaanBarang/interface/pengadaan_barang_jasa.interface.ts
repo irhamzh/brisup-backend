@@ -13,7 +13,7 @@ interface IPengadaan {
   jenisPengadaan: string;
   typePengadaan: string;
   namaPengadaan: string;
-  provider: IProviderBase;
+  provider?: IProviderBase;
   izinPrinsipPengadaan: boolean;
   izinHasilPengadaan: boolean;
   suratPemesanan: boolean;

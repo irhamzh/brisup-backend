@@ -19,8 +19,8 @@ export default class PengadaaanRepository<
 
   async createWithValidatePengadaan(
     object: CreateParam,
-    providerId: string,
-    pengadaanId: string
+    pengadaanId: string,
+    providerId?: string
   ) {
     const validatePengadaan = await this.find(
       JSON.stringify([{ id: 'pengadaan.id', value: pengadaanId }])
@@ -37,20 +37,24 @@ export default class PengadaaanRepository<
         'pengadaan'
       );
     }
+
     const pengadaanRepository = new PengadaanRepository();
-    const providerRepository = new ProviderRepository();
-    const provider: IProviderBase = await providerRepository.findById(
-      providerId
-    );
     const pengadaan:
       | IPenunjukanLangsung
       | IPembelianLangsung
       | IPemilihanLangsung = await pengadaanRepository.findById(pengadaanId);
-    const crateParam = {
+    let crateParam = {
       ...object,
-      provider,
       pengadaan,
     };
+
+    if (providerId) {
+      const providerRepository = new ProviderRepository();
+      const provider: IProviderBase = await providerRepository.findById(
+        providerId
+      );
+      crateParam = { ...crateParam, provider };
+    }
     const data = await this.create(crateParam);
     return data;
   }
@@ -58,10 +62,10 @@ export default class PengadaaanRepository<
   async updateWithValidatePengadaan(
     id: string,
     object: Partial<CreateParam>,
-    providerId: string,
-    pengadaanId: string
+    pengadaanId: string,
+    providerId?: string
   ) {
-    let createParam: any = object;
+    let createParam = object;
     if (providerId) {
       const providerRepository = new ProviderRepository();
       const provider: IProviderBase = await providerRepository.findById(
