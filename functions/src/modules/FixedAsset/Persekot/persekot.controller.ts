@@ -73,35 +73,6 @@ export const updatePersekot = async (req: Request, res: Response) => {
   });
 };
 
-export const getPersekotById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'persekotId');
-  const persekotRepository = new PersekotRepository();
-  const data = await persekotRepository.findById(validateParam.uid);
-  res.json({
-    message: 'Successfully Get PersekotBy Id',
-    data,
-  });
-};
-
-export const getAllPersekot = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const persekotRepository = new PersekotRepository();
-  const data = await persekotRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await persekotRepository.countDocument(filtered as string);
-
-  res.json({
-    message: 'Successfully Get Persekot',
-    data,
-    totalCount,
-  });
-};
-
 export const deletePersekotById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'persekotId');
@@ -203,5 +174,34 @@ export const pengajuanPenihilan = async (req: Request, res: Response) => {
   res.json({
     message: 'Sukses Approve Persekot',
     invalidRow,
+  });
+};
+
+export const getPersekotById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'persekotId');
+  const persekotRepository = new PersekotRepository();
+  const data = await persekotRepository.findByIdElastic(validateParam.uid);
+  res.json({
+    message: 'Successfully Get PersekotBy Id',
+    data,
+  });
+};
+
+export const getAllPersekot = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const persekotRepository = new PersekotRepository();
+  const { data, totalCount } = await persekotRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await persekotRepository.countDocument(filtered as string);
+
+  res.json({
+    message: 'Successfully Get Persekot',
+    data,
+    totalCount,
   });
 };

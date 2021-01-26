@@ -64,11 +64,22 @@ export const updateVendor = async (req: Request, res: Response) => {
   });
 };
 
+export const deleteVendorById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'vendorId');
+  const vendorRepository = new VendorRepository();
+  const data = await vendorRepository.delete(validateParam.uid);
+  res.json({
+    message: 'Successfully Get Delete By Id',
+    data,
+  });
+};
+
 export const getVendorById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'vendorId');
   const vendorRepository = new VendorRepository();
-  const data: admin.firestore.DocumentData = await vendorRepository.findById(
+  const data: admin.firestore.DocumentData = await vendorRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -81,28 +92,17 @@ export const getVendorById = async (req: Request, res: Response) => {
 export const getAllVendor = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const vendorRepository = new VendorRepository();
-  const data = await vendorRepository.findAll(
+  const { data, totalCount } = await vendorRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await vendorRepository.countDocument(filtered as string);
+  // const totalCount = await vendorRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get Vendor',
     data,
     totalCount,
-  });
-};
-
-export const deleteVendorById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'vendorId');
-  const vendorRepository = new VendorRepository();
-  const data = await vendorRepository.delete(validateParam.uid);
-  res.json({
-    message: 'Successfully Get Delete By Id',
-    data,
   });
 };

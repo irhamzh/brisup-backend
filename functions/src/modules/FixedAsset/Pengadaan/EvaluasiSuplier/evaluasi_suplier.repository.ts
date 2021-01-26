@@ -5,6 +5,10 @@ export default class EvaluasiSuplierRepository extends BaseRepository<
   IEvaluasiSuplierBase
 > {
   constructor() {
-    super('pengaadan_evaluasi_supliers', 'pengaadan_evaluasi_suplier');
+    super(
+      'fx_evaluasi_supliers',
+      'fx_evaluasi_suplier',
+      'bri_corpu_fx_evaluasi_supliers'
+    );
   }
 }

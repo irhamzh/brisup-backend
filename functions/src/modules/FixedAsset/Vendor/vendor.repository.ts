@@ -17,6 +17,10 @@ export default class VendorRepository extends BaseRepository<
   | IVendorPengangkutanSampah
 > {
   constructor() {
-    super('monitoring_vendors', 'monitoring_vendor');
+    super(
+      'fx_monitoring_vendors',
+      'fx_monitoring_vendor',
+      'bri_corpu_fx_monitoring_vendors'
+    );
   }
 }

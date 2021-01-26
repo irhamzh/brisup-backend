@@ -16,13 +16,12 @@ import {
 } from './interface/peralatan.interface';
 
 export default class PeralatanITRepository extends BaseRepository<
-  // IPeralatanBase
   IPeralatanPC | IPeralatanBase | IPeralatanInfocus
 > {
   _peralatanModel: admin.firestore.CollectionReference;
   constructor() {
-    super('peralatan_its', 'peralatan_it');
-    this._peralatanModel = db.collection('peralatan_its');
+    super('fx_peralatan_its', 'fx_peralatan_it', 'bri_corpu_fx_peralatan_its');
+    this._peralatanModel = db.collection('fx_peralatan_its');
   }
 
   async handleExcel(files: IFiles, columnToKey: StringKeys) {

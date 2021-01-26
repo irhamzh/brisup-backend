@@ -37,7 +37,7 @@ export default class PengadaanRepository extends BaseRepository<
 > {
   _pengadaanModel: admin.firestore.CollectionReference;
   constructor() {
-    super('fx_pengadaans', 'fx_pengadaan');
+    super('fx_pengadaans', 'fx_pengadaan', 'bri_corpu_fx_pengadaans');
     this._pengadaanModel = db.collection('fx_pengadaans');
   }
 

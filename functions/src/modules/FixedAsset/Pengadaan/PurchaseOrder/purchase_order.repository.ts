@@ -5,6 +5,10 @@ export default class PurchaseOrderRepository extends BaseRepository<
   IPurchaseOrderBase
 > {
   constructor() {
-    super('fx_pengaadan_purchase_orders', 'fx_pengaadan_purchase_order');
+    super(
+      'fx_purchase_orders',
+      'fx_purchase_order',
+      'bri_corpu_fx_purchase_orders'
+    );
   }
 }

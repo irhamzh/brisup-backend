@@ -10,8 +10,8 @@ export default class PersediaanRepository extends BaseRepository<
 > {
   _persediaanModel: admin.firestore.CollectionReference;
   constructor() {
-    super('persediaans', 'persediaan');
-    this._persediaanModel = db.collection('persediaans');
+    super('fx_persediaans', 'fx_persediaan', 'bri_corpu_fx_persediaans');
+    this._persediaanModel = db.collection('fx_persediaans');
   }
 
   async updatePersediaanById(id: string, object: Partial<IPersediaanBase>) {
