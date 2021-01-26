@@ -87,7 +87,7 @@ export const getBuildingRoomById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'buildingRoomId');
   const buildingRoomRepository = new BuildingRoomRepository();
-  const data: admin.firestore.DocumentData = await buildingRoomRepository.findById(
+  const data: admin.firestore.DocumentData = await buildingRoomRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -100,15 +100,15 @@ export const getBuildingRoomById = async (req: Request, res: Response) => {
 export const getAllBuildingRoom = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const buildingRoomRepository = new BuildingRoomRepository();
-  const data = await buildingRoomRepository.findAll(
+  const { data, totalCount } = await buildingRoomRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await buildingRoomRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await buildingRoomRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get BuildingRoom',

@@ -89,11 +89,22 @@ export const updatePeralatanIT = async (req: Request, res: Response) => {
   });
 };
 
+export const deletePeralatanITById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'peralatanITId');
+  const peralatanITRepository = new PeralatanITRepository();
+  const data = await peralatanITRepository.delete(validateParam.uid);
+  res.json({
+    message: 'Successfully Delete Peralatan IT By Id',
+    data,
+  });
+};
+
 export const getPeralatanITById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'peralatanITId');
   const peralatanITRepository = new PeralatanITRepository();
-  const data: admin.firestore.DocumentData = await peralatanITRepository.findById(
+  const data: admin.firestore.DocumentData = await peralatanITRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -106,29 +117,18 @@ export const getPeralatanITById = async (req: Request, res: Response) => {
 export const getAllPeralatanIT = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const peralatanITRepository = new PeralatanITRepository();
-  const data = await peralatanITRepository.findAll(
+  const { data, totalCount } = await peralatanITRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await peralatanITRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await peralatanITRepository.countDocument(
+  //   filtered as string
+  // );
   res.json({
     message: 'Successfully Get Peralatan IT',
     data,
     totalCount,
-  });
-};
-
-export const deletePeralatanITById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'peralatanITId');
-  const peralatanITRepository = new PeralatanITRepository();
-  const data = await peralatanITRepository.delete(validateParam.uid);
-  res.json({
-    message: 'Successfully Delete Peralatan IT By Id',
-    data,
   });
 };

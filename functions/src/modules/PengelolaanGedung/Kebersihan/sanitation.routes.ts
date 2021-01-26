@@ -64,28 +64,6 @@ errorHandledRoute.delete(
   controller.deleteSmartBuildingSanitationById
 );
 
-// //mushola
-// errorHandledRoute.get(
-//   '/sarana-pendukung/mushola',
-//   controller.getAllMusholaSanitation
-// );
-// errorHandledRoute.post(
-//   '/sarana-pendukung/mushola',
-//   controller.createMusholaSanitation
-// );
-// errorHandledRoute.put(
-//   '/sarana-pendukung/mushola/:uid',
-//   controller.updateMusholaSanitation
-// );
-// errorHandledRoute.get(
-//   '/sarana-pendukung/mushola/:uid',
-//   controller.getMusholaSanitationById
-// );
-// errorHandledRoute.delete(
-//   '/sarana-pendukung/mushola/:uid',
-//   controller.deleteMusholaSanitationById
-// );
-
 errorHandledRoute.get(
   '/sarana-pendukung',
   accessMiddleware('fixedAsset', 'read'),

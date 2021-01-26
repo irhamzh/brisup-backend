@@ -82,7 +82,7 @@ export const getMechanicalElectricalById = async (
   const { params } = req;
   const validateParam = paramValidation(params, 'mechanicalElectricalId');
   const mechanicalElectricalRepository = new MechanicalElectricalRepository();
-  const data: admin.firestore.DocumentData = await mechanicalElectricalRepository.findById(
+  const data: admin.firestore.DocumentData = await mechanicalElectricalRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -98,15 +98,18 @@ export const getAllMechanicalElectrical = async (
 ) => {
   const { page, limit, filtered, sorted } = req.query;
   const mechanicalElectricalRepository = new MechanicalElectricalRepository();
-  const data = await mechanicalElectricalRepository.findAll(
+  const {
+    data,
+    totalCount,
+  } = await mechanicalElectricalRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await mechanicalElectricalRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await mechanicalElectricalRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Mechanical Electrical',

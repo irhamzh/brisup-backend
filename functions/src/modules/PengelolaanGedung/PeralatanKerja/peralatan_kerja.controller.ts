@@ -84,11 +84,22 @@ export const updatePeralatanKerja = async (req: Request, res: Response) => {
   });
 };
 
+export const deletePeralatanKerjaById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'peralatanKerjaId');
+  const peralatanKerjaRepository = new PeralatanKerjaRepository();
+  const data = await peralatanKerjaRepository.delete(validateParam.uid);
+  res.json({
+    message: 'Successfully Delete Peralatan Kerja By Id',
+    data,
+  });
+};
+
 export const getPeralatanKerjaById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'peralatanKerjaId');
   const peralatanKerjaRepository = new PeralatanKerjaRepository();
-  const data: admin.firestore.DocumentData = await peralatanKerjaRepository.findById(
+  const data: admin.firestore.DocumentData = await peralatanKerjaRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -101,30 +112,19 @@ export const getPeralatanKerjaById = async (req: Request, res: Response) => {
 export const getAllPeralatanKerja = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const peralatanKerjaRepository = new PeralatanKerjaRepository();
-  const data = await peralatanKerjaRepository.findAll(
+  const { data, totalCount } = await peralatanKerjaRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await peralatanKerjaRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await peralatanKerjaRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Peralatan Kerja',
     data,
     totalCount,
-  });
-};
-
-export const deletePeralatanKerjaById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'peralatanKerjaId');
-  const peralatanKerjaRepository = new PeralatanKerjaRepository();
-  const data = await peralatanKerjaRepository.delete(validateParam.uid);
-  res.json({
-    message: 'Successfully Delete Peralatan Kerja By Id',
-    data,
   });
 };
