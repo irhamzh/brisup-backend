@@ -5,6 +5,10 @@ export default class EvaluasiCateringRepository extends BaseRepository<
   IEvaluasiCateringBase
 > {
   constructor() {
-    super('pr_evaluasi_caterings', 'evaluasi_catering');
+    super(
+      'pr_evaluasi_caterings',
+      'evaluasi_catering',
+      'bri_corpu_pr_evaluasi_caterings'
+    );
   }
 }

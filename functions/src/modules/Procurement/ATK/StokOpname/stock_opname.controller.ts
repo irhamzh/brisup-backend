@@ -90,11 +90,25 @@ export const updateATKStockOpname = async (req: Request, res: Response) => {
   });
 };
 
+export const deleteATKStockOpnameById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'atkStockOpnameId');
+  const atkStockOpnameRepository = new ATKStockOpnameRepository();
+  const data = await atkStockOpnameRepository.delete(validateParam.uid);
+
+  res.json({
+    message: 'Successfully Delete ATK Stok Opname By Id',
+    data,
+  });
+};
+
 export const getATKStockOpnameById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'atkStockOpnameId');
   const atkStockOpnameRepository = new ATKStockOpnameRepository();
-  const data = await atkStockOpnameRepository.findById(validateParam.uid);
+  const data = await atkStockOpnameRepository.findByIdElastic(
+    validateParam.uid
+  );
 
   res.json({
     message: 'Successfully Get ATK Stok Opname By Id',
@@ -105,31 +119,19 @@ export const getATKStockOpnameById = async (req: Request, res: Response) => {
 export const getAllATKStockOpname = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const atkStockOpnameRepository = new ATKStockOpnameRepository();
-  const data = await atkStockOpnameRepository.findAll(
+  const { data, totalCount } = await atkStockOpnameRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await atkStockOpnameRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await atkStockOpnameRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get ATK Stok Opname',
     data,
     totalCount,
-  });
-};
-
-export const deleteATKStockOpnameById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'atkStockOpnameId');
-  const atkStockOpnameRepository = new ATKStockOpnameRepository();
-  const data = await atkStockOpnameRepository.delete(validateParam.uid);
-
-  res.json({
-    message: 'Successfully Delete ATK Stok Opname By Id',
-    data,
   });
 };

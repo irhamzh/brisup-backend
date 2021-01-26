@@ -6,6 +6,10 @@ export default class StockOpnameATKRepository extends BaseRepository<
   IStokOpnameATKBase
 > {
   constructor() {
-    super('pr_stock_opname_atks', 'stock_opname_atks');
+    super(
+      'pr_stock_opname_atks',
+      'stock_opname_atks',
+      'bri_corpu_pr_stock_opname_atks'
+    );
   }
 }

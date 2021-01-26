@@ -57,11 +57,23 @@ export const updateEvaluasiATK = async (req: Request, res: Response) => {
   });
 };
 
+export const deleteEvaluasiATKById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'evaluasiATKId');
+  const evaluasiATKRepository = new EvaluasiATKRepository();
+  const data = await evaluasiATKRepository.delete(validateParam.uid);
+
+  res.json({
+    message: 'Successfully Delete Evaluasi ATK By Id',
+    data,
+  });
+};
+
 export const getEvaluasiATKById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'evaluasiATKId');
   const evaluasiATKRepository = new EvaluasiATKRepository();
-  const data = await evaluasiATKRepository.findById(validateParam.uid);
+  const data = await evaluasiATKRepository.findByIdElastic(validateParam.uid);
 
   res.json({
     message: 'Successfully Get Evaluasi ATK By Id',
@@ -72,31 +84,19 @@ export const getEvaluasiATKById = async (req: Request, res: Response) => {
 export const getAllEvaluasiATK = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const evaluasiATKRepository = new EvaluasiATKRepository();
-  const data = await evaluasiATKRepository.findAll(
+  const { data, totalCount } = await evaluasiATKRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await evaluasiATKRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await evaluasiATKRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Evaluasi ATK',
     data,
     totalCount,
-  });
-};
-
-export const deleteEvaluasiATKById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'evaluasiATKId');
-  const evaluasiATKRepository = new EvaluasiATKRepository();
-  const data = await evaluasiATKRepository.delete(validateParam.uid);
-
-  res.json({
-    message: 'Successfully Delete Evaluasi ATK By Id',
-    data,
   });
 };

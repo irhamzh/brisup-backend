@@ -6,6 +6,10 @@ export default class KlasifikasiCateringRepository extends BaseRepository<
   IKlasifikasiCateringBase
 > {
   constructor() {
-    super('pr_klasifikasi_caterings', 'klasifikasi_catering');
+    super(
+      'pr_klasifikasi_caterings',
+      'klasifikasi_catering',
+      'bri_corpu_pr_klasifikasi_caterings'
+    );
   }
 }

@@ -6,6 +6,10 @@ export default class KlasifikasiATKRepository extends BaseRepository<
   IKlasifikasiATKBase
 > {
   constructor() {
-    super('pr_klasifikasi_atks', 'klasifikasi_atks');
+    super(
+      'pr_klasifikasi_atks',
+      'klasifikasi_atks',
+      'bri_corpu_pr_klasifikasi_atks'
+    );
   }
 }

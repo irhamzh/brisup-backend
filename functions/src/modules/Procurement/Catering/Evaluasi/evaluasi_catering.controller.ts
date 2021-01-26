@@ -69,38 +69,6 @@ export const updateEvaluasiCatering = async (req: Request, res: Response) => {
   });
 };
 
-export const getEvaluasiCateringById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'evaluasiCateringId');
-  const evaluasiCateringRepository = new EvaluasiCateringRepository();
-  const data = await evaluasiCateringRepository.findById(validateParam.uid);
-
-  res.json({
-    message: 'Successfully Get Evaluasi Catering By Id',
-    data,
-  });
-};
-
-export const getAllEvaluasiCatering = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const evaluasiCateringRepository = new EvaluasiCateringRepository();
-  const data = await evaluasiCateringRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await evaluasiCateringRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get Evaluasi Catering',
-    data,
-    totalCount,
-  });
-};
-
 export const deleteEvaluasiCateringById = async (
   req: Request,
   res: Response
@@ -113,5 +81,39 @@ export const deleteEvaluasiCateringById = async (
   res.json({
     message: 'Successfully Delete Evaluasi Catering By Id',
     data,
+  });
+};
+
+export const getEvaluasiCateringById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'evaluasiCateringId');
+  const evaluasiCateringRepository = new EvaluasiCateringRepository();
+  const data = await evaluasiCateringRepository.findByIdElastic(
+    validateParam.uid
+  );
+
+  res.json({
+    message: 'Successfully Get Evaluasi Catering By Id',
+    data,
+  });
+};
+
+export const getAllEvaluasiCatering = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const evaluasiCateringRepository = new EvaluasiCateringRepository();
+  const { data, totalCount } = await evaluasiCateringRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await evaluasiCateringRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get Evaluasi Catering',
+    data,
+    totalCount,
   });
 };

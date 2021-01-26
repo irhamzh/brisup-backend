@@ -38,11 +38,25 @@ export const updatePurchaseOrder = async (req: Request, res: Response) => {
   });
 };
 
+export const deletePurchaseOrderById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'purchaseOrderId');
+  const purchaseOrder = new PurchaseOrderRepository();
+  const data = await purchaseOrder.delete(validateParam.uid);
+  res.json({
+    message: 'Successfully Delete PurchaseOrder By Id',
+    data,
+  });
+};
+
 export const getPurchaseOrderById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'purchaseOrderId');
   const purchaseOrder = new PurchaseOrderRepository();
-  const data = await purchaseOrder.findById(validateParam.uid);
+  const data = await purchaseOrder.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_pr_pengadaan_purchase_orders'
+  );
   res.json({
     message: 'Successfully Get PurchaseOrder By Id',
     data,
@@ -52,27 +66,17 @@ export const getPurchaseOrderById = async (req: Request, res: Response) => {
 export const getAllPurchaseOrder = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const purchaseOrder = new PurchaseOrderRepository();
-  const data = await purchaseOrder.findAll(
+  const { data, totalCount } = await purchaseOrder.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_pr_pengadaan_purchase_orders'
   );
-  const totalCount = await purchaseOrder.countDocument(filtered as string);
+  // const totalCount = await purchaseOrder.countDocument(filtered as string);
   res.json({
     message: 'Successfully Get PurchaseOrder',
     data,
     totalCount,
-  });
-};
-
-export const deletePurchaseOrderById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'purchaseOrderId');
-  const purchaseOrder = new PurchaseOrderRepository();
-  const data = await purchaseOrder.delete(validateParam.uid);
-  res.json({
-    message: 'Successfully Delete PurchaseOrder By Id',
-    data,
   });
 };
