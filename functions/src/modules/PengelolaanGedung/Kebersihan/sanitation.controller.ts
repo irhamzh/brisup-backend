@@ -61,7 +61,7 @@ export const deleteYardSanitationById = async (req: Request, res: Response) => {
     'pg-yard'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -189,7 +189,7 @@ export const deleteSmartBuildingSanitationById = async (
     'pg-smart-building'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -611,7 +611,7 @@ export const deleteInnovationBuildingSanitationById = async (
     'pg-innovation-building'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -752,7 +752,7 @@ export const deleteSaranaPendukungSanitationById = async (
     'pg-sarana-pendukung'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };

@@ -66,7 +66,7 @@ export const deleteHotelById = async (req: Request, res: Response) => {
   const hotelRepository = new HotelRepository();
   const data = await hotelRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Hotel By Id',
     data,
   });
 };

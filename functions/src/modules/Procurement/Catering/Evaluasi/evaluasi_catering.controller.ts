@@ -32,7 +32,7 @@ export const createEvaluasiCatering = async (req: Request, res: Response) => {
   const data = await evaluasiCateringRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create EvaluasiCatering',
+    message: 'Successfully Create Evaluasi Catering',
     data,
   });
 };
@@ -64,7 +64,7 @@ export const updateEvaluasiCatering = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update EvaluasiCatering',
+    message: 'Successfully Update Evaluasi Catering',
     data,
   });
 };
@@ -76,7 +76,7 @@ export const getEvaluasiCateringById = async (req: Request, res: Response) => {
   const data = await evaluasiCateringRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get EvaluasiCatering By Id',
+    message: 'Successfully Get Evaluasi Catering By Id',
     data,
   });
 };
@@ -95,7 +95,7 @@ export const getAllEvaluasiCatering = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get EvaluasiCatering',
+    message: 'Successfully Get Evaluasi Catering',
     data,
     totalCount,
   });
@@ -111,7 +111,7 @@ export const deleteEvaluasiCateringById = async (
   const data = await evaluasiCateringRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Evaluasi Catering By Id',
     data,
   });
 };

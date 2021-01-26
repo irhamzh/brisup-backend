@@ -26,7 +26,7 @@ export const createEvaluasiATK = async (req: Request, res: Response) => {
   const data = await evaluasiATKRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create EvaluasiATK',
+    message: 'Successfully Create Evaluasi ATK',
     data,
   });
 };
@@ -52,7 +52,7 @@ export const updateEvaluasiATK = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update EvaluasiATK',
+    message: 'Successfully Update Evaluasi ATK',
     data,
   });
 };
@@ -64,7 +64,7 @@ export const getEvaluasiATKById = async (req: Request, res: Response) => {
   const data = await evaluasiATKRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get EvaluasiATK By Id',
+    message: 'Successfully Get Evaluasi ATK By Id',
     data,
   });
 };
@@ -83,7 +83,7 @@ export const getAllEvaluasiATK = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get EvaluasiATK',
+    message: 'Successfully Get Evaluasi ATK',
     data,
     totalCount,
   });
@@ -96,7 +96,7 @@ export const deleteEvaluasiATKById = async (req: Request, res: Response) => {
   const data = await evaluasiATKRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Evaluasi ATK By Id',
     data,
   });
 };

@@ -69,7 +69,7 @@ export const deleteEducationById = async (req: Request, res: Response) => {
   const educatioRepository = new EducationRepository();
   const data = await educatioRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'SuccessfullyDelete Education By Id',
     data,
   });
 };

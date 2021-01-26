@@ -35,7 +35,7 @@ export const createMechanicalElectrical = async (
   );
 
   res.json({
-    message: 'Successfully Create MechanicalElectrical',
+    message: 'Successfully Create Mechanical Electrical',
     data,
   });
 };
@@ -70,7 +70,7 @@ export const updateMechanicalElectrical = async (
   );
 
   res.json({
-    message: 'Successfully Update MechanicalElectrical',
+    message: 'Successfully Update Mechanical Electrical',
     data,
   });
 };
@@ -87,7 +87,7 @@ export const getMechanicalElectricalById = async (
   );
 
   res.json({
-    message: 'Successfully Get MechanicalElectrical By Id',
+    message: 'Successfully Get Mechanical Electrical By Id',
     data,
   });
 };
@@ -109,7 +109,7 @@ export const getAllMechanicalElectrical = async (
   );
 
   res.json({
-    message: 'Successfully Get MechanicalElectrical',
+    message: 'Successfully Get Mechanical Electrical',
     data,
     totalCount,
   });
@@ -124,7 +124,7 @@ export const deleteMechanicalElectricalById = async (
   const mechanicalElectricalRepository = new MechanicalElectricalRepository();
   const data = await mechanicalElectricalRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Mechanical Electrical By Id',
     data,
   });
 };

@@ -39,7 +39,7 @@ export const createPeralatanIT = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Create PeralatanIT',
+    message: 'Successfully Create Peralatan IT',
     data,
   });
 };
@@ -84,7 +84,7 @@ export const updatePeralatanIT = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update PeralatanIT',
+    message: 'Successfully Update Peralatan IT',
     data,
   });
 };
@@ -98,7 +98,7 @@ export const getPeralatanITById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get PeralatanIT By Id',
+    message: 'Successfully Get Peralatan IT By Id',
     data,
   });
 };
@@ -116,7 +116,7 @@ export const getAllPeralatanIT = async (req: Request, res: Response) => {
     filtered as string
   );
   res.json({
-    message: 'Successfully Get PeralatanIT',
+    message: 'Successfully Get Peralatan IT',
     data,
     totalCount,
   });
@@ -128,7 +128,7 @@ export const deletePeralatanITById = async (req: Request, res: Response) => {
   const peralatanITRepository = new PeralatanITRepository();
   const data = await peralatanITRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Peralatan IT By Id',
     data,
   });
 };

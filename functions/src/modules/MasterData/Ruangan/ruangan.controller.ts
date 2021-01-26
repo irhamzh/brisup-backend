@@ -65,7 +65,7 @@ export const deleteRuanganById = async (req: Request, res: Response) => {
   const ruanganRepository = new RuanganRepository();
   const data = await ruanganRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Ruangan By Id',
     data,
   });
 };

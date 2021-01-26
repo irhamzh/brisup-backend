@@ -42,7 +42,7 @@ export const createATKStockOpname = async (req: Request, res: Response) => {
   const data = await atkStockOpnameRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create ATKStockOpname',
+    message: 'Successfully Create ATK Stok Opname',
     data,
   });
 };
@@ -85,7 +85,7 @@ export const updateATKStockOpname = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update ATKStockOpname',
+    message: 'Successfully Update ATK Stok Opname',
     data,
   });
 };
@@ -97,7 +97,7 @@ export const getATKStockOpnameById = async (req: Request, res: Response) => {
   const data = await atkStockOpnameRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get ATKStockOpname By Id',
+    message: 'Successfully Get ATK Stok Opname By Id',
     data,
   });
 };
@@ -116,7 +116,7 @@ export const getAllATKStockOpname = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get ATKStockOpname',
+    message: 'Successfully Get ATK Stok Opname',
     data,
     totalCount,
   });
@@ -129,7 +129,7 @@ export const deleteATKStockOpnameById = async (req: Request, res: Response) => {
   const data = await atkStockOpnameRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete ATK Stok Opname By Id',
     data,
   });
 };

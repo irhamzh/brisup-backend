@@ -23,7 +23,7 @@ export const createEvaluasiHotel = async (req: Request, res: Response) => {
   });
 
   res.json({
-    message: 'Successfully Create EvaluasiHotel',
+    message: 'Successfully Create Evaluasi Hotel',
     data,
   });
 };
@@ -48,7 +48,7 @@ export const updateEvaluasiHotel = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update EvaluasiHotel',
+    message: 'Successfully Update Evaluasi Hotel',
     data,
   });
 };
@@ -60,7 +60,7 @@ export const getEvaluasiHotelById = async (req: Request, res: Response) => {
   const data = await evaluasiHotelRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get EvaluasiHotel By Id',
+    message: 'Successfully Get Evaluasi Hotel By Id',
     data,
   });
 };
@@ -79,7 +79,7 @@ export const getAllEvaluasiHotel = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get EvaluasiHotel',
+    message: 'Successfully Get Evaluasi Hotel',
     data,
     totalCount,
   });
@@ -92,7 +92,7 @@ export const deleteEvaluasiHotelById = async (req: Request, res: Response) => {
   const data = await evaluasiHotelRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Evaluasi Hotel By Id',
     data,
   });
 };

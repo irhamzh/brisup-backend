@@ -69,7 +69,7 @@ export const deleteLocationById = async (req: Request, res: Response) => {
   const locationRepository = new LocationRepository();
   const data = await locationRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'SuccessfullyDelete Location By Id',
     data,
   });
 };

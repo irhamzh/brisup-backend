@@ -66,7 +66,7 @@ export const deleteVehicleById = async (req: Request, res: Response) => {
   const vehicleRepository = new VehicleRepository();
   const data = await vehicleRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Vehicle By Id',
     data,
   });
 };

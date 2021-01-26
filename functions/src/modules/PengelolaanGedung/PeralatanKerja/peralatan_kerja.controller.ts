@@ -39,7 +39,7 @@ export const createPeralatanKerja = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create PeralatanKerja',
+    message: 'Successfully Create Peralatan Kerja',
     data,
   });
 };
@@ -79,7 +79,7 @@ export const updatePeralatanKerja = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update PeralatanKerja',
+    message: 'Successfully Update Peralatan Kerja',
     data,
   });
 };
@@ -93,7 +93,7 @@ export const getPeralatanKerjaById = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get PeralatanKerja By Id',
+    message: 'Successfully Get Peralatan Kerja By Id',
     data,
   });
 };
@@ -112,7 +112,7 @@ export const getAllPeralatanKerja = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get PeralatanKerja',
+    message: 'Successfully Get Peralatan Kerja',
     data,
     totalCount,
   });
@@ -124,7 +124,7 @@ export const deletePeralatanKerjaById = async (req: Request, res: Response) => {
   const peralatanKerjaRepository = new PeralatanKerjaRepository();
   const data = await peralatanKerjaRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Peralatan Kerja By Id',
     data,
   });
 };

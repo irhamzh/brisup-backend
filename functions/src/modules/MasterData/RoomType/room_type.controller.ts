@@ -13,7 +13,7 @@ export const createRoomType = async (req: Request, res: Response) => {
   const roomTypeRepository = new RoomTypeRepository();
   const data = await roomTypeRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create RoomType',
+    message: 'Successfully Create Room Type',
     data,
   });
 };
@@ -29,7 +29,7 @@ export const updateRoomType = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update RoomType',
+    message: 'Successfully Update Room Type',
     data,
   });
 };
@@ -40,7 +40,7 @@ export const getRoomTypeById = async (req: Request, res: Response) => {
   const roomTypeRepository = new RoomTypeRepository();
   const data = await roomTypeRepository.findByIdElastic(validateParam.uid);
   res.json({
-    message: 'Successfully Get RoomType By Id',
+    message: 'Successfully Get Room Type By Id',
     data,
   });
 };
@@ -57,7 +57,7 @@ export const getAllRoomType = async (req: Request, res: Response) => {
   // const totalCount = await roomTypeRepository.countDocument(filtered as string);
 
   res.json({
-    message: 'Successfully Get RoomType',
+    message: 'Successfully Get Room Type',
     data,
     totalCount,
   });
@@ -69,7 +69,7 @@ export const deleteRoomTypeById = async (req: Request, res: Response) => {
   const roomTypeRepository = new RoomTypeRepository();
   const data = await roomTypeRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Room Type By Id',
     data,
   });
 };

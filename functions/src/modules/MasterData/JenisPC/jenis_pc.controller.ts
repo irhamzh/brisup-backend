@@ -12,7 +12,7 @@ export const createJenisPc = async (req: Request, res: Response) => {
   const jenisPcRepository = new JenisPcRepository();
   const data = await jenisPcRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create JenisPc',
+    message: 'Successfully Create Jenis PC',
     data,
   });
 };
@@ -25,7 +25,7 @@ export const updateJenisPc = async (req: Request, res: Response) => {
   const jenisPcRepository = new JenisPcRepository();
   const data = await jenisPcRepository.update(validateParam.uid, validatedBody);
   res.json({
-    message: 'Successfully Update JenisPc',
+    message: 'Successfully Update Jenis PC',
     data,
   });
 };
@@ -53,7 +53,7 @@ export const getAllJenisPc = async (req: Request, res: Response) => {
   // const totalCount = await jenisPcRepository.countDocument(filtered as string);
 
   res.json({
-    message: 'Successfully Get JenisPc',
+    message: 'Successfully Get Jenis PC',
     data,
     totalCount,
   });
@@ -65,7 +65,7 @@ export const deleteJenisPcById = async (req: Request, res: Response) => {
   const jenisPcRepository = new JenisPcRepository();
   const data = await jenisPcRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Jenis PC By Id',
     data,
   });
 };

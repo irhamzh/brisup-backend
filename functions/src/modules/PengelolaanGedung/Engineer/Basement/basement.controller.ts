@@ -75,7 +75,7 @@ export const deleteWaterMeterById = async (req: Request, res: Response) => {
     'pg-water-meters'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -167,7 +167,7 @@ export const deleteElectrifyById = async (req: Request, res: Response) => {
     'pg-electricities'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -296,7 +296,7 @@ export const deleteACById = async (req: Request, res: Response) => {
     'pg-acs'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -409,7 +409,7 @@ export const deletePlumbingById = async (req: Request, res: Response) => {
     'pg-plumbings'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -501,7 +501,7 @@ export const deleteSTPById = async (req: Request, res: Response) => {
     'pg-stps'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };

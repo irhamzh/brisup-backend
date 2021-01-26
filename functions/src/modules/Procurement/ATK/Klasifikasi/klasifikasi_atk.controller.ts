@@ -32,7 +32,7 @@ export const createATKClasification = async (req: Request, res: Response) => {
   const data = await atkClasificationRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create ATKClasification',
+    message: 'Successfully Create Klasifikasi ATK',
     data,
   });
 };
@@ -65,7 +65,7 @@ export const updateATKClasification = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update ATKClasification',
+    message: 'Successfully Update Klasifikasi ATK',
     data,
   });
 };
@@ -77,7 +77,7 @@ export const getATKClasificationById = async (req: Request, res: Response) => {
   const data = await atkClasificationRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get ATKClasification By Id',
+    message: 'Successfully Get Klasifikasi ATK By Id',
     data,
   });
 };
@@ -96,7 +96,7 @@ export const getAllATKClasification = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get ATKClasification',
+    message: 'Successfully Get Klasifikasi ATK',
     data,
     totalCount,
   });
@@ -112,7 +112,7 @@ export const deleteATKClasificationById = async (
   const data = await atkClasificationRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Klasifikasi ATK By Id',
     data,
   });
 };

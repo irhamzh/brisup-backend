@@ -66,7 +66,7 @@ export const deleteUkerById = async (req: Request, res: Response) => {
   const ukerRepository = new UkerRepository();
   const data = await ukerRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Uker By Id',
     data,
   });
 };

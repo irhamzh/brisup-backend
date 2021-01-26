@@ -125,7 +125,7 @@ export const deleteCateringClasificationById = async (
   const data = await cateringClasificationRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete CateringClasification By Id',
     data,
   });
 };

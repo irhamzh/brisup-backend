@@ -66,7 +66,7 @@ export const deletePumpById = async (req: Request, res: Response) => {
   const pumpRepository = new PumpRepository();
   const data = await pumpRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Pump By Id',
     data,
   });
 };

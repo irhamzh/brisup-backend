@@ -71,7 +71,7 @@ export const deleteCompressorById = async (req: Request, res: Response) => {
   const compressorRepository = new CompressorRepository();
   const data = await compressorRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Compressor By Id',
     data,
   });
 };

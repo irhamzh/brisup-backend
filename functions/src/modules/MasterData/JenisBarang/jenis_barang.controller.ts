@@ -10,7 +10,7 @@ export const createJenisBarang = async (req: Request, res: Response) => {
   const jenisBarangRepository = new JenisBarangRepository();
   const data = await jenisBarangRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create JenisBarang',
+    message: 'Successfully Create Jenis Barang',
     data,
   });
 };
@@ -25,7 +25,7 @@ export const updateJenisBarang = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update JenisBarang',
+    message: 'Successfully Update Jenis Barang',
     data,
   });
 };
@@ -36,7 +36,7 @@ export const getJenisBarangById = async (req: Request, res: Response) => {
   const jenisBarangRepository = new JenisBarangRepository();
   const data = await jenisBarangRepository.findByIdElastic(validateParam.uid);
   res.json({
-    message: 'Successfully Get JenisBarang By Id',
+    message: 'Successfully Get Jenis Barang By Id',
     data,
   });
 };
@@ -55,7 +55,7 @@ export const getAllJenisBarang = async (req: Request, res: Response) => {
   // );
 
   res.json({
-    message: 'Successfully Get JenisBarang',
+    message: 'Successfully Get Jenis Barang',
     data,
     totalCount,
   });
@@ -67,7 +67,7 @@ export const deleteJenisBarangById = async (req: Request, res: Response) => {
   const jenisBarangRepository = new JenisBarangRepository();
   const data = await jenisBarangRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Jenis Barang By Id',
     data,
   });
 };
