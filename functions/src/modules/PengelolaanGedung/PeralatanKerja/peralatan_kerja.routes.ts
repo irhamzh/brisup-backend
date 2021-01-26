@@ -1,14 +1,39 @@
-import * as controller from './peralatan_kerja.controller';
 import { Router } from 'express';
+
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
-const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+import * as controller from './peralatan_kerja.controller';
 
-errorHandledRoute.get('/', controller.getAllPeralatanKerja);
-errorHandledRoute.post('/', controller.createPeralatanKerja);
-errorHandledRoute.put('/:uid', controller.updatePeralatanKerja);
-errorHandledRoute.get('/:uid', controller.getPeralatanKerjaById);
-errorHandledRoute.delete('/:uid', controller.deletePeralatanKerjaById);
+const router = Router();
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getAllPeralatanKerja
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('fixedAsset', 'create'),
+  controller.createPeralatanKerja
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'update'),
+  controller.updatePeralatanKerja
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'read'),
+  controller.getPeralatanKerjaById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('fixedAsset', 'delete'),
+  controller.deletePeralatanKerjaById
+);
 
 export default router;
