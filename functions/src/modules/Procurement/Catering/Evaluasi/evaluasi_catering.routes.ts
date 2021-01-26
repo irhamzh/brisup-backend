@@ -1,14 +1,38 @@
 import * as controller from './evaluasi_catering.controller';
 import { Router } from 'express';
+
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
 const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
-errorHandledRoute.get('/', controller.getAllEvaluasiCatering);
-errorHandledRoute.post('/', controller.createEvaluasiCatering);
-errorHandledRoute.put('/:uid', controller.updateEvaluasiCatering);
-errorHandledRoute.get('/:uid', controller.getEvaluasiCateringById);
-errorHandledRoute.delete('/:uid', controller.deleteEvaluasiCateringById);
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('procurement', 'read'),
+  controller.getAllEvaluasiCatering
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('procurement', 'create'),
+  controller.createEvaluasiCatering
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('procurement', 'update'),
+  controller.updateEvaluasiCatering
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('procurement', 'read'),
+  controller.getEvaluasiCateringById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('procurement', 'delete'),
+  controller.deleteEvaluasiCateringById
+);
 
 export default router;

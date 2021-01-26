@@ -1,15 +1,39 @@
 import { Router } from 'express';
-import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
 import * as controller from './klasifikasi_catering.controller';
 
-const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
+import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
-errorHandledRoute.get('/', controller.getAllCateringClasification);
-errorHandledRoute.post('/', controller.createCateringClasification);
-errorHandledRoute.put('/:uid', controller.updateCateringClasification);
-errorHandledRoute.get('/:uid', controller.getCateringClasificationById);
-errorHandledRoute.delete('/:uid', controller.deleteCateringClasificationById);
+const router = Router();
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('procurement', 'read'),
+  controller.getAllCateringClasification
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('procurement', 'create'),
+  controller.createCateringClasification
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('procurement', 'update'),
+  controller.updateCateringClasification
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('procurement', 'read'),
+  controller.getCateringClasificationById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('procurement', 'delete'),
+  controller.deleteCateringClasificationById
+);
 
 export default router;

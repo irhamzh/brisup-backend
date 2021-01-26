@@ -1,15 +1,39 @@
 import { Router } from 'express';
-import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
 import * as controller from './klasifikasi_hotel.controller';
 
-const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
+import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
-errorHandledRoute.get('/', controller.getAllHotelClasification);
-errorHandledRoute.post('/', controller.createHotelClasification);
-errorHandledRoute.put('/:uid', controller.updateHotelClasification);
-errorHandledRoute.get('/:uid', controller.getHotelClasificationById);
-errorHandledRoute.delete('/:uid', controller.deleteHotelClasificationById);
+const router = Router();
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('procurement', 'read'),
+  controller.getAllHotelClasification
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('procurement', 'create'),
+  controller.createHotelClasification
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('procurement', 'update'),
+  controller.updateHotelClasification
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('procurement', 'read'),
+  controller.getHotelClasificationById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('procurement', 'delete'),
+  controller.deleteHotelClasificationById
+);
 
 export default router;
