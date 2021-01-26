@@ -60,46 +60,6 @@ export const deleteEmployeeById = async (req: Request, res: Response) => {
   });
 };
 
-export const getEmployeeById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'id');
-  const employeeRepository = new EmployeeRepository();
-  const data = await employeeRepository.findSubdocumentById(
-    validateParam.uid,
-    'employee',
-    'ga_employees'
-  );
-
-  res.json({
-    message: 'Successfully Get Employee By Id',
-    data,
-  });
-};
-
-export const getAllEmployee = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const employeeRepository = new EmployeeRepository();
-  const data = await employeeRepository.findAllSubDocument(
-    page as string,
-    limit as string,
-    'employee',
-    'ga_employees',
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await employeeRepository.countSubDocument(
-    'employee',
-    'ga_employees',
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get Employee',
-    data,
-    totalCount,
-  });
-};
-
 export const importExcel = async (req: any, res: Response) => {
   const { files } = req;
 
@@ -126,5 +86,40 @@ export const importExcel = async (req: any, res: Response) => {
   res.json({
     message: 'Successfully Create Employee',
     data,
+  });
+};
+
+export const getEmployeeById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const employeeRepository = new EmployeeRepository();
+  const data = await employeeRepository.findByIdElastic(validateParam.uid, '');
+
+  res.json({
+    message: 'Successfully Get Employee By Id',
+    data,
+  });
+};
+
+export const getAllEmployee = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const employeeRepository = new EmployeeRepository();
+  const { data, totalCount } = await employeeRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_ga_employees'
+  );
+  // const totalCount = await employeeRepository.countSubDocument(
+  //   'employee',
+  //   'ga_employees',
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get Employee',
+    data,
+    totalCount,
   });
 };

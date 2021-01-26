@@ -75,10 +75,9 @@ export const getAPSById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const apsRepository = new APSRepository();
-  const data: admin.firestore.DocumentData = await apsRepository.findSubdocumentById(
+  const data: admin.firestore.DocumentData = await apsRepository.findByIdElastic(
     validateParam.uid,
-    'aps',
-    'ga_aps'
+    'bri_corpu_ga_aps'
   );
 
   res.json({
@@ -90,19 +89,18 @@ export const getAPSById = async (req: Request, res: Response) => {
 export const getAllAPS = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const apsRepository = new APSRepository();
-  const data = await apsRepository.findAllSubDocument(
+  const { data, totalCount } = await apsRepository.findAllElastic(
     page as string,
     limit as string,
-    'aps',
-    'ga_aps',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_ga_aps'
   );
-  const totalCount = await apsRepository.countSubDocument(
-    'aps',
-    'ga_aps',
-    filtered as string
-  );
+  // const totalCount = await apsRepository.countSubDocument(
+  //   'aps',
+  //   'ga_aps',
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get APS',

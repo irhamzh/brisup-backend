@@ -61,10 +61,9 @@ export const getAttendanceById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const attendanceRepository = new AttendanceRepository();
-  const data: admin.firestore.DocumentData = await attendanceRepository.findSubdocumentById(
+  const data: admin.firestore.DocumentData = await attendanceRepository.findByIdElastic(
     validateParam.uid,
-    'attendance',
-    'ga_attendances'
+    'bri_corpu_ga_attendances'
   );
 
   res.json({
@@ -76,19 +75,18 @@ export const getAttendanceById = async (req: Request, res: Response) => {
 export const getAllAttendance = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const attendanceRepository = new AttendanceRepository();
-  const data = await attendanceRepository.findAllSubDocument(
+  const { data, totalCount } = await attendanceRepository.findAllElastic(
     page as string,
     limit as string,
-    'attendance',
-    'ga_attendances',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_ga_attendances'
   );
-  const totalCount = await attendanceRepository.countSubDocument(
-    'attendance',
-    'ga_attendances',
-    filtered as string
-  );
+  // const totalCount = await attendanceRepository.countSubDocument(
+  //   'attendance',
+  //   'ga_attendances',
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Attendance',

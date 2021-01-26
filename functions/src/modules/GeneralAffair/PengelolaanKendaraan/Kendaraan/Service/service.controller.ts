@@ -112,3 +112,36 @@ export const getAllService = async (req: Request, res: Response) => {
     totalCount,
   });
 };
+
+export const getServiceByIdElastic = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const serviceRepository = new ServiceRepository();
+  const data: admin.firestore.DocumentData = await serviceRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_ga_services'
+  );
+
+  res.json({
+    message: 'Successfully Get "Pengelolaan Service Kendaran" By Id',
+    data,
+  });
+};
+
+export const getAllServiceElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const serviceRepository = new ServiceRepository();
+  const { data, totalCount } = await serviceRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_ga_services'
+  );
+
+  res.json({
+    message: 'Successfully Get "Pengelolaan Service Kendaran"',
+    data,
+    totalCount,
+  });
+};

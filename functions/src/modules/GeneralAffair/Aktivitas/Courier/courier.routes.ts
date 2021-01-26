@@ -17,7 +17,7 @@ const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 errorHandledRoute.get(
   '/courier',
   accessMiddleware('generalAffair', 'read'),
-  controller.getAllCourier
+  controller.getAllCourierElastic
 );
 uploadHandleRouter.post(
   '/courier',
@@ -32,7 +32,7 @@ uploadHandleRouter.put(
 errorHandledRoute.get(
   '/courier/:uid',
   accessMiddleware('generalAffair', 'read'),
-  controller.getCourierById
+  controller.getCourierByIdElastic
 );
 errorHandledRoute.delete(
   '/courier/:uid',

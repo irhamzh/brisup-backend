@@ -112,3 +112,36 @@ export const getAllTax = async (req: Request, res: Response) => {
     totalCount,
   });
 };
+
+export const getTaxByIdElastic = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const taxRepository = new TaxRepository();
+  const data: admin.firestore.DocumentData = await taxRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_ga_taxes'
+  );
+
+  res.json({
+    message: 'Successfully Get "Pengalolaan Pajak Kendaraan" By Id',
+    data,
+  });
+};
+
+export const getAllTaxElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const taxRepository = new TaxRepository();
+  const { data, totalCount } = await taxRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_ga_taxes'
+  );
+
+  res.json({
+    message: 'Successfully Get "Pengalolaan Pajak Kendaraan"',
+    data,
+    totalCount,
+  });
+};

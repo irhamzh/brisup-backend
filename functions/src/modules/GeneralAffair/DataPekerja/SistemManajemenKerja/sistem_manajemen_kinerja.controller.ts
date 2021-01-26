@@ -42,6 +42,40 @@ export const updatePerformanceManagement = async (
   });
 };
 
+export const deletePerformanceManagementById = async (
+  req: Request,
+  res: Response
+) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'performanceManagementId');
+  const performanceManagementRepository = new PerformanceManagementRepository();
+  const data = await performanceManagementRepository.deleteSubDocument(
+    validateParam.uid,
+    'performance_management',
+    'ga_performance_managements'
+  );
+  res.json({
+    message: 'Successfully Delete Performance Management By Id',
+    data,
+  });
+};
+
+export const importExcel = async (req: any, res: Response) => {
+  const { files } = req;
+  const performanceManagementRepository = new PerformanceManagementRepository();
+  const invalidRow = await performanceManagementRepository.importExcelPerformanceManagement(
+    files,
+    {
+      '*': '{{columnHeader}}',
+    },
+    schema.createExcel
+  );
+  res.json({
+    message: 'Successfully Import Performance Management',
+    invalidRow,
+  });
+};
+
 export const getPerformanceManagementById = async (
   req: Request,
   res: Response
@@ -49,10 +83,14 @@ export const getPerformanceManagementById = async (
   const { params } = req;
   const validateParam = paramValidation(params, 'performanceManagementId');
   const performanceManagementRepository = new PerformanceManagementRepository();
-  const data = await performanceManagementRepository.findSubdocumentById(
+  // const data = await performanceManagementRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'performance_management',
+  //   'ga_performance_managements'
+  // );
+  const data = await performanceManagementRepository.findByIdElastic(
     validateParam.uid,
-    'performance_management',
-    'ga_performance_managements'
+    'bri_corpu_ga_performance_managements'
   );
   res.json({
     message: 'Successfully Get Performance Management By Id',
@@ -66,19 +104,31 @@ export const getAllPerformanceManagement = async (
 ) => {
   const { page, limit, filtered, sorted } = req.query;
   const performanceManagementRepository = new PerformanceManagementRepository();
-  const data = await performanceManagementRepository.findAllSubDocument(
+  // const data = await performanceManagementRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'performance_management',
+  //   'ga_performance_managements',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await performanceManagementRepository.countSubDocument(
+  //   'performance_management',
+  //   'ga_performance_managements',
+  //   filtered as string
+  // );
+
+  const {
+    data,
+    totalCount,
+  } = await performanceManagementRepository.findAllElastic(
     page as string,
     limit as string,
-    'performance_management',
-    'ga_performance_managements',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_ga_performance_managements'
   );
-  const totalCount = await performanceManagementRepository.countSubDocument(
-    'performance_management',
-    'ga_performance_managements',
-    filtered as string
-  );
+
   res.json({
     message: 'Successfully Get All Performance Management',
     data,
@@ -93,13 +143,24 @@ export const getAllPerformanceManagementFormated = async (
   const { page, limit, filtered, sorted } = req.query;
   const currentYear = new Date().getFullYear();
   const performanceManagementRepository = new PerformanceManagementRepository();
-  const data = await performanceManagementRepository.findAllSubDocument(
+  // const data = await performanceManagementRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'performance_management',
+  //   'ga_performance_managements',
+  //   filtered as string,
+  //   sorted as string
+  // );
+
+  const {
+    data,
+    totalCount,
+  } = await performanceManagementRepository.findAllElastic(
     page as string,
     limit as string,
-    'performance_management',
-    'ga_performance_managements',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_ga_performance_managements'
   );
 
   const formatedData = data.map((item: admin.firestore.DocumentData) => {
@@ -145,48 +206,14 @@ export const getAllPerformanceManagementFormated = async (
       next,
     };
   });
-  const totalCount = await performanceManagementRepository.countSubDocument(
-    'performance_management',
-    'ga_performance_managements',
-    filtered as string
-  );
+  // const totalCount = await performanceManagementRepository.countSubDocument(
+  //   'performance_management',
+  //   'ga_performance_managements',
+  //   filtered as string
+  // );
   res.json({
     message: 'Successfully Get All Performance Management',
     data: formatedData,
     totalCount,
-  });
-};
-
-export const deletePerformanceManagementById = async (
-  req: Request,
-  res: Response
-) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'performanceManagementId');
-  const performanceManagementRepository = new PerformanceManagementRepository();
-  const data = await performanceManagementRepository.deleteSubDocument(
-    validateParam.uid,
-    'performance_management',
-    'ga_performance_managements'
-  );
-  res.json({
-    message: 'Successfully Delete Performance Management By Id',
-    data,
-  });
-};
-
-export const importExcel = async (req: any, res: Response) => {
-  const { files } = req;
-  const performanceManagementRepository = new PerformanceManagementRepository();
-  const invalidRow = await performanceManagementRepository.importExcelPerformanceManagement(
-    files,
-    {
-      '*': '{{columnHeader}}',
-    },
-    schema.createExcel
-  );
-  res.json({
-    message: 'Successfully Import Performance Management',
-    invalidRow,
   });
 };

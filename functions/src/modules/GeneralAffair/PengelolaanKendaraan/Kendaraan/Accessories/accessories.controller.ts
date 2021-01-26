@@ -112,3 +112,39 @@ export const getAllAccessories = async (req: Request, res: Response) => {
     totalCount,
   });
 };
+
+export const getAccessoriesByIdElastic = async (
+  req: Request,
+  res: Response
+) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const accessoriesRepository = new AccessoriesRepository();
+  const data: admin.firestore.DocumentData = await accessoriesRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_ga_accessories'
+  );
+
+  res.json({
+    message: 'Successfully Get "Pengelolaan Kelengkapan Kendaraan" By Id',
+    data,
+  });
+};
+
+export const getAllAccessoriesElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const accessoriesRepository = new AccessoriesRepository();
+  const { data, totalCount } = await accessoriesRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_ga_accessories'
+  );
+
+  res.json({
+    message: 'Successfully Get "Pengelolaan Kelengkapan Kendaraan"',
+    data,
+    totalCount,
+  });
+};

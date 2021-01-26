@@ -68,11 +68,23 @@ export const updateConsumption = async (req: Request, res: Response) => {
   });
 };
 
+export const deleteConsumptionById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'cateringClasificationId');
+  const consumptionRepository = new ConsumptionRepository();
+  const data = await consumptionRepository.delete(validateParam.uid);
+
+  res.json({
+    message: 'Successfully Delete "Konsumsi Rapat" By Id',
+    data,
+  });
+};
+
 export const getConsumptionById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'cateringClasificationId');
   const consumptionRepository = new ConsumptionRepository();
-  const data = await consumptionRepository.findById(validateParam.uid);
+  const data = await consumptionRepository.findByIdElastic(validateParam.uid);
 
   res.json({
     message: 'Successfully Get "Konsumsi Rapat" By Id',
@@ -83,31 +95,19 @@ export const getConsumptionById = async (req: Request, res: Response) => {
 export const getAllConsumption = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const consumptionRepository = new ConsumptionRepository();
-  const data = await consumptionRepository.findAll(
+  const { data, totalCount } = await consumptionRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await consumptionRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await consumptionRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get "Konsumsi Rapat"',
     data,
     totalCount,
-  });
-};
-
-export const deleteConsumptionById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'cateringClasificationId');
-  const consumptionRepository = new ConsumptionRepository();
-  const data = await consumptionRepository.delete(validateParam.uid);
-
-  res.json({
-    message: 'Successfully Delete "Konsumsi Rapat" By Id',
-    data,
   });
 };

@@ -6,6 +6,10 @@ export default class MonitoringCCTVRepository extends BaseRepository<
   IMonitoringCCTVBase
 > {
   constructor() {
-    super('ga_monitoring_cctvs', 'ga_monitoring_cctv');
+    super(
+      'ga_monitoring_cctvs',
+      'ga_monitoring_cctv',
+      'bri_corpu_ga_monitoring_cctvs'
+    );
   }
 }

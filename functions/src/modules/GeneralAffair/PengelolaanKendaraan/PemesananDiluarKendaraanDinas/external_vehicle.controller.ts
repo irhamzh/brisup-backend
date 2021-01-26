@@ -60,38 +60,6 @@ export const updateExternalVehicle = async (req: Request, res: Response) => {
   });
 };
 
-export const getExternalVehicleById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'externalVehicleId');
-  const externalVehicleRepository = new ExternalVehicleRepository();
-  const data = await externalVehicleRepository.findById(validateParam.uid);
-  res.json({
-    message:
-      'Successfully Get "Pemesanan Kendaraan di Luar Kendaaraan Dinas" By Id',
-    data,
-  });
-};
-
-export const getAllExternalVehicle = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const externalVehicleRepository = new ExternalVehicleRepository();
-  const data = await externalVehicleRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await externalVehicleRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get "Pemesanan Kendaraan di Luar Kendaaraan Dinas"',
-    data,
-    totalCount,
-  });
-};
-
 export const deleteExternalVehicleById = async (
   req: Request,
   res: Response
@@ -104,5 +72,39 @@ export const deleteExternalVehicleById = async (
     message:
       'Successfully Delete "Pemesanan Kendaraan di Luar Kendaaraan Dinas" By Id',
     data,
+  });
+};
+
+export const getExternalVehicleById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'externalVehicleId');
+  const externalVehicleRepository = new ExternalVehicleRepository();
+  const data = await externalVehicleRepository.findByIdElastic(
+    validateParam.uid
+  );
+  res.json({
+    message:
+      'Successfully Get "Pemesanan Kendaraan di Luar Kendaaraan Dinas" By Id',
+    data,
+  });
+};
+
+export const getAllExternalVehicle = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const externalVehicleRepository = new ExternalVehicleRepository();
+  const { data, totalCount } = await externalVehicleRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await externalVehicleRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get "Pemesanan Kendaraan di Luar Kendaaraan Dinas"',
+    data,
+    totalCount,
   });
 };

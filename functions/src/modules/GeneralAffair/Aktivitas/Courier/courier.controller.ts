@@ -124,3 +124,36 @@ export const getAllCourier = async (req: Request, res: Response) => {
     totalCount,
   });
 };
+
+export const getCourierByIdElastic = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const courierRepository = new CourierRepository();
+  const data: admin.firestore.DocumentData = await courierRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_ga_couriers'
+  );
+
+  res.json({
+    message: 'Successfully Get Courier By Id',
+    data,
+  });
+};
+
+export const getAllCourierElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const courierRepository = new CourierRepository();
+  const { data, totalCount } = await courierRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_ga_couriers'
+  );
+
+  res.json({
+    message: 'Successfully Get Courier',
+    data,
+    totalCount,
+  });
+};

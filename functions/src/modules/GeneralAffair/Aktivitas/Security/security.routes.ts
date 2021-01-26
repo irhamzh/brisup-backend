@@ -17,7 +17,7 @@ const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 errorHandledRoute.get(
   '/security',
   accessMiddleware('generalAffair', 'read'),
-  controller.getAllSecurity
+  controller.getAllSecurityElastic
 );
 uploadHandleRouter.post(
   '/security',
@@ -32,7 +32,7 @@ uploadHandleRouter.put(
 errorHandledRoute.get(
   '/security/:uid',
   accessMiddleware('generalAffair', 'read'),
-  controller.getSecurityById
+  controller.getSecurityByIdElastic
 );
 errorHandledRoute.delete(
   '/security/:uid',

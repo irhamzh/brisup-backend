@@ -6,6 +6,10 @@ export default class MonitoringCCTVRepository extends BaseRepository<
   IEvaluasiKlinikBase
 > {
   constructor() {
-    super('ga_clinic_evaluations', 'ga_clinic_evaluation');
+    super(
+      'ga_clinic_evaluations',
+      'ga_clinic_evaluation',
+      'bri_corpu_ga_clinic_evaluations'
+    );
   }
 }

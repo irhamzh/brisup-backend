@@ -77,7 +77,7 @@ export const getFuelById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const fuelRepository = new FuelRepository();
-  const data: admin.firestore.DocumentData = await fuelRepository.findById(
+  const data: admin.firestore.DocumentData = await fuelRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -90,13 +90,13 @@ export const getFuelById = async (req: Request, res: Response) => {
 export const getAllFuel = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const fuelRepository = new FuelRepository();
-  const data = await fuelRepository.findAll(
+  const { data, totalCount } = await fuelRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await fuelRepository.countDocument(filtered as string);
+  // const totalCount = await fuelRepository.countDocument(filtered as string);
 
   res.json({
     message: 'Successfully Get "Pengelolaan Bahan Bakar Kendaraan"',

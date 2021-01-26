@@ -75,10 +75,9 @@ export const getOvertimeById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const overtimeRepository = new OvertimeRepository();
-  const data: admin.firestore.DocumentData = await overtimeRepository.findSubdocumentById(
+  const data: admin.firestore.DocumentData = await overtimeRepository.findByIdElastic(
     validateParam.uid,
-    'overtime',
-    'ga_overtime'
+    'bri_corpu_ga_overtime'
   );
 
   res.json({
@@ -90,19 +89,18 @@ export const getOvertimeById = async (req: Request, res: Response) => {
 export const getAllOvertime = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const overtimeRepository = new OvertimeRepository();
-  const data = await overtimeRepository.findAllSubDocument(
+  const { data, totalCount } = await overtimeRepository.findAllElastic(
     page as string,
     limit as string,
-    'overtime',
-    'ga_overtime',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_ga_overtime'
   );
-  const totalCount = await overtimeRepository.countSubDocument(
-    'overtime',
-    'ga_overtime',
-    filtered as string
-  );
+  // const totalCount = await overtimeRepository.countSubDocument(
+  //   'overtime',
+  //   'ga_overtime',
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Overtime',

@@ -76,7 +76,7 @@ export const getDriverAssignmentById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const driverAssignmentRepository = new DriverAssignmentRepository();
-  const data: admin.firestore.DocumentData = await driverAssignmentRepository.findById(
+  const data: admin.firestore.DocumentData = await driverAssignmentRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -89,15 +89,15 @@ export const getDriverAssignmentById = async (req: Request, res: Response) => {
 export const getAllDriverAssignment = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const driverAssignmentRepository = new DriverAssignmentRepository();
-  const data = await driverAssignmentRepository.findAll(
+  const { data, totalCount } = await driverAssignmentRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await driverAssignmentRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await driverAssignmentRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get "Penugasan Driver"',

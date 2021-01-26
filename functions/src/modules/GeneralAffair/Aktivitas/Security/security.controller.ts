@@ -136,3 +136,36 @@ export const getAllSecurity = async (req: Request, res: Response) => {
     totalCount,
   });
 };
+
+export const getSecurityByIdElastic = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const securityRepository = new SecurityRepository();
+  const data: admin.firestore.DocumentData = await securityRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_ga_securities'
+  );
+
+  res.json({
+    message: 'Successfully Get Security By Id',
+    data,
+  });
+};
+
+export const getAllSecurityElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const securityRepository = new SecurityRepository();
+  const { data, totalCount } = await securityRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_ga_securities'
+  );
+
+  res.json({
+    message: 'Successfully Get Security',
+    data,
+    totalCount,
+  });
+};
