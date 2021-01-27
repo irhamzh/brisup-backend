@@ -3,14 +3,9 @@ import { Request, Response } from 'express';
 
 import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
-// import YardSanitationRepository from '@modules/MasterData/WaterMater/water_meter.repository';
-// import FloorRepository from '@modules/Floor/floor.repository';
-// import PumpRepository from '@modules/MasterData/Pump/pump.repository';
-// import BuildingRepository from '@modules/MasterData/Building/location.repository';
-// import PumpUnitRepository from '@modules/MasterData/PumpUnit/pump_unit.repository';
-// import CompressorRepository from '@modules/MasterData/Compressor/ruangan.repository';
-import LocationRepository from '@modules/MasterData/Location/location.repository';
+
 import RuanganRepository from '@modules/MasterData/Ruangan/ruangan.repository';
+import LocationRepository from '@modules/MasterData/Location/location.repository';
 
 import schema from './sanitation.schema';
 import SanitationRepository from './sanitation.repository';
@@ -58,10 +53,10 @@ export const deleteYardSanitationById = async (req: Request, res: Response) => {
   const data = await sanitationRepository.deleteSubDocument(
     validateParam.uid,
     'yard',
-    'pg-yard'
+    'pg_yard'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -70,10 +65,14 @@ export const getYardSanitationById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const sanitationRepository = new SanitationRepository();
-  const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'yard',
+  //   'pg_yard'
+  // );
+  const data: admin.firestore.DocumentData = await sanitationRepository.findByIdElastic(
     validateParam.uid,
-    'yard',
-    'pg-yard'
+    'bri_corpu_pg_yards'
   );
 
   res.json({
@@ -85,18 +84,26 @@ export const getYardSanitationById = async (req: Request, res: Response) => {
 export const getAllYardSanitation = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const sanitationRepository = new SanitationRepository();
-  const data = await sanitationRepository.findAllSubDocument(
+  // const data = await sanitationRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'yard',
+  //   'pg_yard',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await sanitationRepository.countSubDocument(
+  //   'yard',
+  //   'pg_yard',
+  //   filtered as string
+  // );
+
+  const { data, totalCount } = await sanitationRepository.findAllElastic(
     page as string,
     limit as string,
-    'yard',
-    'pg-yard',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await sanitationRepository.countSubDocument(
-    'yard',
-    'pg-yard',
-    filtered as string
+    sorted as string,
+    'bri_corpu_pg_yards'
   );
 
   res.json({
@@ -185,11 +192,11 @@ export const deleteSmartBuildingSanitationById = async (
 
   const data = await sanitationRepository.deleteSubDocument(
     validateParam.uid,
-    'smart-building',
-    'pg-smart-building'
+    'smart_building',
+    'pg_smart_building'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -200,12 +207,15 @@ export const getSmartBuildingSanitationById = async (
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const sanitationRepository = new SanitationRepository();
-  const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'smart_building',
+  //   'pg_smart_building'
+  // );
+  const data: admin.firestore.DocumentData = await sanitationRepository.findByIdElastic(
     validateParam.uid,
-    'smart-building',
-    'pg-smart-building'
+    'bri_corpu_pg_smart_buildings'
   );
-
   res.json({
     message: 'Successfully Get SmartBuildingSanitation By Id',
     data,
@@ -218,302 +228,33 @@ export const getAllSmartBuildingSanitation = async (
 ) => {
   const { page, limit, filtered, sorted } = req.query;
   const sanitationRepository = new SanitationRepository();
-  const data = await sanitationRepository.findAllSubDocument(
+  // const data = await sanitationRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'smart_building',
+  //   'pg_smart_building',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await sanitationRepository.countSubDocument(
+  //   'smart_building',
+  //   'pg_smart_building',
+  //   filtered as string
+  // );
+  const { data, totalCount } = await sanitationRepository.findAllElastic(
     page as string,
     limit as string,
-    'smart-building',
-    'pg-smart-building',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await sanitationRepository.countSubDocument(
-    'smart-building',
-    'pg-smart-building',
-    filtered as string
+    sorted as string,
+    'bri_corpu_pg_smart_buildings'
   );
 
   res.json({
-    message: 'Successfully Get ac',
+    message: 'Successfully Get SmartBuildingSanitation',
     data,
     totalCount,
   });
 };
-
-// // Sarana Pendukung
-// //Mushola
-
-// export const createMusholaSanitation = async (req: Request, res: Response) => {
-//   const { body } = req;
-//   const validatedBody = yupValidate(schema.createMusholaSanitation, body);
-
-//   const locationRepository = new LocationRepository();
-//   const sanitationRepository = new SanitationRepository();
-
-//   const location: any = await locationRepository.findById(
-//     validatedBody.location
-//   );
-
-//   const createParam = {
-//     ...validatedBody,
-//     location,
-//   };
-
-//   const data: admin.firestore.DocumentData = await sanitationRepository.createMusholaSanitation(
-//     createParam
-//   );
-//   const formatedData = {
-//     ...data,
-//     tanggal: data.tanggal.toDate(),
-//   };
-
-//   res.json({
-//     message: 'Successfully Create Data',
-//     data: formatedData,
-//   });
-// };
-
-// export const updateMusholaSanitation = async (req: Request, res: Response) => {
-//   const { body, params } = req;
-//   const validateParam = paramValidation(params, 'id');
-//   let validatedBody = yupValidate(schema.updateMusholaSanitation, body);
-
-//   const locationRepository = new LocationRepository();
-//   const sanitationRepository = new SanitationRepository();
-
-//   if (validatedBody.location) {
-//     const location: any = await locationRepository.findById(
-//       validatedBody.location
-//     );
-//     validatedBody = { ...validatedBody, location };
-//   }
-
-//   const data: admin.firestore.DocumentData = await sanitationRepository.updateMusholaSanitation(
-//     validateParam.uid,
-//     validatedBody
-//   );
-//   const formatedData = {
-//     ...data,
-//     tanggal: data.tanggal.toDate(),
-//   };
-//   res.json({
-//     message: 'Successfully Update Data',
-//     data: formatedData,
-//   });
-// };
-
-// export const deleteMusholaSanitationById = async (
-//   req: Request,
-//   res: Response
-// ) => {
-//   const { params } = req;
-//   const validateParam = paramValidation(params, 'id');
-//   const sanitationRepository = new SanitationRepository();
-
-//   const data = await sanitationRepository.delete2LevelSubDocument(
-//     validateParam.uid,
-//     'saran-pendukung',
-//     'pg-saran-pendukung',
-//     'mushola',
-//     'pg-mushola'
-//   );
-//   res.json({
-//     message: 'SuccessfullyDeleteBy Id',
-//     data,
-//   });
-// };
-// export const getMusholaSanitationById = async (req: Request, res: Response) => {
-//   const { params } = req;
-//   const validateParam = paramValidation(params, 'id');
-//   const sanitationRepository = new SanitationRepository();
-//   const data: admin.firestore.DocumentData = await sanitationRepository.find2LevelSubDocumentById(
-//     validateParam.uid,
-//     'saran-pendukung',
-//     'pg-saran-pendukung',
-//     'mushola',
-//     'pg-mushola'
-//   );
-
-//   const formatedData = {
-//     ...data,
-//     tanggal: data.tanggal.toDate(),
-//   };
-
-//   res.json({
-//     message: 'Successfully Get MusholaSanitation By Id',
-//     data: formatedData,
-//   });
-// };
-
-// export const getAllMusholaSanitation = async (req: Request, res: Response) => {
-//   let { page, limit } = req.query;
-//   const sanitationRepository = new SanitationRepository();
-//   const data = await sanitationRepository.findAll2LevelSubDocument(
-//     page as string,
-//     limit as string,
-//     'saran-pendukung',
-//     'pg-saran-pendukung',
-//     'mushola',
-//     'pg-mushola'
-//   );
-//   const totalCount = await sanitationRepository.count2LevelSubDocument(
-//     'saran-pendukung',
-//     'pg-saran-pendukung',
-//     'mushola',
-//     'pg-mushola'
-//   );
-//   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-//     ...item,
-//     tanggal: item.tanggal.toDate(),
-//   }));
-//   res.json({
-//     message: 'Successfully Get ac',
-//     data: formatedData,
-//     totalCount,
-//   });
-// };
-
-// //Security-POS
-// export const createSecurityPosSanitation = async (
-//   req: Request,
-//   res: Response
-// ) => {
-//   const { body } = req;
-//   const validatedBody = yupValidate(schema.createSecurityPosSanitation, body);
-
-//   const locationRepository = new LocationRepository();
-//   const sanitationRepository = new SanitationRepository();
-
-//   const location: any = await locationRepository.findById(
-//     validatedBody.location
-//   );
-
-//   const createParam = {
-//     ...validatedBody,
-//     location,
-//   };
-
-//   const data: admin.firestore.DocumentData = await sanitationRepository.createSecurityPosSanitation(
-//     createParam
-//   );
-//   const formatedData = {
-//     ...data,
-//     tanggal: data.tanggal.toDate(),
-//   };
-
-//   res.json({
-//     message: 'Successfully Create Data',
-//     data: formatedData,
-//   });
-// };
-
-// export const updateSecurityPosSanitation = async (
-//   req: Request,
-//   res: Response
-// ) => {
-//   const { body, params } = req;
-//   const validateParam = paramValidation(params, 'id');
-//   let validatedBody = yupValidate(schema.updateSecurityPosSanitation, body);
-
-//   const locationRepository = new LocationRepository();
-//   const sanitationRepository = new SanitationRepository();
-
-//   if (validatedBody.location) {
-//     const location: any = await locationRepository.findById(
-//       validatedBody.location
-//     );
-//     validatedBody = { ...validatedBody, location };
-//   }
-
-//   const data: admin.firestore.DocumentData = await sanitationRepository.updateSecurityPosSanitation(
-//     validateParam.uid,
-//     validatedBody
-//   );
-//   const formatedData = {
-//     ...data,
-//     tanggal: data.tanggal.toDate(),
-//   };
-//   res.json({
-//     message: 'Successfully Update Data',
-//     data: formatedData,
-//   });
-// };
-
-// export const deleteSecurityPosSanitationById = async (
-//   req: Request,
-//   res: Response
-// ) => {
-//   const { params } = req;
-//   const validateParam = paramValidation(params, 'id');
-//   const sanitationRepository = new SanitationRepository();
-
-//   const data = await sanitationRepository.delete2LevelSubDocument(
-//     validateParam.uid,
-//     'saran-pendukung',
-//     'pg-saran-pendukung',
-//     'security-pos',
-//     'pg-security-pos'
-//   );
-//   res.json({
-//     message: 'SuccessfullyDeleteBy Id',
-//     data,
-//   });
-// };
-// export const getSecurityPosSanitationById = async (
-//   req: Request,
-//   res: Response
-// ) => {
-//   const { params } = req;
-//   const validateParam = paramValidation(params, 'id');
-//   const sanitationRepository = new SanitationRepository();
-//   const data: admin.firestore.DocumentData = await sanitationRepository.find2LevelSubDocumentById(
-//     validateParam.uid,
-//     'saran-pendukung',
-//     'pg-saran-pendukung',
-//     'security-pos',
-//     'pg-security-pos'
-//   );
-
-//   const formatedData = {
-//     ...data,
-//     tanggal: data.tanggal.toDate(),
-//   };
-
-//   res.json({
-//     message: 'Successfully Get SecurityPosSanitation By Id',
-//     data: formatedData,
-//   });
-// };
-
-// export const getAllSecurityPosSanitation = async (
-//   req: Request,
-//   res: Response
-// ) => {
-//   let { page, limit } = req.query;
-//   const sanitationRepository = new SanitationRepository();
-//   const data = await sanitationRepository.findAll2LevelSubDocument(
-//     page as string,
-//     limit as string,
-//     'saran-pendukung',
-//     'pg-saran-pendukung',
-//     'security-pos',
-//     'pg-security-pos'
-//   );
-//   const totalCount = await sanitationRepository.count2LevelSubDocument(
-//     'saran-pendukung',
-//     'pg-saran-pendukung',
-//     'security-pos',
-//     'pg-security-pos'
-//   );
-//   const formatedData = data.map((item: admin.firestore.DocumentData) => ({
-//     ...item,
-//     tanggal: item.tanggal.toDate(),
-//   }));
-//   res.json({
-//     message: 'Successfully Get ac',
-//     data: formatedData,
-//     totalCount,
-//   });
-// };
 
 //Innovation Building
 export const createInnovationBuildingSanitation = async (
@@ -565,8 +306,8 @@ export const updateInnovationBuildingSanitation = async (
   const sanitationRepository = new SanitationRepository();
   const ref: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
     validateParam.uid,
-    'innovation-building',
-    'pg-innovation-building'
+    'innovation_building',
+    'pg_innovation_building'
   );
   let validatedBody: any = MappingBodyByType(
     ref?.typeInnovationBuilding,
@@ -607,11 +348,11 @@ export const deleteInnovationBuildingSanitationById = async (
 
   const data = await sanitationRepository.deleteSubDocument(
     validateParam.uid,
-    'innovation-building',
-    'pg-innovation-building'
+    'innovation_building',
+    'pg_innovation_building'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -622,10 +363,14 @@ export const getInnovationBuildingSanitationById = async (
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const sanitationRepository = new SanitationRepository();
-  const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'innovation_building',
+  //   'pg_innovation_building'
+  // );
+  const data: admin.firestore.DocumentData = await sanitationRepository.findByIdElastic(
     validateParam.uid,
-    'innovation-building',
-    'pg-innovation-building'
+    'bri_corpu_pg_innovation_buildings'
   );
 
   res.json({
@@ -640,18 +385,25 @@ export const getAllInnovationBuildingSanitation = async (
 ) => {
   const { page, limit, filtered, sorted } = req.query;
   const sanitationRepository = new SanitationRepository();
-  const data = await sanitationRepository.findAllSubDocument(
+  // const data = await sanitationRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'innovation_building',
+  //   'pg_innovation_building',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await sanitationRepository.countSubDocument(
+  //   'innovation_building',
+  //   'pg_innovation_building',
+  //   filtered as string
+  // );
+  const { data, totalCount } = await sanitationRepository.findAllElastic(
     page as string,
     limit as string,
-    'innovation-building',
-    'pg-innovation-building',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await sanitationRepository.countSubDocument(
-    'innovation-building',
-    'pg-innovation-building',
-    filtered as string
+    sorted as string,
+    'bri_corpu_pg_innovation_buildings'
   );
 
   res.json({
@@ -660,7 +412,7 @@ export const getAllInnovationBuildingSanitation = async (
     totalCount,
   });
 };
-//sdsdsd
+//Sarana Pendukung
 export const createSaranaPendukungSanitation = async (
   req: Request,
   res: Response
@@ -708,8 +460,8 @@ export const updateSaranaPendukungSanitation = async (
 
   const ref: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
     validateParam.uid,
-    'sarana-pendukung',
-    'pg-sarana-pendukung'
+    'sarana_pendukung',
+    'pg_sarana_pendukung'
   );
   if (
     ref?.typeSaranaPendukung?.toLowerCase() ===
@@ -748,11 +500,11 @@ export const deleteSaranaPendukungSanitationById = async (
 
   const data = await sanitationRepository.deleteSubDocument(
     validateParam.uid,
-    'sarana-pendukung',
-    'pg-sarana-pendukung'
+    'sarana_pendukung',
+    'pg_sarana_pendukung'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -763,10 +515,14 @@ export const getSaranaPendukungSanitationById = async (
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const sanitationRepository = new SanitationRepository();
-  const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await sanitationRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'sarana_pendukung',
+  //   'pg_sarana_pendukung'
+  // );
+  const data: admin.firestore.DocumentData = await sanitationRepository.findByIdElastic(
     validateParam.uid,
-    'sarana-pendukung',
-    'pg-sarana-pendukung'
+    'bri_corpu_pg_sarana_pendukungs'
   );
 
   res.json({
@@ -781,22 +537,29 @@ export const getAllSaranaPendukungSanitation = async (
 ) => {
   const { page, limit, filtered, sorted } = req.query;
   const sanitationRepository = new SanitationRepository();
-  const data = await sanitationRepository.findAllSubDocument(
+  // const data = await sanitationRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'sarana_pendukung',
+  //   'pg_sarana_pendukung',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await sanitationRepository.countSubDocument(
+  //   'sarana_pendukung',
+  //   'pg_sarana_pendukung',
+  //   filtered as string
+  // );
+
+  const { data, totalCount } = await sanitationRepository.findAllElastic(
     page as string,
     limit as string,
-    'sarana-pendukung',
-    'pg-sarana-pendukung',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_pg_sarana_pendukungs'
   );
-  const totalCount = await sanitationRepository.countSubDocument(
-    'sarana-pendukung',
-    'pg-sarana-pendukung',
-    filtered as string
-  );
-
   res.json({
-    message: 'Successfully Get ac',
+    message: 'Successfully Get SaranaPendukungSanitation',
     data,
     totalCount,
   });

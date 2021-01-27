@@ -89,7 +89,7 @@ export const deleteRoleById = async (req: Request, res: Response) => {
   const roleRepository = new RoleRepository();
   const data = await roleRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Role By Id',
     data,
   });
 };

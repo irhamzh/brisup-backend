@@ -13,7 +13,7 @@ const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 errorHandledRoute.get(
   '/accessories',
   accessMiddleware('generalAffair', 'read'),
-  controller.getAllAccessories
+  controller.getAllAccessoriesElastic
 );
 errorHandledRoute.post(
   '/accessories',
@@ -28,7 +28,7 @@ errorHandledRoute.put(
 errorHandledRoute.get(
   '/accessories/:uid',
   accessMiddleware('generalAffair', 'read'),
-  controller.getAccessoriesById
+  controller.getAccessoriesByIdElastic
 );
 errorHandledRoute.delete(
   '/accessories/:uid',

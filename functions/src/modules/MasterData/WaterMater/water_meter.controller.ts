@@ -71,7 +71,7 @@ export const deleteWaterMeterById = async (req: Request, res: Response) => {
   const waterMeterRepository = new WaterMeterRepository();
   const data = await waterMeterRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete WaterMeter By Id',
     data,
   });
 };

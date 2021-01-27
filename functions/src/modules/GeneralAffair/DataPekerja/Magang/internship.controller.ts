@@ -64,10 +64,9 @@ export const getInternshipById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const internshipRepository = new InternshipRepository();
-  const data: admin.firestore.DocumentData = await internshipRepository.findSubdocumentById(
+  const data: admin.firestore.DocumentData = await internshipRepository.findByIdElastic(
     validateParam.uid,
-    'internship',
-    'ga_internship'
+    'bri_corpu_ga_internship'
   );
 
   res.json({
@@ -79,19 +78,18 @@ export const getInternshipById = async (req: Request, res: Response) => {
 export const getAllInternship = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const internshipRepository = new InternshipRepository();
-  const data = await internshipRepository.findAllSubDocument(
+  const { data, totalCount } = await internshipRepository.findAllElastic(
     page as string,
     limit as string,
-    'internship',
-    'ga_internship',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_ga_internship'
   );
-  const totalCount = await internshipRepository.countSubDocument(
-    'internship',
-    'ga_internship',
-    filtered as string
-  );
+  // const totalCount = await internshipRepository.countSubDocument(
+  //   'internship',
+  //   'ga_internship',
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Internship',

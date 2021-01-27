@@ -44,10 +44,10 @@ export default class FirestoreRepository<
   }
 
   // _____elasticSearch_____>
-  async findByIdElastic(id: string) {
+  async findByIdElastic(id: string, elasticIndexName?: string) {
     const data = await elasticClient.get(
       {
-        index: this._elasticIndex,
+        index: elasticIndexName || this._elasticIndex,
         id,
       },
       { ignore: [404] }

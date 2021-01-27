@@ -89,10 +89,9 @@ export const getP3kById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const p3kRepository = new P3kRepository();
-  const data: admin.firestore.DocumentData = await p3kRepository.findSubdocumentById(
+  const data: admin.firestore.DocumentData = await p3kRepository.findByIdElastic(
     validateParam.uid,
-    'first_aid_kit',
-    'ga_first_aid_kits'
+    'bri_corpu_ga_clinic_evaluations'
   );
 
   res.json({
@@ -104,18 +103,12 @@ export const getP3kById = async (req: Request, res: Response) => {
 export const getAllP3k = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const p3kRepository = new P3kRepository();
-  const data = await p3kRepository.findAllSubDocument(
+  const { data, totalCount } = await p3kRepository.findAllElastic(
     page as string,
     limit as string,
-    'first_aid_kit',
-    'ga_first_aid_kits',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await p3kRepository.countSubDocument(
-    'first_aid_kit',
-    'ga_first_aid_kits',
-    filtered as string
+    sorted as string,
+    'bri_corpu_ga_first_aid_kits'
   );
 
   res.json({

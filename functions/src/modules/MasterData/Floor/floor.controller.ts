@@ -65,7 +65,7 @@ export const deleteFloorById = async (req: Request, res: Response) => {
   const floorRepository = new FloorRepository();
   const data = await floorRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Floor By Id',
     data,
   });
 };

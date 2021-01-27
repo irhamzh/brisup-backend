@@ -8,6 +8,6 @@ export default class PeralatanITRepository extends BaseRepository<
   IPeralatanITFisik | IPeralatanITBase
 > {
   constructor() {
-    super('pg-peralatan-its', 'pg-peralatan-it'); //rename
+    super('pg_peralatan_its', 'pg_peralatan_it', 'bri_corpu_pg_peralatan_its'); //rename
   }
 }

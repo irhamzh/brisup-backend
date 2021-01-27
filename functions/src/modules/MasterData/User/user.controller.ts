@@ -233,8 +233,6 @@ export const createUser = async (req: Request, res: Response) => {
     ...validatedBody,
     role: role.id,
     profilePicture: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultImg}?alt=media`,
-    createdAt: new Date(),
-    updatedAt: new Date(),
   };
 
   const userRepository = new UserRepository();

@@ -61,11 +61,22 @@ export const updatePersediaan = async (req: Request, res: Response) => {
   });
 };
 
+export const deletePersediaanById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'persediaanId');
+  const persediaanRepository = new PersediaanRepository();
+  const data = await persediaanRepository.delete(validateParam.uid);
+  res.json({
+    message: 'Successfully Delete Peralatan By Id',
+    data,
+  });
+};
+
 export const getPersediaanById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'persediaanId');
   const persediaanRepository = new PersediaanRepository();
-  const data: admin.firestore.DocumentData = await persediaanRepository.findById(
+  const data: admin.firestore.DocumentData = await persediaanRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -78,30 +89,19 @@ export const getPersediaanById = async (req: Request, res: Response) => {
 export const getAllPersediaan = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const persediaanRepository = new PersediaanRepository();
-  const data = await persediaanRepository.findAll(
+  const { data, totalCount } = await persediaanRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await persediaanRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await persediaanRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get Persediaan',
     data,
     totalCount,
-  });
-};
-
-export const deletePersediaanById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'persediaanId');
-  const persediaanRepository = new PersediaanRepository();
-  const data = await persediaanRepository.delete(validateParam.uid);
-  res.json({
-    message: 'Successfully Delete Peralatan By Id',
-    data,
   });
 };

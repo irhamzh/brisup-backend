@@ -46,7 +46,10 @@ export default class UserRepository extends BaseRepository<IUserBase> {
 
     //->add user data to firestore
     const ref = this._userModel.doc(execute?.user?.uid as string);
-    await ref.set(createParam, { merge: true });
+    await ref.set(
+      { ...createParam, createdAt: new Date(), updatedAt: new Date() },
+      { merge: true }
+    );
     const snap = await ref.get();
     const data: admin.firestore.DocumentData = {
       id: ref.id,

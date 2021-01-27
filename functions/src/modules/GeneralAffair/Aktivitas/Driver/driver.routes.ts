@@ -17,7 +17,7 @@ const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 errorHandledRoute.get(
   '/driver',
   accessMiddleware('generalAffair', 'read'),
-  controller.getAllDriver
+  controller.getAllDriverElastic
 );
 uploadHandleRouter.post(
   '/driver',
@@ -32,7 +32,7 @@ uploadHandleRouter.put(
 errorHandledRoute.get(
   '/driver/:uid',
   accessMiddleware('generalAffair', 'read'),
-  controller.getDriverById
+  controller.getDriverByIdElastic
 );
 errorHandledRoute.delete(
   '/driver/:uid',

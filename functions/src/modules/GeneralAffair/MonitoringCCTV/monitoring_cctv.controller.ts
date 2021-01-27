@@ -34,11 +34,24 @@ export const updateMonitoringCCTV = async (req: Request, res: Response) => {
   });
 };
 
+export const deleteMonitoringCCTVById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'createMonitoringId');
+  const createMonitoringRepository = new MonitoringCCTVRepository();
+  const data = await createMonitoringRepository.delete(validateParam.uid);
+  res.json({
+    message: 'Successfully Delete "Monitoring CCTV" By Id',
+    data,
+  });
+};
+
 export const getMonitoringCCTVById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'createMonitoringId');
   const createMonitoringRepository = new MonitoringCCTVRepository();
-  const data = await createMonitoringRepository.findById(validateParam.uid);
+  const data = await createMonitoringRepository.findByIdElastic(
+    validateParam.uid
+  );
   res.json({
     message: 'Successfully Get "Monitoring CCTV" By Id',
     data,
@@ -48,30 +61,19 @@ export const getMonitoringCCTVById = async (req: Request, res: Response) => {
 export const getAllMonitoringCCTV = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const createMonitoringRepository = new MonitoringCCTVRepository();
-  const data = await createMonitoringRepository.findAll(
+  const { data, totalCount } = await createMonitoringRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await createMonitoringRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await createMonitoringRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get "Monitoring CCTV"',
     data,
     totalCount,
-  });
-};
-
-export const deleteMonitoringCCTVById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'createMonitoringId');
-  const createMonitoringRepository = new MonitoringCCTVRepository();
-  const data = await createMonitoringRepository.delete(validateParam.uid);
-  res.json({
-    message: 'Successfully Delete "Monitoring CCTV" By Id',
-    data,
   });
 };

@@ -35,7 +35,7 @@ export const createMechanicalElectrical = async (
   );
 
   res.json({
-    message: 'Successfully Create MechanicalElectrical',
+    message: 'Successfully Create Mechanical Electrical',
     data,
   });
 };
@@ -70,7 +70,7 @@ export const updateMechanicalElectrical = async (
   );
 
   res.json({
-    message: 'Successfully Update MechanicalElectrical',
+    message: 'Successfully Update Mechanical Electrical',
     data,
   });
 };
@@ -82,12 +82,12 @@ export const getMechanicalElectricalById = async (
   const { params } = req;
   const validateParam = paramValidation(params, 'mechanicalElectricalId');
   const mechanicalElectricalRepository = new MechanicalElectricalRepository();
-  const data: admin.firestore.DocumentData = await mechanicalElectricalRepository.findById(
+  const data: admin.firestore.DocumentData = await mechanicalElectricalRepository.findByIdElastic(
     validateParam.uid
   );
 
   res.json({
-    message: 'Successfully Get MechanicalElectrical By Id',
+    message: 'Successfully Get Mechanical Electrical By Id',
     data,
   });
 };
@@ -98,18 +98,21 @@ export const getAllMechanicalElectrical = async (
 ) => {
   const { page, limit, filtered, sorted } = req.query;
   const mechanicalElectricalRepository = new MechanicalElectricalRepository();
-  const data = await mechanicalElectricalRepository.findAll(
+  const {
+    data,
+    totalCount,
+  } = await mechanicalElectricalRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await mechanicalElectricalRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await mechanicalElectricalRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
-    message: 'Successfully Get MechanicalElectrical',
+    message: 'Successfully Get Mechanical Electrical',
     data,
     totalCount,
   });
@@ -124,7 +127,7 @@ export const deleteMechanicalElectricalById = async (
   const mechanicalElectricalRepository = new MechanicalElectricalRepository();
   const data = await mechanicalElectricalRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Mechanical Electrical By Id',
     data,
   });
 };

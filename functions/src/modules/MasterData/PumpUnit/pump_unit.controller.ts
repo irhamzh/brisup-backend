@@ -22,7 +22,7 @@ export const createPumpUnit = async (req: Request, res: Response) => {
   const data = await pumpUnitRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create PumpUnit',
+    message: 'Successfully Create Pump Unit',
     data,
   });
 };
@@ -45,7 +45,7 @@ export const updatePumpUnit = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update PumpUnit',
+    message: 'Successfully Update Pump Unit',
     data,
   });
 };
@@ -56,7 +56,7 @@ export const getPumpUnitById = async (req: Request, res: Response) => {
   const pumpUnitRepository = new PumpUnitRepository();
   const data = await pumpUnitRepository.findByIdElastic(validateParam.uid);
   res.json({
-    message: 'Successfully Get PumpUnit By Id',
+    message: 'Successfully Get Pump Unit By Id',
     data,
   });
 };
@@ -73,7 +73,7 @@ export const getAllPumpUnit = async (req: Request, res: Response) => {
   // const totalCount = await pumpUnitRepository.countDocument(filtered as string);
 
   res.json({
-    message: 'Successfully Get PumpUnit',
+    message: 'Successfully Get Pump Unit',
     data,
     totalCount,
   });
@@ -85,7 +85,7 @@ export const deletePumpUnitById = async (req: Request, res: Response) => {
   const pumpUnitRepository = new PumpUnitRepository();
   const data = await pumpUnitRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Pump Unit By Id',
     data,
   });
 };

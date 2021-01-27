@@ -75,6 +75,21 @@ export const updateCateringClasification = async (
   });
 };
 
+export const deleteCateringClasificationById = async (
+  req: Request,
+  res: Response
+) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'cateringClasificationId');
+  const cateringClasificationRepository = new CateringClasificationRepository();
+  const data = await cateringClasificationRepository.delete(validateParam.uid);
+
+  res.json({
+    message: 'Successfully Delete CateringClasification By Id',
+    data,
+  });
+};
+
 export const getCateringClasificationById = async (
   req: Request,
   res: Response
@@ -82,7 +97,7 @@ export const getCateringClasificationById = async (
   const { params } = req;
   const validateParam = paramValidation(params, 'cateringClasificationId');
   const cateringClasificationRepository = new CateringClasificationRepository();
-  const data = await cateringClasificationRepository.findById(
+  const data = await cateringClasificationRepository.findByIdElastic(
     validateParam.uid
   );
 
@@ -98,34 +113,22 @@ export const getAllCateringClasification = async (
 ) => {
   const { page, limit, filtered, sorted } = req.query;
   const cateringClasificationRepository = new CateringClasificationRepository();
-  const data = await cateringClasificationRepository.findAll(
+  const {
+    data,
+    totalCount,
+  } = await cateringClasificationRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  const totalCount = await cateringClasificationRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await cateringClasificationRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get CateringClasification',
     data,
     totalCount,
-  });
-};
-
-export const deleteCateringClasificationById = async (
-  req: Request,
-  res: Response
-) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'cateringClasificationId');
-  const cateringClasificationRepository = new CateringClasificationRepository();
-  const data = await cateringClasificationRepository.delete(validateParam.uid);
-
-  res.json({
-    message: 'SuccessfullyDeleteBy Id',
-    data,
   });
 };

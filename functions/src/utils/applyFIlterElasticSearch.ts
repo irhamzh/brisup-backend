@@ -94,8 +94,9 @@ export default function applyFilterElasticSearch(
       }
     } else {
       if (value && value?.length > 0) {
-        const arrayValue = value.split(/\s+/);
-        for (const stringValue of arrayValue) {
+        const removeDot = value.replace(/\./g, ' ');
+        const arrayValue = removeDot.split(/\s+/);
+        for (let stringValue of arrayValue) {
           filterBody.push({
             wildcard: {
               [id]: `*${stringValue}*`,

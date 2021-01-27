@@ -6,6 +6,6 @@ export default class KlasifikasiCateringRepository extends BaseRepository<
   IConsumptionBase
 > {
   constructor() {
-    super('ga_consumption', 'consumption');
+    super('ga_consumption', 'consumption', 'bri_corpu_ga_consumption');
   }
 }

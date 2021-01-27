@@ -63,34 +63,6 @@ export const updatePurchaseOrder = async (req: Request, res: Response) => {
   });
 };
 
-export const getPurchaseOrderById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'purchaseOrderId');
-  const purchaseOrder = new PurchaseOrderRepository();
-  const data = await purchaseOrder.findById(validateParam.uid);
-  res.json({
-    message: 'Successfully Get Purchase Order By Id',
-    data,
-  });
-};
-
-export const getAllPurchaseOrder = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const purchaseOrder = new PurchaseOrderRepository();
-  const data = await purchaseOrder.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await purchaseOrder.countDocument(filtered as string);
-  res.json({
-    message: 'Successfully Get Purchase Order',
-    data,
-    totalCount,
-  });
-};
-
 export const deletePurchaseOrderById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'purchaseOrderId');
@@ -100,5 +72,32 @@ export const deletePurchaseOrderById = async (req: Request, res: Response) => {
   res.json({
     message: 'Successfully Delete Purchase Order By Id',
     data,
+  });
+};
+export const getPurchaseOrderById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'purchaseOrderId');
+  const purchaseOrder = new PurchaseOrderRepository();
+  const data = await purchaseOrder.findByIdElastic(validateParam.uid);
+  res.json({
+    message: 'Successfully Get Purchase Order By Id',
+    data,
+  });
+};
+
+export const getAllPurchaseOrder = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const purchaseOrder = new PurchaseOrderRepository();
+  const { data, totalCount } = await purchaseOrder.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await purchaseOrder.countDocument(filtered as string);
+  res.json({
+    message: 'Successfully Get Purchase Order',
+    data,
+    totalCount,
   });
 };

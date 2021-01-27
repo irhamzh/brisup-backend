@@ -13,6 +13,7 @@ import CompressorRepository from '@modules/MasterData/Compressor/compressor.repo
 import schema from './basement.schema';
 import EngineerBasementRepository from './basement.repository';
 
+//water meter
 export const createWaterMeter = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.createWaterMeter, body);
@@ -71,11 +72,11 @@ export const deleteWaterMeterById = async (req: Request, res: Response) => {
 
   const data = await engineerBasementRepository.deleteSubDocument(
     validateParam.uid,
-    'water-meter',
-    'pg-water-meters'
+    'water_meter',
+    'pg_water_meters'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -84,14 +85,18 @@ export const getWaterMeterById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'water_meter',
+  //   'pg_water_meters'
+  // );
+  const data: admin.firestore.DocumentData = await engineerBasementRepository.findByIdElastic(
     validateParam.uid,
-    'water-meter',
-    'pg-water-meters'
+    'bri_corpu_pg_water_meters'
   );
 
   res.json({
-    message: 'Successfully Get WaterMeterBy Id',
+    message: 'Successfully Get WaterMeter By Id',
     data,
   });
 };
@@ -99,18 +104,25 @@ export const getWaterMeterById = async (req: Request, res: Response) => {
 export const getAllWaterMeter = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data = await engineerBasementRepository.findAllSubDocument(
+  // const data = await engineerBasementRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'water_meter',
+  //   'pg_water_meters',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await engineerBasementRepository.countSubDocument(
+  //   'water_meter',
+  //   'pg_water_meters',
+  //   filtered as string
+  // );
+  const { data, totalCount } = await engineerBasementRepository.findAllElastic(
     page as string,
     limit as string,
-    'water-meter',
-    'pg-water-meters',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await engineerBasementRepository.countSubDocument(
-    'water-meter',
-    'pg-water-meters',
-    filtered as string
+    sorted as string,
+    'bri_corpu_pg_water_meters'
   );
 
   res.json({
@@ -121,7 +133,6 @@ export const getAllWaterMeter = async (req: Request, res: Response) => {
 };
 
 //electrify
-
 export const createElectrify = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.createElectrify, body);
@@ -164,10 +175,10 @@ export const deleteElectrifyById = async (req: Request, res: Response) => {
   const data = await engineerBasementRepository.deleteSubDocument(
     validateParam.uid,
     'electricity',
-    'pg-electricities'
+    'pg_electricities'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -176,10 +187,15 @@ export const getElectrifyById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'electricity',
+  //   'pg_electricities'
+  // );
+
+  const data: admin.firestore.DocumentData = await engineerBasementRepository.findByIdElastic(
     validateParam.uid,
-    'electricity',
-    'pg-electricities'
+    'bri_corpu_pg_electricities'
   );
 
   res.json({
@@ -191,18 +207,25 @@ export const getElectrifyById = async (req: Request, res: Response) => {
 export const getAllElectrify = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data = await engineerBasementRepository.findAllSubDocument(
+  // const data = await engineerBasementRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'electricity',
+  //   'pg_electricities',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await engineerBasementRepository.countSubDocument(
+  //   'electricity',
+  //   'pg_electricities',
+  //   filtered as string
+  // );
+  const { data, totalCount } = await engineerBasementRepository.findAllElastic(
     page as string,
     limit as string,
-    'electricity',
-    'pg-electricities',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await engineerBasementRepository.countSubDocument(
-    'electricity',
-    'pg-electricities',
-    filtered as string
+    sorted as string,
+    'bri_corpu_pg_electricities'
   );
 
   res.json({
@@ -293,10 +316,10 @@ export const deleteACById = async (req: Request, res: Response) => {
   const data = await engineerBasementRepository.deleteSubDocument(
     validateParam.uid,
     'ac',
-    'pg-acs'
+    'pg_acs'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -304,10 +327,14 @@ export const getACById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'ac',
+  //   'pg_acs'
+  // );
+  const data: admin.firestore.DocumentData = await engineerBasementRepository.findByIdElastic(
     validateParam.uid,
-    'ac',
-    'pg-acs'
+    'pg_acs'
   );
 
   res.json({
@@ -319,18 +346,25 @@ export const getACById = async (req: Request, res: Response) => {
 export const getAllAC = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data = await engineerBasementRepository.findAllSubDocument(
+  // const data = await engineerBasementRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'ac',
+  //   'pg_acs',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await engineerBasementRepository.countSubDocument(
+  //   'ac',
+  //   'pg_acs',
+  //   filtered as string
+  // );
+  const { data, totalCount } = await engineerBasementRepository.findAllElastic(
     page as string,
     limit as string,
-    'ac',
-    'pg-acs',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await engineerBasementRepository.countSubDocument(
-    'ac',
-    'pg-acs',
-    filtered as string
+    sorted as string,
+    'bri_corpu_pg_acs'
   );
 
   res.json({
@@ -406,10 +440,10 @@ export const deletePlumbingById = async (req: Request, res: Response) => {
   const data = await engineerBasementRepository.deleteSubDocument(
     validateParam.uid,
     'plumbing',
-    'pg-plumbings'
+    'pg_plumbings'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -418,14 +452,19 @@ export const getPlumbingById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'plumbing',
+  //   'pg_plumbings'
+  // );
+
+  const data: admin.firestore.DocumentData = await engineerBasementRepository.findByIdElastic(
     validateParam.uid,
-    'plumbing',
-    'pg-plumbings'
+    'bri_corpu_pg_plumbings'
   );
 
   res.json({
-    message: 'Successfully Get AC By Id',
+    message: 'Successfully Get Plumbing By Id',
     data,
   });
 };
@@ -433,20 +472,26 @@ export const getPlumbingById = async (req: Request, res: Response) => {
 export const getAllPlumbing = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data = await engineerBasementRepository.findAllSubDocument(
+  // const data = await engineerBasementRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'plumbing',
+  //   'pg_plumbings',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await engineerBasementRepository.countSubDocument(
+  //   'plumbing',
+  //   'pg_plumbing',
+  //   filtered as string
+  // );
+  const { data, totalCount } = await engineerBasementRepository.findAllElastic(
     page as string,
     limit as string,
-    'plumbing',
-    'pg-plumbings',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_pg_plumbings'
   );
-  const totalCount = await engineerBasementRepository.countSubDocument(
-    'plumbing',
-    'pg-plumbing',
-    filtered as string
-  );
-
   res.json({
     message: 'Successfully Get plumbing',
     data,
@@ -498,10 +543,10 @@ export const deleteSTPById = async (req: Request, res: Response) => {
   const data = await engineerBasementRepository.deleteSubDocument(
     validateParam.uid,
     'stp',
-    'pg-stps'
+    'pg_stps'
   );
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete By Id',
     data,
   });
 };
@@ -510,14 +555,18 @@ export const getSTPById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  // const data: admin.firestore.DocumentData = await engineerBasementRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'stp',
+  //   'pg_stps'
+  // );
+  const data: admin.firestore.DocumentData = await engineerBasementRepository.findByIdElastic(
     validateParam.uid,
-    'stp',
-    'pg-stps'
+    'bri_corpu_pg_stps'
   );
 
   res.json({
-    message: 'Successfully Get AC By Id',
+    message: 'Successfully Get stp By Id',
     data,
   });
 };
@@ -525,18 +574,25 @@ export const getSTPById = async (req: Request, res: Response) => {
 export const getAllSTP = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const engineerBasementRepository = new EngineerBasementRepository();
-  const data = await engineerBasementRepository.findAllSubDocument(
+  // const data = await engineerBasementRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'stp',
+  //   'pg_stps',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await engineerBasementRepository.countSubDocument(
+  //   'stp',
+  //   'pg_stps',
+  //   filtered as string
+  // );
+  const { data, totalCount } = await engineerBasementRepository.findAllElastic(
     page as string,
     limit as string,
-    'stp',
-    'pg-stps',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await engineerBasementRepository.countSubDocument(
-    'stp',
-    'pg-stps',
-    filtered as string
+    sorted as string,
+    'bri_corpu_pg_stps'
   );
   res.json({
     message: 'Successfully Get stp',

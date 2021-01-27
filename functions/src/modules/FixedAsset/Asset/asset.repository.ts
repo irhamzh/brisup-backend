@@ -2,16 +2,19 @@ import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
 import { StringKeys } from '@interfaces/BaseInterface';
+
 import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
-import { IUserDecoded } from '@modules/MasterData/User/interface/user.interface';
+
 import { IAssetBase } from '@modules/FixedAsset/Asset/interface/asset.interface';
+import { IUserDecoded } from '@modules/MasterData/User/interface/user.interface';
 import { ApprovalStatusAsset } from './interface/asset.interface';
+
 export default class AssetRepository extends BaseRepository<IAssetBase> {
   _assetModel: admin.firestore.CollectionReference;
   constructor() {
-    super('assets', 'aset');
-    this._assetModel = db.collection('assets');
+    super('fx_assets', 'fx_asset', 'bri_corpu_fx_assets');
+    this._assetModel = db.collection('fx_assets');
   }
 
   async deleteMultiple(assetIds: string[]) {

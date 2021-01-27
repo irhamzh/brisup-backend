@@ -13,7 +13,7 @@ export const createMedicineType = async (req: Request, res: Response) => {
   const medicineTypeRepository = new MedicineTypeRepository();
   const data = await medicineTypeRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create MedicineType',
+    message: 'Successfully Create Jenis Obat',
     data,
   });
 };
@@ -29,7 +29,7 @@ export const updateMedicineType = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update MedicineType',
+    message: 'Successfully Update Jenis Obat',
     data,
   });
 };
@@ -40,7 +40,7 @@ export const getMedicineTypeById = async (req: Request, res: Response) => {
   const medicineTypeRepository = new MedicineTypeRepository();
   const data = await medicineTypeRepository.findByIdElastic(validateParam.uid);
   res.json({
-    message: 'Successfully Get MedicineType By Id',
+    message: 'Successfully Get Jenis Obat By Id',
     data,
   });
 };
@@ -59,7 +59,7 @@ export const getAllMedicineType = async (req: Request, res: Response) => {
   // );
 
   res.json({
-    message: 'Successfully Get MedicineType',
+    message: 'Successfully Get Jenis Obat',
     data,
     totalCount,
   });
@@ -71,7 +71,7 @@ export const deleteMedicineTypeById = async (req: Request, res: Response) => {
   const medicineTypeRepository = new MedicineTypeRepository();
   const data = await medicineTypeRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Jenis Obat By Id',
     data,
   });
 };

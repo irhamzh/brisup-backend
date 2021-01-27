@@ -16,7 +16,7 @@ export default class PersekotRepository extends BaseRepository<
 > {
   _persekotModel: admin.firestore.CollectionReference;
   constructor() {
-    super('persekots', 'persekot');
+    super('persekots', 'persekot', 'bri_corpu_persekots');
     this._persekotModel = db.collection('persekots');
   }
 

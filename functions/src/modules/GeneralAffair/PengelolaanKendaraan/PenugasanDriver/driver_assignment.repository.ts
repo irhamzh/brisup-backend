@@ -6,6 +6,10 @@ export default class EngineerBasementRepository extends BaseRepository<
   IDriverAssignmentBase
 > {
   constructor() {
-    super('ga_driver_assignment', 'ga_driver_assignment'); //rename
+    super(
+      'ga_driver_assignment',
+      'ga_driver_assignment',
+      'bri_corpu_ga_driver_assignment'
+    ); //rename
   }
 }

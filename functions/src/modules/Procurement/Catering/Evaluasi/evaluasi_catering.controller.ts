@@ -32,7 +32,7 @@ export const createEvaluasiCatering = async (req: Request, res: Response) => {
   const data = await evaluasiCateringRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create EvaluasiCatering',
+    message: 'Successfully Create Evaluasi Catering',
     data,
   });
 };
@@ -64,40 +64,8 @@ export const updateEvaluasiCatering = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update EvaluasiCatering',
+    message: 'Successfully Update Evaluasi Catering',
     data,
-  });
-};
-
-export const getEvaluasiCateringById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'evaluasiCateringId');
-  const evaluasiCateringRepository = new EvaluasiCateringRepository();
-  const data = await evaluasiCateringRepository.findById(validateParam.uid);
-
-  res.json({
-    message: 'Successfully Get EvaluasiCatering By Id',
-    data,
-  });
-};
-
-export const getAllEvaluasiCatering = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const evaluasiCateringRepository = new EvaluasiCateringRepository();
-  const data = await evaluasiCateringRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await evaluasiCateringRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get EvaluasiCatering',
-    data,
-    totalCount,
   });
 };
 
@@ -111,7 +79,41 @@ export const deleteEvaluasiCateringById = async (
   const data = await evaluasiCateringRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Evaluasi Catering By Id',
     data,
+  });
+};
+
+export const getEvaluasiCateringById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'evaluasiCateringId');
+  const evaluasiCateringRepository = new EvaluasiCateringRepository();
+  const data = await evaluasiCateringRepository.findByIdElastic(
+    validateParam.uid
+  );
+
+  res.json({
+    message: 'Successfully Get Evaluasi Catering By Id',
+    data,
+  });
+};
+
+export const getAllEvaluasiCatering = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const evaluasiCateringRepository = new EvaluasiCateringRepository();
+  const { data, totalCount } = await evaluasiCateringRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await evaluasiCateringRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get Evaluasi Catering',
+    data,
+    totalCount,
   });
 };

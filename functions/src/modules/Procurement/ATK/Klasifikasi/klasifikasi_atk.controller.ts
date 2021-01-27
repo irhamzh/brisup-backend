@@ -32,7 +32,7 @@ export const createATKClasification = async (req: Request, res: Response) => {
   const data = await atkClasificationRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create ATKClasification',
+    message: 'Successfully Create Klasifikasi ATK',
     data,
   });
 };
@@ -65,40 +65,8 @@ export const updateATKClasification = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update ATKClasification',
+    message: 'Successfully Update Klasifikasi ATK',
     data,
-  });
-};
-
-export const getATKClasificationById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'atkClasificationId');
-  const atkClasificationRepository = new ATKClasificationRepository();
-  const data = await atkClasificationRepository.findById(validateParam.uid);
-
-  res.json({
-    message: 'Successfully Get ATKClasification By Id',
-    data,
-  });
-};
-
-export const getAllATKClasification = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const atkClasificationRepository = new ATKClasificationRepository();
-  const data = await atkClasificationRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await atkClasificationRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get ATKClasification',
-    data,
-    totalCount,
   });
 };
 
@@ -112,7 +80,41 @@ export const deleteATKClasificationById = async (
   const data = await atkClasificationRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Klasifikasi ATK By Id',
     data,
+  });
+};
+
+export const getATKClasificationById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'atkClasificationId');
+  const atkClasificationRepository = new ATKClasificationRepository();
+  const data = await atkClasificationRepository.findByIdElastic(
+    validateParam.uid
+  );
+
+  res.json({
+    message: 'Successfully Get Klasifikasi ATK By Id',
+    data,
+  });
+};
+
+export const getAllATKClasification = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const atkClasificationRepository = new ATKClasificationRepository();
+  const { data, totalCount } = await atkClasificationRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await atkClasificationRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get Klasifikasi ATK',
+    data,
+    totalCount,
   });
 };

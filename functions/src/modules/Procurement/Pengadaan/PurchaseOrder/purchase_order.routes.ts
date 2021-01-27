@@ -1,14 +1,38 @@
 import { Router } from 'express';
-import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 import * as controller from './purchase_order.controller';
 
-const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
+import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
-errorHandledRoute.get('/', controller.getAllPurchaseOrder);
-errorHandledRoute.post('/', controller.createPurchaseOrder);
-errorHandledRoute.put('/:uid', controller.updatePurchaseOrder);
-errorHandledRoute.get('/:uid', controller.getPurchaseOrderById);
-errorHandledRoute.delete('/:uid', controller.deletePurchaseOrderById);
+const router = Router();
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('procurement', 'read'),
+  controller.getAllPurchaseOrder
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('procurement', 'create'),
+  controller.createPurchaseOrder
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('procurement', 'update'),
+  controller.updatePurchaseOrder
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('procurement', 'read'),
+  controller.getPurchaseOrderById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('procurement', 'delete'),
+  controller.deletePurchaseOrderById
+);
 
 export default router;

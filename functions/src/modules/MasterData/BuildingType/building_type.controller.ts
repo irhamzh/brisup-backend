@@ -12,7 +12,7 @@ export const createBuildingType = async (req: Request, res: Response) => {
   const buildingTypeRepository = new BuildingTypeRepository();
   const data = await buildingTypeRepository.create(validatedBody);
   res.json({
-    message: 'Successfully Create BuildingType',
+    message: 'Successfully Create Building Type',
     data,
   });
 };
@@ -28,7 +28,7 @@ export const updateBuildingType = async (req: Request, res: Response) => {
     validatedBody
   );
   res.json({
-    message: 'Successfully Update BuildingType',
+    message: 'Successfully Update Building Type',
     data,
   });
 };
@@ -39,7 +39,7 @@ export const getBuildingTypeById = async (req: Request, res: Response) => {
   const buildingTypeRepository = new BuildingTypeRepository();
   const data = await buildingTypeRepository.findByIdElastic(validateParam.uid);
   res.json({
-    message: 'Successfully Get BuildingType By Id',
+    message: 'Successfully Get Building Type By Id',
     data,
   });
 };
@@ -58,7 +58,7 @@ export const getAllBuildingType = async (req: Request, res: Response) => {
   // );
 
   res.json({
-    message: 'Successfully Get BuildingType',
+    message: 'Successfully Get Building Type',
     data,
     totalCount,
   });
@@ -70,7 +70,7 @@ export const deleteBuildingTypeById = async (req: Request, res: Response) => {
   const buildingTypeRepository = new BuildingTypeRepository();
   const data = await buildingTypeRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Building Type By Id',
     data,
   });
 };

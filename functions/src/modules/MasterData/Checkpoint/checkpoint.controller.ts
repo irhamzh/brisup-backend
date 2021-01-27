@@ -71,7 +71,7 @@ export const deleteCheckpointById = async (req: Request, res: Response) => {
   const checkpointRepository = new CheckpointRepository();
   const data = await checkpointRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Checkpoint By Id',
     data,
   });
 };

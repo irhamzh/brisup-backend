@@ -60,34 +60,6 @@ export const updateTandaTerimaBarang = async (req: Request, res: Response) => {
   });
 };
 
-export const getTandaTerimaBarangById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'tandaTerimaBarangId');
-  const tandaTerimaBarang = new TandaTerimaBarangRepository();
-  const data = await tandaTerimaBarang.findById(validateParam.uid);
-  res.json({
-    message: 'Successfully Get Tanda Terima Barang By Id',
-    data,
-  });
-};
-
-export const getAllTandaTerimaBarang = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const tandaTerimaBarang = new TandaTerimaBarangRepository();
-  const data = await tandaTerimaBarang.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await tandaTerimaBarang.countDocument(filtered as string);
-  res.json({
-    message: 'Successfully Get All Tanda Terima Barang',
-    data,
-    totalCount,
-  });
-};
-
 export const deleteTandaTerimaBarangById = async (
   req: Request,
   res: Response
@@ -99,5 +71,32 @@ export const deleteTandaTerimaBarangById = async (
   res.json({
     message: 'Successfully Delete Tanda Terima Barang By Id',
     data,
+  });
+};
+export const getTandaTerimaBarangById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'tandaTerimaBarangId');
+  const tandaTerimaBarang = new TandaTerimaBarangRepository();
+  const data = await tandaTerimaBarang.findByIdElastic(validateParam.uid);
+  res.json({
+    message: 'Successfully Get Tanda Terima Barang By Id',
+    data,
+  });
+};
+
+export const getAllTandaTerimaBarang = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const tandaTerimaBarang = new TandaTerimaBarangRepository();
+  const { data, totalCount } = await tandaTerimaBarang.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await tandaTerimaBarang.countDocument(filtered as string);
+  res.json({
+    message: 'Successfully Get All Tanda Terima Barang',
+    data,
+    totalCount,
   });
 };

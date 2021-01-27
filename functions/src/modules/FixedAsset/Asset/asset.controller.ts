@@ -64,34 +64,6 @@ export const updateAsset = async (req: Request, res: Response) => {
   });
 };
 
-export const getAssetById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'assetId');
-  const assetRepository = new AssetRepository();
-  const data = await assetRepository.findById(validateParam.uid);
-  res.json({
-    message: 'Successfully Get Asset By Id',
-    data,
-  });
-};
-
-export const getAllAsset = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const assetRepository = new AssetRepository();
-  const data = await assetRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await assetRepository.countDocument(filtered as string);
-  res.json({
-    message: 'Successfully Get All Asset',
-    data,
-    totalCount,
-  });
-};
-
 export const deleteAssetById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'assetId');
@@ -212,5 +184,33 @@ export const pengajuanPenghapusbukuan = async (req: Request, res: Response) => {
   res.json({
     message: 'Sukses Approve Persekot',
     invalidRow,
+  });
+};
+
+export const getAssetById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'assetId');
+  const assetRepository = new AssetRepository();
+  const data = await assetRepository.findByIdElastic(validateParam.uid);
+  res.json({
+    message: 'Successfully Get Asset By Id',
+    data,
+  });
+};
+
+export const getAllAsset = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const assetRepository = new AssetRepository();
+  const { data, totalCount } = await assetRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await assetRepository.countDocument(filtered as string);
+  res.json({
+    message: 'Successfully Get All Asset',
+    data,
+    totalCount,
   });
 };

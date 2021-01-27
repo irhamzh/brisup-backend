@@ -13,16 +13,16 @@ import validationWording from '@constants/validationWording';
 export const getAllPengadaan = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const pengadaanRepository = new PengadaanRepository();
-  const data = await pengadaanRepository.findAll(
+  const { data, totalCount } = await pengadaanRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
 
-  const totalCount = await pengadaanRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await pengadaanRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get All Pengadaan',

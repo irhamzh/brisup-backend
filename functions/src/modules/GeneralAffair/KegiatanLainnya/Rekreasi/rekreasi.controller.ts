@@ -60,10 +60,9 @@ export const getRekreasiById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const recreationRepository = new RekreasiRepository();
-  const data: admin.firestore.DocumentData = await recreationRepository.findSubdocumentById(
+  const data: admin.firestore.DocumentData = await recreationRepository.findByIdElastic(
     validateParam.uid,
-    'recreation',
-    'ga_recreations'
+    'bri_corpu_ga_recreations'
   );
 
   res.json({
@@ -75,18 +74,12 @@ export const getRekreasiById = async (req: Request, res: Response) => {
 export const getAllRekreasi = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const recreationRepository = new RekreasiRepository();
-  const data = await recreationRepository.findAllSubDocument(
+  const { data, totalCount } = await recreationRepository.findAllElastic(
     page as string,
     limit as string,
-    'recreation',
-    'ga_recreations',
     filtered as string,
-    sorted as string
-  );
-  const totalCount = await recreationRepository.countSubDocument(
-    'recreation',
-    'ga_recreations',
-    filtered as string
+    sorted as string,
+    'bri_corpu_ga_recreations'
   );
 
   res.json({

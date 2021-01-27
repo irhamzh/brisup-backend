@@ -42,7 +42,7 @@ export const createATKStockOpname = async (req: Request, res: Response) => {
   const data = await atkStockOpnameRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create ATKStockOpname',
+    message: 'Successfully Create ATK Stok Opname',
     data,
   });
 };
@@ -85,40 +85,8 @@ export const updateATKStockOpname = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update ATKStockOpname',
+    message: 'Successfully Update ATK Stok Opname',
     data,
-  });
-};
-
-export const getATKStockOpnameById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'atkStockOpnameId');
-  const atkStockOpnameRepository = new ATKStockOpnameRepository();
-  const data = await atkStockOpnameRepository.findById(validateParam.uid);
-
-  res.json({
-    message: 'Successfully Get ATKStockOpname By Id',
-    data,
-  });
-};
-
-export const getAllATKStockOpname = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const atkStockOpnameRepository = new ATKStockOpnameRepository();
-  const data = await atkStockOpnameRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await atkStockOpnameRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get ATKStockOpname',
-    data,
-    totalCount,
   });
 };
 
@@ -129,7 +97,41 @@ export const deleteATKStockOpnameById = async (req: Request, res: Response) => {
   const data = await atkStockOpnameRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete ATK Stok Opname By Id',
     data,
+  });
+};
+
+export const getATKStockOpnameById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'atkStockOpnameId');
+  const atkStockOpnameRepository = new ATKStockOpnameRepository();
+  const data = await atkStockOpnameRepository.findByIdElastic(
+    validateParam.uid
+  );
+
+  res.json({
+    message: 'Successfully Get ATK Stok Opname By Id',
+    data,
+  });
+};
+
+export const getAllATKStockOpname = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const atkStockOpnameRepository = new ATKStockOpnameRepository();
+  const { data, totalCount } = await atkStockOpnameRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await atkStockOpnameRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get ATK Stok Opname',
+    data,
+    totalCount,
   });
 };

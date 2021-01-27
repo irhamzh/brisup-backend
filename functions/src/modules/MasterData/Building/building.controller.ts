@@ -69,7 +69,7 @@ export const deleteBuildingById = async (req: Request, res: Response) => {
   const buildingRepository = new BuildingRepository();
   const data = await buildingRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Building By Id',
     data,
   });
 };

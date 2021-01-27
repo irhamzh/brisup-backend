@@ -41,37 +41,6 @@ export const updateEvaluasiSuplier = async (req: Request, res: Response) => {
   });
 };
 
-export const getEvaluasiSuplierById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'evaluasiSuplierId');
-  const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
-  const data = await evaluasiSuplierRepository.findById(validateParam.uid);
-  res.json({
-    message: 'Successfully Get Evaluasi Suplier By Id',
-    data,
-  });
-};
-
-export const getAllEvaluasiSuplier = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
-  const data = await evaluasiSuplierRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await evaluasiSuplierRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get Evaluasi Suplier',
-    data,
-    totalCount,
-  });
-};
-
 export const deleteEvaluasiSuplierById = async (
   req: Request,
   res: Response
@@ -83,5 +52,40 @@ export const deleteEvaluasiSuplierById = async (
   res.json({
     message: 'Successfully Delete Evaluasi Suplier By Id',
     data,
+  });
+};
+
+export const getEvaluasiSuplierById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'evaluasiSuplierId');
+  const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
+  const data = await evaluasiSuplierRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_pr_pengadaan_evaluations'
+  );
+  res.json({
+    message: 'Successfully Get Evaluasi Suplier By Id',
+    data,
+  });
+};
+
+export const getAllEvaluasiSuplier = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const evaluasiSuplierRepository = new EvaluasiSuplierRepository();
+  const { data, totalCount } = await evaluasiSuplierRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_pr_pengadaan_evaluations'
+  );
+  // const totalCount = await evaluasiSuplierRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get Evaluasi Suplier',
+    data,
+    totalCount,
   });
 };

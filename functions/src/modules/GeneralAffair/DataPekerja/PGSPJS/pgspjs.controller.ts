@@ -75,10 +75,9 @@ export const getPGSPJSById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const pgspjsRepository = new PGSPJSRepository();
-  const data: admin.firestore.DocumentData = await pgspjsRepository.findSubdocumentById(
+  const data: admin.firestore.DocumentData = await pgspjsRepository.findByIdElastic(
     validateParam.uid,
-    'pgspjs',
-    'ga_pgspjs'
+    'bri_corpu_ga_pgspjs'
   );
 
   res.json({
@@ -90,19 +89,18 @@ export const getPGSPJSById = async (req: Request, res: Response) => {
 export const getAllPGSPJS = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const pgspjsRepository = new PGSPJSRepository();
-  const data = await pgspjsRepository.findAllSubDocument(
+  const { data, totalCount } = await pgspjsRepository.findAllElastic(
     page as string,
     limit as string,
-    'pgspjs',
-    'ga_pgspjs',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_ga_pgspjs'
   );
-  const totalCount = await pgspjsRepository.countSubDocument(
-    'pgspjs',
-    'ga_pgspjs',
-    filtered as string
-  );
+  // const totalCount = await pgspjsRepository.countSubDocument(
+  //   'pgspjs',
+  //   'ga_pgspjs',
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get PGSPJS',

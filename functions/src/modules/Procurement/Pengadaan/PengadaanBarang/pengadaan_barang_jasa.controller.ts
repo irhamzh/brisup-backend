@@ -120,7 +120,10 @@ export const getPengadaanById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const pengadaanRepository = new PengadaanRepository();
-  const data = await pengadaanRepository.findById(validateParam.uid);
+  const data = await pengadaanRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_pr_pengadaan_jasa_barangs'
+  );
 
   res.json({
     message: 'Successfully Get Pengadaan By Id',
@@ -131,15 +134,16 @@ export const getPengadaanById = async (req: Request, res: Response) => {
 export const getAllPengadaan = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const pengadaanRepository = new PengadaanRepository();
-  const data = await pengadaanRepository.findAll(
+  const { data, totalCount } = await pengadaanRepository.findAllElastic(
     page as string,
     limit as string,
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_pr_pengadaan_jasa_barangs'
   );
-  const totalCount = await pengadaanRepository.countDocument(
-    filtered as string
-  );
+  // const totalCount = await pengadaanRepository.countDocument(
+  //   filtered as string
+  // );
 
   res.json({
     message: 'Successfully Get AllPengadaan ',

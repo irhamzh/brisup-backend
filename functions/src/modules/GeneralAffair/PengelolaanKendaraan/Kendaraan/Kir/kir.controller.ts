@@ -112,3 +112,36 @@ export const getAllKIR = async (req: Request, res: Response) => {
     totalCount,
   });
 };
+
+export const getKIRByIdElastic = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const kirRepository = new KIRRepository();
+  const data: admin.firestore.DocumentData = await kirRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_ga_kirs'
+  );
+
+  res.json({
+    message: 'Successfully Get "Pengelolaan Kendaraan KIR" By Id',
+    data,
+  });
+};
+
+export const getAllKIRElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const kirRepository = new KIRRepository();
+  const { data, totalCount } = await kirRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_ga_kirs'
+  );
+
+  res.json({
+    message: 'Successfully Get "Pengelolaan Kendaraan KIR"',
+    data,
+    totalCount,
+  });
+};

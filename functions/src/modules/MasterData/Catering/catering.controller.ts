@@ -69,7 +69,7 @@ export const deleteCateringById = async (req: Request, res: Response) => {
   const cateringRepository = new CateringRepository();
   const data = await cateringRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Catering By Id',
     data,
   });
 };

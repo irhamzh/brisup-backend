@@ -34,14 +34,49 @@ export const updateOutsourcing = async (req: Request, res: Response) => {
   });
 };
 
+export const deleteOutsourcingById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'outsourcingId');
+  const outsourcingRepository = new OutsourcingRepository();
+  const data = await outsourcingRepository.deleteSubDocument(
+    validateParam.uid,
+    'outsourcing',
+    'ga_outsourcings'
+  );
+  res.json({
+    message: 'Successfully Delete Outsourcing By Id',
+    data,
+  });
+};
+
+export const importExcel = async (req: any, res: Response) => {
+  const { files } = req;
+  const outsourcingRepository = new OutsourcingRepository();
+  const invalidRow = await outsourcingRepository.importExcelOutsourcing(
+    files,
+    {
+      '*': '{{columnHeader}}',
+    },
+    schema.createExcel
+  );
+  res.json({
+    message: 'Successfully Import Outsourcing',
+    invalidRow,
+  });
+};
+
 export const getOutsourcingById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'outsourcingId');
   const outsourcingRepository = new OutsourcingRepository();
-  const data = await outsourcingRepository.findSubdocumentById(
+  // const data = await outsourcingRepository.findSubdocumentById(
+  //   validateParam.uid,
+  //   'outsourcing',
+  //   'ga_outsourcings'
+  // );
+  const data = await outsourcingRepository.findByIdElastic(
     validateParam.uid,
-    'outsourcing',
-    'ga_outsourcings'
+    'bri_corpu_ga_outsourcings'
   );
   res.json({
     message: 'Successfully Get Outsourcing By Id',
@@ -52,19 +87,27 @@ export const getOutsourcingById = async (req: Request, res: Response) => {
 export const getAllOutsourcing = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const outsourcingRepository = new OutsourcingRepository();
-  const data = await outsourcingRepository.findAllSubDocument(
+  // const data = await outsourcingRepository.findAllSubDocument(
+  //   page as string,
+  //   limit as string,
+  //   'outsourcing',
+  //   'ga_outsourcings',
+  //   filtered as string,
+  //   sorted as string
+  // );
+  // const totalCount = await outsourcingRepository.countSubDocument(
+  //   'outsourcing',
+  //   'ga_outsourcings',
+  //   filtered as string
+  // );
+  const { data, totalCount } = await outsourcingRepository.findAllElastic(
     page as string,
     limit as string,
-    'outsourcing',
-    'ga_outsourcings',
     filtered as string,
-    sorted as string
+    sorted as string,
+    'bri_corpu_ga_outsourcings'
   );
-  const totalCount = await outsourcingRepository.countSubDocument(
-    'outsourcing',
-    'ga_outsourcings',
-    filtered as string
-  );
+
   res.json({
     message: 'Successfully Get All Outsourcing',
     data,
@@ -141,36 +184,5 @@ export const getAllOutsourcingFormated = async (
     message: 'Successfully Get All Outsourcing',
     data: formatedData,
     totalCount,
-  });
-};
-
-export const deleteOutsourcingById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'outsourcingId');
-  const outsourcingRepository = new OutsourcingRepository();
-  const data = await outsourcingRepository.deleteSubDocument(
-    validateParam.uid,
-    'outsourcing',
-    'ga_outsourcings'
-  );
-  res.json({
-    message: 'Successfully Delete Outsourcing By Id',
-    data,
-  });
-};
-
-export const importExcel = async (req: any, res: Response) => {
-  const { files } = req;
-  const outsourcingRepository = new OutsourcingRepository();
-  const invalidRow = await outsourcingRepository.importExcelOutsourcing(
-    files,
-    {
-      '*': '{{columnHeader}}',
-    },
-    schema.createExcel
-  );
-  res.json({
-    message: 'Successfully Import Outsourcing',
-    invalidRow,
   });
 };

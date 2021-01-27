@@ -34,37 +34,6 @@ export const updateClinikEvalution = async (req: Request, res: Response) => {
   });
 };
 
-export const getClinikEvalutionById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'clinicEvaluationId');
-  const clinicEvaluationRepository = new ClinikEvalutionRepository();
-  const data = await clinicEvaluationRepository.findById(validateParam.uid);
-  res.json({
-    message: 'Successfully Get "Evaluasi Klinik" By Id',
-    data,
-  });
-};
-
-export const getAllClinikEvalution = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const clinicEvaluationRepository = new ClinikEvalutionRepository();
-  const data = await clinicEvaluationRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await clinicEvaluationRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get "Evaluasi Klinik"',
-    data,
-    totalCount,
-  });
-};
-
 export const deleteClinikEvalutionById = async (
   req: Request,
   res: Response
@@ -76,5 +45,38 @@ export const deleteClinikEvalutionById = async (
   res.json({
     message: 'Successfully Delete "Evaluasi Klinik" By Id',
     data,
+  });
+};
+
+export const getClinikEvalutionById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'clinicEvaluationId');
+  const clinicEvaluationRepository = new ClinikEvalutionRepository();
+  const data = await clinicEvaluationRepository.findByIdElastic(
+    validateParam.uid
+  );
+  res.json({
+    message: 'Successfully Get "Evaluasi Klinik" By Id',
+    data,
+  });
+};
+
+export const getAllClinikEvalution = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const clinicEvaluationRepository = new ClinikEvalutionRepository();
+  const { data, totalCount } = await clinicEvaluationRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await clinicEvaluationRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get "Evaluasi Klinik"',
+    data,
+    totalCount,
   });
 };

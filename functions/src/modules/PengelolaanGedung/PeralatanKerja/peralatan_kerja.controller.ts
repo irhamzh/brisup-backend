@@ -39,7 +39,7 @@ export const createPeralatanKerja = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Create PeralatanKerja',
+    message: 'Successfully Create Peralatan Kerja',
     data,
   });
 };
@@ -79,42 +79,8 @@ export const updatePeralatanKerja = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update PeralatanKerja',
+    message: 'Successfully Update Peralatan Kerja',
     data,
-  });
-};
-
-export const getPeralatanKerjaById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'peralatanKerjaId');
-  const peralatanKerjaRepository = new PeralatanKerjaRepository();
-  const data: admin.firestore.DocumentData = await peralatanKerjaRepository.findById(
-    validateParam.uid
-  );
-
-  res.json({
-    message: 'Successfully Get PeralatanKerja By Id',
-    data,
-  });
-};
-
-export const getAllPeralatanKerja = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const peralatanKerjaRepository = new PeralatanKerjaRepository();
-  const data = await peralatanKerjaRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await peralatanKerjaRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get PeralatanKerja',
-    data,
-    totalCount,
   });
 };
 
@@ -124,7 +90,41 @@ export const deletePeralatanKerjaById = async (req: Request, res: Response) => {
   const peralatanKerjaRepository = new PeralatanKerjaRepository();
   const data = await peralatanKerjaRepository.delete(validateParam.uid);
   res.json({
-    message: 'SuccessfullyDeleteBy Id',
+    message: 'Successfully Delete Peralatan Kerja By Id',
     data,
+  });
+};
+
+export const getPeralatanKerjaById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'peralatanKerjaId');
+  const peralatanKerjaRepository = new PeralatanKerjaRepository();
+  const data: admin.firestore.DocumentData = await peralatanKerjaRepository.findByIdElastic(
+    validateParam.uid
+  );
+
+  res.json({
+    message: 'Successfully Get Peralatan Kerja By Id',
+    data,
+  });
+};
+
+export const getAllPeralatanKerja = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const peralatanKerjaRepository = new PeralatanKerjaRepository();
+  const { data, totalCount } = await peralatanKerjaRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await peralatanKerjaRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get Peralatan Kerja',
+    data,
+    totalCount,
   });
 };

@@ -1,14 +1,38 @@
 import * as controller from './evaluasi_hotel.controller';
 import { Router } from 'express';
+
+import accessMiddleware from '@middlewares/accessMiddleware';
+import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 
 const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
-errorHandledRoute.get('/', controller.getAllEvaluasiHotel);
-errorHandledRoute.post('/', controller.createEvaluasiHotel);
-errorHandledRoute.put('/:uid', controller.updateEvaluasiHotel);
-errorHandledRoute.get('/:uid', controller.getEvaluasiHotelById);
-errorHandledRoute.delete('/:uid', controller.deleteEvaluasiHotelById);
+errorHandledRoute.get(
+  '/',
+  accessMiddleware('procurement', 'read'),
+  controller.getAllEvaluasiHotel
+);
+errorHandledRoute.post(
+  '/',
+  accessMiddleware('procurement', 'create'),
+  controller.createEvaluasiHotel
+);
+errorHandledRoute.put(
+  '/:uid',
+  accessMiddleware('procurement', 'update'),
+  controller.updateEvaluasiHotel
+);
+errorHandledRoute.get(
+  '/:uid',
+  accessMiddleware('procurement', 'read'),
+  controller.getEvaluasiHotelById
+);
+errorHandledRoute.delete(
+  '/:uid',
+  accessMiddleware('procurement', 'delete'),
+  controller.deleteEvaluasiHotelById
+);
 
 export default router;

@@ -5,6 +5,6 @@ export default class WorkingOrderRepository extends BaseRepository<
   IWorkingOrderBase
 > {
   constructor() {
-    super('working_orders', 'working_order');
+    super('working_orders', 'working_order', 'bri_corpu_working_orders');
   }
 }

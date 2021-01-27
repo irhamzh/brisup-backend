@@ -93,40 +93,6 @@ export const updatePeralatan = async (req: Request, res: Response) => {
   });
 };
 
-export const getPeralatanById = async (req: Request, res: Response) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'peralatanId');
-  const peralatanRepository = new PeralatanRepository();
-  const data: admin.firestore.DocumentData = await peralatanRepository.findById(
-    validateParam.uid
-  );
-
-  res.json({
-    message: 'Successfully Get All Peralatan By Id',
-    data,
-  });
-};
-
-export const getAllPeralatan = async (req: Request, res: Response) => {
-  let { page, limit, filtered, sorted } = req.query;
-  const peralatanRepository = new PeralatanRepository();
-  const data = await peralatanRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-
-  const totalCount = await peralatanRepository.countDocument(
-    filtered as string
-  );
-  res.json({
-    message: 'Successfully Get Peralatan',
-    data,
-    totalCount,
-  });
-};
-
 export const deletePeralatanById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'peralatanId');
@@ -170,5 +136,39 @@ export const importExcel = async (req: any, res: Response) => {
   res.json({
     message: 'Successfully Import Peralatan IT',
     invalidRow,
+  });
+};
+
+export const getPeralatanById = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'peralatanId');
+  const peralatanRepository = new PeralatanRepository();
+  const data: admin.firestore.DocumentData = await peralatanRepository.findByIdElastic(
+    validateParam.uid
+  );
+
+  res.json({
+    message: 'Successfully Get All Peralatan By Id',
+    data,
+  });
+};
+
+export const getAllPeralatan = async (req: Request, res: Response) => {
+  let { page, limit, filtered, sorted } = req.query;
+  const peralatanRepository = new PeralatanRepository();
+  const { data, totalCount } = await peralatanRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+
+  // const totalCount = await peralatanRepository.countDocument(
+  //   filtered as string
+  // );
+  res.json({
+    message: 'Successfully Get Peralatan',
+    data,
+    totalCount,
   });
 };

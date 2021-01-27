@@ -68,41 +68,6 @@ export const updateHotelClasification = async (req: Request, res: Response) => {
   });
 };
 
-export const getHotelClasificationById = async (
-  req: Request,
-  res: Response
-) => {
-  const { params } = req;
-  const validateParam = paramValidation(params, 'hotelClasificationId');
-  const hotelClasificationRepository = new HotelClasificationRepository();
-  const data = await hotelClasificationRepository.findById(validateParam.uid);
-
-  res.json({
-    message: 'Successfully Get Hotel Clasification By Id',
-    data,
-  });
-};
-
-export const getAllHotelClasification = async (req: Request, res: Response) => {
-  const { page, limit, filtered, sorted } = req.query;
-  const hotelClasificationRepository = new HotelClasificationRepository();
-  const data = await hotelClasificationRepository.findAll(
-    page as string,
-    limit as string,
-    filtered as string,
-    sorted as string
-  );
-  const totalCount = await hotelClasificationRepository.countDocument(
-    filtered as string
-  );
-
-  res.json({
-    message: 'Successfully Get Hotel Clasification',
-    data,
-    totalCount,
-  });
-};
-
 export const deleteHotelClasificationById = async (
   req: Request,
   res: Response
@@ -115,5 +80,45 @@ export const deleteHotelClasificationById = async (
   res.json({
     message: 'Successfully Delete Hotel Clasification By Id',
     data,
+  });
+};
+
+export const getHotelClasificationById = async (
+  req: Request,
+  res: Response
+) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'hotelClasificationId');
+  const hotelClasificationRepository = new HotelClasificationRepository();
+  const data = await hotelClasificationRepository.findByIdElastic(
+    validateParam.uid
+  );
+
+  res.json({
+    message: 'Successfully Get Hotel Clasification By Id',
+    data,
+  });
+};
+
+export const getAllHotelClasification = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const hotelClasificationRepository = new HotelClasificationRepository();
+  const {
+    data,
+    totalCount,
+  } = await hotelClasificationRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string
+  );
+  // const totalCount = await hotelClasificationRepository.countDocument(
+  //   filtered as string
+  // );
+
+  res.json({
+    message: 'Successfully Get Hotel Clasification',
+    data,
+    totalCount,
   });
 };

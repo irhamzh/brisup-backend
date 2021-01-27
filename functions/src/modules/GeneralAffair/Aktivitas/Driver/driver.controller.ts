@@ -121,3 +121,36 @@ export const getAllDriver = async (req: Request, res: Response) => {
     totalCount,
   });
 };
+
+export const getDriverByIdElastic = async (req: Request, res: Response) => {
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+  const driverRepository = new DriverRepository();
+  const data: admin.firestore.DocumentData = await driverRepository.findByIdElastic(
+    validateParam.uid,
+    'bri_corpu_ga_drivers'
+  );
+
+  res.json({
+    message: 'Successfully Get Driver By Id',
+    data,
+  });
+};
+
+export const getAllDriverElastic = async (req: Request, res: Response) => {
+  const { page, limit, filtered, sorted } = req.query;
+  const driverRepository = new DriverRepository();
+  const { data, totalCount } = await driverRepository.findAllElastic(
+    page as string,
+    limit as string,
+    filtered as string,
+    sorted as string,
+    'bri_corpu_ga_drivers'
+  );
+
+  res.json({
+    message: 'Successfully Get Driver',
+    data,
+    totalCount,
+  });
+};
