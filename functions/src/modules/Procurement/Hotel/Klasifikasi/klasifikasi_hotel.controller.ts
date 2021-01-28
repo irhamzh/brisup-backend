@@ -90,9 +90,7 @@ export const getHotelClasificationById = async (
   const { params } = req;
   const validateParam = paramValidation(params, 'hotelClasificationId');
   const hotelClasificationRepository = new HotelClasificationRepository();
-  const data = await hotelClasificationRepository.findByIdElastic(
-    validateParam.uid
-  );
+  const data = await hotelClasificationRepository.findById(validateParam.uid);
 
   res.json({
     message: 'Successfully Get Hotel Clasification By Id',
@@ -103,18 +101,15 @@ export const getHotelClasificationById = async (
 export const getAllHotelClasification = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const hotelClasificationRepository = new HotelClasificationRepository();
-  const {
-    data,
-    totalCount,
-  } = await hotelClasificationRepository.findAllElastic(
+  const data = await hotelClasificationRepository.findAll(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  // const totalCount = await hotelClasificationRepository.countDocument(
-  //   filtered as string
-  // );
+  const totalCount = await hotelClasificationRepository.countDocument(
+    filtered as string
+  );
 
   res.json({
     message: 'Successfully Get Hotel Clasification',
