@@ -112,8 +112,7 @@ export interface IHonorSalaryCreaditing extends IBasePayment {
 }
 
 export interface IPembayaranLainnya extends IBasePayment {
-  namaSertifikasi: string;
-  provider: IProviderBase;
+  namaPembayaran: string;
   invoiceBermaterai: boolean;
   cekKesesuaianPembayaran: boolean;
 }
@@ -197,7 +196,6 @@ export const WithProvider = [
   TypePayment['Public Course'],
   TypePayment['Tagihan S2 Luar dan Dalam Negeri'],
   TypePayment['Waperd'],
-  TypePayment['Pembayaran Lainnya'],
 ];
 
 export const UtilPayment: {
