@@ -127,6 +127,11 @@ export const approval = async (req: Request, res: Response) => {
     !role[accessRoleDivision]['approvalSupervisor']
   ) {
     throw new AccessError('Approve Supervisor ' + userDivision);
+  } else if (
+    status === ApprovalStatus['Diajukan Penihilan'] &&
+    !role['fixedAsset']['create']
+  ) {
+    throw new AccessError('Diajukan Penihilan');
   } else if (ref.status === ApprovalStatus['Approved oleh Supervisor II']) {
     // -> set next status Approved oleh Supervisor II
     if (role[accessRoleDivision]['approvalKabag']) {
