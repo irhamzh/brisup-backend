@@ -26,22 +26,22 @@ export default class AssetRepository extends BaseRepository<IAssetBase> {
     return batch.commit();
   }
 
-  async pengajuanPenghapusbukuan(persekotIds: string[], user: IUserDecoded) {
+  async pengajuanPenghapusbukuan(assetIds: string[], user: IUserDecoded) {
     const batchCommits = [];
     const invalidRow: StringKeys[] = [];
 
     let batch = db.batch();
-    for (let i = 0; i < persekotIds.length; i++) {
+    for (let i = 0; i < assetIds.length; i++) {
       // -> defined docref
-      const docRef = this._assetModel.doc(persekotIds[i]);
+      const docRef = this._assetModel.doc(assetIds[i]);
 
       // -> check exist
       // -> skp if not exist
       const snap = await docRef.get();
       if (!snap.exists) {
         invalidRow.push({
-          id: persekotIds[i],
-          error: validationWording.notFound('persekot'),
+          id: assetIds[i],
+          error: validationWording.notFound('asset'),
         });
         continue;
       }
@@ -53,9 +53,9 @@ export default class AssetRepository extends BaseRepository<IAssetBase> {
         data?.status?.toLowerCase()
       ) {
         invalidRow.push({
-          id: persekotIds[i],
+          id: assetIds[i],
           name: data?.name,
-          error: `Untuk diajukan ke Penghapusbukuan, Persekot harus berada dalam status "${ApprovalStatusAsset['Approved oleh Supervisor I']}". Status sekarang "${data?.status}"`,
+          error: `Untuk diajukan ke Penghapusbukuan, asset harus berada dalam status "${ApprovalStatusAsset['Approved oleh Supervisor I']}". Status sekarang "${data?.status}"`,
         });
         continue;
       }
