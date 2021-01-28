@@ -2,10 +2,9 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import * as BusBoy from 'busboy';
-
 import { Response, NextFunction } from 'express';
-import ExtensionError from '@interfaces/ExtensionError';
 
+import ExtensionError from '@interfaces/ExtensionError';
 import { IFile, IFiles, StringKeys } from '@interfaces/BaseInterface';
 
 const allowedMethods: string[] = ['POST', 'PUT'];
@@ -29,7 +28,7 @@ export default function uploadFileMiddleware(
         const busboy = new BusBoy({
           headers: req.headers,
           limits: {
-            fileSize: 10 * 1024 * 1024,
+            fileSize: 3 * 1024 * 1024,
           },
         });
 
@@ -61,18 +60,25 @@ export default function uploadFileMiddleware(
           }
 
           const ext = path.extname(filename);
-          if (!extension.includes(ext)) {
-            file.resume();
-            throw new ExtensionError(extension);
-          }
-          if (isArray) {
-            arrayFiles[name] = [];
-          }
           filename = `${Date.now()}-${filename}`;
           const filepath = path.join(tmpdir, filename);
           console.log(
             `Handling file upload field ${fieldname}: ${filename} (${filepath})`
           );
+          if (!extension.includes(ext)) {
+            file.resume();
+            fs.unlink(filepath, (err) => {
+              if (err) {
+                console.error(err, 'error Delete');
+              } else {
+                console.log('Byebyeeeeeeeee', filepath);
+              }
+            });
+            throw new ExtensionError(extension);
+          }
+          if (isArray) {
+            arrayFiles[name] = [];
+          }
           const writeStream = fs.createWriteStream(filepath);
           file.pipe(writeStream);
 

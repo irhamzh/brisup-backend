@@ -10,8 +10,8 @@ import * as controller from './eksploitasi.controller';
 
 const router = Router();
 const protectedRouter = withAuthMiddleware(router);
-const uploadRouter = withMiddleware(protectedRouter, fileParser);
 const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
+const uploadRouter = withMiddleware(protectedRouter, fileParser);
 const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 
 errorHandledRoute.get(
