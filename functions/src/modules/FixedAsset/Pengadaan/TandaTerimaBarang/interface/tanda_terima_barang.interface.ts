@@ -11,6 +11,7 @@ export interface ITerimaBarangBase {
     | IPengadaanSwakelolaPembelian;
   provider?: IProviderBase;
   jumlah: number;
+  information?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
