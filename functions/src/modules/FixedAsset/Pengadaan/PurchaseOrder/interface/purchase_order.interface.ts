@@ -13,6 +13,7 @@ export interface IPurchaseOrderBase {
   jumlah: number;
   hargaSatuan: number;
   totalHarga: number;
+  information?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

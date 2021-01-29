@@ -13,6 +13,7 @@ const create = yup
       .number()
       .required(validationWording.required('hargaSatuan')),
     totalHarga: yup.number().required(validationWording.required('totalHarga')),
+    information: yup.string(),
   })
   .required();
 
@@ -24,6 +25,7 @@ const update = yup
     jumlah: yup.number(),
     hargaSatuan: yup.number(),
     totalHarga: yup.number(),
+    information: yup.string(),
   })
   .required();
 export default { create, update };
