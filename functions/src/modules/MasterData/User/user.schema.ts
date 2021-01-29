@@ -51,19 +51,23 @@ const update = yup
   .object()
   .shape({
     email: yup.string().email(validationWording.invalid('email')),
+    password: yup.string().min(8, validationWording.minLength(8)),
+    name: yup.string(),
+    role: yup.string(),
+  })
+  .required();
+
+const updateMe = yup
+  .object()
+  .shape({
+    email: yup.string().email(validationWording.invalid('email')),
     password: yup
       .string()
       .min(8, validationWording.minLength(8))
       .required(validationWording.required('password')),
     name: yup.string(),
     role: yup.string(),
-    // division: yup
-    //   .mixed<keyof typeof DivisionUser>()
-    //   .oneOf(
-    //     getAllEnumKey(DivisionUser),
-    //     validationWording.oneOf('Type Payment', ...getAllEnumKey(DivisionUser))
-    //   ),
   })
   .required();
 
-export default { login, create, update };
+export default { login, create, update, updateMe };

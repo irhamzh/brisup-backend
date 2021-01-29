@@ -9,6 +9,7 @@ import BaseRepository from '@repositories/baseRepository';
 import {
   IUserBase,
   IUserExtended,
+  IUpdateAuth,
 } from '@modules/MasterData/User/interface/user.interface';
 import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 import { IRoleBase } from '@modules/MasterData/Role/interface/role.interface';
@@ -120,7 +121,7 @@ export default class UserRepository extends BaseRepository<IUserBase> {
     return `Tokens revoked at: ${timeValid}`;
   }
 
-  async updateAuth(uid: string, object: IUserExtended, role: IRoleBase) {
+  async updateAuthMe(uid: string, object: IUserExtended, role: IRoleBase) {
     //-> revoke access token
     await admin.auth().revokeRefreshTokens(uid);
 
@@ -137,5 +138,17 @@ export default class UserRepository extends BaseRepository<IUserBase> {
       refreshTokenJWT,
     } = await this.logIn(object, role, uid, object.name, object.division);
     return { token, refreshToken, decodedToken, refreshTokenJWT };
+  }
+  async updateAuth(uid: string, object: IUpdateAuth, role: IRoleBase) {
+    //-> revoke access token
+    await admin.auth().revokeRefreshTokens(uid);
+
+    //-> update user token
+    await admin.auth().setCustomUserClaims(uid, {
+      name: object.name,
+      role,
+      division: object.division,
+    });
+    return admin.auth().updateUser(uid, object);
   }
 }
