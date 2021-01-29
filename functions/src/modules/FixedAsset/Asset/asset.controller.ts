@@ -87,9 +87,18 @@ export const deleteMultipleAsset = async (req: Request, res: Response) => {
 };
 
 export const importExcel = async (req: any, res: Response) => {
+  const user = res.locals.decoded;
   const { files } = req;
-
   const assetRepository = new AssetRepository();
+
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+    status: ApprovalStatusAsset['Unapproved'],
+  };
+
   const invalidRow = await assetRepository.importExcel(
     files,
     {
@@ -97,7 +106,11 @@ export const importExcel = async (req: any, res: Response) => {
       C: 'information',
       D: 'condition',
     },
-    schema.create
+    schema.create,
+    {
+      status: ApprovalStatusAsset['Unapproved'],
+      approvalLog: [log],
+    }
   );
 
   res.json({
@@ -121,7 +134,7 @@ export const approval = async (req: Request, res: Response) => {
     ref.status === ApprovalStatusAsset['Approved oleh Wakabag'] ||
     ref.status === ApprovalStatusAsset['Approved oleh Kabag']
   ) {
-    throw new InvalidRequestError('Persetujuan telah selesai', 'Persekot');
+    throw new InvalidRequestError('Persetujuan telah selesai', 'Asset');
   }
 
   // -> get next status
@@ -135,6 +148,11 @@ export const approval = async (req: Request, res: Response) => {
     !role['fixedAsset']['approvalSupervisor']
   ) {
     throw new AccessError('Approve Supervisor Fixed Asset');
+  } else if (
+    status === ApprovalStatusAsset['Diajukan Penghapusbukuan'] &&
+    !role['fixedAsset']['create']
+  ) {
+    throw new AccessError('Pengajuan Penghapusbukuan');
   } else if (
     ref.status === ApprovalStatusAsset['Approved oleh Supervisor II']
   ) {
@@ -166,7 +184,7 @@ export const approval = async (req: Request, res: Response) => {
     approvalLog,
   });
   res.json({
-    message: 'Sukses Approve Persekot',
+    message: 'Sukses Approve Asset',
     data,
   });
 };
@@ -176,13 +194,13 @@ export const pengajuanPenghapusbukuan = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const validatedBody = yupValidate(schema.deleteArrayIds, body);
 
-  const persekotRepository = new AssetRepository();
-  const invalidRow = await persekotRepository.pengajuanPenghapusbukuan(
+  const assetRepository = new AssetRepository();
+  const invalidRow = await assetRepository.pengajuanPenghapusbukuan(
     validatedBody.assetIds,
     user
   );
   res.json({
-    message: 'Sukses Approve Persekot',
+    message: 'Sukses Approve Asset',
     invalidRow,
   });
 };

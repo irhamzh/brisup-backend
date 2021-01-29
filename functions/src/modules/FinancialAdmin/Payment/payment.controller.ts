@@ -519,6 +519,11 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
   ) {
     throw new AccessError('Approve Supervisor');
   } else if (
+    status === ApprovalStatus['Diajukan Penihilan'] &&
+    !role['fixedAsset']['create']
+  ) {
+    throw new AccessError('Diajukan Penihilan');
+  } else if (
     ref.statusPenihilan === ApprovalStatus['Approved oleh Supervisor II']
   ) {
     // -> set next statusPenihilan Approved oleh Supervisor II

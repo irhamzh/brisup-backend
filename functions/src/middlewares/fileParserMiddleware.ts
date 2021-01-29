@@ -4,6 +4,8 @@ import * as path from 'path';
 import * as BusBoy from 'busboy';
 import { Response, NextFunction } from 'express';
 
+import InvalidRequestError from '@interfaces/InvalidRequestError';
+
 import { IFiles, StringKeys } from '@interfaces/BaseInterface';
 
 // import ExtensionError from '@interfaces/ExtensionError';
@@ -22,8 +24,7 @@ export default function fileParser(
     const busboy = new BusBoy({
       headers: req.headers,
       limits: {
-        // Cloud functions impose this restriction anyway
-        fileSize: 10 * 1024 * 1024,
+        fileSize: 3 * 1024 * 1024,
       },
     });
 
@@ -31,25 +32,32 @@ export default function fileParser(
     const files: IFiles = {};
     const fileWrites: Array<Promise<void>> = [];
 
-    // Note: os.tmpdir() points to an in-memory file system on GCF
-    // Thus, any files in it must fit in the instance's memory.
     const tmpdir = os.tmpdir();
 
     busboy.on('field', (key, value) => {
-      // You could do additional deserialization logic here, values will just be
-      // strings
       fields[key] = value;
     });
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-      //  if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
-      //    throw new ExtensionError(['png', 'jpeg']);
-      //  }
       filename = `${Date.now()}-${filename}`;
       const filepath = path.join(tmpdir, filename);
       console.log(
         `Handling file upload field ${fieldname}: ${filename} (${filepath})`
       );
+
+      file.on('limit', function () {
+        file.resume();
+
+        fs.unlink(filepath, (err) => {
+          if (err) {
+            console.error(err, 'error Delete');
+          } else {
+            console.log('Byebyeeeeeeeee', filepath);
+          }
+        });
+        throw new InvalidRequestError('File upload to large', 'file');
+      });
+
       const writeStream = fs.createWriteStream(filepath);
       file.pipe(writeStream);
 
