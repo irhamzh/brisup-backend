@@ -189,6 +189,47 @@ export const approval = async (req: Request, res: Response) => {
   });
 };
 
+export const denyApproval = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+
+  // -> get getPersekotById
+  const assetRepository = new AssetRepository();
+  const ref = await assetRepository.findById(validateParam.uid);
+
+  // -> cek status sudah di posisi terkahir atau belum
+  if (
+    ref.status === ApprovalStatusAsset['Approved oleh Wakabag'] ||
+    ref.status === ApprovalStatusAsset['Approved oleh Kabag']
+  ) {
+    throw new InvalidRequestError('Persetujuan telah selesai', 'Asset');
+  }
+
+  // -> get next status
+  const status: StatusApprovalType = ApprovalStatusAsset['Unapproved'];
+
+  // -> set log
+  const log = {
+    status,
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: user.role.name,
+  };
+  const approvalLog = [...ref.approvalLog, log];
+
+  //update status
+  const data = await assetRepository.update(validateParam.uid, {
+    status,
+    approvalLog,
+  });
+  res.json({
+    message: 'Sukses Deny Penghapusbukuan Asset',
+    data,
+  });
+};
+
 export const pengajuanPenghapusbukuan = async (req: Request, res: Response) => {
   const { body } = req;
   const user = res.locals.decoded;

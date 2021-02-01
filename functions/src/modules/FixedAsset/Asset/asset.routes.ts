@@ -40,6 +40,7 @@ errorHandledRoute.post(
   controller.pengajuanPenghapusbukuan
 );
 errorHandledRoute.put('/penghapusbukuan/:uid/approve', controller.approval);
+errorHandledRoute.put('/penghapusbukuan/:uid/deny', controller.denyApproval);
 errorHandledRoute.put(
   '/:uid',
   accessMiddleware('fixedAsset', 'update'),
