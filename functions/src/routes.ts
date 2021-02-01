@@ -49,6 +49,8 @@ import workingToolRouter from '@modules/PengelolaanGedung/PeralatanKerja/peralat
 import ruanganGedungRouter from '@modules/PengelolaanGedung/Engineer/Gedung/Ruangan/gedung_ruangan.routes';
 import mechanicalElectricalRouter from '@modules/PengelolaanGedung/Engineer/Gedung/MechanicalElectrical/mechanical_eletrical.routes';
 
+import HotelProcurementRouter from '@modules/Procurement/Hotel/hotel.routes';
+import CateringProcurementRouter from '@modules/Procurement/Catering/catering.routes';
 import evaluasiATKRouter from '@modules/Procurement/ATK/Evaluasi/evaluasi_atk.routes';
 import stockOpnameATKRouter from '@modules/Procurement/ATK/StokOpname/stock_opname.routes';
 import evaluasiHotelRouter from '@modules/Procurement/Hotel/Evaluasi/evaluasi_hotel.routes';
@@ -143,6 +145,8 @@ apiRouter.use(
   mechanicalElectricalRouter
 );
 
+apiRouter.use('/pr-hotel', HotelProcurementRouter);
+apiRouter.use('/pr-catering', CateringProcurementRouter);
 apiRouter.use('/pr-atk-evaluations', evaluasiATKRouter);
 apiRouter.use('/pr-hotel-evaluations', evaluasiHotelRouter);
 apiRouter.use('/pr-atk-stock-opnames', stockOpnameATKRouter);
