@@ -160,7 +160,7 @@ const updatePenunjukanLangsung = yup
   .concat(baseUpdate)
   .concat(updateTanggalAwalAkhir);
 
-const createPemilihanLangsung = yup
+const createBeautyContest = yup
   .object()
   .shape({
     tanggal: yup.date().required(validationWording.required('tanggal')),
@@ -193,7 +193,7 @@ const createPemilihanLangsung = yup
   .required()
   .concat(baseCreate);
 
-const updatePemilihanLangsung = yup
+const updateBeautyContest = yup
   .object()
   .shape({
     tanggal: yup.date(),
@@ -216,8 +216,8 @@ export default {
   baseCreate,
   createPembelianLansung,
   createPenunjukanLangsung,
-  createPemilihanLangsung,
+  createBeautyContest,
   updatePembelianLansung,
   updatePenunjukanLangsung,
-  updatePemilihanLangsung,
+  updateBeautyContest,
 };

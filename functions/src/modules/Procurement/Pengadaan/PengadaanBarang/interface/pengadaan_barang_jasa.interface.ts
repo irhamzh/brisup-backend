@@ -47,7 +47,7 @@ export interface IPembelianLangsung extends ITanggalAwalAkhir {
   anggaranBiaya: boolean;
 }
 
-export interface IPemilihanLangsung extends IPengadaan {
+export interface IBeautyContest extends IPengadaan {
   tanggal: Date;
   izinPrinsipPengadaan: boolean;
   tor: boolean;
@@ -65,7 +65,7 @@ export interface IPemilihanLangsung extends IPengadaan {
 export enum TypePengadaan {
   'Penunjukan Langsung' = 'Penunjukan Langsung',
   'Pembelian Langsung' = 'Pembelian Langsung',
-  'Pemilihan Langsung' = 'Pemilihan Langsung',
+  'Beauty Contest' = 'Beauty Contest',
 }
 
 export enum JenisPengadaan {
