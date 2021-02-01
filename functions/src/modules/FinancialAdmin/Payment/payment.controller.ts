@@ -554,7 +554,53 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
     approvalLogPenihilan,
   });
   res.json({
-    message: 'Sukses Approve Persekot',
+    message: 'Sukses Approve Penihilan PAUK',
+    data,
+  });
+};
+
+export const denyPenihilan = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const role = user?.role;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+
+  // -> get getPAUKById
+  const paymentRepository = new PaymentRepository();
+  const ref = await paymentRepository.findById(validateParam.uid);
+
+  if (ref.typePayment !== TypePayment['Penihilan PAUK']) {
+    throw new NotFoundError(validationWording.notFound('PAUK'), 'PAUK');
+  }
+
+  // -> cek statusPenihilan sudah di posisi terkahir atau belum
+  if (
+    ref.statusPenihilan === ApprovalStatus['Approved oleh Wakabag'] ||
+    ref.statusPenihilan === ApprovalStatus['Approved oleh Kabag']
+  ) {
+    throw new InvalidRequestError('Persetujuan telah selesai', 'PAUK');
+  }
+
+  // -> get next statusPenihilan
+  const statusPenihilan: StatusApprovalType = ApprovalNextStatus['Unapproved'];
+
+  // -> set log
+  const log = {
+    statusPenihilan,
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: role.name,
+  };
+  const approvalLogPenihilan = [...ref.approvalLogPenihilan, log];
+
+  //update statusPenihilan
+  const data = await paymentRepository.update(validateParam.uid, {
+    statusPenihilan,
+    approvalLogPenihilan,
+  });
+  res.json({
+    message: 'Sukses Deny Penihilan PAUK',
     data,
   });
 };
@@ -564,13 +610,13 @@ export const pengajuanPenihilan = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const validatedBody = yupValidate(multiplePenihilan, body);
 
-  const persekotRepository = new PaymentRepository();
-  const invalidRow = await persekotRepository.pengajuanPenihilan(
+  const paymentRepository = new PaymentRepository();
+  const invalidRow = await paymentRepository.pengajuanPenihilan(
     validatedBody.paukIds,
     user
   );
   res.json({
-    message: 'Successfully Update Persekot',
+    message: 'Sukses Mengajukan Penihilan PAUK',
     invalidRow,
   });
 };

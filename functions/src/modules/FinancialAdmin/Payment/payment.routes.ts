@@ -55,6 +55,7 @@ errorHandledRoute.post(
   controller.pengajuanPenihilan
 );
 errorHandledRoute.put('/penihilan/:uid/approve', controller.approvalPenihilan); //flow penihilan
+errorHandledRoute.put('/penihilan/:uid/deny', controller.denyPenihilan); //flow penihilan
 errorHandledRoute.put(
   '/:uid/approve-process',
   accessMiddleware('financialAdmin', 'create'),
