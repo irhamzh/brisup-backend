@@ -189,7 +189,7 @@ export const approval = async (req: Request, res: Response) => {
   });
 };
 
-export const denyApproval = async (req: Request, res: Response) => {
+export const denyPenghapusBukuan = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
