@@ -129,7 +129,7 @@ export const approval = async (req: Request, res: Response) => {
     throw new AccessError('Approve Supervisor ' + userDivision);
   } else if (
     status === ApprovalStatus['Diajukan Penihilan'] &&
-    !role['fixedAsset']['create']
+    !role[accessRoleDivision]['create']
   ) {
     throw new AccessError('Diajukan Penihilan');
   } else if (ref.status === ApprovalStatus['Approved oleh Supervisor II']) {
@@ -162,6 +162,48 @@ export const approval = async (req: Request, res: Response) => {
   });
   res.json({
     message: 'Sukses Approve Persekot',
+    data,
+  });
+};
+
+export const denyPenihilan = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const role = user?.role;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+
+  // -> get getPersekotById
+  const persekotRepository = new PersekotRepository();
+  const ref = await persekotRepository.findById(validateParam.uid);
+
+  // -> cek status sudah di posisi terkahir atau belum
+  if (
+    ref.status === ApprovalStatus['Approved oleh Wakabag'] ||
+    ref.status === ApprovalStatus['Approved oleh Kabag']
+  ) {
+    throw new InvalidRequestError('Persetujuan telah selesai', 'Persekot');
+  }
+
+  // -> get next status
+  let status: StatusApprovalType = ApprovalStatus['Unapproved'];
+
+  // -> set log
+  const log = {
+    status,
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: role.name,
+  };
+  const approvalLog = [...ref.approvalLog, log];
+
+  //update status
+  const data = await persekotRepository.update(validateParam.uid, {
+    status,
+    approvalLog,
+  });
+  res.json({
+    message: 'Sukses Deny Penihilan Persekot',
     data,
   });
 };

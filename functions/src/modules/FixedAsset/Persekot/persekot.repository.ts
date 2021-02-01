@@ -2,10 +2,12 @@ import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
 import { StringKeys } from '@interfaces/BaseInterface';
+import { ApprovalStatus } from '@constants/BaseCondition';
+
 import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
+
 import { IUserDecoded } from '@modules/MasterData/User/interface/user.interface';
-import { ApprovalStatus } from '@constants/BaseCondition';
 import {
   IPersekotBase,
   IPersekotFinancialAdmin,
