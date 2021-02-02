@@ -519,8 +519,8 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
   ) {
     throw new AccessError('Approve Supervisor');
   } else if (
-    status === ApprovalStatus['Diajukan Penihilan'] &&
-    !role['fixedAsset']['create']
+    statusPenihilan === ApprovalStatus['Diajukan Penihilan'] &&
+    !role['financialAdmin']['create']
   ) {
     throw new AccessError('Diajukan Penihilan');
   } else if (
@@ -528,9 +528,9 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
   ) {
     // -> set next statusPenihilan Approved oleh Supervisor II
     if (role['financialAdmin']['approvalKabag']) {
-      status = ApprovalStatus['Approved oleh Kabag'];
+      statusPenihilan = ApprovalStatus['Approved oleh Kabag'];
     } else if (role['financialAdmin']['approvalWakabag']) {
-      status = ApprovalStatus['Approved oleh Wakabag'];
+      statusPenihilan = ApprovalStatus['Approved oleh Wakabag'];
     } else {
       throw new AccessError(
         'Approve Wakil Kepala Bagian | Approve Kepala Bagian Financial'
@@ -582,7 +582,7 @@ export const denyPenihilan = async (req: Request, res: Response) => {
   }
 
   // -> get next statusPenihilan
-  const statusPenihilan: StatusApprovalType = ApprovalNextStatus['Unapproved'];
+  const statusPenihilan: StatusApprovalType = ApprovalStatus['Unapproved'];
 
   // -> set log
   const log = {
