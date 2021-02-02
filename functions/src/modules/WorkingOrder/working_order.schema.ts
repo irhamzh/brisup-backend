@@ -55,9 +55,7 @@ const create = yup
       )
       .required(validationWording.required('type kegiatan')),
 
-    tanggalRevisi: yup
-      .date()
-      .required(validationWording.required('tanggalRevisi')),
+    tanggalRevisi: yup.date(),
     tanggalKonfirmasi: yup
       .date()
       .required(validationWording.required('tanggalKonfirmasi')),

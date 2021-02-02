@@ -4,38 +4,36 @@ import yupValidate from '@utils/yupValidate';
 import paramValidation from '@utils/paramValidation';
 import HotelRepository from '@modules/MasterData/Hotel/hotel.repository';
 
-import schema from './klasifikasi_hotel.schema';
-import HotelClasificationRepository from './klasifikasi_hotel.repository';
+import schema from './hotel.schema';
+import HotelClasificationRepository from './hotel.repository';
 import WorkingOrderRepository from '@modules/WorkingOrder/working_order.repository';
 
-export const createHotelClasification = async (req: Request, res: Response) => {
+export const createHotel = async (req: Request, res: Response) => {
   const { body } = req;
   const validatedBody = yupValidate(schema.create, body);
   const hotelClasificationRepository = new HotelClasificationRepository();
   const workingOrderRepository = new WorkingOrderRepository();
   const hotelRepository = new HotelRepository();
 
-  const hotelName: any = await hotelRepository.findById(
-    validatedBody.hotelName
-  );
-  const workingOrder: any = await workingOrderRepository.findById(
+  const hotel = await hotelRepository.findById(validatedBody.hotel);
+  const workingOrder = await workingOrderRepository.findById(
     validatedBody.workingOrder
   );
   const createParam = {
     ...validatedBody,
     workingOrder,
-    hotelName,
+    hotel,
   };
 
   const data = await hotelClasificationRepository.create(createParam);
 
   res.json({
-    message: 'Successfully Create Hotel Clasification',
+    message: 'Successfully Create Data',
     data,
   });
 };
 
-export const updateHotelClasification = async (req: Request, res: Response) => {
+export const updateHotel = async (req: Request, res: Response) => {
   const { body, params } = req;
   const validateParam = paramValidation(params, 'hotelClasificationId');
   let validatedBody = yupValidate(schema.update, body);
@@ -44,14 +42,12 @@ export const updateHotelClasification = async (req: Request, res: Response) => {
   const workingOrderRepository = new WorkingOrderRepository();
   const hotelRepository = new HotelRepository();
 
-  if (validatedBody.hotelName) {
-    const hotelName: any = await hotelRepository.findById(
-      validatedBody.hotelName
-    );
-    validatedBody = { ...validatedBody, hotelName };
+  if (validatedBody.hotel) {
+    const hotel = await hotelRepository.findById(validatedBody.hotel);
+    validatedBody = { ...validatedBody, hotel };
   }
   if (validatedBody.workingOrder) {
-    const workingOrder: any = await workingOrderRepository.findById(
+    const workingOrder = await workingOrderRepository.findById(
       validatedBody.workingOrder
     );
     validatedBody = { ...validatedBody, workingOrder };
@@ -63,42 +59,36 @@ export const updateHotelClasification = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Update Hotel Clasification',
+    message: 'Successfully Update Data',
     data,
   });
 };
 
-export const deleteHotelClasificationById = async (
-  req: Request,
-  res: Response
-) => {
+export const deleteHotelById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'hotelClasificationId');
   const hotelClasificationRepository = new HotelClasificationRepository();
   const data = await hotelClasificationRepository.delete(validateParam.uid);
 
   res.json({
-    message: 'Successfully Delete Hotel Clasification By Id',
+    message: 'Successfully Delete Data By Id',
     data,
   });
 };
 
-export const getHotelClasificationById = async (
-  req: Request,
-  res: Response
-) => {
+export const getHotelById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'hotelClasificationId');
   const hotelClasificationRepository = new HotelClasificationRepository();
   const data = await hotelClasificationRepository.findById(validateParam.uid);
 
   res.json({
-    message: 'Successfully Get Hotel Clasification By Id',
+    message: 'Successfully Get Data By Id',
     data,
   });
 };
 
-export const getAllHotelClasification = async (req: Request, res: Response) => {
+export const getAllHotel = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const hotelClasificationRepository = new HotelClasificationRepository();
   const data = await hotelClasificationRepository.findAll(
@@ -112,7 +102,7 @@ export const getAllHotelClasification = async (req: Request, res: Response) => {
   );
 
   res.json({
-    message: 'Successfully Get Hotel Clasification',
+    message: 'Successfully Get Data',
     data,
     totalCount,
   });

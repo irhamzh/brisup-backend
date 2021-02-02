@@ -61,7 +61,7 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
             levelJabatan.toLowerCase() ===
               records[i]?.levelJabatan?.toLowerCase()
         );
-        if (!validFormasi || validFormasi < 0) {
+        if (validFormasi < 0) {
           invalidRow.push({
             name: records[i].name,
             error: `"unitKerja  ${records[i]?.unitKerja}" "levelJabatan  ${records[i]?.levelJabatan}" not available`,

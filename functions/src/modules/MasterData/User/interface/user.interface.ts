@@ -21,3 +21,10 @@ export interface IUserDecoded {
 export interface IUserExtended extends IUserBase {
   password: string;
 }
+
+export interface IUpdateAuth {
+  name: string;
+  email: string;
+  division: string;
+  password?: string;
+}

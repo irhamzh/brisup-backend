@@ -6,12 +6,12 @@ import { db } from '@utils/admin';
 
 import {
   IPembelianLangsung,
-  IPemilihanLangsung,
+  IBeautyContest,
   IPenunjukanLangsung,
 } from './interface/pengadaan_barang_jasa.interface';
 
 export default class PengadaanRepository extends BaseRepository<
-  IPenunjukanLangsung | IPemilihanLangsung | IPembelianLangsung
+  IPenunjukanLangsung | IBeautyContest | IPembelianLangsung
 > {
   constructor() {
     super('pr_pengadaan_jasa_barangs', 'pr_pengadaan_jasa_barang');

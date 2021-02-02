@@ -51,6 +51,7 @@ errorHandledRoute.post(
   controller.pengajuanPenihilan
 );
 errorHandledRoute.put('/:uid/approve', controller.approval);
+errorHandledRoute.put('/:uid/deny', controller.denyPenihilan);
 errorHandledRoute.put(
   '/:uid',
   accessMiddleware(

@@ -9,9 +9,9 @@ export function createMappingBodyByType(key: string, body: any) {
   ) {
     validatedBody = yupValidate(schema.createPenunjukanLangsung, body);
   } else if (
-    key.toLowerCase() === TypePengadaan['Pemilihan Langsung']?.toLowerCase()
+    key.toLowerCase() === TypePengadaan['Beauty Contest']?.toLowerCase()
   ) {
-    validatedBody = yupValidate(schema.createPemilihanLangsung, body);
+    validatedBody = yupValidate(schema.createBeautyContest, body);
   } else {
     validatedBody = yupValidate(schema.createPembelianLansung, body);
   }
@@ -24,9 +24,9 @@ export function updateMappingBodyByType(key: string, body: any) {
   ) {
     validatedBody = yupValidate(schema.updatePenunjukanLangsung, body);
   } else if (
-    key.toLowerCase() === TypePengadaan['Pemilihan Langsung']?.toLowerCase()
+    key.toLowerCase() === TypePengadaan['Beauty Contest']?.toLowerCase()
   ) {
-    validatedBody = yupValidate(schema.updatePemilihanLangsung, body);
+    validatedBody = yupValidate(schema.updateBeautyContest, body);
   } else {
     validatedBody = yupValidate(schema.updatePembelianLansung, body);
   }

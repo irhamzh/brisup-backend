@@ -7,7 +7,7 @@ import PengadaanRepository from '@modules/Procurement/Pengadaan/PengadaanBarang/
 import {
   IPenunjukanLangsung,
   IPembelianLangsung,
-  IPemilihanLangsung,
+  IBeautyContest,
 } from '@modules/Procurement/Pengadaan/PengadaanBarang/interface/pengadaan_barang_jasa.interface';
 
 export default class PengadaaanRepository<
@@ -42,7 +42,7 @@ export default class PengadaaanRepository<
     const pengadaan:
       | IPenunjukanLangsung
       | IPembelianLangsung
-      | IPemilihanLangsung = await pengadaanRepository.findById(pengadaanId);
+      | IBeautyContest = await pengadaanRepository.findById(pengadaanId);
     let crateParam = {
       ...object,
       pengadaan,
@@ -95,7 +95,7 @@ export default class PengadaaanRepository<
       const pengadaan:
         | IPenunjukanLangsung
         | IPembelianLangsung
-        | IPemilihanLangsung = await pengadaanRepository.findById(pengadaanId);
+        | IBeautyContest = await pengadaanRepository.findById(pengadaanId);
       createParam = { ...createParam, pengadaan };
     }
     const data = await this.update(id, createParam);

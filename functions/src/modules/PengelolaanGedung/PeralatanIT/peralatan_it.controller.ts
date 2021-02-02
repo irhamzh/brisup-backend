@@ -104,7 +104,7 @@ export const getPeralatanITById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'peralatanITId');
   const peralatanITRepository = new PeralatanITRepository();
-  const data: admin.firestore.DocumentData = await peralatanITRepository.findByIdElastic(
+  const data: admin.firestore.DocumentData = await peralatanITRepository.findById(
     validateParam.uid
   );
 
@@ -117,15 +117,15 @@ export const getPeralatanITById = async (req: Request, res: Response) => {
 export const getAllPeralatanIT = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const peralatanITRepository = new PeralatanITRepository();
-  const { data, totalCount } = await peralatanITRepository.findAllElastic(
+  const data = await peralatanITRepository.findAll(
     page as string,
     limit as string,
     filtered as string,
     sorted as string
   );
-  // const totalCount = await peralatanITRepository.countDocument(
-  //   filtered as string
-  // );
+  const totalCount = await peralatanITRepository.countDocument(
+    filtered as string
+  );
   res.json({
     message: 'Successfully Get Peralatan IT',
     data,

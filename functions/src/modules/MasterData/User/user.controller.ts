@@ -18,6 +18,7 @@ import validationWording from '@constants/validationWording';
 import RoleRepository from '@modules/MasterData/Role/role.repository';
 import UserRepository from '@modules/MasterData/User/user.repository';
 import { decryptAES } from '@utils/cryptoJS';
+import { IUpdateAuth } from '@modules/MasterData/User/interface/user.interface';
 
 const { v4: uuidv4 } = require('uuid');
 const defaultImg = 'no-user-pic.png';
@@ -28,6 +29,16 @@ export const getTokenData = async (req: Request, res: Response) => {
   res.json({
     message: 'Successfully Decode Token',
     data: res.locals.decoded,
+  });
+};
+
+export const getCurrentAuth = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const userRepository = new UserRepository();
+  const data = await userRepository.getCurrentAuth(user.uid);
+  res.json({
+    message: 'Successfully Get User By Id',
+    data,
   });
 };
 
@@ -82,16 +93,6 @@ export const refreshToken = async (req: Request, res: Response) => {
       });
     }
   }
-};
-
-export const getCurrentAuth = async (req: Request, res: Response) => {
-  const user = res.locals.decoded;
-  const userRepository = new UserRepository();
-  const data = await userRepository.getCurrentAuth(user.uid);
-  res.json({
-    message: 'Successfully Get User By Id',
-    data,
-  });
 };
 
 export const revokeToken = async (req: Request, res: Response) => {
@@ -173,6 +174,9 @@ export const deleteUserById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'userId');
   const userRepository = new UserRepository();
+  //revoke
+  await userRepository.revokeRefreshTokens(validateParam.uid);
+  //delete
   const data = await userRepository.delete(validateParam.uid);
   await userRepository.deleteSingleAuthUser(validateParam.uid);
   res.json({
@@ -245,11 +249,16 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const updateUserById = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
   const { body, params } = req;
 
   //-> validate
   const validateParam = paramValidation(params, 'userId');
-  let validatedBody = yupValidate(schema.update, body);
+  let validatedBody =
+    user.uid === validateParam.uid
+      ? yupValidate(schema.updateMe, body)
+      : yupValidate(schema.update, body);
+
   if (validatedBody?.role) {
     const roleRepository = new RoleRepository();
     const role = await roleRepository.findById(validatedBody.role);
@@ -258,7 +267,7 @@ export const updateUserById = async (req: Request, res: Response) => {
 
   //-> execute update
   const createParam = JSON.parse(JSON.stringify(validatedBody));
-  if (createParam.password) {
+  if (createParam?.password) {
     delete createParam.password;
   }
   const userRepository = new UserRepository();
@@ -268,25 +277,41 @@ export const updateUserById = async (req: Request, res: Response) => {
   const roleRepository = new RoleRepository();
   const role = await roleRepository.findById(data.role);
 
-  const {
-    token,
-    refreshToken,
-    refreshTokenJWT,
-    decodedToken,
-  } = await userRepository.updateAuth(
-    validateParam.uid,
-    { ...data, password: validatedBody.password },
-    role
-  );
+  if (user.uid === validateParam.uid) {
+    const {
+      token,
+      refreshToken,
+      refreshTokenJWT,
+      decodedToken,
+    } = await userRepository.updateAuthMe(
+      validateParam.uid,
+      { ...data, password: validatedBody.password },
+      role
+    );
 
-  res.json({
-    message: 'Successfully Update User',
-    data: { ...data, role },
-    token,
-    refreshToken,
-    refreshTokenJWT,
-    decodedToken,
-  });
+    res.json({
+      message: 'Successfully Update User',
+      data: { ...data, role },
+      token,
+      refreshToken,
+      refreshTokenJWT,
+      decodedToken,
+    });
+  } else {
+    let updateData: IUpdateAuth = {
+      name: data.name,
+      division: data.division,
+      email: data.email,
+    };
+    if (validatedBody?.password) {
+      updateData.password = validatedBody.password;
+    }
+    await userRepository.updateAuth(validateParam.uid, updateData, role);
+    res.json({
+      message: 'Successfully Update User',
+      data: { ...data, role },
+    });
+  }
 };
 
 export const uploadImage = async (req: Request, res: Response) => {
