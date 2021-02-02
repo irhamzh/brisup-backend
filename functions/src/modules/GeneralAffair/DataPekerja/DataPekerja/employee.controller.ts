@@ -104,19 +104,19 @@ export const getEmployeeById = async (req: Request, res: Response) => {
 export const getAllEmployee = async (req: Request, res: Response) => {
   const { page, limit, filtered, sorted } = req.query;
   const employeeRepository = new EmployeeRepository();
-  const { data, totalCount } = await employeeRepository.findAllElastic(
+  const data = await employeeRepository.findAllSubDocument(
     page as string,
     limit as string,
+    'employee',
+    'ga_employees',
     filtered as string,
-    sorted as string,
-    'bri_corpu_ga_employees'
+    sorted as string
   );
-  // const totalCount = await employeeRepository.countSubDocument(
-  //   'employee',
-  //   'ga_employees',
-  //   filtered as string
-  // );
-
+  const totalCount = await employeeRepository.countSubDocument(
+    'employee',
+    'ga_employees',
+    filtered as string
+  );
   res.json({
     message: 'Successfully Get Employee',
     data,
