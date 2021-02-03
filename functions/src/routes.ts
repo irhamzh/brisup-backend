@@ -2,6 +2,7 @@ import { Router, Application } from 'express';
 
 import useRouter from '@modules/MasterData/User/user.routes';
 import ukerRouter from '@modules/MasterData/Uker/uker.routes';
+import taxRouter from '@modules/MasterData/Tax/tax.routes';
 import roleRouter from '@modules/MasterData/Role/role.routes';
 import itemRouter from '@modules/MasterData/Item/item.routes';
 import areaRouter from '@modules/MasterData/Area/area.routes';
@@ -96,6 +97,7 @@ import paymentFinancialRouter from '@modules/FinancialAdmin/Payment/payment.rout
 
 const apiRouter = Router();
 
+apiRouter.use('/taxes', taxRouter);
 apiRouter.use('/users', useRouter);
 apiRouter.use('/roles', roleRouter);
 apiRouter.use('/pumps', pumpRouter);
