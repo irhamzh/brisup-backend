@@ -114,7 +114,7 @@ export interface ITagihanS2 extends IBasePayment {
 export interface IAAJIWaperd extends IBasePayment {
   namaPeserta: string;
   invoiceData: IInvoice[];
-  invoice: number;
+  invoice: boolean;
   suratPerintahBayar: boolean;
   pajak?: IPajak[];
 }
