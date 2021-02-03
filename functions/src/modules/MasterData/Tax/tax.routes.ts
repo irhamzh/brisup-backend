@@ -7,30 +7,30 @@ import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
 import * as controller from './tax.controller';
 
 const router = Router();
-const errorHandledRoute = withErrorHandlerRoute(router);
-const protectedRouter = withAuthMiddleware(errorHandledRoute);
+const protectedRouter = withAuthMiddleware(router);
+const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
-protectedRouter.get(
+errorHandledRoute.get(
   '/',
   accessMiddleware('masterData', 'read'),
   controller.getAllTax
 );
-protectedRouter.post(
+errorHandledRoute.post(
   '/',
   accessMiddleware('masterData', 'create'),
   controller.createTax
 );
-protectedRouter.put(
+errorHandledRoute.put(
   '/:uid',
   accessMiddleware('masterData', 'update'),
   controller.updateTax
 );
-protectedRouter.get(
+errorHandledRoute.get(
   '/:uid',
   accessMiddleware('masterData', 'read'),
   controller.getTaxById
 );
-protectedRouter.delete(
+errorHandledRoute.delete(
   '/:uid',
   accessMiddleware('masterData', 'delete'),
   controller.deleteTaxById
