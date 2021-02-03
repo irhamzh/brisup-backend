@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import yupValidate from '@utils/yupValidate';
 import AccessError from '@interfaces/AccessError';
 import paramValidation from '@utils/paramValidation';
+import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 
 import schema from './persekot.schema';
@@ -11,6 +12,8 @@ import MappingBodyByType from './helpers/MappingBodyByType';
 
 import { GetAccessRoleDivision, Division } from '@constants/BaseCondition';
 import { ApprovalStatus, ApprovalNextStatus } from '@constants/BaseCondition';
+
+const defaultBucket = 'images/fa-persekot/';
 
 type CurrentStatusType =
   | 'Unapproved'
@@ -29,11 +32,25 @@ type StatusApprovalType =
 //   | 'General Affair'
 //   | 'Financial Admin';
 
-export const createPersekot = async (req: Request, res: Response) => {
+export const createPersekot = async (req: any, res: Response) => {
   const user = res.locals.decoded;
-  const { body } = req;
+  const { arrayFiles, body } = req;
   const masterValidate = yupValidate(schema.baseCreate, body);
-  const validatedBody = MappingBodyByType(masterValidate.division, body);
+  let validatedBody = undefined;
+  validatedBody = MappingBodyByType(masterValidate.division, body);
+
+  if (arrayFiles?.lampiran && arrayFiles?.lampiran?.length > 0) {
+    const lampiran = [];
+    for (const key of arrayFiles.lampiran) {
+      const { filename, path, mimetype, fieldname } = key;
+      const pathBucket = defaultBucket + filename;
+      const upload = await handleFirebaseUpload(path, pathBucket, mimetype, {
+        [fieldname]: key,
+      });
+      lampiran.push(upload);
+    }
+    validatedBody = { ...validatedBody, lampiran };
+  }
 
   const persekotRepository = new PersekotRepository();
   const log = {
@@ -55,16 +72,31 @@ export const createPersekot = async (req: Request, res: Response) => {
   });
 };
 
-export const updatePersekot = async (req: Request, res: Response) => {
-  const { body, params } = req;
+export const updatePersekot = async (req: any, res: Response) => {
+  const { body, params, arrayFiles } = req;
   const validateParam = paramValidation(params, 'persekotId');
   const persekotRepository = new PersekotRepository();
   const ref = await persekotRepository.findById(validateParam.uid);
-  const validatedBody = MappingBodyByType(ref?.division, body, 'update');
+  let validatedBody = undefined;
+  validatedBody = MappingBodyByType(ref?.division, body, 'update');
+
+  if (arrayFiles?.lampiran && arrayFiles?.lampiran?.length > 0) {
+    const lampiran = [];
+    for (const key of arrayFiles.lampiran) {
+      const { filename, path, mimetype, fieldname } = key;
+      const pathBucket = defaultBucket + filename;
+      const upload = await handleFirebaseUpload(path, pathBucket, mimetype, {
+        [fieldname]: key,
+      });
+      lampiran.push(upload);
+    }
+    validatedBody = { ...validatedBody, lampiran };
+  }
 
   const data = await persekotRepository.update(
     validateParam.uid,
-    validatedBody
+    validatedBody,
+    'lampiran'
   );
 
   res.json({
@@ -77,7 +109,7 @@ export const deletePersekotById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'persekotId');
   const persekotRepository = new PersekotRepository();
-  const data = await persekotRepository.delete(validateParam.uid);
+  const data = await persekotRepository.delete(validateParam.uid, 'lampiran');
   res.json({
     message: 'Successfully Delete Persekot By Id',
     data,

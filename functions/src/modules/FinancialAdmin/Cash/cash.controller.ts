@@ -76,7 +76,7 @@ export const deleteCashById = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'id');
   const cashRepository = new CashRepository();
 
-  const data = await cashRepository.delete(validateParam.uid);
+  const data = await cashRepository.delete(validateParam.uid, 'lampiran');
   res.json({
     message: 'Successfully Delete Cash By Id',
     data,

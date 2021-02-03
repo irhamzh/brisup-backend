@@ -13,6 +13,7 @@ export interface IPersekotBase {
 }
 
 export interface IPersekotFinancialAdmin extends IPersekotBase {
+  lampiran?: string[];
   typePersekot: string;
 }
 
