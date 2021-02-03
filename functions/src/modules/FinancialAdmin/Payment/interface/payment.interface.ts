@@ -1,9 +1,20 @@
 import { Division } from '@constants/BaseCondition';
 import { IApprovalLog } from '@interfaces/BaseInterface';
+import { ITaxBase } from '@modules/MasterData/Tax/interface/tax.interface';
 import { IHotelBase } from '@modules/MasterData/Hotel/interface/hotel.interface';
 import { IVehicleBase } from '@modules/MasterData/Vehicle/interface/vehicle.interface';
 import { ICateringBase } from '@modules/MasterData/Catering/interface/catering.interface';
 import { IProviderBase } from '@modules/MasterData/Provider/interface/provider.interface';
+
+export interface IPajak {
+  pajak: ITaxBase;
+  nominal: number;
+}
+
+interface IInvoice {
+  invoiceNumber: number;
+  nominal: number;
+}
 
 interface IBasePayment {
   tanggal: Date;
@@ -87,6 +98,7 @@ export interface IPublicCourse extends IBasePayment {
   dataBrismart: boolean;
   anggaranKegiatan: boolean;
   fakturPajakBagiWapu: boolean;
+  pajak?: IPajak[];
 }
 
 export interface ITagihanS2 extends IBasePayment {
@@ -100,21 +112,33 @@ export interface ITagihanS2 extends IBasePayment {
 }
 
 export interface IAAJIWaperd extends IBasePayment {
-  namaSertifikasi: string;
-  provider: IProviderBase;
+  namaPeserta: string;
+  invoiceData: IInvoice[];
+  invoice: number;
   suratPerintahBayar: boolean;
+  pajak?: IPajak[];
 }
 
-export interface IHonorSalaryCreaditing extends IBasePayment {
-  namaSertifikasi: string;
+export interface IHonor extends IBasePayment {
+  namaPengajar: string;
   suratPerintahBayar: boolean;
   cekLainnya: boolean;
+  pajak?: IPajak[];
+}
+
+export interface ISalaryCreaditing extends IBasePayment {
+  namaPendidikan: string;
+  namaPeserta: string;
+  suratPerintahBayar: boolean;
+  cekLainnya: boolean;
+  pajak?: IPajak[];
 }
 
 export interface IPembayaranLainnya extends IBasePayment {
   namaPembayaran: string;
   invoiceBermaterai: boolean;
   cekKesesuaianPembayaran: boolean;
+  pajak?: IPajak[];
 }
 
 export interface ICatering extends IBasePayment {
@@ -194,7 +218,6 @@ export enum TypePayment {
 export const WithProvider = [
   TypePayment['Jasa Pendidikan'],
   TypePayment['Public Course'],
-  TypePayment['Waperd'],
 ];
 
 export const UtilPayment: {
@@ -277,13 +300,3 @@ export const UtilPayment: {
 };
 
 export const JenisBiaya = ['Rohani', 'Humas', 'Representasi', 'Rapat'];
-
-// Kelogistikan;
-// tanggal:2020-10-10;
-// typePayment:Kelogistikan;
-// information:Aaaaa;
-// kegiatan:Ammar;
-// izinPrinsipPengadaan:true;
-// invoiceBermateraiKwitansi:true;
-// fakturPajak:true;
-// ktpAtauNpwp:true;

@@ -182,6 +182,15 @@ const createPublicCourse = yup
     fakturPajakBagiWapu: yup
       .boolean()
       .required(validationWording.required('fakturPajakBagiWapu')),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
   })
   .required()
   .concat(baseCreate);
@@ -227,29 +236,91 @@ const createTagihanS2 = yup
 const createAAJIWaperd = yup
   .object()
   .shape({
-    namaSertifikasi: yup
+    namaPeserta: yup
       .string()
-      .required(validationWording.required('namaSertifikasi')),
-    provider: yup.string().required(validationWording.required('provider')),
+      .required(validationWording.required('namaPeserta')),
+    invoiceData: yup
+      .array()
+      .of(
+        yup
+          .object()
+          .shape({
+            invoiceNumber: yup
+              .string()
+              .required(validationWording.required('invoiceNumber')),
+            nominal: yup
+              .number()
+              .required(validationWording.required('nominal')),
+          })
+          .required()
+      )
+      .required(validationWording.required('Invoice Data')),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
     suratPerintahBayar: yup
       .boolean()
       .required(validationWording.required('suratPerintahBayar')),
+    invoice: yup.boolean().required(validationWording.required('invoice')),
   })
   .required()
   .concat(baseCreate);
 
-const createHonorSalaryCreaditing = yup
+const createHonor = yup
   .object()
   .shape({
-    namaSertifikasi: yup
+    namaPengajar: yup
       .string()
-      .required(validationWording.required('namaSertifikasi')),
+      .required(validationWording.required('namaPengajar')),
     suratPerintahBayar: yup
       .boolean()
       .required(validationWording.required('suratPerintahBayar')),
     cekLainnya: yup
       .boolean()
       .required(validationWording.required('cekLainnya')),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
+  })
+  .required()
+  .concat(baseCreate);
+
+const createSalaryCreaditing = yup
+  .object()
+  .shape({
+    namaPendidikan: yup
+      .string()
+      .required(validationWording.required('namaPendidikan')),
+    namaPeserta: yup
+      .string()
+      .required(validationWording.required('namaPeserta')),
+    suratPerintahBayar: yup
+      .boolean()
+      .required(validationWording.required('suratPerintahBayar')),
+    cekLainnya: yup
+      .boolean()
+      .required(validationWording.required('cekLainnya')),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
   })
   .required()
   .concat(baseCreate);
@@ -259,14 +330,22 @@ const createPembayaranLainnya = yup
   .shape({
     namaPembayaran: yup
       .string()
-      .required(validationWording.required('namaSertifikasi')),
-    // provider: yup.string().required(validationWording.required('provider')),
+      .required(validationWording.required('namaPembayaran')),
     invoiceBermaterai: yup
       .boolean()
       .required(validationWording.required('invoiceBermaterai')),
     cekKesesuaianPembayaran: yup
       .boolean()
       .required(validationWording.required('cekKesesuaianPembayaran')),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
   })
   .required()
   .concat(baseCreate);
@@ -410,8 +489,8 @@ export const create: { [key: string]: yup.ObjectSchema<any> } = {
   'Public Course': createPublicCourse,
   'Tagihan S2 Luar dan Dalam Negeri': createTagihanS2,
   Waperd: createAAJIWaperd,
-  Honor: createHonorSalaryCreaditing,
-  'Salary Creaditing': createHonorSalaryCreaditing,
+  Honor: createHonor,
+  'Salary Creaditing': createSalaryCreaditing,
   'Pembayaran Lainnya': createPembayaranLainnya,
   Catering: createCatering,
   'Jasa Pendidikan': createJasaPendidikan,
@@ -521,6 +600,15 @@ const updatePublicCourse = yup
     dataBrismart: yup.boolean(),
     anggaranKegiatan: yup.boolean(),
     fakturPajakBagiWapu: yup.boolean(),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
   })
   .required()
   .concat(baseUpdate);
@@ -552,19 +640,68 @@ const updateTagihanS2 = yup
 const updateAAJIWaperd = yup
   .object()
   .shape({
-    namaSertifikasi: yup.string(),
-    provider: yup.string(),
+    namaPeserta: yup.string(),
+    invoiceData: yup.array().of(
+      yup
+        .object()
+        .shape({
+          invoiceNumber: yup
+            .string()
+            .required(validationWording.required('invoiceNumber')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
     suratPerintahBayar: yup.boolean(),
+    invoice: yup.boolean(),
   })
   .required()
   .concat(baseUpdate);
 
-const updateHonorSalaryCreaditing = yup
+const updateHonor = yup
   .object()
   .shape({
-    namaSertifikasi: yup.string(),
+    namaPengajar: yup.string(),
     suratPerintahBayar: yup.boolean(),
     cekLainnya: yup.boolean(),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
+  })
+  .required()
+  .concat(baseUpdate);
+
+const updateSalaryCreaditing = yup
+  .object()
+  .shape({
+    namaPendidikan: yup.string(),
+    namaPeserta: yup.string(),
+    suratPerintahBayar: yup.boolean(),
+    cekLainnya: yup.boolean(),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
   })
   .required()
   .concat(baseUpdate);
@@ -575,6 +712,15 @@ const updatePembayaranLainnya = yup
     namaPembayaran: yup.string(),
     invoiceBermaterai: yup.boolean(),
     cekKesesuaianPembayaran: yup.boolean(),
+    pajak: yup.array().of(
+      yup
+        .object()
+        .shape({
+          pajak: yup.string().required(validationWording.required('pajak')),
+          nominal: yup.number().required(validationWording.required('nominal')),
+        })
+        .required()
+    ),
   })
   .required()
   .concat(baseUpdate);
@@ -660,8 +806,8 @@ export const update: { [key: string]: yup.ObjectSchema<any> } = {
   'Public Course': updatePublicCourse,
   'Tagihan S2 Luar dan Dalam Negeri': updateTagihanS2,
   Waperd: updateAAJIWaperd,
-  Honor: updateHonorSalaryCreaditing,
-  'Salary Creaditing': updateHonorSalaryCreaditing,
+  Honor: updateHonor,
+  'Salary Creaditing': updateSalaryCreaditing,
   'Pembayaran Lainnya': updatePembayaranLainnya,
   Catering: updateCatering,
   'Jasa Pendidikan': updateJasaPendidikan,

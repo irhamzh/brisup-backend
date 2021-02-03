@@ -8,13 +8,13 @@ import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
+import TaxRepository from '@modules/MasterData/Tax/tax.repository';
 import HotelRepository from '@modules/MasterData/Hotel/hotel.repository';
 import VehicleRepository from '@modules/MasterData/Vehicle/vehicle.repository';
 import CateringRepository from '@modules/MasterData/Catering/catering.repository';
 import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 
 import { StatusPengadaan } from '@constants/BaseCondition';
-// import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
 
 import {
   create,
@@ -115,6 +115,18 @@ export const createPayment = async (req: any, res: Response) => {
       ...createParam,
       catering,
     };
+    // -> Tax
+  } else if (validatedBody?.pajak && validatedBody.pajak?.length > 0) {
+    const pajak = [];
+    for (const data of validatedBody.pajak) {
+      const taxRepository = new TaxRepository();
+      const pajakData = await taxRepository.findById(data.pajak);
+      pajak.push({ pajak: pajakData, nominal: data.nominal });
+    }
+    createParam = {
+      ...createParam,
+      pajak,
+    };
     // -> Provider
   } else if (WithProvider.includes(validatedBody.typePayment)) {
     const providerRepository = new ProviderRepository();
@@ -123,6 +135,7 @@ export const createPayment = async (req: any, res: Response) => {
       ...createParam,
       provider,
     };
+
     // -> hotel
   } else if (validatedBody.typePayment === TypePayment['Hotel']) {
     const hotelRepository = new HotelRepository();
@@ -180,6 +193,18 @@ export const updatePayment = async (req: any, res: Response) => {
       vehicle,
     };
     // -> catering
+    // -> Tax
+  } else if (validatedBody?.pajak && validatedBody.pajak?.length > 0) {
+    const pajak = [];
+    for (const data of validatedBody.pajak) {
+      const taxRepository = new TaxRepository();
+      const pajakData = await taxRepository.findById(data.pajak);
+      pajak.push({ pajak: pajakData, nominal: data.nominal });
+    }
+    validatedBody = {
+      ...validatedBody,
+      pajak,
+    };
   } else if (
     typePayment === TypePayment['Catering'] &&
     validatedBody?.catering
