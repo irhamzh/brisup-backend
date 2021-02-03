@@ -201,10 +201,10 @@ const createPenihilanPAUK = yup
 const createTagihanS2 = yup
   .object()
   .shape({
-    namaPendidikan: yup
+    jenisBiaya: yup.string().required(validationWording.required('jenisBiaya')),
+    namaPeserta: yup
       .string()
-      .required(validationWording.required('namaPendidikan')),
-    provider: yup.string().required(validationWording.required('provider')),
+      .required(validationWording.required('namaPeserta')),
     periodeBulan: yup
       .string()
       .required(validationWording.required('periodeBulan')),
@@ -538,8 +538,8 @@ const updatePenihilanPAUK = yup
 const updateTagihanS2 = yup
   .object()
   .shape({
-    namaPendidikan: yup.string(),
-    provider: yup.string(),
+    jenisBiaya: yup.string(),
+    namaPeserta: yup.string(),
     periodeBulan: yup.string(),
     suratPerintahBayar: yup.boolean(),
     suratkeKCK: yup.boolean(),

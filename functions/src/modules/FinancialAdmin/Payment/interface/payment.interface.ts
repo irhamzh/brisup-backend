@@ -90,8 +90,8 @@ export interface IPublicCourse extends IBasePayment {
 }
 
 export interface ITagihanS2 extends IBasePayment {
-  namaPendidikan: string;
-  provider: IProviderBase;
+  jenisBiaya: string;
+  namaPeserta: string;
   periodeBulan: string;
   suratPerintahBayar: boolean;
   suratkeKCK: boolean;
@@ -194,7 +194,6 @@ export enum TypePayment {
 export const WithProvider = [
   TypePayment['Jasa Pendidikan'],
   TypePayment['Public Course'],
-  TypePayment['Tagihan S2 Luar dan Dalam Negeri'],
   TypePayment['Waperd'],
 ];
 
