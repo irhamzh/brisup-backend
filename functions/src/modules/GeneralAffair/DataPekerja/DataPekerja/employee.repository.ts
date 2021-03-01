@@ -63,6 +63,7 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
         );
         if (validFormasi < 0) {
           invalidRow.push({
+            row: (i + 2).toString(),
             name: records[i].name,
             error: `"unitKerja  ${records[i]?.unitKerja}" "levelJabatan  ${records[i]?.levelJabatan}" not available`,
           });
@@ -81,30 +82,32 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
         const validateYup = schemaValidation.isValidSync(records[i]);
         if (!validateYup) {
           invalidRow.push({
+            row: (i + 2).toString(),
             name: records[i].name,
             error: 'error validation',
           });
           continue;
         }
         const formasiRepository = new FormasiRepository();
-        const addPemenuhan: any = await formasiRepository.addPemenuhan(
-          formasiData[validFormasi].id
+        const addPemenuhan = await formasiRepository.addPemenuhan(
+          formasiData[validFormasi]
         );
         if (addPemenuhan?.error === true) {
           invalidRow.push({
+            row: (i + 2).toString(),
             name: records[i].name,
-            error: addPemenuhan?.message,
+            error: addPemenuhan.message || 'Error tambah pemenuhan formasi',
           });
           continue;
         }
       } else {
         invalidRow.push({
+          row: (i + 2).toString(),
           name: records[i].name,
           error: 'error validation',
         });
         continue;
       }
-      console.log({ ...records[i] });
       batch.set(docRef, {
         ...records[i],
         createdAt: new Date(),

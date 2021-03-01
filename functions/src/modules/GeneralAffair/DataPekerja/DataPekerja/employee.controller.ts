@@ -87,6 +87,7 @@ export const importExcel = async (req: any, res: Response) => {
   if (data?.length > 0) {
     res.json({
       message: `${data.length} data yang Anda kirim tidak valid, silahkan cek kembali`,
+      error: true, //flag untuk front end
       data,
     });
     return;
