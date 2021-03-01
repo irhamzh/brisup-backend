@@ -8,9 +8,9 @@ const create = yup
       .string()
       .required(validationWording.required('information')),
     tanggal: yup.date().required(validationWording.required('tanggal')),
-    outdoor: yup
+    cctvOutdoor: yup
       .boolean()
-      .required(validationWording.required('outdoor')),
+      .required(validationWording.required('cctvOutdoor')),
     innovationBuilding: yup
       .boolean()
       .required(validationWording.required('innovationBuilding')),
@@ -25,7 +25,7 @@ const update = yup
   .shape({
     information: yup.string(),
     tanggal: yup.date(),
-    outdoor: yup.boolean(),
+    cctvOutdoor: yup.boolean(),
     innovationBuilding: yup.boolean(),
     smartBuilding: yup.boolean(),
   })

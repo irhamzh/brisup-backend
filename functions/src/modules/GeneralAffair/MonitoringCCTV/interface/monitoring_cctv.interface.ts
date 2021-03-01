@@ -1,6 +1,6 @@
 export interface IMonitoringCCTVBase {
   tanggal: Date;
-  outdoor: boolean;
+  cctvOutdoor: boolean;
   innovationBuilding: boolean;
   smartBuilding: boolean;
   information: string;
