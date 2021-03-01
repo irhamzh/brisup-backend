@@ -83,6 +83,14 @@ export const importExcel = async (req: any, res: Response) => {
     },
     schema.create
   );
+
+  if (data?.length > 0) {
+    res.json({
+      message: `${data.length} data yang Anda kirim tidak valid, silahkan cek kembali`,
+      data,
+    });
+    return;
+  }
   res.json({
     message: 'Successfully Create Employee',
     data,
