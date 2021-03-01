@@ -84,6 +84,20 @@ export const createPayment = async (req: any, res: Response) => {
     lampiran,
   };
 
+  // -> Tax
+  if (validatedBody?.pajak && validatedBody.pajak?.length > 0) {
+    const pajak = [];
+    for (const data of validatedBody.pajak) {
+      const taxRepository = new TaxRepository();
+      const pajakData = await taxRepository.findById(data.pajak);
+      pajak.push({ pajak: pajakData, nominal: data.nominal });
+    }
+    createParam = {
+      ...createParam,
+      pajak,
+    };
+  }
+
   if (validatedBody.typePayment === TypePayment['Penihilan PAUK']) {
     const logPenihilan = {
       date: new Date(),
@@ -114,18 +128,6 @@ export const createPayment = async (req: any, res: Response) => {
     createParam = {
       ...createParam,
       catering,
-    };
-    // -> Tax
-  } else if (validatedBody?.pajak && validatedBody.pajak?.length > 0) {
-    const pajak = [];
-    for (const data of validatedBody.pajak) {
-      const taxRepository = new TaxRepository();
-      const pajakData = await taxRepository.findById(data.pajak);
-      pajak.push({ pajak: pajakData, nominal: data.nominal });
-    }
-    createParam = {
-      ...createParam,
-      pajak,
     };
     // -> Provider
   } else if (WithProvider.includes(validatedBody.typePayment)) {
@@ -181,6 +183,20 @@ export const updatePayment = async (req: any, res: Response) => {
     validatedBody = { ...validatedBody, lampiran };
   }
 
+  // -> Tax
+  if (validatedBody?.pajak && validatedBody.pajak?.length > 0) {
+    const pajak = [];
+    for (const data of validatedBody.pajak) {
+      const taxRepository = new TaxRepository();
+      const pajakData = await taxRepository.findById(data.pajak);
+      pajak.push({ pajak: pajakData, nominal: data.nominal });
+    }
+    validatedBody = {
+      ...validatedBody,
+      pajak,
+    };
+  }
+
   // -> vehicle
   if (
     typePayment === TypePayment['Tagihan Service Kendaraan'] &&
@@ -193,18 +209,6 @@ export const updatePayment = async (req: any, res: Response) => {
       vehicle,
     };
     // -> catering
-    // -> Tax
-  } else if (validatedBody?.pajak && validatedBody.pajak?.length > 0) {
-    const pajak = [];
-    for (const data of validatedBody.pajak) {
-      const taxRepository = new TaxRepository();
-      const pajakData = await taxRepository.findById(data.pajak);
-      pajak.push({ pajak: pajakData, nominal: data.nominal });
-    }
-    validatedBody = {
-      ...validatedBody,
-      pajak,
-    };
   } else if (
     typePayment === TypePayment['Catering'] &&
     validatedBody?.catering
