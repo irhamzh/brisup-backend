@@ -2,9 +2,12 @@ import * as yup from 'yup';
 import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
+import NotFoundError from '@interfaces/NotFoundError';
 import handleImportExcel from '@utils/handleImportExcel';
 import BaseRepository from '@repositories/baseRepository';
+import validationWording from '@constants/validationWording';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
+import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 import FormasiRepository from '@modules/GeneralAffair/DataPekerja/FormasiPekerja/formasi_pekerja.repository';
 
 import { IEmployeeBase } from './interface/employee.interface';
@@ -46,6 +49,12 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
   ) {
     const batchCommits = [];
     const invalidRow: StringKeys[] = [];
+    const pemenuhanFormasi: {
+      id: string;
+      count: number;
+      row: string[];
+      name: string[];
+    }[] = [];
     // cari formasi yang available
 
     let batch = db.batch();
@@ -88,17 +97,25 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
           });
           continue;
         }
-        const formasiRepository = new FormasiRepository();
-        const addPemenuhan = await formasiRepository.addPemenuhan(
-          formasiData[validFormasi]
+
+        //collect pemenuhan data
+        const indexData = pemenuhanFormasi.findIndex(
+          (e) => e.id === formasiData[validFormasi]
         );
-        if (addPemenuhan?.error === true) {
-          invalidRow.push({
-            row: (i + 2).toString(),
-            name: records[i].name,
-            error: addPemenuhan.message || 'Error tambah pemenuhan formasi',
+        if (indexData === -1) {
+          pemenuhanFormasi.push({
+            id: formasiData[validFormasi].id,
+            count: 1,
+            row: [(i + 2).toString()],
+            name: [records[i].name || ''],
           });
-          continue;
+        } else {
+          pemenuhanFormasi[indexData] = {
+            ...pemenuhanFormasi[indexData],
+            count: Number(pemenuhanFormasi[indexData].count) + 1,
+            row: [...pemenuhanFormasi[indexData].row, (i + 2).toString()],
+            name: [...pemenuhanFormasi[indexData].name, records[i].name || ''],
+          };
         }
       } else {
         invalidRow.push({
@@ -113,15 +130,47 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      if ((i + 1) % 500 === 0) {
-        console.log(`Writing records[i] ${i + 1}`);
-        batchCommits.push(batch.commit());
-        batch = db.batch();
-      }
     }
+
+    //validate pemenuhan formasi
+    const formasiRepository = new FormasiRepository();
+    for (let i = 0; i < pemenuhanFormasi.length; i++) {
+      const data = await formasiRepository.validateSisaPemenuhanFormasi(
+        pemenuhanFormasi[i].id,
+        pemenuhanFormasi[i].count
+      );
+
+      if (
+        (!data?.sisaPemenuhan && data?.sisaPemenuhan?.toString() !== '0') ||
+        data?.sisaPemenuhan < 0
+      ) {
+        invalidRow.push({
+          row: pemenuhanFormasi[i]?.row?.toString(),
+          name: pemenuhanFormasi[i]?.name?.toString(),
+          error: `Alokasi formasi "unitKerja  ${data?.unitKerja}" "levelJabatan ${data?.levelJabatan}" tersisa ${data.sisaPemenuhan}`,
+        });
+        continue;
+      }
+      pemenuhanFormasi[i].count =
+        Number(pemenuhanFormasi[i].count) + Number(data.pemenuhan);
+    }
+
+    //balikin biar user perbaiki dulu
+    if (invalidRow.length > 0) {
+      return invalidRow;
+    }
+
+    // //add pemenuhan formasi
+    for (let i = 0; i < pemenuhanFormasi.length; i++) {
+      await formasiRepository.addPemenuhanFormasi(
+        pemenuhanFormasi[i].id,
+        pemenuhanFormasi[i].count
+      );
+    }
+
     batchCommits.push(batch.commit());
     await Promise.all(batchCommits);
-    return invalidRow;
+    return [];
   }
 
   async handleExcel(files: IFiles, columnToKey: StringKeys) {
@@ -152,6 +201,12 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
     //ambil data excel
     const dataExcel = await this.handleExcel(files, columnToKey);
 
+    if (dataExcel.length > 500) {
+      throw new InvalidRequestError(
+        'File Excel yang diupload maksimal berisi 500 baris"',
+        this._name
+      );
+    }
     const invalidRow = await this.writeToFirestoreEmployee(
       dataExcel,
       schemaValidation,
@@ -189,5 +244,26 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
     //     }
     //   }, [] as StringKeys[]);
     return invalidRow;
+  }
+
+  async deleteEmployeeById(id: string) {
+    const ref: admin.firestore.DocumentReference = this._collection
+      .doc('employee')
+      .collection('ga_employees')
+      .doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (!snap.exists) {
+      throw new NotFoundError(
+        validationWording.notFound(this._name),
+        this._name
+      );
+    }
+    await ref.delete();
+
+    const formasiRepository = new FormasiRepository();
+    const data = firestoreTimeStampToDate({ id: ref.id, ...snap.data() });
+    await formasiRepository.deletePemenuhan(data?.formasi?.id);
+
+    return data;
   }
 }

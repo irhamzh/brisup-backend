@@ -49,11 +49,7 @@ export const deleteEmployeeById = async (req: Request, res: Response) => {
   const validateParam = paramValidation(params, 'id');
   const employeeRepository = new EmployeeRepository();
 
-  const data = await employeeRepository.deleteSubDocument(
-    validateParam.uid,
-    'employee',
-    'ga_employees'
-  );
+  const data = await employeeRepository.deleteEmployeeById(validateParam.uid);
   res.json({
     message: 'Successfully Delete By Aktivitas Employee Id',
     data,
@@ -102,7 +98,11 @@ export const getEmployeeById = async (req: Request, res: Response) => {
   const { params } = req;
   const validateParam = paramValidation(params, 'id');
   const employeeRepository = new EmployeeRepository();
-  const data = await employeeRepository.findByIdElastic(validateParam.uid, '');
+  const data = await employeeRepository.findSubdocumentById(
+    validateParam.uid,
+    'employee',
+    'ga_employees'
+  );
 
   res.json({
     message: 'Successfully Get Employee By Id',
