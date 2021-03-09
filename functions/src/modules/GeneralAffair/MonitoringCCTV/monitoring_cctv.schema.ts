@@ -8,15 +8,9 @@ const create = yup
       .string()
       .required(validationWording.required('information')),
     tanggal: yup.date().required(validationWording.required('tanggal')),
-    cctvOutdoor: yup
-      .boolean()
-      .required(validationWording.required('cctvOutdoor')),
-    innovationBuilding: yup
-      .boolean()
-      .required(validationWording.required('innovationBuilding')),
-    smartBuilding: yup
-      .boolean()
-      .required(validationWording.required('smartBuilding')),
+    cctvOutdoor: yup.boolean(),
+    innovationBuilding: yup.boolean(),
+    smartBuilding: yup.boolean(),
   })
   .required();
 
