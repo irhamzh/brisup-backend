@@ -37,7 +37,7 @@ errorHandledRoute.put(
 );
 errorHandledRoute.put(
   '/:uid/approve-supervisor',
-  accessMiddleware('generalAffair', 'approvalSupervisor'),
+  accessMiddleware('procurement', 'approvalSupervisor'),
   controller.approveSupervisor
 );
 errorHandledRoute.put(
@@ -49,6 +49,10 @@ errorHandledRoute.put(
   '/:uid/approve-kabag',
   accessMiddleware('procurement', 'approvalKabag'),
   controller.approveKabag
+);
+errorHandledRoute.put(
+  '/:uid/approve-kabag-wakabag',
+  controller.approveKabagWakabag
 );
 errorHandledRoute.put(
   '/:uid/finish',

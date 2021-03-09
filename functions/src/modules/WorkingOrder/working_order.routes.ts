@@ -61,6 +61,10 @@ errorHandledRoute.put(
   controller.approveKabag
 );
 errorHandledRoute.put(
+  '/:uid/approve-kabag-wakabag',
+  controller.approveKabagWakabag
+);
+errorHandledRoute.put(
   '/:uid/finish',
   accessMiddleware('generalAffair', 'create'),
   controller.approveFinish

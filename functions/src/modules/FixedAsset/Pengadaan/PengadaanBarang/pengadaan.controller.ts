@@ -7,6 +7,7 @@ import paramValidation from '@utils/paramValidation';
 import PengadaanRepository from './pengadaan.repository';
 import { StatusPengadaan } from '@constants/BaseCondition';
 // import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
+import AccessError from '@interfaces/AccessError';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
 import validationWording from '@constants/validationWording';
 
@@ -794,6 +795,51 @@ export const approveKabag = async (req: Request, res: Response) => {
   });
 };
 
+export const approveKabagWakabag = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const role = user?.role;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+
+  let status = '';
+  if (role['fixedAsset']['approvalKabag']) {
+    status = StatusPengadaan['Approved oleh Kabag'];
+  } else if (role['fixedAsset']['approvalWakabag']) {
+    status = StatusPengadaan['Approved oleh Wakabag'];
+  } else {
+    throw new AccessError(
+      'Approve Wakil Kepala Bagian | Approve Kepala Bagian Fixed Asset'
+    );
+  }
+
+  const pengadaanRepository = new PengadaanRepository();
+  const ref = await pengadaanRepository.findById(validateParam.uid);
+  if (ref.status !== StatusPengadaan['Approved oleh Supervisor']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(ref.status, status),
+      'Pengadaan'
+    );
+  }
+
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: role.name,
+    status,
+  };
+
+  const data = await pengadaanRepository.update(validateParam.uid, {
+    status,
+    approvalLog: [...ref.approvalLog, log],
+  });
+
+  res.json({
+    message: 'Successfully Approve Data',
+    data,
+  });
+};
+
 export const approveFinish = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { params } = req;
@@ -803,7 +849,7 @@ export const approveFinish = async (req: Request, res: Response) => {
   const pengadaanRepository = new PengadaanRepository();
   const ref = await pengadaanRepository.findById(validateParam.uid);
   if (
-    ref.status !== StatusPengadaan['Approved oleh Kabag'] ||
+    ref.status !== StatusPengadaan['Approved oleh Kabag'] &&
     ref.status !== StatusPengadaan['Approved oleh Wakabag']
   ) {
     throw new InvalidRequestError(
@@ -850,6 +896,13 @@ export const dashboard = async (req: Request, res: Response) => {
         { id: 'status', value: StatusPengadaan['Proses Persetujuan'] },
       ])
     )) || 0;
+  const totalApprovedSupervisor =
+    (await pengadaanRepository.countDocument(
+      JSON.stringify([
+        ...defaultFiltered,
+        { id: 'status', value: StatusPengadaan['Approved oleh Supervisor'] },
+      ])
+    )) || 0;
   const totalApprovedWakabag =
     (await pengadaanRepository.countDocument(
       JSON.stringify([
@@ -874,10 +927,12 @@ export const dashboard = async (req: Request, res: Response) => {
   const data = {
     totalBelumBerjalan,
     totalProsesPersetujuan:
-      Number(totalProsesPersetujuan) + Number(totalApprovedWakabag) || 0,
+      Number(totalProsesPersetujuan) + Number(totalApprovedSupervisor) || 0,
+    totalApprovedSupervisor,
     totalApprovedWakabag,
     totalApprovedKabag,
-    totalBelumSelesai: totalApprovedKabag,
+    totalBelumSelesai:
+      Number(totalApprovedWakabag) + Number(totalApprovedKabag) || 0,
     totalSelesai,
   };
   res.json({
