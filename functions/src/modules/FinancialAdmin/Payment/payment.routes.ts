@@ -29,10 +29,7 @@ errorHandledRoute.get(
 );
 errorHandledRoute.get(
   '/dashboard',
-  accessMiddleware(
-    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
-    'dashboard'
-  ),
+  accessMiddleware('financialAdmin', 'dashboard'),
   controller.dashboard
 );
 uploadHandleRouter.post(

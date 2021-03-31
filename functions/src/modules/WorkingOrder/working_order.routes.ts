@@ -17,7 +17,7 @@ errorHandledRoute.get(
 );
 errorHandledRoute.get(
   '/dashboard',
-  accessMiddleware(['fixedAsset', 'procurement', 'generalAffair'], 'dashboard'),
+  accessMiddleware('generalAffair', 'dashboard'),
   controller.dashboard
 );
 errorHandledRoute.post(

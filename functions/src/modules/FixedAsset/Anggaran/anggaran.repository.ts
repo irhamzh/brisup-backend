@@ -1,3 +1,4 @@
+import { getMonth, getYear } from 'date-fns';
 import * as admin from 'firebase-admin';
 
 import { v4 as generateId } from 'uuid';
@@ -21,6 +22,72 @@ export default class AnggaranRepository extends BaseRepository<IAnggaranBase> {
   constructor() {
     super('fx_budgets', 'budget');
     this._fx_budgetModel = db.collection('fx_budgets');
+  }
+
+  async runJob() {
+    await this.createJob('Eksploitasi');
+    await this.createJob('Investasi');
+  }
+
+  async createJob(category: string) {
+    console.log('running job');
+    const date = new Date();
+    const year = getYear(date);
+    const month = getMonth(date);
+    const currentMonth = month === 12 ? 1 : month + 1;
+    const oldYear = currentMonth === 1 ? year - 1 : year;
+
+    const oldData = await this.findOne(
+      '',
+      this._fx_budgetModel
+        .where('categoryAnggaran', '==', category)
+        .where('year', '==', oldYear)
+        .where('month', '==', month)
+    );
+
+    const exist = await this.findOne(
+      '',
+      this._fx_budgetModel
+        .where('categoryAnggaran', '==', category)
+        .where('year', '==', year)
+        .where('month', '==', currentMonth)
+    );
+    let previousBreakdown = 0;
+    if (oldData && oldData.sisaAnggaran) {
+      previousBreakdown = Number(oldData.sisaAnggaran);
+    }
+
+    if (exist && exist.id) {
+      const totalBreakdown =
+        Number(exist.totalBreakdown) -
+        Number(exist.previousBreakdown) +
+        previousBreakdown;
+      const data = await this.update(exist.id, {
+        previousBreakdown,
+        totalBreakdown,
+      });
+      return data;
+    } else {
+      const penggunaan = {
+        id: generateId(),
+        type: 'Breakdown',
+        nilai: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const createParam = {
+        year: year,
+        month: currentMonth,
+        totalBreakdown: previousBreakdown,
+        previousBreakdown,
+        sisaAnggaran: previousBreakdown,
+        categoryAnggaran: category,
+        detail: [penggunaan],
+      };
+      console.log('Job >>>>>', year, currentMonth, category);
+      const data = await this.create(createParam);
+      return data;
+    }
   }
 
   async createAnggaran(object: IAnggaran) {
