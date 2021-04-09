@@ -49,6 +49,46 @@ export default class FormasiRepository extends BaseRepository<IFormasiBase> {
     return firestoreTimeStampToDate(data);
   }
 
+  async validateSisaPemenuhanFormasi(id: string, count: number) {
+    const ref: admin.firestore.DocumentReference = this._formasiModel.doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (!snap.exists) {
+      return {
+        error: true,
+        message: validationWording.notFound(this._name),
+      };
+    }
+
+    const oldData = snap.data();
+    const sisaPemenuhan =
+      Number(oldData?.formasi || 0) -
+      (Number(oldData?.pemenuhan | 0) + Number(count));
+
+    return {
+      pemenuhan: oldData?.pemenuhan,
+      sisaPemenuhan,
+      unitKerja: oldData?.unitKerja,
+      levelJabatan: oldData?.levelJabatan,
+    };
+  }
+
+  async addPemenuhanFormasi(id: string, count: number) {
+    const ref: admin.firestore.DocumentReference = this._formasiModel.doc(id);
+    const updateParam = {
+      pemenuhan: count,
+      updatedAt: new Date(),
+    };
+    await ref.set(updateParam, { merge: true });
+    const updateSnap = await ref.get();
+    return {
+      error: false,
+      data: firestoreTimeStampToDate({
+        id: ref.id,
+        ...updateSnap.data(),
+      }),
+    };
+  }
+
   async addPemenuhan(id: string) {
     const ref: admin.firestore.DocumentReference = this._formasiModel.doc(id);
     const snap: admin.firestore.DocumentSnapshot = await ref.get();
@@ -80,5 +120,18 @@ export default class FormasiRepository extends BaseRepository<IFormasiBase> {
         ...updateSnap.data(),
       }),
     };
+  }
+
+  async deletePemenuhan(id: string) {
+    const ref: admin.firestore.DocumentReference = this._formasiModel.doc(id);
+    const snap: admin.firestore.DocumentSnapshot = await ref.get();
+    if (snap.exists) {
+      const oldData = snap.data();
+      const updateParam = {
+        pemenuhan: Number(oldData?.pemenuhan) - 1,
+        updatedAt: new Date(),
+      };
+      await ref.set(updateParam, { merge: true });
+    }
   }
 }

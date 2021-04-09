@@ -7,6 +7,7 @@ import { IUserDecoded } from '@modules/MasterData/User/interface/user.interface'
 
 import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
+
 import { TypePayment } from './interface/payment.interface';
 
 import {
@@ -21,7 +22,8 @@ import {
   IPublicCourse,
   ITagihanS2,
   IAAJIWaperd,
-  IHonorSalaryCreaditing,
+  IHonor,
+  ISalaryCreaditing,
   IPembayaranLainnya,
   ICatering,
   IJasaPendidikan,
@@ -41,7 +43,8 @@ export default class PaymentRepositoryRepository extends BaseRepository<
   | IPublicCourse
   | ITagihanS2
   | IAAJIWaperd
-  | IHonorSalaryCreaditing
+  | IHonor
+  | ISalaryCreaditing
   | IPembayaranLainnya
   | ICatering
   | IJasaPendidikan

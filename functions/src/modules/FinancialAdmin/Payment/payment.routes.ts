@@ -21,7 +21,10 @@ const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
 errorHandledRoute.get(
   '/',
-  accessMiddleware('financialAdmin', 'read'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'read'
+  ),
   controller.getAllPayment
 );
 errorHandledRoute.get(
@@ -31,54 +34,88 @@ errorHandledRoute.get(
 );
 uploadHandleRouter.post(
   '/',
-  accessMiddleware('financialAdmin', 'create'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'create'
+  ),
   controller.createPayment
 );
 uploadHandleRouter.put(
   '/:uid',
-  accessMiddleware('financialAdmin', 'update'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'update'
+  ),
   controller.updatePayment
 );
 errorHandledRoute.get(
   '/:uid',
-  accessMiddleware('financialAdmin', 'read'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'read'
+  ),
   controller.getPaymentById
 );
 errorHandledRoute.delete(
   '/:uid',
-  accessMiddleware('financialAdmin', 'delete'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'delete'
+  ),
   controller.deletePaymentById
 );
 errorHandledRoute.post(
   '/penihilan',
-  accessMiddleware('financialAdmin', 'create'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'create'
+  ),
   controller.pengajuanPenihilan
 );
 errorHandledRoute.put('/penihilan/:uid/approve', controller.approvalPenihilan); //flow penihilan
 errorHandledRoute.put('/penihilan/:uid/deny', controller.denyPenihilan); //flow penihilan
 errorHandledRoute.put(
   '/:uid/approve-process',
-  accessMiddleware('financialAdmin', 'create'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'create'
+  ),
   controller.approveProcess
 );
 errorHandledRoute.put(
   '/:uid/approve-supervisor',
-  accessMiddleware('financialAdmin', 'approvalSupervisor'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'approvalSupervisor'
+  ),
   controller.approveSupervisor
 );
 errorHandledRoute.put(
   '/:uid/approve-wabag',
-  accessMiddleware('financialAdmin', 'approvalWakabag'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'approvalWakabag'
+  ),
   controller.approveWakabag
 );
 errorHandledRoute.put(
   '/:uid/approve-kabag',
-  accessMiddleware('financialAdmin', 'approvalKabag'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'approvalKabag'
+  ),
   controller.approveKabag
 );
 errorHandledRoute.put(
+  '/:uid/approve-kabag-wakabag',
+  controller.approveKabagWakabag
+);
+errorHandledRoute.put(
   '/:uid/finish',
-  accessMiddleware('financialAdmin', 'create'),
+  accessMiddleware(
+    ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
+    'create'
+  ),
   controller.approveFinish
 );
 

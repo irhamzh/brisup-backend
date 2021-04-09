@@ -10,6 +10,8 @@ import * as logger from 'morgan';
 import config from '@utils/config';
 // import elasticClient from '@utils/elasticsearchConfig';
 import useApiRouter from './routes';
+import FaAnggaranRepository from './modules/FixedAsset/Anggaran/anggaran.repository';
+
 firebase.initializeApp(config);
 
 // elasticClient.ping({}, function (error) {
@@ -29,4 +31,14 @@ app.use(logger('dev'));
 useApiRouter(app);
 
 const api = functions.region('asia-southeast2').https.onRequest(app);
-export { api };
+
+const faAnggaranRepository = new FaAnggaranRepository();
+const scheduleSisaAnggaran = functions
+  .region('asia-southeast2')
+  .pubsub.schedule('5 0 1 * *') //“At 00:00 on day-of-month 1.”
+  .timeZone('Asia/Jakarta')
+  .onRun((context) => {
+    faAnggaranRepository.runJob();
+    return null;
+  });
+export { api, scheduleSisaAnggaran };

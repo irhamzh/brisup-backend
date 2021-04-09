@@ -8,13 +8,17 @@ import NotFoundError from '@interfaces/NotFoundError';
 import validationWording from '@constants/validationWording';
 import handleFirebaseUpload from '@utils/handleFirebaseUpload';
 import InvalidRequestError from '@interfaces/InvalidRequestError';
+import TaxRepository from '@modules/MasterData/Tax/tax.repository';
 import HotelRepository from '@modules/MasterData/Hotel/hotel.repository';
 import VehicleRepository from '@modules/MasterData/Vehicle/vehicle.repository';
 import CateringRepository from '@modules/MasterData/Catering/catering.repository';
 import ProviderRepository from '@modules/MasterData/Provider/provider.repository';
 
-import { StatusPengadaan } from '@constants/BaseCondition';
-// import { IUserBase } from '@modules/MasterData/User/interface/user.interface';
+import {
+  Division,
+  StatusPengadaan,
+  GetAccessRoleDivision,
+} from '@constants/BaseCondition';
 
 import {
   create,
@@ -84,6 +88,20 @@ export const createPayment = async (req: any, res: Response) => {
     lampiran,
   };
 
+  // -> Tax
+  if (validatedBody?.pajak && validatedBody.pajak?.length > 0) {
+    const pajak = [];
+    for (const data of validatedBody.pajak) {
+      const taxRepository = new TaxRepository();
+      const pajakData = await taxRepository.findById(data.pajak);
+      pajak.push({ pajak: pajakData, nominal: data.nominal });
+    }
+    createParam = {
+      ...createParam,
+      pajak,
+    };
+  }
+
   if (validatedBody.typePayment === TypePayment['Penihilan PAUK']) {
     const logPenihilan = {
       date: new Date(),
@@ -123,6 +141,7 @@ export const createPayment = async (req: any, res: Response) => {
       ...createParam,
       provider,
     };
+
     // -> hotel
   } else if (validatedBody.typePayment === TypePayment['Hotel']) {
     const hotelRepository = new HotelRepository();
@@ -166,6 +185,20 @@ export const updatePayment = async (req: any, res: Response) => {
       lampiran.push(upload);
     }
     validatedBody = { ...validatedBody, lampiran };
+  }
+
+  // -> Tax
+  if (validatedBody?.pajak && validatedBody.pajak?.length > 0) {
+    const pajak = [];
+    for (const data of validatedBody.pajak) {
+      const taxRepository = new TaxRepository();
+      const pajakData = await taxRepository.findById(data.pajak);
+      pajak.push({ pajak: pajakData, nominal: data.nominal });
+    }
+    validatedBody = {
+      ...validatedBody,
+      pajak,
+    };
   }
 
   // -> vehicle
@@ -393,6 +426,53 @@ export const approveKabag = async (req: Request, res: Response) => {
   });
 };
 
+export const approveKabagWakabag = async (req: Request, res: Response) => {
+  const user = res.locals.decoded;
+  const role = user?.role;
+  const { params } = req;
+  const validateParam = paramValidation(params, 'id');
+
+  const paymentRepository = new PaymentRepository();
+  const ref = await paymentRepository.findById(validateParam.uid);
+  const accessRoleDivision = GetAccessRoleDivision[ref.seksi as Division];
+
+  let status = '';
+  if (role[accessRoleDivision]['approvalKabag']) {
+    status = StatusPengadaan['Approved oleh Kabag'];
+  } else if (role[accessRoleDivision]['approvalWakabag']) {
+    status = StatusPengadaan['Approved oleh Wakabag'];
+  } else {
+    throw new AccessError(
+      'Approve Wakil Kepala Bagian | Approve Kepala Bagian'
+    );
+  }
+
+  if (ref.status !== StatusPengadaan['Approved oleh Supervisor']) {
+    throw new InvalidRequestError(
+      validationWording.invalidNextStatus(ref.status, status),
+      'Payment'
+    );
+  }
+
+  const log = {
+    date: new Date(),
+    userId: user.uid,
+    name: user.name,
+    role: role.name,
+    status,
+  };
+
+  const data = await paymentRepository.update(validateParam.uid, {
+    status,
+    approvalLog: [...ref.approvalLog, log],
+  });
+
+  res.json({
+    message: 'Successfully Update Data',
+    data,
+  });
+};
+
 export const approveFinish = async (req: Request, res: Response) => {
   const user = res.locals.decoded;
   const { params } = req;
@@ -402,7 +482,7 @@ export const approveFinish = async (req: Request, res: Response) => {
   const paymentRepository = new PaymentRepository();
   const ref = await paymentRepository.findById(validateParam.uid);
   if (
-    ref.status !== StatusPengadaan['Approved oleh Kabag'] ||
+    ref.status !== StatusPengadaan['Approved oleh Kabag'] &&
     ref.status !== StatusPengadaan['Approved oleh Wakabag']
   ) {
     throw new InvalidRequestError(
@@ -456,6 +536,13 @@ export const dashboard = async (req: Request, res: Response) => {
         { id: 'status', value: StatusPengadaan['Approved oleh Wakabag'] },
       ])
     )) || 0;
+  const totalApprovedSupervisor =
+    (await paymentRepository.countDocument(
+      JSON.stringify([
+        ...defaultFiltered,
+        { id: 'status', value: StatusPengadaan['Approved oleh Supervisor'] },
+      ])
+    )) || 0;
   const totalApprovedKabag =
     (await paymentRepository.countDocument(
       JSON.stringify([
@@ -473,10 +560,12 @@ export const dashboard = async (req: Request, res: Response) => {
   const data = {
     totalBelumBerjalan,
     totalProsesPersetujuan:
-      Number(totalProsesPersetujuan) + Number(totalApprovedWakabag) || 0,
+      Number(totalProsesPersetujuan) + Number(totalApprovedSupervisor) || 0,
+    totalApprovedSupervisor,
     totalApprovedWakabag,
     totalApprovedKabag,
-    totalBelumSelesai: totalApprovedKabag,
+    totalBelumSelesai:
+      Number(totalApprovedWakabag) + Number(totalApprovedKabag) || 0,
     totalSelesai,
   };
   res.json({
@@ -519,8 +608,8 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
   ) {
     throw new AccessError('Approve Supervisor');
   } else if (
-    status === ApprovalStatus['Diajukan Penihilan'] &&
-    !role['fixedAsset']['create']
+    statusPenihilan === ApprovalStatus['Diajukan Penihilan'] &&
+    !role['financialAdmin']['create']
   ) {
     throw new AccessError('Diajukan Penihilan');
   } else if (
@@ -528,9 +617,9 @@ export const approvalPenihilan = async (req: Request, res: Response) => {
   ) {
     // -> set next statusPenihilan Approved oleh Supervisor II
     if (role['financialAdmin']['approvalKabag']) {
-      status = ApprovalStatus['Approved oleh Kabag'];
+      statusPenihilan = ApprovalStatus['Approved oleh Kabag'];
     } else if (role['financialAdmin']['approvalWakabag']) {
-      status = ApprovalStatus['Approved oleh Wakabag'];
+      statusPenihilan = ApprovalStatus['Approved oleh Wakabag'];
     } else {
       throw new AccessError(
         'Approve Wakil Kepala Bagian | Approve Kepala Bagian Financial'
@@ -582,7 +671,7 @@ export const denyPenihilan = async (req: Request, res: Response) => {
   }
 
   // -> get next statusPenihilan
-  const statusPenihilan: StatusApprovalType = ApprovalNextStatus['Unapproved'];
+  const statusPenihilan: StatusApprovalType = ApprovalStatus['Unapproved'];
 
   // -> set log
   const log = {

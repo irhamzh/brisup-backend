@@ -239,6 +239,10 @@ errorHandledRoute.put(
   controller.approveKabag
 );
 errorHandledRoute.put(
+  '/:uid/approve-kabag-wakabag',
+  controller.approveKabagWakabag
+);
+errorHandledRoute.put(
   '/:uid/finish',
   accessMiddleware('fixedAsset', 'create'),
   controller.approveFinish

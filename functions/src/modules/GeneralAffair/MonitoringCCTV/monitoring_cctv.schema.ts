@@ -8,15 +8,9 @@ const create = yup
       .string()
       .required(validationWording.required('information')),
     tanggal: yup.date().required(validationWording.required('tanggal')),
-    cctvOutdoor: yup
-      .boolean()
-      .required(validationWording.required('cctvOutdoor')),
-    gedungAlantai1: yup
-      .boolean()
-      .required(validationWording.required('gedungAlantai1')),
-    gedungAlantai2: yup
-      .boolean()
-      .required(validationWording.required('gedungAlantai2')),
+    cctvOutdoor: yup.boolean(),
+    innovationBuilding: yup.boolean(),
+    smartBuilding: yup.boolean(),
   })
   .required();
 
@@ -26,8 +20,8 @@ const update = yup
     information: yup.string(),
     tanggal: yup.date(),
     cctvOutdoor: yup.boolean(),
-    gedungAlantai1: yup.boolean(),
-    gedungAlantai2: yup.boolean(),
+    innovationBuilding: yup.boolean(),
+    smartBuilding: yup.boolean(),
   })
   .required();
 export default { update, create };

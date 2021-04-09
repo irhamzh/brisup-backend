@@ -17,7 +17,7 @@ errorHandledRoute.get(
 );
 errorHandledRoute.get(
   '/dashboard',
-  accessMiddleware(['fixedAsset', 'procurement', 'generalAffair'], 'dashboard'),
+  accessMiddleware('generalAffair', 'dashboard'),
   controller.dashboard
 );
 errorHandledRoute.post(
@@ -59,6 +59,10 @@ errorHandledRoute.put(
   '/:uid/approve-kabag',
   accessMiddleware('generalAffair', 'approvalKabag'),
   controller.approveKabag
+);
+errorHandledRoute.put(
+  '/:uid/approve-kabag-wakabag',
+  controller.approveKabagWakabag
 );
 errorHandledRoute.put(
   '/:uid/finish',

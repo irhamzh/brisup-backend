@@ -1,5 +1,7 @@
 import { Router } from 'express';
+import { withMiddleware } from 'express-kun';
 
+import uploadFile from '@middlewares/uploadFileMiddleware';
 import accessMiddleware from '@middlewares/accessMiddleware';
 import withAuthMiddleware from '@routers/withAuthMiddleware';
 import withErrorHandlerRoute from '@routers/withErrorHandlerRoute';
@@ -8,6 +10,11 @@ import * as controller from '@modules/FixedAsset/Persekot/persekot.controller';
 
 const router = Router();
 const protectedRouter = withAuthMiddleware(router);
+const uploadRouter = withMiddleware(
+  protectedRouter,
+  uploadFile(['.png', '.PNG', '.JPG', '.jpg', '.pdf'], 'lampiran', true)
+);
+const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
 const errorHandledRoute = withErrorHandlerRoute(protectedRouter);
 
 errorHandledRoute.get(
@@ -26,7 +33,7 @@ errorHandledRoute.get(
   ),
   controller.getPersekotById
 );
-errorHandledRoute.post(
+uploadHandleRouter.post(
   '/',
   accessMiddleware(
     ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
@@ -52,7 +59,7 @@ errorHandledRoute.post(
 );
 errorHandledRoute.put('/:uid/approve', controller.approval);
 errorHandledRoute.put('/:uid/deny', controller.denyPenihilan);
-errorHandledRoute.put(
+uploadHandleRouter.put(
   '/:uid',
   accessMiddleware(
     ['fixedAsset', 'procurement', 'generalAffair', 'financialAdmin'],
