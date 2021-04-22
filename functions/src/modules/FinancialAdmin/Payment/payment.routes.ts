@@ -13,7 +13,7 @@ const router = Router();
 const protectedRouter = withAuthMiddleware(router);
 const uploadRouter = withMiddleware(
   protectedRouter,
-  uploadFile(['.png', '.PNG', '.JPG', '.jpg', '.pdf'], 'lampiran', true)
+  uploadFile(['.png', '.PNG', '.JPG', '.jpg', '.pdf', '.PDF'], 'lampiran', true)
 );
 
 const uploadHandleRouter = withErrorHandlerRoute(uploadRouter);
