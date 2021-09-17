@@ -53,11 +53,14 @@ const createJaringan = yup
       )
       .required(validationWording.required('Item')),
     status: yup
-      .mixed()
-      .oneOf(AntivirusStatus)
+      .string()
       .when('item', {
         is: 'Jaringan',
         then: yup.mixed().oneOf(JaringanStatus),
+      })
+      .when('item', {
+        is: 'Fisik',
+        then: yup.mixed().oneOf(AntivirusStatus),
       })
       .required(validationWording.required('status')),
   })
