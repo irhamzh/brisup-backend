@@ -62,7 +62,7 @@ export default class FormasiRepository extends BaseRepository<IFormasiBase> {
     const oldData = snap.data();
     const sisaPemenuhan =
       Number(oldData?.formasi || 0) -
-      (Number(oldData?.pemenuhan | 0) + Number(count));
+      (Number(oldData?.pemenuhan || 0) + Number(count));
 
     return {
       pemenuhan: oldData?.pemenuhan,
@@ -72,7 +72,7 @@ export default class FormasiRepository extends BaseRepository<IFormasiBase> {
     };
   }
 
-  async addPemenuhanFormasi(id: string, count: number) {
+  async setPemenuhanFormasi(id: string, count: number) {
     const ref: admin.firestore.DocumentReference = this._formasiModel.doc(id);
     const updateParam = {
       pemenuhan: count,

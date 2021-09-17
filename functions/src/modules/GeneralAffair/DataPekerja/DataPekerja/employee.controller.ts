@@ -65,19 +65,19 @@ export const importExcel = async (req: any, res: Response) => {
     {
       A: 'name',
       B: 'nip',
-      C: 'pernr',
-      D: 'sex',
-      E: 'dateOfBird',
-      F: 'age',
-      G: 'unitKerja',
-      H: 'position',
-      I: 'jobgrade',
-      J: 'mkjg',
-      K: 'pg',
-      L: 'mkpg',
-      M: 'levelJabatan',
+      C: 'unitKerja',
+      D: 'levelJabatan',
+      E: 'pernr',
+      F: 'sex',
+      G: 'dateOfBird',
+      H: 'age',
+      I: 'position',
+      J: 'jobgrade',
+      K: 'mkjg',
+      L: 'pg',
+      M: 'mkpg',
     },
-    schema.create
+    schema.createFromExcel
   );
 
   if (data?.length > 0) {

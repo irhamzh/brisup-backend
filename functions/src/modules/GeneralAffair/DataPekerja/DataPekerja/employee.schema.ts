@@ -22,6 +22,56 @@ const create = yup
   })
   .required();
 
+const createFromExcel = yup
+  .object()
+  .shape({
+    // type: yup.mixed().oneOf(Type).required(validationWording.required('Type')),
+    name: yup.string().required(validationWording.required('name')),
+    nip: yup.string().required(validationWording.required('nip')),
+    pernr: yup
+      .string()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    sex: yup
+      .mixed()
+      .oneOf(Sex)
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    dateOfBird: yup
+      .date()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    age: yup
+      .number()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    position: yup
+      .string()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    jobgrade: yup
+      .string()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    mkjg: yup
+      .string()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    pg: yup
+      .string()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    mkpg: yup
+      .string()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+    formasi: yup
+      .string()
+      .nullable()
+      .transform((v, o) => (o === '' ? null : v)),
+  })
+  .required();
+
 const update = yup
   .object()
   .shape({
@@ -42,5 +92,6 @@ const update = yup
 
 export default {
   create,
+  createFromExcel,
   update,
 };
