@@ -45,7 +45,7 @@ const update = yup
 const createJaringan = yup
   .object()
   .shape({
-    item: yup
+    itemJaringan: yup
       .mixed<keyof typeof Item>()
       .oneOf(
         getAllEnumKey(Item),
@@ -66,7 +66,7 @@ const createJaringan = yup
 const updateJaringan = yup
   .object()
   .shape({
-    item: yup
+    itemJaringan: yup
       .mixed<keyof typeof Item>()
       .oneOf(
         getAllEnumKey(Item),
@@ -86,7 +86,7 @@ const updateJaringan = yup
 const createFisik = yup
   .object()
   .shape({
-    item: yup.string().required(validationWording.required('Item')),
+    itemFisik: yup.string().required(validationWording.required('Item')),
     hekonisme: yup
       .mixed<keyof typeof YesNo>()
       .oneOf(
@@ -100,7 +100,7 @@ const createFisik = yup
 const updateFisik = yup
   .object()
   .shape({
-    item: yup.string(),
+    itemFisik: yup.string(),
     hekonisme: yup
       .mixed<keyof typeof YesNo>()
       .oneOf(

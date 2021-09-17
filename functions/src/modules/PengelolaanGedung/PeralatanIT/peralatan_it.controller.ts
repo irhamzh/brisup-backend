@@ -18,8 +18,10 @@ export const createPeralatanIT = async (req: Request, res: Response) => {
   if (body?.typePeralatanIT?.toLowerCase() === TypeItem.fisik?.toLowerCase()) {
     const itemRepository = new ItemRepository();
     validatedBody = yupValidate(schema.createPeralatanFisik, body);
-    const item: any = await itemRepository.findById(validatedBody.item);
-    validatedBody = { ...validatedBody, item };
+    const itemFisik: any = await itemRepository.findById(
+      validatedBody.itemFisik
+    );
+    validatedBody = { ...validatedBody, itemFisik };
   } else {
     validatedBody = yupValidate(schema.createPeralatanJaringan, body);
   }
@@ -58,10 +60,12 @@ export const updatePeralatanIT = async (req: Request, res: Response) => {
   );
   if (ref?.typePeralatanIT?.toLowerCase() === TypeItem.fisik?.toLowerCase()) {
     validatedBody = yupValidate(schema.updatePeralatanFisik, body);
-    if (validatedBody.item) {
+    if (validatedBody.itemFisik) {
       const itemRepository = new ItemRepository();
-      const item: any = await itemRepository.findById(validatedBody.item);
-      validatedBody = { ...validatedBody, item };
+      const itemFisik: any = await itemRepository.findById(
+        validatedBody.itemFisik
+      );
+      validatedBody = { ...validatedBody, itemFisik };
     }
   } else {
     validatedBody = yupValidate(schema.updatePeralatanJaringan, body);
