@@ -1,12 +1,13 @@
 import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
-import BaseRepository from '@repositories/baseRepository';
 import applyFilterQuery from '@utils/applyFilterQuery';
-import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
+import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
+import firestoreTimeStampToDate from '@utils/firestoreTimeStampToDate';
 
 import { IFormasiBase } from './interface/formasi_pekerja.interface';
+import InvalidRequestError from '@interfaces/InvalidRequestError';
 
 export default class FormasiRepository extends BaseRepository<IFormasiBase> {
   _formasiModel: admin.firestore.CollectionReference;
@@ -89,37 +90,40 @@ export default class FormasiRepository extends BaseRepository<IFormasiBase> {
     };
   }
 
-  async addPemenuhan(id: string) {
-    const ref: admin.firestore.DocumentReference = this._formasiModel.doc(id);
-    const snap: admin.firestore.DocumentSnapshot = await ref.get();
-    if (!snap.exists) {
-      return {
-        error: true,
-        message: validationWording.notFound(this._name),
-      };
-    }
+  async addPemenuhan(unitKerja: string, levelJabatan: string) {
+    const formasiPemenuhan = await this.findOne(
+      '',
+      this._formasiModel
+        .where('unitKerja', '==', unitKerja)
+        .where('levelJabatan', '==', levelJabatan)
+    );
 
-    const oldData = snap.data();
-    const sisaPemenuhan = Number(oldData?.formasi) - Number(oldData?.pemenuhan);
-    if (!sisaPemenuhan || sisaPemenuhan < 1) {
+    if (formasiPemenuhan?.id) {
+      const sisaPemenuhan =
+        Number(formasiPemenuhan?.formasi) - Number(formasiPemenuhan?.pemenuhan);
+      if (!sisaPemenuhan || sisaPemenuhan < 1) {
+        throw new InvalidRequestError(
+          'Alokasi formasi "Unit Kerja  ${formasiPemenuhan?.unitKerja}" "Level Jabatan ${formasiPemenuhan?.levelJabatan}" telah penuh',
+          'Data Pekera'
+        );
+      }
+
+      const createParam = {
+        pemenuhan: Number(formasiPemenuhan?.pemenuhan) + 1,
+        updatedAt: new Date(),
+      };
+      const ref = this._formasiModel.doc(formasiPemenuhan.id);
+      await ref.set(createParam, { merge: true });
+      const updateSnap = await ref.get();
+      const data = updateSnap.data() as IFormasiBase;
+
       return {
-        error: true,
-        message: `Alokasi formasi "unitKerja  ${oldData?.unitKerja}" "levelJabatan ${oldData?.levelJabatan}" tersisa ${sisaPemenuhan}`,
+        id: ref.id,
+        unitKerja: data.unitKerja,
+        levelJabatan: data.levelJabatan,
       };
     }
-    const createParam = {
-      pemenuhan: Number(oldData?.pemenuhan) + 1,
-      updatedAt: new Date(),
-    };
-    await ref.set(createParam, { merge: true });
-    const updateSnap = await ref.get();
-    return {
-      error: false,
-      data: firestoreTimeStampToDate({
-        id: ref.id,
-        ...updateSnap.data(),
-      }),
-    };
+    return null;
   }
 
   async deletePemenuhan(id: string) {

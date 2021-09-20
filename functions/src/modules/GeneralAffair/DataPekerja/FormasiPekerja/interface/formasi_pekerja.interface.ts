@@ -1,4 +1,5 @@
 export interface IFormasiBase {
+  id?: string;
   levelJabatan: string;
   unitKerja: string;
   formasi: number;
