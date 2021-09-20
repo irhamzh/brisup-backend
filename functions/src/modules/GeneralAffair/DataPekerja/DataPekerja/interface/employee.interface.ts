@@ -12,7 +12,7 @@ export interface IEmployeeBase {
   mkjg: string;
   pg: string;
   mkpg: string;
-  formasi: Omit<IFormasiBase, 'formasi' | 'pemenuhan'>;
+  formasi: Pick<IFormasiBase, 'unitKerja' | 'levelJabatan'> | null;
   createdAt?: Date;
   updatedAt?: Date;
 }

@@ -13,7 +13,10 @@ export const createEmployee = async (req: any, res: Response) => {
 
   const employeeRepository = new EmployeeRepository();
   const formasiRepository = new FormasiRepository();
-  const formasi = await formasiRepository.findById(validatedBody.formasi);
+  const formasi = await formasiRepository.addPemenuhan(
+    validatedBody.unitKerja,
+    validatedBody.levelJabatan
+  );
 
   const data = await employeeRepository.createEmployee({
     ...validatedBody,

@@ -18,7 +18,10 @@ const create = yup
     mkjg: yup.string().required(validationWording.required('mkjg')),
     pg: yup.string().required(validationWording.required('pg')),
     mkpg: yup.string().required(validationWording.required('mkpg')),
-    formasi: yup.string().required(validationWording.required('formasi')),
+    levelJabatan: yup
+      .string()
+      .required(validationWording.required('levelJabatan')),
+    unitKerja: yup.string().required(validationWording.required('unitKerja')),
   })
   .required();
 
@@ -28,6 +31,10 @@ const createFromExcel = yup
     // type: yup.mixed().oneOf(Type).required(validationWording.required('Type')),
     name: yup.string().required(validationWording.required('name')),
     nip: yup.string().required(validationWording.required('nip')),
+    levelJabatan: yup
+      .string()
+      .required(validationWording.required('levelJabatan')),
+    unitKerja: yup.string().required(validationWording.required('unitKerja')),
     pernr: yup
       .string()
       .nullable()
@@ -65,10 +72,6 @@ const createFromExcel = yup
       .string()
       .nullable()
       .transform((v, o) => (o === '' ? null : v)),
-    formasi: yup
-      .string()
-      .nullable()
-      .transform((v, o) => (o === '' ? null : v)),
   })
   .required();
 
@@ -76,8 +79,12 @@ const update = yup
   .object()
   .shape({
     // type: yup.mixed().oneOf(Type),
-    name: yup.string(),
-    nip: yup.string(),
+    name: yup.string().required(validationWording.required('name')),
+    nip: yup.string().required(validationWording.required('nip')),
+    levelJabatan: yup
+      .string()
+      .required(validationWording.required('levelJabatan')),
+    unitKerja: yup.string().required(validationWording.required('unitKerja')),
     pernr: yup.string(),
     sex: yup.mixed().oneOf(Sex),
     dateOfBird: yup.date(),

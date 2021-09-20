@@ -31,23 +31,6 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
     super('ga_employees', 'employee');
     this._ga_employeesModel = db.collection('ga_employees');
   }
-  async createEmployee(object: IEmployeeBase) {
-    const data = await this.createWithSubdocument(
-      object,
-      'employee',
-      'ga_employees'
-    );
-    return data;
-  }
-  async updateEmployee(id: string, object: Partial<IEmployeeBase>) {
-    const data = await this.updateSubDocument(
-      id,
-      object,
-      'employee',
-      'ga_employees'
-    );
-    return data;
-  }
 
   async writeToFirestoreEmployee(
     records: StringKeys[],
@@ -65,13 +48,8 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
     for (let i = 0; i < records.length; i++) {
       let isUpdatePemenuhan = true;
       let dataPekerja = records[i];
-      const unitKerjaExcel = dataPekerja?.unitKerja || '';
-      const levelJabatanExcel = dataPekerja?.levelJabatan || '';
-
-      const baseDocRef = this._ga_employeesModel
-        .doc('employee')
-        .collection('ga_employees');
-      let docRef = baseDocRef.doc();
+      const unitKerjaExcel = dataPekerja?.unitKerja;
+      const levelJabatanExcel = dataPekerja?.levelJabatan;
 
       //validasi data dengan yup
       let isErrorYup = false;
@@ -85,10 +63,14 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
             error: e.errors.join(),
           });
         });
-
       if (isErrorYup) {
         continue;
       }
+
+      const baseDocRef = this._ga_employeesModel
+        .doc('employee')
+        .collection('ga_employees');
+      let docRef = baseDocRef.doc();
       //check if exist employe
       const exist = await this.findOne(
         '',
@@ -104,58 +86,54 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
         docRef = baseDocRef.doc(exist.id);
       }
 
-      if (unitKerjaExcel && levelJabatanExcel) {
-        const validFormasi = formasiData.findIndex(
-          ({ unitKerja, levelJabatan }: IEmployeExcel) =>
-            unitKerja.toLowerCase() === unitKerjaExcel?.toLowerCase() &&
-            levelJabatan.toLowerCase() === levelJabatanExcel.toLowerCase()
+      const validFormasi = formasiData.findIndex(
+        ({ unitKerja, levelJabatan }: IEmployeExcel) =>
+          unitKerja.toLowerCase() === unitKerjaExcel?.toLowerCase() &&
+          levelJabatan.toLowerCase() === levelJabatanExcel.toLowerCase()
+      );
+
+      if (validFormasi < 0) {
+        invalidRow.push({
+          row: (i + 2).toString(),
+          name: dataPekerja.name,
+          error: `"unitKerja  ${unitKerjaExcel}" "levelJabatan  ${levelJabatanExcel}" tidak tersedia`,
+        });
+        continue;
+      }
+
+      //delete data formasi bawaan
+      delete dataPekerja.unitKerja;
+      delete dataPekerja.levelJabatan;
+
+      const formasi = {
+        id: formasiData[validFormasi].id,
+        unitKerja: formasiData[validFormasi].unitKerja,
+        levelJabatan: formasiData[validFormasi].levelJabatan,
+      };
+      dataPekerja = { ...dataPekerja, formasi } as any;
+
+      // collect pemenuhan data
+      if (isUpdatePemenuhan) {
+        const indexData = pemenuhanFormasi.findIndex(
+          (e) => e.id === formasiData[validFormasi].id
         );
-
-        if (validFormasi < 0) {
-          invalidRow.push({
-            row: (i + 2).toString(),
-            name: dataPekerja.name,
-            error: `"unitKerja  ${unitKerjaExcel}" "levelJabatan  ${levelJabatanExcel}" tidak tersedia`,
+        if (indexData < 0) {
+          pemenuhanFormasi.push({
+            id: formasiData[validFormasi].id,
+            count: 1,
+            row: [(i + 2).toString()],
+            name: [dataPekerja.name || ''],
           });
-          continue;
-        }
-
-        //delete data formasi bawaan
-        delete dataPekerja.unitKerja;
-        delete dataPekerja.levelJabatan;
-
-        const formasi = {
-          id: formasiData[validFormasi].id,
-          unitKerja: formasiData[validFormasi].unitKerja,
-          levelJabatan: formasiData[validFormasi].levelJabatan,
-        };
-        dataPekerja = { ...dataPekerja, formasi } as any;
-
-        // collect pemenuhan data
-        if (isUpdatePemenuhan) {
-          const indexData = pemenuhanFormasi.findIndex(
-            (e) => e.id === formasiData[validFormasi].id
-          );
-          if (indexData < 0) {
-            pemenuhanFormasi.push({
-              id: formasiData[validFormasi].id,
-              count: 1,
-              row: [(i + 2).toString()],
-              name: [dataPekerja.name || ''],
-            });
-          } else {
-            pemenuhanFormasi[indexData] = {
-              ...pemenuhanFormasi[indexData],
-              count: Number(pemenuhanFormasi[indexData].count) + 1,
-              row: [...pemenuhanFormasi[indexData].row, (i + 2).toString()],
-              name: [
-                ...pemenuhanFormasi[indexData].name,
-                dataPekerja.name || '',
-              ],
-            };
-          }
+        } else {
+          pemenuhanFormasi[indexData] = {
+            ...pemenuhanFormasi[indexData],
+            count: Number(pemenuhanFormasi[indexData].count) + 1,
+            row: [...pemenuhanFormasi[indexData].row, (i + 2).toString()],
+            name: [...pemenuhanFormasi[indexData].name, dataPekerja.name || ''],
+          };
         }
       }
+
       batch.set(
         docRef,
         {
@@ -182,7 +160,7 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
         invalidRow.push({
           row: pemenuhanFormasi[i]?.row?.toString(),
           name: pemenuhanFormasi[i]?.name?.toString(),
-          error: `Alokasi formasi "unitKerja  ${data?.unitKerja}" "levelJabatan ${data?.levelJabatan}" telah penuh`,
+          error: `Alokasi formasi "Unit Kerja  ${data?.unitKerja}" "Level Jabatan ${data?.levelJabatan}" telah penuh`,
         });
         continue;
       }
@@ -272,5 +250,58 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
     }
 
     return data;
+  }
+
+  async createEmployee(object: IEmployeeBase) {
+    const data = await this.createWithSubdocument(
+      object,
+      'employee',
+      'ga_employees'
+    );
+    return data;
+  }
+
+  async updateEmployee(
+    id: string,
+    object: Partial<IEmployeeBase> & { unitKerja: string; levelJabatan: string }
+  ) {
+    const ref = this._collection
+      .doc('employee')
+      .collection('ga_employees')
+      .doc(id);
+
+    const snap = await ref.get();
+    if (!snap.exists) {
+      throw new NotFoundError(
+        validationWording.notFound(this._name),
+        this._name
+      );
+    }
+
+    const oldData = snap.data();
+    let createParam = {
+      ...object,
+      updatedAt: new Date(),
+    };
+
+    if (
+      oldData?.formasi?.levelJabatan !== object.levelJabatan ||
+      oldData?.formasi?.unitKerja !== object.unitKerja
+    ) {
+      const formasiRepository = new FormasiRepository();
+      const formasi = await formasiRepository.addPemenuhan(
+        object.unitKerja,
+        object.levelJabatan
+      );
+      createParam = { ...createParam, formasi };
+
+      if (oldData?.formasi?.id) {
+        await formasiRepository.deletePemenuhan(oldData.formasi.id);
+      }
+    }
+
+    await ref.set(createParam, { merge: true });
+    const updateSnap = await ref.get();
+    return firestoreTimeStampToDate({ id: ref.id, ...updateSnap.data() });
   }
 }
