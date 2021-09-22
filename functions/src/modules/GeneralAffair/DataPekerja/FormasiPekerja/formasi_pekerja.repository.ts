@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin';
 
 import { db } from '@utils/admin';
+import NotFoundError from '@interfaces/NotFoundError';
 import applyFilterQuery from '@utils/applyFilterQuery';
 import BaseRepository from '@repositories/baseRepository';
 import validationWording from '@constants/validationWording';
@@ -98,32 +99,36 @@ export default class FormasiRepository extends BaseRepository<IFormasiBase> {
         .where('levelJabatan', '==', levelJabatan)
     );
 
-    if (formasiPemenuhan?.id) {
-      const sisaPemenuhan =
-        Number(formasiPemenuhan?.formasi) - Number(formasiPemenuhan?.pemenuhan);
-      if (!sisaPemenuhan || sisaPemenuhan < 1) {
-        throw new InvalidRequestError(
-          'Alokasi formasi "Unit Kerja  ${formasiPemenuhan?.unitKerja}" "Level Jabatan ${formasiPemenuhan?.levelJabatan}" telah penuh',
-          'Data Pekera'
-        );
-      }
-
-      const createParam = {
-        pemenuhan: Number(formasiPemenuhan?.pemenuhan) + 1,
-        updatedAt: new Date(),
-      };
-      const ref = this._formasiModel.doc(formasiPemenuhan.id);
-      await ref.set(createParam, { merge: true });
-      const updateSnap = await ref.get();
-      const data = updateSnap.data() as IFormasiBase;
-
-      return {
-        id: ref.id,
-        unitKerja: data.unitKerja,
-        levelJabatan: data.levelJabatan,
-      };
+    if (!formasiPemenuhan?.id) {
+      throw new NotFoundError(
+        validationWording.notFound('Formasi'),
+        'Data Pekera'
+      );
     }
-    return null;
+
+    const sisaPemenuhan =
+      Number(formasiPemenuhan?.formasi) - Number(formasiPemenuhan?.pemenuhan);
+    if (!sisaPemenuhan || sisaPemenuhan < 1) {
+      throw new InvalidRequestError(
+        `Alokasi formasi "Unit Kerja  ${formasiPemenuhan?.unitKerja}" "Level Jabatan ${formasiPemenuhan?.levelJabatan}" telah penuh`,
+        'Data Pekera'
+      );
+    }
+
+    const createParam = {
+      pemenuhan: Number(formasiPemenuhan?.pemenuhan) + 1,
+      updatedAt: new Date(),
+    };
+    const ref = this._formasiModel.doc(formasiPemenuhan.id);
+    await ref.set(createParam, { merge: true });
+    const updateSnap = await ref.get();
+    const data = updateSnap.data() as IFormasiBase;
+
+    return {
+      id: ref.id,
+      unitKerja: data.unitKerja,
+      levelJabatan: data.levelJabatan,
+    };
   }
 
   async deletePemenuhan(id: string) {
