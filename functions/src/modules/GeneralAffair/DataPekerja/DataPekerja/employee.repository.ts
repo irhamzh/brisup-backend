@@ -71,6 +71,7 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
         .doc('employee')
         .collection('ga_employees');
       let docRef = baseDocRef.doc();
+
       //check if exist employe
       const exist = await this.findOne(
         '',
@@ -96,7 +97,7 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
         invalidRow.push({
           row: (i + 2).toString(),
           name: dataPekerja.name,
-          error: `"unitKerja  ${unitKerjaExcel}" "levelJabatan  ${levelJabatanExcel}" tidak tersedia`,
+          error: `"Unit Kerja  ${unitKerjaExcel}" "Level Jabatan  ${levelJabatanExcel}" tidak terdaftar`,
         });
         continue;
       }
@@ -115,11 +116,11 @@ export default class EmployeeRepository extends BaseRepository<IEmployeeBase> {
       // collect pemenuhan data
       if (isUpdatePemenuhan) {
         const indexData = pemenuhanFormasi.findIndex(
-          (e) => e.id === formasiData[validFormasi].id
+          (e) => e.id === formasi.id
         );
         if (indexData < 0) {
           pemenuhanFormasi.push({
-            id: formasiData[validFormasi].id,
+            id: formasi.id,
             count: 1,
             row: [(i + 2).toString()],
             name: [dataPekerja.name || ''],
