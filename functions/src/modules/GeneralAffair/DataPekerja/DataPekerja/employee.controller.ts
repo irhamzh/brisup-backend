@@ -93,6 +93,7 @@ export const importExcel = async (req: any, res: Response) => {
   }
   res.json({
     message: 'Successfully Create Employee',
+    error: false,
     data,
   });
 };
