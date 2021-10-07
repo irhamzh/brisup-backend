@@ -9,6 +9,7 @@ const {
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID,
   FIREBASE_MEASUREMENT_ID,
+  FIREBASE_BACKUP_DB_BUCKET,
 } = process.env;
 
 const config = {
@@ -22,4 +23,5 @@ const config = {
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
 
+export const backupDBBucket = FIREBASE_BACKUP_DB_BUCKET;
 export default config;

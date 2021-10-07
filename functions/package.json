@@ -18,6 +18,7 @@
   "main": "./lib/index.js",
   "dependencies": {
     "@elastic/elasticsearch": "^7.10.0",
+    "@google-cloud/firestore": "^4.15.1",
     "busboy": "^0.3.1",
     "convert-excel-to-json": "^1.7.0",
     "cors": "^2.8.5",
